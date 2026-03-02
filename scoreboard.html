@@ -41,7 +41,7 @@
   .sc-v2-timer .time { font-size: 12px !important; font-weight: 700 !important; color: #fff !important; font-variant-numeric: tabular-nums !important; }
   .sc-v2-timer .period { font-size: 10px !important; font-weight: 700 !important; color: rgba(255,255,255,0.7) !important; text-transform: uppercase !important; padding: 1px 6px !important; background: rgba(255,255,255,0.1) !important; border-radius: 3px !important; }
 
-  /* === VARIANT 3: LAYERED (ФИНАЛЬНОЕ ИСПРАВЛЕНИЕ) === */
+  /* === VARIANT 3: LAYERED (ЛОГО НА КРАЮ БЕЛОГО БОКСА) === */
   .sc-v3 {
     position: relative !important;
     display: flex !important;
@@ -49,13 +49,12 @@
     justify-content: center !important;
     margin: 0 auto !important;
     height: 60px !important;
-    width: auto !important;
   }
 
   .sc-v3-strip {
     position: relative !important;
     height: 50px !important;
-    width: var(--strip-width, 120px) !important;
+    width: var(--strip-width, 140px) !important;
     z-index: 1 !important;
     display: flex !important;
     align-items: center !important;
@@ -73,33 +72,34 @@
     text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important;
     white-space: nowrap !important;
     z-index: 2 !important;
-    max-width: calc(var(--strip-width, 120px) - 50px) !important;
+    padding: 0 15px !important; /* Отступы чтобы не обрезалось */
+    max-width: 100% !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
-    padding: 0 5px !important;
   }
 
+  /* Логотипы на краю БЕЛОГО бокса */
   .sc-v3-logo-h {
     position: absolute !important;
-    left: -45px !important;
+    right: -25px !important; /* На границе с белым боксом */
     top: 50% !important;
     transform: translateY(-50%) !important;
-    width: 45px !important;
-    height: 45px !important;
+    width: 50px !important;
+    height: 50px !important;
     object-fit: contain !important;
     filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important;
-    z-index: 3 !important;
+    z-index: 10 !important;
   }
   .sc-v3-logo-a {
     position: absolute !important;
-    right: -45px !important;
+    left: -25px !important; /* На границе с белым боксом */
     top: 50% !important;
     transform: translateY(-50%) !important;
-    width: 45px !important;
-    height: 45px !important;
+    width: 50px !important;
+    height: 50px !important;
     object-fit: contain !important;
     filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important;
-    z-index: 3 !important;
+    z-index: 10 !important;
   }
 
   .sc-v3-center {
@@ -115,7 +115,7 @@
     justify-content: center !important;
     box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
     border: 1px solid rgba(255,255,255,0.8) !important;
-    padding: 8px 0 0 0 !important;
+    padding: 6px 0 0 0 !important;
   }
   .sc-v3-scores { 
     display: flex !important; 
@@ -141,7 +141,7 @@
     display: flex !important; 
     align-items: center !important; 
     gap: 6px !important; 
-    margin-top: -2px !important;
+    margin-top: -3px !important;
   }
   .sc-v3-timer .time { 
     font-size: 11px !important; 
@@ -277,10 +277,10 @@
   </div>
 
   <!-- V3: LAYERED -->
-  <div id="sb-v3" class="sc-v3 theme-blue hide" style="--strip-width: 120px;">
+  <div id="sb-v3" class="sc-v3 theme-blue hide" style="--strip-width: 140px;">
     <div class="sc-v3-strip home">
-      <img id="v3-lh" class="sc-v3-logo-h" src="" alt="">
       <span id="v3-nh" class="sc-v3-name">ДОМ</span>
+      <img id="v3-lh" class="sc-v3-logo-h" src="" alt="">
     </div>
     <div class="sc-v3-center">
       <div class="sc-v3-scores">
@@ -471,8 +471,9 @@
 
   function updateV3Width() {
     const v3 = document.getElementById('sb-v3');
-    const maxLen = Math.max(state.homeName.length, state.awayName.length, 5);
-    const stripWidth = Math.min(Math.max(maxLen * 12 + 40, 100), 160);
+    const maxLen = Math.max(state.homeName.length, state.awayName.length, 6);
+    // 13px на символ + отступы 30px, чтобы название влезало целиком
+    const stripWidth = Math.min(Math.max(maxLen * 13 + 30, 110), 180);
     v3.style.setProperty('--strip-width', stripWidth + 'px');
   }
 
