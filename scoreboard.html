@@ -8,77 +8,71 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Arial Black', Arial, sans-serif; background: transparent; overflow: hidden; user-select: none; }
   
-  /* === VARIANT 1: COMPACT GRADIENT === */
+  /* === VARIANT 1: NEW ALIGNMENT === */
   .scoreboard-v1 {
     display: flex;
-    flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 480px;
+    max-width: 500px;
     margin: 0 auto;
   }
 
   .scoreboard-v1 .main-bar {
     display: flex;
-    flex-direction: column;
     align-items: center;
     width: 100%;
     background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
     border-radius: 10px;
-    padding: 8px 15px;
+    padding: 10px 0;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
   }
 
-  .scoreboard-v1 .top-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .scoreboard-v1 .logo-container {
+  .scoreboard-v1 .half {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 60px;
+    flex: 1;
+    padding: 0 15px;
   }
 
+  .scoreboard-v1 .half.home { border-right: 1px solid rgba(255,255,255,0.1); }
+
   .scoreboard-v1 .logo {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     object-fit: contain;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
   }
 
   .scoreboard-v1 .team-name {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 900;
     color: #fff;
     text-transform: uppercase;
     text-align: center;
     text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     white-space: nowrap;
-    margin-top: 2px;
-    max-width: 70px;
+    margin-top: 4px;
+    max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .scoreboard-v1 .score-container {
+  .scoreboard-v1 .score-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex: 1;
+    padding: 0 20px;
   }
 
   .scoreboard-v1 .scores {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
   }
 
   .scoreboard-v1 .score {
-    font-size: 38px;
+    font-size: 40px;
     font-weight: 900;
     color: #fff;
     text-shadow: 0 0 15px rgba(0, 150, 255, 0.6);
@@ -88,7 +82,7 @@
   }
 
   .scoreboard-v1 .score-separator {
-    font-size: 24px;
+    font-size: 28px;
     color: rgba(255,255,255,0.4);
   }
 
@@ -97,9 +91,9 @@
     align-items: center;
     gap: 8px;
     background: linear-gradient(180deg, #ff4757 0%, #cc3344 100%);
-    padding: 3px 10px;
+    padding: 4px 10px;
     border-radius: 6px;
-    margin-top: 4px;
+    margin-top: 6px;
     white-space: nowrap;
   }
 
@@ -114,7 +108,7 @@
   }
   
   .scoreboard-v1 .timer { 
-    font-size: 12px; 
+    font-size: 13px; 
     font-weight: 900; 
     color: #ffcc00; 
     font-variant-numeric: tabular-nums;
@@ -123,7 +117,7 @@
   .scoreboard-v1 .timer.paused { animation: pulse 1s infinite; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-  /* === VARIANT 2: TV STYLE === */
+  /* === VARIANT 2: TV STYLE (RESTORED) === */
   .scoreboard-v2 {
     display: flex;
     flex-direction: column;
@@ -166,18 +160,19 @@
   }
 
   .scoreboard-v2 .team-name {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 900;
     color: #fff;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
     text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     white-space: nowrap;
     transform: skewX(10deg);
   }
 
   .scoreboard-v2 .logo {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     object-fit: contain;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
     transform: skewX(10deg);
@@ -190,14 +185,14 @@
   }
 
   .scoreboard-v2 .score {
-    font-size: 30px;
+    font-size: 32px;
     font-weight: 900;
     color: #fff;
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
   }
 
   .scoreboard-v2 .score-separator {
-    font-size: 18px;
+    font-size: 20px;
     color: rgba(255,255,255,0.7);
   }
 
@@ -205,36 +200,36 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    background: rgba(0,0,0,0.85);
-    padding: 3px 12px;
-    margin-top: -6px;
+    gap: 12px;
+    background: rgba(0,0,0,0.8);
+    padding: 3px 15px;
+    margin-top: -8px;
     border-radius: 0 0 6px 6px;
-    z-index: 1;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
   }
 
   .scoreboard-v2 .timer-bar .time {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     color: #fff;
     font-variant-numeric: tabular-nums;
   }
 
   .scoreboard-v2 .timer-bar .period {
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 700;
     color: rgba(255,255,255,0.7);
     text-transform: uppercase;
-    padding: 1px 5px;
+    padding: 1px 6px;
     background: rgba(255,255,255,0.1);
     border-radius: 3px;
   }
 
-  /* === VARIANT 3: LAYERED STYLE === */
+  /* === VARIANT 3: LAYERED STYLE (RESTORED) === */
   .scoreboard-v3 {
     position: relative;
     width: 100%;
-    max-width: 520px;
+    max-width: 550px;
     height: 70px;
     margin: 0 auto;
     display: flex;
@@ -244,21 +239,21 @@
 
   .scoreboard-v3 .logo-home {
     position: absolute;
-    left: -30px;
-    width: 60px;
-    height: 60px;
+    left: -35px;
+    width: 65px;
+    height: 65px;
     object-fit: contain;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
     z-index: 10;
   }
 
   .scoreboard-v3 .logo-away {
     position: absolute;
-    right: -30px;
-    width: 60px;
-    height: 60px;
+    right: -35px;
+    width: 65px;
+    height: 65px;
     object-fit: contain;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
     z-index: 10;
   }
 
@@ -266,7 +261,7 @@
     position: absolute;
     left: 25px;
     right: 25px;
-    height: 45px;
+    height: 50px;
     background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%);
     z-index: 1;
     border-radius: 4px;
@@ -274,73 +269,81 @@
 
   .scoreboard-v3 .team-name {
     position: absolute;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 900;
     color: #fff;
     text-transform: uppercase;
+    letter-spacing: 1px;
     text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     white-space: nowrap;
     z-index: 2;
-    max-width: 130px;
+    padding: 0 15px;
+    max-width: 140px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .scoreboard-v3 .team-name.home { left: 35px; }
-  .scoreboard-v3 .team-name.away { right: 35px; }
+  .scoreboard-v3 .team-name.home { left: 30px; }
+  .scoreboard-v3 .team-name.away { right: 30px; }
 
   .scoreboard-v3 .center-box {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    width: 180px;
-    height: 60px;
-    background: linear-gradient(180deg, #f5f5f5 0%, #ffffff 50%, #e0e0e0 100%);
-    border-radius: 10px;
+    width: 200px;
+    height: 65px;
+    background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%);
+    border-radius: 12px;
     z-index: 5;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.8);
   }
 
   .scoreboard-v3 .scores {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 2px;
+    gap: 10px;
+    z-index: 6;
+    margin-bottom: 3px;
   }
 
   .scoreboard-v3 .score {
-    font-size: 36px;
+    font-size: 40px;
     font-weight: 900;
     color: #000;
-    min-width: 35px;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+    min-width: 40px;
     text-align: center;
     line-height: 1;
   }
 
   .scoreboard-v3 .score-separator {
-    font-size: 22px;
+    font-size: 26px;
     color: #555;
+    font-weight: 900;
   }
 
   .scoreboard-v3 .timer-section {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    z-index: 6;
+    white-space: nowrap;
   }
 
   .scoreboard-v3 .timer-section .time {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 900;
     color: #555;
     font-variant-numeric: tabular-nums;
   }
 
   .scoreboard-v3 .timer-section .period {
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 900;
     color: #666;
     text-transform: uppercase;
@@ -438,34 +441,32 @@
 </head>
 <body>
 
-  <!-- VARIANT 1 -->
+  <!-- VARIANT 1: NEW ALIGNMENT -->
   <div id="scoreboard-v1" class="scoreboard-v1">
     <div class="main-bar">
-      <div class="top-row">
-        <div class="logo-container">
-          <img id="logo-home-v1" class="logo" src="" alt="">
-          <span id="name-home-v1" class="team-name">ДОМ</span>
+      <div class="half home">
+        <img id="logo-home-v1" class="logo" src="" alt="">
+        <span id="name-home-v1" class="team-name">ДОМ</span>
+      </div>
+      <div class="score-section">
+        <div class="scores">
+          <span id="score-home-v1" class="score">0</span>
+          <span class="score-separator">-</span>
+          <span id="score-away-v1" class="score">0</span>
         </div>
-        <div class="score-container">
-          <div class="scores">
-            <span id="score-home-v1" class="score">0</span>
-            <span class="score-separator">:</span>
-            <span id="score-away-v1" class="score">0</span>
-          </div>
-          <div class="timer-bar">
-            <span id="period-badge-v1" class="period-badge">1 ТАЙМ</span>
-            <span id="timer-v1" class="timer">00:00</span>
-          </div>
+        <div class="timer-bar">
+          <span id="period-badge-v1" class="period-badge">1 ТАЙМ</span>
+          <span id="timer-v1" class="timer">00:00</span>
         </div>
-        <div class="logo-container">
-          <img id="logo-away-v1" class="logo" src="" alt="">
-          <span id="name-away-v1" class="team-name">ГОСТИ</span>
-        </div>
+      </div>
+      <div class="half away">
+        <img id="logo-away-v1" class="logo" src="" alt="">
+        <span id="name-away-v1" class="team-name">ГОСТИ</span>
       </div>
     </div>
   </div>
 
-  <!-- VARIANT 2 -->
+  <!-- VARIANT 2: TV STYLE -->
   <div id="scoreboard-v2" class="scoreboard-v2 hidden">
     <div class="main-bar">
       <div class="team-section team-home">
@@ -490,7 +491,7 @@
     </div>
   </div>
 
-  <!-- VARIANT 3 -->
+  <!-- VARIANT 3: LAYERED STYLE -->
   <div id="scoreboard-v3" class="scoreboard-v3 hidden v3-theme-blue">
     <img id="logo-home-v3" class="logo-home" src="" alt="">
     <img id="logo-away-v3" class="logo-away" src="" alt="">
