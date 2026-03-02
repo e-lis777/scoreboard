@@ -5,11 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Football Scoreboard</title>
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
     font-family: 'Arial Black', Arial, sans-serif;
@@ -18,22 +14,755 @@
     user-select: none;
   }
 
-  /* === ГЛАВНЫЙ КОНТЕЙНЕР === */
+  /* === SCOREBOARD (для стрима) === */
   .scoreboard {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 12px 20px;
+    padding: 15px 25px;
     background: linear-gradient(180deg, 
-      rgba(20, 20, 30, 0.95) 0%, 
-      rgba(40, 40, 55, 0.9) 50%,
-      rgba(20, 20, 30, 0.95) 100%);
-    border-radius: 12px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
+      rgba(15, 15, 25, 0.98) 0%, 
+      rgba(30, 30, 45, 0.95) 50%,
+      rgba(15, 15, 25, 0.98) 100%);
+    border-radius: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
     box-shadow: 
-      0 4px 20px rgba(0, 0, 0, 0.5),
-      0 0 40px rgba(0, 100, 255, 0.2),
-      inset 0 1px 0 rgba(255, 255, 
+      0 8px 32px rgba(0, 0, 0, 0.6),
+      0 0 60px rgba(0, 120, 255, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+  }
+
+  /* === КОМАНДЫ === */
+  .team {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .team.right {
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+  }
+
+  .logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+  }
+
+  .team-name {
+    font-size: 20px;
+    font-weight: 900;
+    color: #fff;
+    text-transform: uppercase;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    letter-spacing: 1px;
+  }
+
+  /* === СЧЁТ === */
+  .score-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 0 30px;
+  }
+
+  .score {
+    font-size: 48px;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 
+      0 0 20px rgba(0, 150, 255, 0.8),
+      0 0 40px rgba(0, 150, 255, 0.4);
+    min-width: 50px;
+    text-align: center;
+  }
+
+  .score-separator {
+    font-size: 32px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* === ТАЙМЕР И ТАЙМ === */
+  .timer-section {
+    position: absolute;
+    bottom: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: linear-gradient(180deg, 
+      rgba(255, 80, 80, 0.95),
+      rgba(200, 40, 40, 0.95));
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 20px rgba(255, 50, 50, 0.4);
+  }
+
+  .period-badge {
+    font-size: 14px;
+    font-weight: 900;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 10px;
+  }
+
+  .timer {
+    font-size: 22px;
+    font-weight: 900;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
+
+  .timer.paused {
+    animation: pulse 1s infinite;
+    color: #ffcc00;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  /* === АНИМАЦИЯ ГОЛА === */
+  .goal-animation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: 120px;
+    font-weight: 900;
+    color: #ffd700;
+    text-shadow: 
+      0 0 30px rgba(255, 215, 0, 0.8),
+      0 0 60px rgba(255, 215, 0, 0.5);
+    z-index: 1000;
+    pointer-events: none;
+  }
+
+  .goal-animation.animate {
+    animation: goalPop 1.5s ease-out;
+  }
+
+  @keyframes goalPop {
+    0% { transform: translate(-50%, -50%) scale(0) rotate(-10deg); opacity: 0; }
+    50% { transform: translate(-50%, -50%) scale(1.2) rotate(0deg); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0; }
+  }
+
+  /* === АДМИН-ПАНЕЛЬ === */
+  .admin-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 30px;
+    overflow-y: auto;
+    z-index: 2000;
+  }
+
+  .admin-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .admin-header h1 {
+    color: #00d4ff;
+    font-size: 32px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+
+  .admin-header p {
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+  }
+
+  .admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .admin-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 25px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .admin-card h3 {
+    color: #00d4ff;
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group label {
+    display: block;
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    font-family: inherit;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #00d4ff;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #00d4ff, #0099cc);
+    color: #fff;
+  }
+
+  .btn-danger {
+    background: linear-gradient(135deg, #ff4757, #cc3344);
+    color: #fff;
+  }
+
+  .btn-success {
+    background: linear-gradient(135deg, #2ed573, #1ea65a);
+    color: #fff;
+  }
+
+  .btn-warning {
+    background: linear-gradient(135deg, #ffa502, #cc8400);
+    color: #fff;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  .score-inputs {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .score-inputs input {
+    width: 80px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 900;
+  }
+
+  .status-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+
+  .status-live { background: #2ed573; box-shadow: 0 0 10px #2ed573; }
+  .status-paused { background: #ffa502; box-shadow: 0 0 10px #ffa502; }
+
+  .preview-box {
+    background: rgba(0,0,0,0.5);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  .hidden { display: none; }
+
+  /* === УВЕДОМЛЕНИЕ === */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, #2ed573, #1ea65a);
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-weight: 700;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 3000;
+  }
+
+  .toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
+  <!-- === SCOREBOARD (для стрима) === -->
+  <div id="scoreboard" class="scoreboard">
+    <!-- Хозяева -->
+    <div class="team left">
+      <img id="logo-home" class="logo" src="" alt="">
+      <span id="name-home" class="team-name">ДОМ</span>
+    </div>
+
+    <!-- Счёт -->
+    <div class="score-container">
+      <span id="score-home" class="score">0</span>
+      <span class="score-separator">:</span>
+      <span id="score-away" class="score">0</span>
+    </div>
+
+    <!-- Гости -->
+    <div class="team right">
+      <span id="name-away" class="team-name">ГОСТИ</span>
+      <img id="logo-away" class="logo" src="" alt="">
+    </div>
+
+    <!-- Таймер и тайм -->
+    <div class="timer-section">
+      <span id="period-badge" class="period-badge">1 ТАЙМ</span>
+      <span id="timer" class="timer">00:00</span>
+    </div>
+  </div>
+
+  <!-- Анимация гола -->
+  <div id="goal-animation" class="goal-animation">⚽ ГОЛ!</div>
+
+  <!-- === АДМИН-ПАНЕЛЬ === -->
+  <div id="admin-panel" class="admin-panel hidden">
+    <div class="admin-header">
+      <h1>🏆 Scoreboard Admin</h1>
+      <p>Управление трансляцией • Изменения применяются мгновенно</p>
+    </div>
+
+    <div class="admin-grid">
+      <!-- Команды -->
+      <div class="admin-card">
+        <h3>📋 Команды</h3>
+        <div class="form-group">
+          <label>Домашняя команда</label>
+          <input type="text" id="admin-name-home" placeholder="Название">
+        </div>
+        <div class="form-group">
+          <label>Логотип (URL)</label>
+          <input type="text" id="admin-logo-home" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label>Гостевая команда</label>
+          <input type="text" id="admin-name-away" placeholder="Название">
+        </div>
+        <div class="form-group">
+          <label>Логотип (URL)</label>
+          <input type="text" id="admin-logo-away" placeholder="https://...">
+        </div>
+        <button class="btn btn-primary" onclick="saveTeams()">💾 Сохранить команды</button>
+      </div>
+
+      <!-- Счёт -->
+      <div class="admin-card">
+        <h3>📊 Счёт</h3>
+        <div class="score-inputs">
+          <div class="form-group" style="flex:1">
+            <label>Дом</label>
+            <input type="number" id="admin-score-home" value="0" min="0">
+          </div>
+          <div style="font-size: 32px; color: rgba(255,255,255,0.5);">:</div>
+          <div class="form-group" style="flex:1">
+            <label>Гости</label>
+            <input type="number" id="admin-score-away" value="0" min="0">
+          </div>
+        </div>
+        <div class="btn-group" style="margin-top: 15px;">
+          <button class="btn btn-success" onclick="updateScore()">✅ Обновить счёт</button>
+          <button class="btn btn-warning" onclick="triggerGoal()">⚽ ГОЛ!</button>
+          <button class="btn btn-danger" onclick="resetScore()">🔄 Сброс</button>
+        </div>
+      </div>
+
+      <!-- Таймер -->
+      <div class="admin-card">
+        <h3>⏱️ Таймер</h3>
+        <div class="form-group">
+          <label>Статус</label>
+          <div style="padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px;">
+            <span id="status-indicator" class="status-indicator status-live"></span>
+            <span id="status-text">Запущен</span>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-success" id="btn-start" onclick="timerStart()">▶️ Старт</button>
+          <button class="btn btn-warning" id="btn-pause" onclick="timerPause()">⏸️ Пауза</button>
+          <button class="btn btn-danger" onclick="timerReset()">🔄 Сброс</button>
+        </div>
+        <div class="form-group" style="margin-top: 15px;">
+          <label>Установить время (сек)</label>
+          <input type="number" id="admin-timer-set" value="0" min="0">
+          <button class="btn btn-primary" style="margin-top: 10px; width: 100%;" onclick="timerSet()">⏱️ Установить</button>
+        </div>
+      </div>
+
+      <!-- Тайм -->
+      <div class="admin-card">
+        <h3>📍 Тайм</h3>
+        <div class="form-group">
+          <select id="admin-period">
+            <option value="1 ТАЙМ">1 ТАЙМ</option>
+            <option value="2 ТАЙМ">2 ТАЙМ</option>
+            <option value="ПЕРЕРЫВ">ПЕРЕРЫВ</option>
+            <option value="ДОП. ТАЙМ">ДОП. ТАЙМ</option>
+            <option value="ПЕНАЛЬТИ">ПЕНАЛЬТИ</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" style="width: 100%;" onclick="updatePeriod()">✅ Обновить тайм</button>
+      </div>
+
+      <!-- Быстрые действия -->
+      <div class="admin-card">
+        <h3>⚡ Быстрые действия</h3>
+        <div class="btn-group">
+          <button class="btn btn-warning" onclick="quickGoal('home')">🏠 Гол Дом</button>
+          <button class="btn btn-warning" onclick="quickGoal('away')">🏃 Гол Гости</button>
+        </div>
+        <div class="btn-group" style="margin-top: 10px;">
+          <button class="btn btn-danger" onclick="fullReset()">⚠️ Полный сброс</button>
+        </div>
+      </div>
+
+      <!-- Превью -->
+      <div class="admin-card">
+        <h3>👁️ Превью</h3>
+        <div class="preview-box" id="preview-container">
+          <!-- Сюда копируется scoreboard -->
+        </div>
+        <p style="color: rgba(255,255,255,0.5); font-size: 12px; margin-top: 10px;">
+          💡 Откройте scoreboard.html в другой вкладке для стрима
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Уведомление -->
+  <div id="toast" class="toast">✓ Сохранено!</div>
+
+<script>
+  // === КОНФИГУРАЦИЯ ===
+  const ADMIN_MODE = new URLSearchParams(window.location.search).get('admin') === 'true';
+  const STORAGE_KEY = 'scoreboard_data_v1';
+
+  // === СОСТОЯНИЕ ===
+  let state = {
+    homeName: 'ДОМ',
+    awayName: 'ГОСТИ',
+    homeLogo: '',
+    awayLogo: '',
+    homeScore: 0,
+    awayScore: 0,
+    timerSeconds: 0,
+    timerRunning: false,
+    period: '1 ТАЙМ'
+  };
+
+  let timerInterval = null;
+
+  // === ИНИЦИАЛИЗАЦИЯ ===
+  function init() {
+    loadState();
+    
+    if (ADMIN_MODE) {
+      initAdmin();
+    } else {
+      initScoreboard();
+    }
+
+    // Слушаем изменения из других вкладок
+    window.addEventListener('storage', (e) => {
+      if (e.key === STORAGE_KEY) {
+        loadState();
+        if (!ADMIN_MODE) updateScoreboardDisplay();
+        else updateAdminDisplay();
+      }
+    });
+  }
+
+  // === СОХРАНЕНИЕ/ЗАГРУЗКА ===
+  function saveState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    showToast();
+  }
+
+  function loadState() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      state = { ...state, ...JSON.parse(saved) };
+    }
+  }
+
+  // === SCOREBOARD (для стрима) ===
+  function initScoreboard() {
+    updateScoreboardDisplay();
+    
+    // Запускаем таймер если нужно
+    if (state.timerRunning) {
+      startTimerInterval();
+    }
+  }
+
+  function updateScoreboardDisplay() {
+    document.getElementById('name-home').textContent = state.homeName;
+    document.getElementById('name-away').textContent = state.awayName;
+    document.getElementById('logo-home').src = state.homeLogo || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23333"/></svg>';
+    document.getElementById('logo-away').src = state.awayLogo || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23333"/></svg>';
+    document.getElementById('score-home').textContent = state.homeScore;
+    document.getElementById('score-away').textContent = state.awayScore;
+    document.getElementById('period-badge').textContent = state.period;
+    updateTimerDisplay();
+  }
+
+  function updateTimerDisplay() {
+    const mins = Math.floor(state.timerSeconds / 60);
+    const secs = state.timerSeconds % 60;
+    const timerEl = document.getElementById('timer');
+    timerEl.textContent = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+    
+    if (state.timerRunning) {
+      timerEl.classList.remove('paused');
+    } else {
+      timerEl.classList.add('paused');
+    }
+  }
+
+  function startTimerInterval() {
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      if (state.timerRunning) {
+        state.timerSeconds++;
+        saveState();
+        updateTimerDisplay();
+      }
+    }, 1000);
+  }
+
+  // === ADMIN PANEL ===
+  function initAdmin() {
+    document.getElementById('scoreboard').classList.add('hidden');
+    document.getElementById('admin-panel').classList.remove('hidden');
+
+    // Заполняем поля текущими значениями
+    document.getElementById('admin-name-home').value = state.homeName;
+    document.getElementById('admin-name-away').value = state.awayName;
+    document.getElementById('admin-logo-home').value = state.homeLogo;
+    document.getElementById('admin-logo-away').value = state.awayLogo;
+    document.getElementById('admin-score-home').value = state.homeScore;
+    document.getElementById('admin-score-away').value = state.awayScore;
+    document.getElementById('admin-period').value = state.period;
+    document.getElementById('admin-timer-set').value = state.timerSeconds;
+
+    updateAdminDisplay();
+    updatePreview();
+  }
+
+  function updateAdminDisplay() {
+    const indicator = document.getElementById('status-indicator');
+    const text = document.getElementById('status-text');
+    
+    if (state.timerRunning) {
+      indicator.className = 'status-indicator status-live';
+      text.textContent = 'Запущен';
+    } else {
+      indicator.className = 'status-indicator status-paused';
+      text.textContent = 'На паузе';
+    }
+  }
+
+  function updatePreview() {
+    const preview = document.getElementById('preview-container');
+    preview.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;">
+        <span>${state.homeName}</span>
+        <span style="font-size:24px;font-weight:900;">${state.homeScore}:${state.awayScore}</span>
+        <span>${state.awayName}</span>
+      </div>
+      <div style="text-align:center;color:#ff4757;">${state.period} • ${formatTime(state.timerSeconds)}</div>
+    `;
+  }
+
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+  }
+
+  // === ФУНКЦИИ УПРАВЛЕНИЯ ===
+  function saveTeams() {
+    state.homeName = document.getElementById('admin-name-home').value || 'ДОМ';
+    state.awayName = document.getElementById('admin-name-away').value || 'ГОСТИ';
+    state.homeLogo = document.getElementById('admin-logo-home').value;
+    state.awayLogo = document.getElementById('admin-logo-away').value;
+    saveState();
+    updatePreview();
+  }
+
+  function updateScore() {
+    state.homeScore = parseInt(document.getElementById('admin-score-home').value) || 0;
+    state.awayScore = parseInt(document.getElementById('admin-score-away').value) || 0;
+    saveState();
+    updatePreview();
+  }
+
+  function resetScore() {
+    state.homeScore = 0;
+    state.awayScore = 0;
+    document.getElementById('admin-score-home').value = 0;
+    document.getElementById('admin-score-away').value = 0;
+    saveState();
+    updatePreview();
+  }
+
+  function triggerGoal() {
+    // Отправляем событие для анимации в scoreboard
+    localStorage.setItem('scoreboard_goal_trigger', Date.now().toString());
+    setTimeout(() => localStorage.removeItem('scoreboard_goal_trigger'), 2000);
+  }
+
+  function quickGoal(team) {
+    if (team === 'home') {
+      state.homeScore++;
+      document.getElementById('admin-score-home').value = state.homeScore;
+    } else {
+      state.awayScore++;
+      document.getElementById('admin-score-away').value = state.awayScore;
+    }
+    saveState();
+    triggerGoal();
+    updatePreview();
+  }
+
+  function timerStart() {
+    state.timerRunning = true;
+    saveState();
+    updateAdminDisplay();
+  }
+
+  function timerPause() {
+    state.timerRunning = false;
+    saveState();
+    updateAdminDisplay();
+  }
+
+  function timerReset() {
+    state.timerSeconds = 0;
+    state.timerRunning = false;
+    document.getElementById('admin-timer-set').value = 0;
+    saveState();
+    updateAdminDisplay();
+  }
+
+  function timerSet() {
+    state.timerSeconds = parseInt(document.getElementById('admin-timer-set').value) || 0;
+    state.timerRunning = false;
+    saveState();
+    updateAdminDisplay();
+  }
+
+  function updatePeriod() {
+    state.period = document.getElementById('admin-period').value;
+    saveState();
+    updatePreview();
+  }
+
+  function fullReset() {
+    if (confirm('Сбросить ВСЕ данные?')) {
+      state = {
+        homeName: 'ДОМ',
+        awayName: 'ГОСТИ',
+        homeLogo: '',
+        awayLogo: '',
+        homeScore: 0,
+        awayScore: 0,
+        timerSeconds: 0,
+        timerRunning: false,
+        period: '1 ТАЙМ'
+      };
+      saveState();
+      location.reload();
+    }
+  }
+
+  // === УВЕДОМЛЕНИЯ ===
+  function showToast() {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+
+  // === АНИМАЦИЯ ГОЛА (для scoreboard) ===
+  if (!ADMIN_MODE) {
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'scoreboard_goal_trigger') {
+        const anim = document.getElementById('goal-animation');
+        anim.classList.add('animate');
+        setTimeout(() => anim.classList.remove('animate'), 1500);
+      }
+    });
+  }
+
+  // === ЗАПУСК ===
+  init();
+</script>
+</body>
+</html>
