@@ -8,17 +8,17 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Arial Black', Arial, sans-serif; background: transparent; overflow: hidden; user-select: none; }
   
-  /* === VARIANT 1: GRADIENT (КОМПАКТНЫЙ) === */
+  /* === VARIANT 1: GRADIENT (ЕЩЁ КОМПАКТНЕЕ) === */
   .scoreboard-v1 {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 550px;
+    max-width: 380px;
     margin: 0 auto;
-    padding: 10px 15px;
+    padding: 8px 12px;
     background: linear-gradient(180deg, rgba(15, 15, 25, 0.98) 0%, rgba(30, 30, 45, 0.95) 50%, rgba(15, 15, 25, 0.98) 100%);
-    border-radius: 10px;
+    border-radius: 8px;
     border: 2px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(10px);
@@ -28,9 +28,9 @@
   .scoreboard-v1 .team {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     flex: 1;
-    max-width: 150px;
+    max-width: 110px;
   }
 
   .scoreboard-v1 .team.left { justify-content: flex-end; }
@@ -39,38 +39,38 @@
   .scoreboard-v1 .score-container {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 0 15px;
-    min-width: 100px;
+    gap: 8px;
+    padding: 0 12px;
+    min-width: 85px;
     justify-content: center;
   }
 
-  .scoreboard-v1 .logo { width: 35px; height: 35px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
-  .scoreboard-v1 .team-name { font-size: 16px; font-weight: 900; color: #fff; text-transform: uppercase; text-shadow: 0 2px 4px rgba(0,0,0,0.8); letter-spacing: 0.5px; white-space: nowrap; }
-  .scoreboard-v1 .score { font-size: 36px; font-weight: 900; color: #fff; text-shadow: 0 0 15px rgba(0, 150, 255, 0.8); min-width: 40px; text-align: center; }
-  .scoreboard-v1 .score-separator { font-size: 24px; color: rgba(255,255,255,0.4); }
+  .scoreboard-v1 .logo { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+  .scoreboard-v1 .team-name { font-size: 14px; font-weight: 900; color: #fff; text-transform: uppercase; text-shadow: 0 2px 4px rgba(0,0,0,0.8); letter-spacing: 0.3px; white-space: nowrap; }
+  .scoreboard-v1 .score { font-size: 32px; font-weight: 900; color: #fff; text-shadow: 0 0 15px rgba(0, 150, 255, 0.8); min-width: 35px; text-align: center; }
+  .scoreboard-v1 .score-separator { font-size: 22px; color: rgba(255,255,255,0.4); }
 
   .scoreboard-v1 .timer-section {
     position: absolute;
-    bottom: -28px;
+    bottom: -26px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     background: linear-gradient(180deg, rgba(255, 80, 80, 0.95), rgba(200, 40, 40, 0.95));
-    padding: 4px 12px;
-    border-radius: 12px;
+    padding: 4px 10px;
+    border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 4px 15px rgba(255, 50, 50, 0.4);
   }
 
-  .scoreboard-v1 .period-badge { font-size: 10px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 6px; background: rgba(0,0,0,0.3); border-radius: 6px; }
-  .scoreboard-v1 .timer { font-size: 14px; font-weight: 900; color: #fff; font-variant-numeric: tabular-nums; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+  .scoreboard-v1 .period-badge { font-size: 9px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.3px; padding: 2px 5px; background: rgba(0,0,0,0.3); border-radius: 5px; }
+  .scoreboard-v1 .timer { font-size: 13px; font-weight: 900; color: #fff; font-variant-numeric: tabular-nums; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
   .scoreboard-v1 .timer.paused { animation: pulse 1s infinite; color: #ffcc00; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-  /* === VARIANT 2: TV STYLE (КОМПАКТНЫЙ, БЕЗ БЕЛОГО ФОНА) === */
+  /* === VARIANT 2: TV STYLE === */
   .scoreboard-v2 {
     display: flex;
     flex-direction: column;
@@ -160,8 +160,8 @@
   }
 
   .scoreboard-v2 .logo {
-    width: 28px;
-    height: 28px;
+    width: 34px;
+    height: 34px;
     object-fit: contain;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
   }
@@ -196,12 +196,12 @@
     border-radius: 3px;
   }
 
-  /* === VARIANT 3: IMAGE STYLE (КОМПАКТНЫЙ) === */
+  /* === VARIANT 3: IMAGE STYLE (ЕЩЁ КОМПАКТНЕЕ) === */
   .scoreboard-v3 {
     display: flex;
     align-items: stretch;
     width: 100%;
-    max-width: 550px;
+    max-width: 380px;
     margin: 0 auto;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
     border-radius: 6px;
@@ -212,8 +212,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 10px 12px;
+    gap: 5px;
+    padding: 8px 10px;
     flex: 1;
   }
 
@@ -222,44 +222,44 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 8px 15px;
-    min-width: 85px;
+    padding: 6px 12px;
+    min-width: 75px;
   }
 
   .scoreboard-v3 .scores {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     z-index: 1;
   }
 
   .scoreboard-v3 .team-name {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 900;
     color: #fff;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
     text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     z-index: 1;
     white-space: nowrap;
   }
 
   .scoreboard-v3 .score {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 900;
     color: #fff;
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
   }
 
   .scoreboard-v3 .score-separator {
-    font-size: 20px;
+    font-size: 18px;
     color: rgba(255,255,255,0.7);
     font-weight: 900;
   }
 
   .scoreboard-v3 .logo {
-    width: 28px;
-    height: 28px;
+    width: 34px;
+    height: 34px;
     object-fit: contain;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
     z-index: 1;
@@ -269,8 +269,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 3px 10px;
+    gap: 6px;
+    padding: 3px 8px;
     background: rgba(0,0,0,0.5);
     margin-top: 4px;
     border-radius: 4px;
@@ -278,14 +278,14 @@
   }
 
   .scoreboard-v3 .timer-section .time {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     color: #fff;
     font-variant-numeric: tabular-nums;
   }
 
   .scoreboard-v3 .timer-section .period {
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 700;
     color: rgba(255,255,255,0.7);
     text-transform: uppercase;
