@@ -9,345 +9,53 @@
   body { font-family: 'Arial Black', Arial, sans-serif; background: transparent; overflow: hidden; user-select: none; }
   
   /* === VARIANT 1: NEW ALIGNMENT === */
-  .scoreboard-v1 {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-
-  .scoreboard-v1 .main-bar {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-    border-radius: 10px;
-    padding: 10px 0;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-  }
-
-  .scoreboard-v1 .half {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    padding: 0 15px;
-  }
-
+  .scoreboard-v1 { display: flex; align-items: center; width: 100%; max-width: 500px; margin: 0 auto; }
+  .scoreboard-v1 .main-bar { display: flex; align-items: center; width: 100%; background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); border-radius: 10px; padding: 10px 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6); }
+  .scoreboard-v1 .half { display: flex; flex-direction: column; align-items: center; flex: 1; padding: 0 15px; }
   .scoreboard-v1 .half.home { border-right: 1px solid rgba(255,255,255,0.1); }
-
-  .scoreboard-v1 .logo {
-    width: 45px;
-    height: 45px;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-  }
-
-  .scoreboard-v1 .team-name {
-    font-size: 12px;
-    font-weight: 900;
-    color: #fff;
-    text-transform: uppercase;
-    text-align: center;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-    white-space: nowrap;
-    margin-top: 4px;
-    max-width: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .scoreboard-v1 .score-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 20px;
-  }
-
-  .scoreboard-v1 .scores {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .scoreboard-v1 .score {
-    font-size: 40px;
-    font-weight: 900;
-    color: #fff;
-    text-shadow: 0 0 15px rgba(0, 150, 255, 0.6);
-    min-width: 40px;
-    text-align: center;
-    line-height: 1;
-  }
-
-  .scoreboard-v1 .score-separator {
-    font-size: 28px;
-    color: rgba(255,255,255,0.4);
-  }
-
-  .scoreboard-v1 .timer-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(180deg, #ff4757 0%, #cc3344 100%);
-    padding: 4px 10px;
-    border-radius: 6px;
-    margin-top: 6px;
-    white-space: nowrap;
-  }
-
-  .scoreboard-v1 .period-badge { 
-    font-size: 9px; 
-    font-weight: 900; 
-    color: #fff; 
-    text-transform: uppercase; 
-    padding: 2px 6px; 
-    background: rgba(0,0,0,0.3); 
-    border-radius: 4px;
-  }
-  
-  .scoreboard-v1 .timer { 
-    font-size: 13px; 
-    font-weight: 900; 
-    color: #ffcc00; 
-    font-variant-numeric: tabular-nums;
-  }
-  
+  .scoreboard-v1 .logo { width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+  .scoreboard-v1 .team-name { font-size: 12px; font-weight: 900; color: #fff; text-transform: uppercase; text-align: center; text-shadow: 0 2px 4px rgba(0,0,0,0.8); white-space: nowrap; margin-top: 4px; max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
+  .scoreboard-v1 .score-section { display: flex; flex-direction: column; align-items: center; padding: 0 20px; }
+  .scoreboard-v1 .scores { display: flex; align-items: center; gap: 10px; }
+  .scoreboard-v1 .score { font-size: 40px; font-weight: 900; color: #fff; text-shadow: 0 0 15px rgba(0, 150, 255, 0.6); min-width: 40px; text-align: center; line-height: 1; }
+  .scoreboard-v1 .score-separator { font-size: 28px; color: rgba(255,255,255,0.4); }
+  .scoreboard-v1 .timer-bar { display: flex; align-items: center; gap: 8px; background: linear-gradient(180deg, #ff4757 0%, #cc3344 100%); padding: 4px 10px; border-radius: 6px; margin-top: 6px; white-space: nowrap; }
+  .scoreboard-v1 .period-badge { font-size: 9px; font-weight: 900; color: #fff; text-transform: uppercase; padding: 2px 6px; background: rgba(0,0,0,0.3); border-radius: 4px; }
+  .scoreboard-v1 .timer { font-size: 13px; font-weight: 900; color: #ffcc00; font-variant-numeric: tabular-nums; }
   .scoreboard-v1 .timer.paused { animation: pulse 1s infinite; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-  /* === VARIANT 2: TV STYLE (RESTORED) === */
-  .scoreboard-v2 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 550px;
-    margin: 0 auto;
-  }
+  /* === VARIANT 2: TV STYLE (ОРИГИНАЛЬНЫЙ) === */
+  .scoreboard-v2 { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 550px; margin: 0 auto; }
+  .scoreboard-v2 .main-bar { display: flex; align-items: center; width: 100%; transform: skewX(-10deg); border-radius: 6px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); }
+  .scoreboard-v2 .v2-team-section { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 15px; flex: 1; background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%); }
+  .scoreboard-v2 .v2-team-section.v2-home { border-right: 1px solid rgba(255,255,255,0.1); }
+  .scoreboard-v2 .v2-team-section.v2-away { border-left: 1px solid rgba(255,255,255,0.1); background: linear-gradient(90deg, #2d2d2d 0%, #1a1a1a 100%); }
+  .scoreboard-v2 .v2-score-section { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px 20px; background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%); min-width: 90px; }
+  .scoreboard-v2 .v2-team-name { font-size: 14px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); white-space: nowrap; transform: skewX(10deg); }
+  .scoreboard-v2 .v2-logo { width: 34px; height: 34px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); transform: skewX(10deg); }
+  .scoreboard-v2 .v2-scores { display: flex; align-items: center; gap: 8px; }
+  .scoreboard-v2 .v2-score { font-size: 32px; font-weight: 900; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+  .scoreboard-v2 .v2-score-separator { font-size: 20px; color: rgba(255,255,255,0.7); }
+  .scoreboard-v2 .timer-bar { display: flex; align-items: center; justify-content: center; gap: 12px; background: rgba(0,0,0,0.8); padding: 3px 15px; margin-top: -8px; border-radius: 0 0 6px 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.4); }
+  .scoreboard-v2 .timer-bar .time { font-size: 12px; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+  .scoreboard-v2 .timer-bar .period { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.7); text-transform: uppercase; padding: 1px 6px; background: rgba(255,255,255,0.1); border-radius: 3px; }
 
-  .scoreboard-v2 .main-bar {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    transform: skewX(-10deg);
-    border-radius: 6px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-  }
-
-  .scoreboard-v2 .team-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 8px 15px;
-    flex: 1;
-    background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
-  }
-
-  .scoreboard-v2 .team-section.team-home { border-right: 1px solid rgba(255,255,255,0.1); }
-  .scoreboard-v2 .team-section.team-away { border-left: 1px solid rgba(255,255,255,0.1); background: linear-gradient(90deg, #2d2d2d 0%, #1a1a1a 100%); }
-
-  .scoreboard-v2 .score-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 20px;
-    background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%);
-    min-width: 90px;
-  }
-
-  .scoreboard-v2 .team-name {
-    font-size: 14px;
-    font-weight: 900;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-    white-space: nowrap;
-    transform: skewX(10deg);
-  }
-
-  .scoreboard-v2 .logo {
-    width: 34px;
-    height: 34px;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-    transform: skewX(10deg);
-  }
-
-  .scoreboard-v2 .scores {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .scoreboard-v2 .score {
-    font-size: 32px;
-    font-weight: 900;
-    color: #fff;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-  }
-
-  .scoreboard-v2 .score-separator {
-    font-size: 20px;
-    color: rgba(255,255,255,0.7);
-  }
-
-  .scoreboard-v2 .timer-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    background: rgba(0,0,0,0.8);
-    padding: 3px 15px;
-    margin-top: -8px;
-    border-radius: 0 0 6px 6px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-  }
-
-  .scoreboard-v2 .timer-bar .time {
-    font-size: 12px;
-    font-weight: 700;
-    color: #fff;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .scoreboard-v2 .timer-bar .period {
-    font-size: 10px;
-    font-weight: 700;
-    color: rgba(255,255,255,0.7);
-    text-transform: uppercase;
-    padding: 1px 6px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 3px;
-  }
-
-  /* === VARIANT 3: LAYERED STYLE (RESTORED) === */
-  .scoreboard-v3 {
-    position: relative;
-    width: 100%;
-    max-width: 550px;
-    height: 70px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .scoreboard-v3 .logo-home {
-    position: absolute;
-    left: -35px;
-    width: 65px;
-    height: 65px;
-    object-fit: contain;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
-    z-index: 10;
-  }
-
-  .scoreboard-v3 .logo-away {
-    position: absolute;
-    right: -35px;
-    width: 65px;
-    height: 65px;
-    object-fit: contain;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
-    z-index: 10;
-  }
-
-  .scoreboard-v3 .dark-bar {
-    position: absolute;
-    left: 25px;
-    right: 25px;
-    height: 50px;
-    background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%);
-    z-index: 1;
-    border-radius: 4px;
-  }
-
-  .scoreboard-v3 .team-name {
-    position: absolute;
-    font-size: 15px;
-    font-weight: 900;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-    white-space: nowrap;
-    z-index: 2;
-    padding: 0 15px;
-    max-width: 140px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .scoreboard-v3 .team-name.home { left: 30px; }
-  .scoreboard-v3 .team-name.away { right: 30px; }
-
-  .scoreboard-v3 .center-box {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 65px;
-    background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%);
-    border-radius: 12px;
-    z-index: 5;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    border: 1px solid rgba(255,255,255,0.8);
-  }
-
-  .scoreboard-v3 .scores {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 6;
-    margin-bottom: 3px;
-  }
-
-  .scoreboard-v3 .score {
-    font-size: 40px;
-    font-weight: 900;
-    color: #000;
-    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
-    min-width: 40px;
-    text-align: center;
-    line-height: 1;
-  }
-
-  .scoreboard-v3 .score-separator {
-    font-size: 26px;
-    color: #555;
-    font-weight: 900;
-  }
-
-  .scoreboard-v3 .timer-section {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    z-index: 6;
-    white-space: nowrap;
-  }
-
-  .scoreboard-v3 .timer-section .time {
-    font-size: 13px;
-    font-weight: 900;
-    color: #555;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .scoreboard-v3 .timer-section .period {
-    font-size: 10px;
-    font-weight: 900;
-    color: #666;
-    text-transform: uppercase;
-  }
+  /* === VARIANT 3: LAYERED STYLE (ОРИГИНАЛЬНЫЙ) === */
+  .scoreboard-v3 { position: relative; width: 100%; max-width: 550px; height: 70px; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
+  .scoreboard-v3 .v3-logo-home { position: absolute; left: -35px; width: 65px; height: 65px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)); z-index: 10; }
+  .scoreboard-v3 .v3-logo-away { position: absolute; right: -35px; width: 65px; height: 65px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)); z-index: 10; }
+  .scoreboard-v3 .dark-bar { position: absolute; left: 25px; right: 25px; height: 50px; background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); z-index: 1; border-radius: 4px; }
+  .scoreboard-v3 .v3-team-name { position: absolute; font-size: 15px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); white-space: nowrap; z-index: 2; padding: 0 15px; max-width: 140px; overflow: hidden; text-overflow: ellipsis; }
+  .scoreboard-v3 .v3-team-name.home { left: 30px; }
+  .scoreboard-v3 .v3-team-name.away { right: 30px; }
+  .scoreboard-v3 .center-box { position: absolute; left: 50%; transform: translateX(-50%); width: 200px; height: 65px; background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%); border-radius: 12px; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.8); }
+  .scoreboard-v3 .v3-scores { display: flex; align-items: center; gap: 10px; z-index: 6; margin-bottom: 3px; }
+  .scoreboard-v3 .v3-score { font-size: 40px; font-weight: 900; color: #000; text-shadow: 0 1px 2px rgba(255,255,255,0.8); min-width: 40px; text-align: center; line-height: 1; }
+  .scoreboard-v3 .v3-score-separator { font-size: 26px; color: #555; font-weight: 900; }
+  .scoreboard-v3 .timer-section { display: flex; align-items: center; gap: 8px; z-index: 6; white-space: nowrap; }
+  .scoreboard-v3 .timer-section .time { font-size: 13px; font-weight: 900; color: #555; font-variant-numeric: tabular-nums; }
+  .scoreboard-v3 .timer-section .period { font-size: 10px; font-weight: 900; color: #666; text-transform: uppercase; }
 
   .v3-theme-blue .dark-bar { background: linear-gradient(90deg, #0a1f44 0%, #163675 100%); }
   .v3-theme-orange .dark-bar { background: linear-gradient(90deg, #c2410c 0%, #ea580c 100%); }
@@ -357,40 +65,16 @@
   .v3-theme-green .dark-bar { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
 
   /* === ANIMATIONS === */
-  .goal-animation {
-    position: fixed; top: 50%; left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    font-size: 100px; font-weight: 900; color: #ffd700;
-    text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
-    z-index: 1000; pointer-events: none;
-  }
+  .goal-animation { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); font-size: 100px; font-weight: 900; color: #ffd700; text-shadow: 0 0 30px rgba(255, 215, 0, 0.8); z-index: 1000; pointer-events: none; }
   .goal-animation.animate { animation: goalPop 1.5s ease-out; }
-  @keyframes goalPop {
-    0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
-  }
+  @keyframes goalPop { 0% { transform: translate(-50%, -50%) scale(0); opacity: 0; } 50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
 
-  .logo-goal-anim {
-    position: fixed; bottom: -200px; left: -200px;
-    width: 150px; height: 150px;
-    z-index: 1001; pointer-events: none;
-    filter: drop-shadow(0 0 30px rgba(0, 150, 255, 0.8));
-    opacity: 0;
-  }
+  .logo-goal-anim { position: fixed; bottom: -200px; left: -200px; width: 150px; height: 150px; z-index: 1001; pointer-events: none; filter: drop-shadow(0 0 30px rgba(0, 150, 255, 0.8)); opacity: 0; }
   .logo-goal-anim.animate { animation: logoFlyHuge 1.5s forwards; }
-  @keyframes logoFlyHuge {
-    0% { bottom: -200px; left: -200px; transform: scale(0.1) rotate(-15deg); opacity: 0; }
-    30% { opacity: 1; }
-    100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; }
-  }
+  @keyframes logoFlyHuge { 0% { bottom: -200px; left: -200px; transform: scale(0.1) rotate(-15deg); opacity: 0; } 30% { opacity: 1; } 100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; } }
 
   /* === ADMIN PANEL === */
-  .admin-panel {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    padding: 15px; overflow-y: auto; z-index: 2000; color: #fff;
-  }
+  .admin-panel { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 15px; overflow-y: auto; z-index: 2000; color: #fff; }
   .admin-header { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
   .admin-header h1 { color: #00d4ff; font-size: 24px; text-transform: uppercase; margin-bottom: 5px; }
   .admin-header p { color: rgba(255,255,255,0.5); font-size: 12px; }
@@ -441,7 +125,7 @@
 </head>
 <body>
 
-  <!-- VARIANT 1: NEW ALIGNMENT -->
+  <!-- VARIANT 1 -->
   <div id="scoreboard-v1" class="scoreboard-v1">
     <div class="main-bar">
       <div class="half home">
@@ -469,20 +153,20 @@
   <!-- VARIANT 2: TV STYLE -->
   <div id="scoreboard-v2" class="scoreboard-v2 hidden">
     <div class="main-bar">
-      <div class="team-section team-home">
-        <img id="logo-home-v2" class="logo" src="" alt="">
-        <span id="name-home-v2" class="team-name">ДОМ</span>
+      <div class="v2-team-section v2-home">
+        <img id="logo-home-v2" class="v2-logo" src="" alt="">
+        <span id="name-home-v2" class="v2-team-name">ДОМ</span>
       </div>
-      <div class="score-section">
-        <div class="scores">
-          <span id="score-home-v2" class="score">0</span>
-          <span class="score-separator">-</span>
-          <span id="score-away-v2" class="score">0</span>
+      <div class="v2-score-section">
+        <div class="v2-scores">
+          <span id="score-home-v2" class="v2-score">0</span>
+          <span class="v2-score-separator">-</span>
+          <span id="score-away-v2" class="v2-score">0</span>
         </div>
       </div>
-      <div class="team-section team-away">
-        <span id="name-away-v2" class="team-name">ГОСТИ</span>
-        <img id="logo-away-v2" class="logo" src="" alt="">
+      <div class="v2-team-section v2-away">
+        <span id="name-away-v2" class="v2-team-name">ГОСТИ</span>
+        <img id="logo-away-v2" class="v2-logo" src="" alt="">
       </div>
     </div>
     <div class="timer-bar">
@@ -493,16 +177,16 @@
 
   <!-- VARIANT 3: LAYERED STYLE -->
   <div id="scoreboard-v3" class="scoreboard-v3 hidden v3-theme-blue">
-    <img id="logo-home-v3" class="logo-home" src="" alt="">
-    <img id="logo-away-v3" class="logo-away" src="" alt="">
+    <img id="logo-home-v3" class="v3-logo-home" src="" alt="">
+    <img id="logo-away-v3" class="v3-logo-away" src="" alt="">
     <div class="dark-bar"></div>
-    <span class="team-name home" id="name-home-v3">ДОМ</span>
-    <span class="team-name away" id="name-away-v3">ГОСТИ</span>
+    <span class="v3-team-name home" id="name-home-v3">ДОМ</span>
+    <span class="v3-team-name away" id="name-away-v3">ГОСТИ</span>
     <div class="center-box">
-      <div class="scores">
-        <span id="score-home-v3" class="score">0</span>
-        <span class="score-separator">-</span>
-        <span id="score-away-v3" class="score">0</span>
+      <div class="v3-scores">
+        <span id="score-home-v3" class="v3-score">0</span>
+        <span class="v3-score-separator">-</span>
+        <span id="score-away-v3" class="v3-score">0</span>
       </div>
       <div class="timer-section">
         <span id="timer-v3" class="time">00:00</span>
