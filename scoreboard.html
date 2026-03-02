@@ -41,7 +41,7 @@
   .sc-v2-timer .time { font-size: 12px !important; font-weight: 700 !important; color: #fff !important; font-variant-numeric: tabular-nums !important; }
   .sc-v2-timer .period { font-size: 10px !important; font-weight: 700 !important; color: rgba(255,255,255,0.7) !important; text-transform: uppercase !important; padding: 1px 6px !important; background: rgba(255,255,255,0.1) !important; border-radius: 3px !important; }
 
-  /* === VARIANT 3: LAYERED (ЛОГО НА КРАЮ БЕЛОГО БОКСА) === */
+  /* === VARIANT 3: LAYERED === */
   .sc-v3 {
     position: relative !important;
     display: flex !important;
@@ -72,16 +72,15 @@
     text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important;
     white-space: nowrap !important;
     z-index: 2 !important;
-    padding: 0 15px !important; /* Отступы чтобы не обрезалось */
+    padding: 0 15px !important;
     max-width: 100% !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
   }
 
-  /* Логотипы на краю БЕЛОГО бокса */
   .sc-v3-logo-h {
     position: absolute !important;
-    right: -25px !important; /* На границе с белым боксом */
+    right: -25px !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
     width: 50px !important;
@@ -92,7 +91,7 @@
   }
   .sc-v3-logo-a {
     position: absolute !important;
-    left: -25px !important; /* На границе с белым боксом */
+    left: -25px !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
     width: 50px !important;
@@ -285,7 +284,7 @@
     <div class="sc-v3-center">
       <div class="sc-v3-scores">
         <span id="v3-sh" class="sc-v3-score">0</span>
-        <span class="sc-v3-sep">:</span>
+        <span class="sc-v3-sep">-</span>
         <span id="v3-sa" class="sc-v3-score">0</span>
       </div>
       <div class="sc-v3-timer">
@@ -472,7 +471,6 @@
   function updateV3Width() {
     const v3 = document.getElementById('sb-v3');
     const maxLen = Math.max(state.homeName.length, state.awayName.length, 6);
-    // 13px на символ + отступы 30px, чтобы название влезало целиком
     const stripWidth = Math.min(Math.max(maxLen * 13 + 30, 110), 180);
     v3.style.setProperty('--strip-width', stripWidth + 'px');
   }
@@ -528,7 +526,14 @@
 
   function startTimer() { state.timerRunning = true; update(ref(db, DB_KEY), { timerRunning: true }); toast(); }
   function pauseTimer() { state.timerRunning = false; update(ref(db, DB_KEY), { timerRunning: false }); toast(); }
-  function tmRst() { state.timerRunning = false; state.timerSeconds = 0; update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: 0 }); toast(); }
+  function tmRst() { 
+    state.timerRunning = false; 
+    state.timerSeconds = 0; 
+    localStartTime = null;
+    update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: 0 }); 
+    updateTime();
+    toast(); 
+  }
 
   function startTimerInterval() {
     if (timerInterval) clearInterval(timerInterval);
@@ -551,6 +556,7 @@
   window.qG = (t) => { if (t === 'h') { state.homeScore++; document.getElementById('adm-sh').value = state.homeScore; } else { state.awayScore++; document.getElementById('adm-sa').value = state.awayScore; } update(ref(db, DB_KEY), state); set(ref(db, 'goal_trigger'), { time: Date.now(), team: t }); setTimeout(() => set(ref(db, 'goal_trigger'), null), 2000); toast(); };
   window.tmStart = () => { startTimer(); };
   window.tmPause = () => { pauseTimer(); };
+  window.tmRst = () => { tmRst(); };
   window.updP = () => { state.period = document.getElementById('adm-p').value; if (state.period === 'ПЕРЕРЫВ' && state.timerRunning) pauseTimer(); update(ref(db, DB_KEY), state); toast(); };
   function toast() { const t = document.getElementById('toast'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2000); }
 
