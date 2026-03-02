@@ -25,7 +25,7 @@
   .sc-v1-time.paused { animation: pulse 1s infinite; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-  /* === VARIANT 2: TV STYLE (ТАЙМЕР НИЖЕ) === */
+  /* === VARIANT 2: TV STYLE (ОТЛИЧНО) === */
   .sc-v2 { display: flex !important; flex-direction: column !important; align-items: center !important; width: 100% !important; max-width: 550px !important; margin: 0 auto !important; }
   .sc-v2-bar { display: flex !important; align-items: center !important; width: 100% !important; transform: skewX(-10deg) !important; border-radius: 6px !important; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5) !important; }
   .sc-v2-team { display: flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; padding: 8px 15px !important; flex: 1 !important; background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%) !important; }
@@ -41,25 +41,96 @@
   .sc-v2-timer .time { font-size: 12px !important; font-weight: 700 !important; color: #fff !important; font-variant-numeric: tabular-nums !important; }
   .sc-v2-timer .period { font-size: 10px !important; font-weight: 700 !important; color: rgba(255,255,255,0.7) !important; text-transform: uppercase !important; padding: 1px 6px !important; background: rgba(255,255,255,0.1) !important; border-radius: 3px !important; }
 
-  /* === VARIANT 3: LAYERED (ЛОГО НА КРАЯХ ФОНА) === */
-  .sc-v3 { position: relative !important; display: flex !important; align-items: center !important; justify-content: center !important; margin: 0 auto !important; height: 65px !important; }
+  /* === VARIANT 3: LAYERED (КОМПАКТНЫЙ) === */
+  .sc-v3 { 
+    position: relative !important; 
+    display: flex !important; 
+    align-items: center !important; 
+    justify-content: center !important; 
+    margin: 0 auto !important; 
+    height: 65px !important;
+    width: calc(var(--half-width) * 2 + 180px) !important;
+  }
   
-  /* Цветные полосы */
-  .sc-v3-dark { position: absolute !important; height: 50px !important; z-index: 1 !important; border-radius: 4px !important; }
-  .sc-v3-dark.home { left: 55px !important; right: 160px !important; }
-  .sc-v3-dark.away { left: 160px !important; right: 55px !important; }
+  /* Цветные полосы - ширина из переменной */
+  .sc-v3-dark { 
+    position: absolute !important; 
+    height: 50px !important; 
+    z-index: 1 !important; 
+    border-radius: 4px !important;
+    width: var(--half-width) !important;
+  }
+  .sc-v3-dark.home { 
+    left: calc(var(--half-width) / 2 + 90px) !important;
+  }
+  .sc-v3-dark.away { 
+    right: calc(var(--half-width) / 2 + 90px) !important;
+  }
   
-  /* Логотипы на краях фона */
-  .sc-v3-logo-h { position: absolute !important; left: 55px !important; top: 50% !important; transform: translateY(-50%) translateX(-50%) !important; width: 55px !important; height: 55px !important; object-fit: contain !important; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important; z-index: 10 !important; }
-  .sc-v3-logo-a { position: absolute !important; right: 55px !important; top: 50% !important; transform: translateY(-50%) translateX(50%) !important; width: 55px !important; height: 55px !important; object-fit: contain !important; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important; z-index: 10 !important; }
+  /* Логотипы на краях цветных полос */
+  .sc-v3-logo-h { 
+    position: absolute !important; 
+    left: calc(var(--half-width) + 90px) !important; 
+    top: 50% !important; 
+    transform: translateY(-50%) translateX(-50%) !important; 
+    width: 50px !important; 
+    height: 50px !important; 
+    object-fit: contain !important; 
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important; 
+    z-index: 10 !important; 
+  }
+  .sc-v3-logo-a { 
+    position: absolute !important; 
+    right: calc(var(--half-width) + 90px) !important; 
+    top: 50% !important; 
+    transform: translateY(-50%) translateX(50%) !important; 
+    width: 50px !important; 
+    height: 50px !important; 
+    object-fit: contain !important; 
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important; 
+    z-index: 10 !important; 
+  }
   
-  /* Названия по центру полос */
-  .sc-v3-name { position: absolute !important; font-size: 15px !important; font-weight: 900 !important; color: #fff !important; text-transform: uppercase !important; letter-spacing: 1px !important; text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important; white-space: nowrap !important; z-index: 2 !important; }
-  .sc-v3-name.home { left: 80px !important; max-width: 140px !important; overflow: hidden !important; text-overflow: ellipsis !important; }
-  .sc-v3-name.away { right: 80px !important; max-width: 140px !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+  /* Названия по центру цветных полос */
+  .sc-v3-name { 
+    position: absolute !important; 
+    font-size: 15px !important; 
+    font-weight: 900 !important; 
+    color: #fff !important; 
+    text-transform: uppercase !important; 
+    letter-spacing: 1px !important; 
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important; 
+    white-space: nowrap !important; 
+    z-index: 2 !important;
+    width: var(--half-width) !important;
+    text-align: center !important;
+  }
+  .sc-v3-name.home { 
+    left: calc(var(--half-width) / 2 + 90px) !important;
+    transform: translateX(-50%) !important;
+  }
+  .sc-v3-name.away { 
+    right: calc(var(--half-width) / 2 + 90px) !important;
+    transform: translateX(50%) !important;
+  }
   
-  /* Центральный бокс */
-  .sc-v3-center { position: absolute !important; left: 50% !important; transform: translateX(-50%) !important; width: 180px !important; height: 60px !important; background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%) !important; border-radius: 10px !important; z-index: 5 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important; border: 1px solid rgba(255,255,255,0.8) !important; }
+  /* Центральный бокс - фиксированный */
+  .sc-v3-center { 
+    position: absolute !important; 
+    left: 50% !important; 
+    transform: translateX(-50%) !important; 
+    width: 180px !important; 
+    height: 60px !important; 
+    background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%) !important; 
+    border-radius: 10px !important; 
+    z-index: 5 !important; 
+    display: flex !important; 
+    flex-direction: column !important; 
+    align-items: center !important; 
+    justify-content: center !important; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important; 
+    border: 1px solid rgba(255,255,255,0.8) !important; 
+  }
   .sc-v3-scores { display: flex !important; align-items: center !important; gap: 10px !important; z-index: 6 !important; margin-bottom: 2px !important; }
   .sc-v3-score { font-size: 38px !important; font-weight: 900 !important; color: #000 !important; text-shadow: 0 1px 2px rgba(255,255,255,0.8) !important; min-width: 38px !important; text-align: center !important; line-height: 1 !important; }
   .sc-v3-sep { font-size: 24px !important; color: #555 !important; font-weight: 900 !important; }
@@ -164,7 +235,7 @@
     </div>
   </div>
 
-  <!-- V2: TV STYLE (ТАЙМЕР НИЖЕ) -->
+  <!-- V2: TV STYLE (ОТЛИЧНО) -->
   <div id="sb-v2" class="sc-v2 hide">
     <div class="sc-v2-bar">
       <div class="sc-v2-team home">
@@ -189,8 +260,8 @@
     </div>
   </div>
 
-  <!-- V3: LAYERED (ЛОГО НА КРАЯХ ФОНА) -->
-  <div id="sb-v3" class="sc-v3 theme-blue hide">
+  <!-- V3: LAYERED (КОМПАКТНЫЙ) -->
+  <div id="sb-v3" class="sc-v3 theme-blue hide" style="--half-width: 100px;">
     <div class="sc-v3-dark home"></div>
     <div class="sc-v3-dark away"></div>
     <img id="v3-lh" class="sc-v3-logo-h" src="" alt="">
@@ -377,6 +448,16 @@
       document.getElementById(`${v}-p`).textContent = state.period;
     });
     updateTime();
+    updateV3Width();
+  }
+
+  function updateV3Width() {
+    const v3 = document.getElementById('sb-v3');
+    // Вычисляем ширину половины по самому длинному названию
+    const maxLen = Math.max(state.homeName.length, state.awayName.length, 6);
+    // 12px на символ + отступы, мин 80px, макс 150px
+    const halfWidth = Math.min(Math.max(maxLen * 12 + 20, 80), 150);
+    v3.style.setProperty('--half-width', halfWidth + 'px');
   }
 
   function updateTime() {
