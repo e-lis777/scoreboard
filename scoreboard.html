@@ -8,7 +8,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Arial Black', Arial, sans-serif; background: transparent; overflow: hidden; user-select: none; }
   
-  /* === VARIANT 1: GRADIENT (текущий) === */
+  /* === VARIANT 1: GRADIENT === */
   .scoreboard-v1 {
     display: flex; align-items: center; justify-content: space-between;
     width: 100%; max-width: 900px; margin: 0 auto; padding: 15px 25px;
@@ -18,96 +18,264 @@
     backdrop-filter: blur(10px);
   }
   
-  /* === VARIANT 2: TV STYLE (новый как на фото) === */
+  /* === VARIANT 2: TV STYLE (ИСПРАВЛЕННЫЙ) === */
   .scoreboard-v2 {
     display: flex;
-    align-items: stretch;
+    align-items: center;
     width: 100%;
-    max-width: 950px;
+    max-width: 850px;
     margin: 0 auto;
-    transform: skewX(-5deg);
+    transform: skewX(-8deg);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
   }
 
   .scoreboard-v2 .team-section {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px;
-    padding: 15px 30px;
-    min-width: 200px;
+    gap: 10px;
+    padding: 12px 20px;
+    flex: 1;
   }
 
   .scoreboard-v2 .team-home {
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    border-right: 3px solid #c00;
+    border-right: 2px solid #c00;
   }
 
   .scoreboard-v2 .team-away {
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    border-left: 3px solid #c00;
+    border-left: 2px solid #c00;
   }
 
   .scoreboard-v2 .score-section {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 15px;
     background: linear-gradient(135deg, #e0e0e0 0%, #ffffff 50%, #e0e0e0 100%);
-    padding: 15px 35px;
-    min-width: 120px;
+    padding: 12px 25px;
+    min-width: 140px;
   }
 
   .scoreboard-v2 .team-name {
-    font-size: 28px;
+    font-size: 22px;
     font-weight: 900;
     color: #fff;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     text-shadow: 0 2px 4px rgba(0,0,0,0.8);
   }
 
   .scoreboard-v2 .score {
-    font-size: 52px;
+    font-size: 42px;
     font-weight: 900;
     color: #000;
     text-shadow: 0 2px 4px rgba(255,255,255,0.5);
   }
 
+  .scoreboard-v2 .score-separator {
+    font-size: 32px;
+    color: #333;
+    font-weight: 900;
+  }
+
   .scoreboard-v2 .logo {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
   }
 
-  /* Timer bar для Variant 2 */
-  .timer-bar-v2 {
+  .scoreboard-v2 .timer-bar {
     position: absolute;
-    bottom: -35px;
-    left: 0;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
+    padding: 6px 20px;
+    border-top: 2px solid #c00;
+    border-bottom: 2px solid #c00;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
-    padding: 10px 25px;
-    border-top: 3px solid #c00;
-    border-bottom: 3px solid #c00;
-    min-width: 400px;
+    gap: 20px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
   }
 
-  .timer-bar-v2 .time {
+  .scoreboard-v2 .timer-bar .time {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .scoreboard-v2 .timer-bar .period {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+  }
+
+  /* === VARIANT 3: IMAGE STYLE (НОВЫЙ) === */
+  .scoreboard-v3 {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .scoreboard-v3 .team-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 14px 25px;
+    flex: 1;
+    position: relative;
+  }
+
+  .scoreboard-v3 .team-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1));
+  }
+
+  .scoreboard-v3 .team-home::after { right: 0; }
+  .scoreboard-v3 .team-away::after { left: 0; }
+
+  .scoreboard-v3 .score-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 30px;
+    min-width: 160px;
+    position: relative;
+  }
+
+  .scoreboard-v3 .score-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 50%, rgba(0,0,0,0.1) 100%);
+  }
+
+  .scoreboard-v3 .scores {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1;
+  }
+
+  .scoreboard-v3 .team-name {
+    font-size: 20px;
+    font-weight: 900;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    z-index: 1;
+  }
+
+  .scoreboard-v3 .score {
+    font-size: 48px;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 3px 6px rgba(0,0,0,0.5);
+  }
+
+  .scoreboard-v3 .score-separator {
+    font-size: 32px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 900;
+  }
+
+  .scoreboard-v3 .logo {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    z-index: 1;
+  }
+
+  .scoreboard-v3 .timer-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 8px 20px;
+    background: rgba(0,0,0,0.3);
+    margin-top: 5px;
+    border-radius: 6px;
+    z-index: 1;
+  }
+
+  .scoreboard-v3 .timer-section .time {
     font-size: 20px;
     font-weight: 700;
     color: #fff;
     font-variant-numeric: tabular-nums;
   }
 
-  .timer-bar-v2 .period {
-    font-size: 18px;
+  .scoreboard-v3 .timer-section .period {
+    font-size: 16px;
     font-weight: 700;
-    color: #fff;
+    color: rgba(255,255,255,0.8);
     text-transform: uppercase;
+  }
+
+  /* === COLOR THEMES for Variant 3 === */
+  .v3-theme-blue .team-home, .v3-theme-blue .team-away {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  }
+  .v3-theme-blue .score-section {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+  }
+
+  .v3-theme-orange .team-home, .v3-theme-orange .team-away {
+    background: linear-gradient(135deg, #d35400 0%, #e67e22 100%);
+  }
+  .v3-theme-orange .score-section {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2c1810 50%, #1a1a1a 100%);
+  }
+
+  .v3-theme-purple .team-home, .v3-theme-purple .team-away {
+    background: linear-gradient(135deg, #4a148c 0%, #7b1fa2 100%);
+  }
+  .v3-theme-purple .score-section {
+    background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 50%, #1a1a2e 100%);
+  }
+
+  .v3-theme-silver .team-home, .v3-theme-silver .team-away {
+    background: linear-gradient(135deg, #424242 0%, #616161 100%);
+  }
+  .v3-theme-silver .score-section {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+  }
+
+  .v3-theme-red .team-home, .v3-theme-red .team-away {
+    background: linear-gradient(135deg, #8b0000 0%, #c41e3a 100%);
+  }
+  .v3-theme-red .score-section {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d1010 50%, #1a1a1a 100%);
+  }
+
+  .v3-theme-green .team-home, .v3-theme-green .team-away {
+    background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+  }
+  .v3-theme-green .score-section {
+    background: linear-gradient(135deg, #1a1a2e 0%, #1b2e1a 50%, #1a1a2e 100%);
   }
 
   /* === ОБЩИЕ СТИЛИ === */
@@ -119,7 +287,7 @@
   .score { font-size: 48px; font-weight: 900; color: #fff; text-shadow: 0 0 20px rgba(0, 150, 255, 0.8); min-width: 50px; text-align: center; }
   .score-separator { font-size: 32px; color: rgba(255,255,255,0.4); }
 
-  .timer-section {
+  .timer-section-v1 {
     position: absolute; bottom: -45px; left: 50%; transform: translateX(-50%);
     display: flex; align-items: center; gap: 15px;
     background: linear-gradient(180deg, rgba(255, 80, 80, 0.95), rgba(200, 40, 40, 0.95));
@@ -169,27 +337,29 @@
   .toast { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, #2ed573, #1ea65a); color: #fff; padding: 15px 25px; border-radius: 10px; font-weight: 700; box-shadow: 0 5px 20px rgba(0,0,0,0.3); transform: translateY(100px); opacity: 0; transition: all 0.3s ease; z-index: 3000; }
   .toast.show { transform: translateY(0); opacity: 1; }
 
-  /* Переключатель вариантов */
-  .variant-selector {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  .variant-btn {
-    flex: 1;
-    padding: 15px;
+  .variant-selector { display: flex; gap: 10px; margin-bottom: 20px; }
+  .variant-btn { flex: 1; padding: 15px; border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; background: rgba(0,0,0,0.3); color: #fff; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+  .variant-btn.active { border-color: #00d4ff; background: rgba(0, 212, 255, 0.2); }
+
+  .color-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
+  .color-btn {
+    padding: 12px;
     border: 2px solid rgba(255,255,255,0.2);
-    border-radius: 10px;
-    background: rgba(0,0,0,0.3);
-    color: #fff;
-    font-weight: 700;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 12px;
     transition: all 0.3s;
   }
-  .variant-btn.active {
-    border-color: #00d4ff;
-    background: rgba(0, 212, 255, 0.2);
-  }
+  .color-btn.active { border-color: #fff; transform: scale(1.05); }
+  .color-blue { background: linear-gradient(135deg, #1e3c72, #2a5298); }
+  .color-orange { background: linear-gradient(135deg, #d35400, #e67e22); }
+  .color-purple { background: linear-gradient(135deg, #4a148c, #7b1fa2); }
+  .color-silver { background: linear-gradient(135deg, #424242, #616161); }
+  .color-red { background: linear-gradient(135deg, #8b0000, #c41e3a); }
+  .color-green { background: linear-gradient(135deg, #1b5e20, #2e7d32); }
 </style>
 </head>
 <body>
@@ -209,13 +379,13 @@
       <span id="name-away-v1" class="team-name">ГОСТИ</span>
       <img id="logo-away-v1" class="logo" src="" alt="">
     </div>
-    <div class="timer-section">
+    <div class="timer-section-v1">
       <span id="period-badge-v1" class="period-badge">1 ТАЙМ</span>
       <span id="timer-v1" class="timer">00:00</span>
     </div>
   </div>
 
-  <!-- === VARIANT 2: TV STYLE === -->
+  <!-- === VARIANT 2: TV STYLE (ИСПРАВЛЕННЫЙ) === -->
   <div id="scoreboard-v2" class="scoreboard-v2 hidden">
     <div class="team-section team-home">
       <img id="logo-home-v2" class="logo" src="" alt="">
@@ -223,17 +393,39 @@
     </div>
     <div class="score-section">
       <span id="score-home-v2" class="score">0</span>
-    </div>
-    <div class="score-section">
+      <span class="score-separator">-</span>
       <span id="score-away-v2" class="score">0</span>
     </div>
     <div class="team-section team-away">
       <span id="name-away-v2" class="team-name">ГОСТИ</span>
       <img id="logo-away-v2" class="logo" src="" alt="">
     </div>
-    <div class="timer-bar-v2">
+    <div class="timer-bar">
       <span id="timer-v2" class="time">00:00</span>
       <span id="period-v2" class="period">1 ТАЙМ</span>
+    </div>
+  </div>
+
+  <!-- === VARIANT 3: IMAGE STYLE (НОВЫЙ) === -->
+  <div id="scoreboard-v3" class="scoreboard-v3 hidden v3-theme-blue">
+    <div class="team-section team-home">
+      <img id="logo-home-v3" class="logo" src="" alt="">
+      <span id="name-home-v3" class="team-name">ДОМ</span>
+    </div>
+    <div class="score-section">
+      <div class="scores">
+        <span id="score-home-v3" class="score">0</span>
+        <span class="score-separator">-</span>
+        <span id="score-away-v3" class="score">0</span>
+      </div>
+      <div class="timer-section">
+        <span id="timer-v3" class="time">00:00</span>
+        <span id="period-v3" class="period">1 ТАЙМ</span>
+      </div>
+    </div>
+    <div class="team-section team-away">
+      <span id="name-away-v3" class="team-name">ГОСТИ</span>
+      <img id="logo-away-v3" class="logo" src="" alt="">
     </div>
   </div>
 
@@ -253,8 +445,21 @@
         <div class="variant-selector">
           <button class="variant-btn active" onclick="setVariant(1)">Вариант 1<br><small>Градиент</small></button>
           <button class="variant-btn" onclick="setVariant(2)">Вариант 2<br><small>TV Style</small></button>
+          <button class="variant-btn" onclick="setVariant(3)">Вариант 3<br><small>Image Style</small></button>
         </div>
-        <p style="color:rgba(255,255,255,0.5);font-size:12px;">Изменения применяются мгновенно</p>
+      </div>
+
+      <!-- Выбор цвета для Variant 3 -->
+      <div class="admin-card">
+        <h3>🌈 Цвет (Вариант 3)</h3>
+        <div class="color-selector">
+          <button class="color-btn color-blue active" onclick="setColor('blue')">Синий</button>
+          <button class="color-btn color-orange" onclick="setColor('orange')">Оранж</button>
+          <button class="color-btn color-purple" onclick="setColor('purple')">Фиолет</button>
+          <button class="color-btn color-silver" onclick="setColor('silver')">Серебро</button>
+          <button class="color-btn color-red" onclick="setColor('red')">Красный</button>
+          <button class="color-btn color-green" onclick="setColor('green')">Зелёный</button>
+        </div>
       </div>
 
       <div class="admin-card">
@@ -270,7 +475,7 @@
         <h3>📊 Счёт</h3>
         <div class="score-inputs">
           <div class="form-group" style="flex:1"><label>Дом</label><input type="number" id="admin-score-home" value="0" min="0"></div>
-          <div style="font-size: 32px; color: rgba(255,255,255,0.5);">:</div>
+          <div style="font-size: 32px; color: rgba(255,255,255,0.5);">-</div>
           <div class="form-group" style="flex:1"><label>Гости</label><input type="number" id="admin-score-away" value="0" min="0"></div>
         </div>
         <div class="btn-group" style="margin-top: 15px;">
@@ -343,13 +548,12 @@
   let state = {
     homeName: 'ДОМ', awayName: 'ГОСТИ', homeLogo: '', awayLogo: '',
     homeScore: 0, awayScore: 0, timerSeconds: 0, timerRunning: false, 
-    period: '1 ТАЙМ', designVariant: 1
+    period: '1 ТАЙМ', designVariant: 3, colorTheme: 'blue'
   };
 
   let timerInterval = null;
   let localStartTime = null;
 
-  // === ПОДПИСКА НА FIREBASE ===
   const dataRef = ref(db, DB_KEY);
   onValue(dataRef, (snapshot) => {
     const data = snapshot.val();
@@ -365,13 +569,13 @@
         if (!state.timerRunning && oldRunning) { stopTimer(); }
         updateScoreboardDisplay();
         updateVariantVisibility();
+        updateColorTheme();
       } else {
         updateAdminDisplay();
       }
     }
   });
 
-  // === ГОЛ АНИМАЦИЯ ===
   onValue(ref(db, 'goal_trigger'), (snapshot) => {
     if (snapshot.val() && !ADMIN_MODE) {
       const anim = document.getElementById('goal-animation');
@@ -380,7 +584,6 @@
     }
   });
 
-  // === ОТОБРАЖЕНИЕ ===
   function updateScoreboardDisplay() {
     // Variant 1
     document.getElementById('name-home-v1').textContent = state.homeName;
@@ -400,6 +603,15 @@
     document.getElementById('score-away-v2').textContent = state.awayScore;
     document.getElementById('period-v2').textContent = state.period;
     
+    // Variant 3
+    document.getElementById('name-home-v3').textContent = state.homeName;
+    document.getElementById('name-away-v3').textContent = state.awayName;
+    document.getElementById('logo-home-v3').src = state.homeLogo || '';
+    document.getElementById('logo-away-v3').src = state.awayLogo || '';
+    document.getElementById('score-home-v3').textContent = state.homeScore;
+    document.getElementById('score-away-v3').textContent = state.awayScore;
+    document.getElementById('period-v3').textContent = state.period;
+    
     updateTimerDisplay();
   }
 
@@ -408,24 +620,23 @@
     const secs = state.timerSeconds % 60;
     const timeStr = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
     
-    const timerV1 = document.getElementById('timer-v1');
-    const timerV2 = document.getElementById('timer-v2');
-    timerV1.textContent = timeStr;
-    timerV2.textContent = timeStr;
+    document.getElementById('timer-v1').textContent = timeStr;
+    document.getElementById('timer-v2').textContent = timeStr;
+    document.getElementById('timer-v3').textContent = timeStr;
     
-    state.timerRunning ? timerV1.classList.remove('paused') : timerV1.classList.add('paused');
+    document.getElementById('timer-v1').classList.toggle('paused', !state.timerRunning);
   }
 
   function updateVariantVisibility() {
-    const v1 = document.getElementById('scoreboard-v1');
-    const v2 = document.getElementById('scoreboard-v2');
-    if (state.designVariant === 1) {
-      v1.classList.remove('hidden');
-      v2.classList.add('hidden');
-    } else {
-      v1.classList.add('hidden');
-      v2.classList.remove('hidden');
-    }
+    document.getElementById('scoreboard-v1').classList.toggle('hidden', state.designVariant !== 1);
+    document.getElementById('scoreboard-v2').classList.toggle('hidden', state.designVariant !== 2);
+    document.getElementById('scoreboard-v3').classList.toggle('hidden', state.designVariant !== 3);
+  }
+
+  function updateColorTheme() {
+    const v3 = document.getElementById('scoreboard-v3');
+    v3.classList.remove('v3-theme-blue', 'v3-theme-orange', 'v3-theme-purple', 'v3-theme-silver', 'v3-theme-red', 'v3-theme-green');
+    v3.classList.add('v3-theme-' + state.colorTheme);
   }
 
   function updateAdminDisplay() {
@@ -437,9 +648,12 @@
     document.getElementById('admin-score-away').value = state.awayScore;
     document.getElementById('admin-period').value = state.period;
     
-    // Обновляем кнопки вариантов
     document.querySelectorAll('.variant-btn').forEach((btn, idx) => {
       btn.classList.toggle('active', idx + 1 === state.designVariant);
+    });
+
+    document.querySelectorAll('.color-btn').forEach((btn) => {
+      btn.classList.toggle('active', btn.classList.contains('color-' + state.colorTheme));
     });
     
     const indicator = document.getElementById('status-indicator');
@@ -454,7 +668,6 @@
     }
   }
 
-  // === ТАЙМЕР ===
   function startTimer() {
     if (timerInterval) clearInterval(timerInterval);
     timerInterval = setInterval(() => {
@@ -471,10 +684,15 @@
     timerInterval = null;
   }
 
-  // === УПРАВЛЕНИЕ ===
   window.setVariant = (variant) => {
     state.designVariant = variant;
     update(ref(db, DB_KEY), { designVariant: variant });
+    showToast();
+  };
+
+  window.setColor = (color) => {
+    state.colorTheme = color;
+    update(ref(db, DB_KEY), { colorTheme: color });
     showToast();
   };
 
@@ -542,15 +760,16 @@
     setTimeout(() => toast.classList.remove('show'), 2000);
   }
 
-  // === ИНИЦИАЛИЗАЦИЯ ===
   if (ADMIN_MODE) {
     document.getElementById('scoreboard-v1').classList.add('hidden');
     document.getElementById('scoreboard-v2').classList.add('hidden');
+    document.getElementById('scoreboard-v3').classList.add('hidden');
     document.getElementById('admin-panel').classList.remove('hidden');
     updateAdminDisplay();
   } else {
     updateScoreboardDisplay();
     updateVariantVisibility();
+    updateColorTheme();
     if (state.timerRunning) {
       localStartTime = Date.now() - (state.timerSeconds * 1000);
       startTimer();
