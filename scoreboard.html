@@ -44,11 +44,12 @@
   /* === VARIANT 3: LAYERED (ИСПРАВЛЕНО) === */
   .sc-v3 { 
     position: relative !important; 
-    display: flex !important; 
+    display: inline-flex !important; 
     align-items: center !important; 
     justify-content: center !important; 
     margin: 0 auto !important; 
     height: 60px !important;
+    width: auto !important;
   }
 
   .sc-v3-dark { 
@@ -60,19 +61,19 @@
     transform: translateY(-50%) !important;
   }
   .sc-v3-dark.home { 
-    left: 0 !important;
-    width: var(--half-width, 120px) !important;
+    right: 95px !important;
+    width: var(--half-width, 100px) !important;
   }
   .sc-v3-dark.away { 
-    right: 0 !important;
-    width: var(--half-width, 120px) !important;
+    left: 95px !important;
+    width: var(--half-width, 100px) !important;
   }
 
   .sc-v3-logo-h { 
     position: absolute !important; 
-    left: 0 !important; 
+    left: var(--half-width, 100px) !important; 
     top: 50% !important; 
-    transform: translate(-40%, -50%) !important; 
+    transform: translate(-50%, -50%) !important; 
     width: 50px !important; 
     height: 50px !important; 
     object-fit: contain !important; 
@@ -81,9 +82,9 @@
   }
   .sc-v3-logo-a { 
     position: absolute !important; 
-    right: 0 !important; 
+    right: var(--half-width, 100px) !important; 
     top: 50% !important; 
-    transform: translate(40%, -50%) !important; 
+    transform: translate(50%, -50%) !important; 
     width: 50px !important; 
     height: 50px !important; 
     object-fit: contain !important; 
@@ -103,12 +104,14 @@
     z-index: 2 !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
+    width: var(--half-width, 100px) !important;
+    text-align: center !important;
   }
   .sc-v3-name.home { 
-    left: calc(var(--half-width, 120px) / 2) !important;
+    right: calc(95px + var(--half-width, 100px) / 2) !important;
   }
   .sc-v3-name.away { 
-    right: calc(var(--half-width, 120px) / 2) !important;
+    left: calc(95px + var(--half-width, 100px) / 2) !important;
   }
 
   .sc-v3-center { 
@@ -124,7 +127,6 @@
     justify-content: center !important; 
     box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important; 
     border: 1px solid rgba(255,255,255,0.8) !important; 
-    margin: 0 10px !important;
   }
   .sc-v3-scores { display: flex !important; align-items: center !important; gap: 10px !important; }
   .sc-v3-score { font-size: 38px !important; font-weight: 900 !important; color: #000 !important; min-width: 35px !important; text-align: center !important; }
@@ -255,7 +257,7 @@
   </div>
 
   <!-- V3: LAYERED -->
-  <div id="sb-v3" class="sc-v3 theme-blue hide" style="--half-width: 120px;">
+  <div id="sb-v3" class="sc-v3 theme-blue hide" style="--half-width: 100px;">
     <div class="sc-v3-dark home"></div>
     <div class="sc-v3-dark away"></div>
     <img id="v3-lh" class="sc-v3-logo-h" src="" alt="">
@@ -448,7 +450,7 @@
   function updateV3Width() {
     const v3 = document.getElementById('sb-v3');
     const maxLen = Math.max(state.homeName.length, state.awayName.length, 5);
-    const halfWidth = Math.min(Math.max(maxLen * 11 + 15, 80), 140);
+    const halfWidth = Math.min(Math.max(maxLen * 10 + 10, 70), 120);
     v3.style.setProperty('--half-width', halfWidth + 'px');
   }
 
