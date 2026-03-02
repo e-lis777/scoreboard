@@ -8,7 +8,8 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Arial Black', Arial, sans-serif; background: transparent; overflow: hidden; user-select: none; }
   
-  .scoreboard {
+  /* === VARIANT 1: GRADIENT (текущий) === */
+  .scoreboard-v1 {
     display: flex; align-items: center; justify-content: space-between;
     width: 100%; max-width: 900px; margin: 0 auto; padding: 15px 25px;
     background: linear-gradient(180deg, rgba(15, 15, 25, 0.98) 0%, rgba(30, 30, 45, 0.95) 50%, rgba(15, 15, 25, 0.98) 100%);
@@ -16,7 +17,100 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 60px rgba(0, 120, 255, 0.25);
     backdrop-filter: blur(10px);
   }
+  
+  /* === VARIANT 2: TV STYLE (новый как на фото) === */
+  .scoreboard-v2 {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    max-width: 950px;
+    margin: 0 auto;
+    transform: skewX(-5deg);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  }
 
+  .scoreboard-v2 .team-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px 30px;
+    min-width: 200px;
+  }
+
+  .scoreboard-v2 .team-home {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    border-right: 3px solid #c00;
+  }
+
+  .scoreboard-v2 .team-away {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    border-left: 3px solid #c00;
+  }
+
+  .scoreboard-v2 .score-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e0e0e0 0%, #ffffff 50%, #e0e0e0 100%);
+    padding: 15px 35px;
+    min-width: 120px;
+  }
+
+  .scoreboard-v2 .team-name {
+    font-size: 28px;
+    font-weight: 900;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+  }
+
+  .scoreboard-v2 .score {
+    font-size: 52px;
+    font-weight: 900;
+    color: #000;
+    text-shadow: 0 2px 4px rgba(255,255,255,0.5);
+  }
+
+  .scoreboard-v2 .logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  }
+
+  /* Timer bar для Variant 2 */
+  .timer-bar-v2 {
+    position: absolute;
+    bottom: -35px;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
+    padding: 10px 25px;
+    border-top: 3px solid #c00;
+    border-bottom: 3px solid #c00;
+    min-width: 400px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  }
+
+  .timer-bar-v2 .time {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .timer-bar-v2 .period {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+  }
+
+  /* === ОБЩИЕ СТИЛИ === */
   .team { display: flex; align-items: center; gap: 12px; flex: 1; }
   .team.right { justify-content: flex-end; flex-direction: row-reverse; }
   .logo { width: 60px; height: 60px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
@@ -74,39 +168,95 @@
   .hidden { display: none; }
   .toast { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, #2ed573, #1ea65a); color: #fff; padding: 15px 25px; border-radius: 10px; font-weight: 700; box-shadow: 0 5px 20px rgba(0,0,0,0.3); transform: translateY(100px); opacity: 0; transition: all 0.3s ease; z-index: 3000; }
   .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* Переключатель вариантов */
+  .variant-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .variant-btn {
+    flex: 1;
+    padding: 15px;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    background: rgba(0,0,0,0.3);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .variant-btn.active {
+    border-color: #00d4ff;
+    background: rgba(0, 212, 255, 0.2);
+  }
 </style>
 </head>
 <body>
 
-  <!-- SCOREBOARD -->
-  <div id="scoreboard" class="scoreboard">
+  <!-- === VARIANT 1: GRADIENT === -->
+  <div id="scoreboard-v1" class="scoreboard-v1">
     <div class="team left">
-      <img id="logo-home" class="logo" src="" alt="">
-      <span id="name-home" class="team-name">ДОМ</span>
+      <img id="logo-home-v1" class="logo" src="" alt="">
+      <span id="name-home-v1" class="team-name">ДОМ</span>
     </div>
     <div class="score-container">
-      <span id="score-home" class="score">0</span>
+      <span id="score-home-v1" class="score">0</span>
       <span class="score-separator">:</span>
-      <span id="score-away" class="score">0</span>
+      <span id="score-away-v1" class="score">0</span>
     </div>
     <div class="team right">
-      <span id="name-away" class="team-name">ГОСТИ</span>
-      <img id="logo-away" class="logo" src="" alt="">
+      <span id="name-away-v1" class="team-name">ГОСТИ</span>
+      <img id="logo-away-v1" class="logo" src="" alt="">
     </div>
     <div class="timer-section">
-      <span id="period-badge" class="period-badge">1 ТАЙМ</span>
-      <span id="timer" class="timer">00:00</span>
+      <span id="period-badge-v1" class="period-badge">1 ТАЙМ</span>
+      <span id="timer-v1" class="timer">00:00</span>
     </div>
   </div>
+
+  <!-- === VARIANT 2: TV STYLE === -->
+  <div id="scoreboard-v2" class="scoreboard-v2 hidden">
+    <div class="team-section team-home">
+      <img id="logo-home-v2" class="logo" src="" alt="">
+      <span id="name-home-v2" class="team-name">ДОМ</span>
+    </div>
+    <div class="score-section">
+      <span id="score-home-v2" class="score">0</span>
+    </div>
+    <div class="score-section">
+      <span id="score-away-v2" class="score">0</span>
+    </div>
+    <div class="team-section team-away">
+      <span id="name-away-v2" class="team-name">ГОСТИ</span>
+      <img id="logo-away-v2" class="logo" src="" alt="">
+    </div>
+    <div class="timer-bar-v2">
+      <span id="timer-v2" class="time">00:00</span>
+      <span id="period-v2" class="period">1 ТАЙМ</span>
+    </div>
+  </div>
+
   <div id="goal-animation" class="goal-animation">⚽ ГОЛ!</div>
 
-  <!-- ADMIN PANEL -->
+  <!-- === ADMIN PANEL === -->
   <div id="admin-panel" class="admin-panel hidden">
     <div class="admin-header">
       <h1>🏆 Scoreboard Admin</h1>
       <p>Управление трансляцией</p>
     </div>
     <div class="admin-grid">
+      
+      <!-- Выбор варианта дизайна -->
+      <div class="admin-card">
+        <h3>🎨 Дизайн плашки</h3>
+        <div class="variant-selector">
+          <button class="variant-btn active" onclick="setVariant(1)">Вариант 1<br><small>Градиент</small></button>
+          <button class="variant-btn" onclick="setVariant(2)">Вариант 2<br><small>TV Style</small></button>
+        </div>
+        <p style="color:rgba(255,255,255,0.5);font-size:12px;">Изменения применяются мгновенно</p>
+      </div>
+
       <div class="admin-card">
         <h3>📋 Команды</h3>
         <div class="form-group"><label>Домашняя команда</label><input type="text" id="admin-name-home"></div>
@@ -115,6 +265,7 @@
         <div class="form-group"><label>Логотип (URL)</label><input type="text" id="admin-logo-away"></div>
         <button class="btn btn-primary" onclick="saveTeams()">💾 Сохранить</button>
       </div>
+
       <div class="admin-card">
         <h3>📊 Счёт</h3>
         <div class="score-inputs">
@@ -128,6 +279,7 @@
           <button class="btn btn-danger" onclick="resetScore()">🔄 Сброс</button>
         </div>
       </div>
+
       <div class="admin-card">
         <h3>⏱️ Таймер</h3>
         <div class="form-group">
@@ -143,6 +295,7 @@
           <button class="btn btn-danger" style="flex:1" onclick="timerControl('reset')">🔄 Сброс</button>
         </div>
       </div>
+
       <div class="admin-card">
         <h3>📍 Тайм</h3>
         <div class="form-group">
@@ -156,6 +309,7 @@
         </div>
         <button class="btn btn-primary" style="width: 100%;" onclick="updatePeriod()">✅ Обновить</button>
       </div>
+
       <div class="admin-card">
         <h3>⚡ Быстрые действия</h3>
         <div class="btn-group">
@@ -186,38 +340,31 @@
   const DB_KEY = 'match_data_v1';
   const ADMIN_MODE = new URLSearchParams(window.location.search).get('admin') === 'true';
 
-  // === СОСТОЯНИЕ ===
   let state = {
     homeName: 'ДОМ', awayName: 'ГОСТИ', homeLogo: '', awayLogo: '',
-    homeScore: 0, awayScore: 0, timerSeconds: 0, timerRunning: false, period: '1 ТАЙМ'
+    homeScore: 0, awayScore: 0, timerSeconds: 0, timerRunning: false, 
+    period: '1 ТАЙМ', designVariant: 1
   };
 
   let timerInterval = null;
   let localStartTime = null;
-  let localPausedAt = 0;
 
   // === ПОДПИСКА НА FIREBASE ===
   const dataRef = ref(db, DB_KEY);
   onValue(dataRef, (snapshot) => {
     const data = snapshot.val();
     if (data) {
-      // Сохраняем старые значения таймера для виджета
       const oldRunning = state.timerRunning;
-      const oldSeconds = state.timerSeconds;
-      
       state = { ...state, ...data };
       
       if (!ADMIN_MODE) {
-        // Если таймер только что запустили - запоминаем время старта
         if (state.timerRunning && !oldRunning) {
           localStartTime = Date.now() - (state.timerSeconds * 1000);
           startTimer();
         }
-        // Если поставили на паузу
-        if (!state.timerRunning && oldRunning) {
-          stopTimer();
-        }
+        if (!state.timerRunning && oldRunning) { stopTimer(); }
         updateScoreboardDisplay();
+        updateVariantVisibility();
       } else {
         updateAdminDisplay();
       }
@@ -235,22 +382,50 @@
 
   // === ОТОБРАЖЕНИЕ ===
   function updateScoreboardDisplay() {
-    document.getElementById('name-home').textContent = state.homeName;
-    document.getElementById('name-away').textContent = state.awayName;
-    document.getElementById('logo-home').src = state.homeLogo || '';
-    document.getElementById('logo-away').src = state.awayLogo || '';
-    document.getElementById('score-home').textContent = state.homeScore;
-    document.getElementById('score-away').textContent = state.awayScore;
-    document.getElementById('period-badge').textContent = state.period;
+    // Variant 1
+    document.getElementById('name-home-v1').textContent = state.homeName;
+    document.getElementById('name-away-v1').textContent = state.awayName;
+    document.getElementById('logo-home-v1').src = state.homeLogo || '';
+    document.getElementById('logo-away-v1').src = state.awayLogo || '';
+    document.getElementById('score-home-v1').textContent = state.homeScore;
+    document.getElementById('score-away-v1').textContent = state.awayScore;
+    document.getElementById('period-badge-v1').textContent = state.period;
+    
+    // Variant 2
+    document.getElementById('name-home-v2').textContent = state.homeName;
+    document.getElementById('name-away-v2').textContent = state.awayName;
+    document.getElementById('logo-home-v2').src = state.homeLogo || '';
+    document.getElementById('logo-away-v2').src = state.awayLogo || '';
+    document.getElementById('score-home-v2').textContent = state.homeScore;
+    document.getElementById('score-away-v2').textContent = state.awayScore;
+    document.getElementById('period-v2').textContent = state.period;
+    
     updateTimerDisplay();
   }
 
   function updateTimerDisplay() {
     const mins = Math.floor(state.timerSeconds / 60);
     const secs = state.timerSeconds % 60;
-    const timerEl = document.getElementById('timer');
-    timerEl.textContent = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
-    state.timerRunning ? timerEl.classList.remove('paused') : timerEl.classList.add('paused');
+    const timeStr = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+    
+    const timerV1 = document.getElementById('timer-v1');
+    const timerV2 = document.getElementById('timer-v2');
+    timerV1.textContent = timeStr;
+    timerV2.textContent = timeStr;
+    
+    state.timerRunning ? timerV1.classList.remove('paused') : timerV1.classList.add('paused');
+  }
+
+  function updateVariantVisibility() {
+    const v1 = document.getElementById('scoreboard-v1');
+    const v2 = document.getElementById('scoreboard-v2');
+    if (state.designVariant === 1) {
+      v1.classList.remove('hidden');
+      v2.classList.add('hidden');
+    } else {
+      v1.classList.add('hidden');
+      v2.classList.remove('hidden');
+    }
   }
 
   function updateAdminDisplay() {
@@ -261,6 +436,11 @@
     document.getElementById('admin-score-home').value = state.homeScore;
     document.getElementById('admin-score-away').value = state.awayScore;
     document.getElementById('admin-period').value = state.period;
+    
+    // Обновляем кнопки вариантов
+    document.querySelectorAll('.variant-btn').forEach((btn, idx) => {
+      btn.classList.toggle('active', idx + 1 === state.designVariant);
+    });
     
     const indicator = document.getElementById('status-indicator');
     const text = document.getElementById('status-text');
@@ -274,13 +454,12 @@
     }
   }
 
-  // === ТАЙМЕР (локальный на виджете) ===
+  // === ТАЙМЕР ===
   function startTimer() {
     if (timerInterval) clearInterval(timerInterval);
     timerInterval = setInterval(() => {
       state.timerSeconds = Math.floor((Date.now() - localStartTime) / 1000);
       updateTimerDisplay();
-      // Отправляем в Firebase только каждые 5 секунд для экономии
       if (state.timerSeconds % 5 === 0) {
         update(ref(db, DB_KEY), { timerSeconds: state.timerSeconds });
       }
@@ -292,7 +471,13 @@
     timerInterval = null;
   }
 
-  // === УПРАВЛЕНИЕ (только админка) ===
+  // === УПРАВЛЕНИЕ ===
+  window.setVariant = (variant) => {
+    state.designVariant = variant;
+    update(ref(db, DB_KEY), { designVariant: variant });
+    showToast();
+  };
+
   window.saveTeams = () => {
     state.homeName = document.getElementById('admin-name-home').value || 'ДОМ';
     state.awayName = document.getElementById('admin-name-away').value || 'ГОСТИ';
@@ -333,7 +518,6 @@
   window.timerControl = (action) => {
     if (action === 'start') {
       state.timerRunning = true;
-      // Отправляем флаг, виджет сам начнёт отсчёт
       update(ref(db, DB_KEY), { timerRunning: true });
     } else if (action === 'pause') {
       state.timerRunning = false;
@@ -360,12 +544,13 @@
 
   // === ИНИЦИАЛИЗАЦИЯ ===
   if (ADMIN_MODE) {
-    document.getElementById('scoreboard').classList.add('hidden');
+    document.getElementById('scoreboard-v1').classList.add('hidden');
+    document.getElementById('scoreboard-v2').classList.add('hidden');
     document.getElementById('admin-panel').classList.remove('hidden');
     updateAdminDisplay();
   } else {
     updateScoreboardDisplay();
-    // Если таймер уже запущен при загрузке виджета
+    updateVariantVisibility();
     if (state.timerRunning) {
       localStartTime = Date.now() - (state.timerSeconds * 1000);
       startTimer();
