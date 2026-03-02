@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Football Scoreboard</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Arial Black', Arial, sans-serif;
+    background: transparent;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* === ГЛАВНЫЙ КОНТЕЙНЕР === */
+  .scoreboard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    background: linear-gradient(180deg, 
+      rgba(20, 20, 30, 0.95) 0%, 
+      rgba(40, 40, 55, 0.9) 50%,
+      rgba(20, 20, 30, 0.95) 100%);
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 4px 20px rgba(0, 0, 0, 0.5),
+      0 0 40px rgba(0, 100, 255, 0.2),
+      inset 0 1px 0 rgba(255, 255, 
