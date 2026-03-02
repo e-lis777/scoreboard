@@ -96,31 +96,33 @@
     color: rgba(255,255,255,0.4);
   }
 
+  /* ИСПРАВЛЕНИЕ 1: Меньше радиус и не вылезает */
   .scoreboard-v1 .timer-section {
     display: flex;
     align-items: center;
     gap: 8px;
     background: linear-gradient(180deg, rgba(255, 80, 80, 0.95), rgba(200, 40, 40, 0.95));
-    padding: 5px 12px;
-    border-radius: 12px;
+    padding: 4px 10px;
+    border-radius: 6px; /* Было 12px */
     border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 15px rgba(255, 50, 50, 0.4);
+    box-shadow: 0 2px 10px rgba(255, 50, 50, 0.4);
     white-space: nowrap;
+    max-width: 100%; /* Чтобы не вылезало */
   }
 
   .scoreboard-v1 .period-badge { 
-    font-size: 10px; 
+    font-size: 9px; 
     font-weight: 900; 
     color: #fff; 
     text-transform: uppercase; 
-    padding: 3px 6px; 
+    padding: 2px 5px; 
     background: rgba(0,0,0,0.3); 
-    border-radius: 6px;
+    border-radius: 4px;
     white-space: nowrap;
   }
   
   .scoreboard-v1 .timer { 
-    font-size: 14px; 
+    font-size: 13px; 
     font-weight: 900; 
     color: #fff; 
     font-variant-numeric: tabular-nums;
@@ -137,7 +139,7 @@
     50% { opacity: 0.6; } 
   }
 
-  /* === VARIANT 2: TV STYLE (БЕЗ ИЗМЕНЕНИЙ) === */
+  /* === VARIANT 2: TV STYLE === */
   .scoreboard-v2 {
     display: flex;
     flex-direction: column;
@@ -232,6 +234,14 @@
     object-fit: contain;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
   }
+  
+  /* ИСПРАВЛЕНИЕ 2: Выпрямляем логотипы (компенсируем наклон) */
+  .scoreboard-v2 .team-section .logo {
+    transform: skewX(10deg);
+  }
+  .scoreboard-v2 .team-section .team-name {
+    transform: skewX(10deg);
+  }
 
   .scoreboard-v2 .timer-bar {
     display: flex;
@@ -263,111 +273,112 @@
     border-radius: 3px;
   }
 
-  /* === VARIANT 3: LAYERED STYLE (НОВЫЙ ДИЗАЙН) === */
+  /* === VARIANT 3: LAYERED STYLE (НОВЫЙ ПОД РЕФЕРЕНС) === */
   .scoreboard-v3 {
     position: relative;
     width: 100%;
-    max-width: 500px;
-    height: 70px;
+    max-width: 600px;
+    height: 80px;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  /* Логотипы (на заднем плане, без фона) */
+  /* Логотипы (по краям, без фона) */
   .scoreboard-v3 .logo-home {
     position: absolute;
-    left: -10px;
-    width: 60px;
-    height: 60px;
+    left: -20px;
+    width: 70px;
+    height: 70px;
     object-fit: contain;
     filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
-    z-index: 1;
+    z-index: 10;
   }
 
   .scoreboard-v3 .logo-away {
     position: absolute;
-    right: -10px;
-    width: 60px;
-    height: 60px;
+    right: -20px;
+    width: 70px;
+    height: 70px;
     object-fit: contain;
     filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
-    z-index: 5;
+    z-index: 10;
   }
 
-  /* Тёмный фон (основная полоса) */
+  /* Тёмные полосы (названия команд) */
   .scoreboard-v3 .dark-bar {
     position: absolute;
-    left: 40px;
-    right: 40px;
-    height: 45px;
-    background: linear-gradient(90deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
-    border-radius: 4px;
-    z-index: 2;
+    left: 45px;
+    right: 45px;
+    height: 50px;
+    background: linear-gradient(90deg, #0a1f44 0%, #163675 50%, #0a1f44 100%);
+    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 60px;
+    padding: 0 80px; /* Отступ до центрального блока */
+    clip-path: polygon(0 10%, 100% 0, 100% 90%, 0 100%); /* Небольшой скос для динамики */
   }
 
   .scoreboard-v3 .team-name {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 900;
     color: #fff;
     text-transform: uppercase;
     letter-spacing: 1px;
     text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     white-space: nowrap;
-    z-index: 3;
+    z-index: 2;
   }
 
   .scoreboard-v3 .team-name.home {
     position: absolute;
-    left: 55px;
+    left: 60px;
   }
 
   .scoreboard-v3 .team-name.away {
     position: absolute;
-    right: 55px;
+    right: 60px;
   }
 
-  /* Светлый бокс (центр, поверх тёмного) */
-  .scoreboard-v3 .light-box {
+  /* Светлый центральный блок */
+  .scoreboard-v3 .center-box {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    width: 180px;
-    height: 55px;
-    background: linear-gradient(180deg, #e8e8e8 0%, #ffffff 50%, #d0d0d0 100%);
-    border-radius: 6px;
-    z-index: 4;
+    width: 220px;
+    height: 60px;
+    background: linear-gradient(180deg, #f0f0f0 0%, #ffffff 50%, #dcdcdc 100%);
+    border-radius: 8px;
+    z-index: 5;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-    border: 1px solid rgba(255,255,255,0.5);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.8);
   }
 
   .scoreboard-v3 .scores {
     display: flex;
     align-items: center;
-    gap: 10px;
-    z-index: 5;
+    gap: 12px;
+    z-index: 6;
+    margin-bottom: 2px;
   }
 
   .scoreboard-v3 .score {
-    font-size: 34px;
+    font-size: 38px;
     font-weight: 900;
     color: #000;
     text-shadow: 0 1px 2px rgba(255,255,255,0.8);
-    min-width: 30px;
+    min-width: 35px;
     text-align: center;
   }
 
   .scoreboard-v3 .score-separator {
-    font-size: 22px;
+    font-size: 24px;
     color: #333;
     font-weight: 900;
   }
@@ -376,38 +387,31 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: rgba(0,0,0,0.8);
-    padding: 3px 10px;
-    border-radius: 4px;
-    margin-top: 2px;
-    z-index: 5;
+    z-index: 6;
     white-space: nowrap;
   }
 
   .scoreboard-v3 .timer-section .time {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 900;
-    color: #fff;
+    color: #333;
     font-variant-numeric: tabular-nums;
   }
 
   .scoreboard-v3 .timer-section .period {
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 900;
-    color: rgba(255,255,255,0.8);
+    color: #555;
     text-transform: uppercase;
-    background: rgba(255,255,255,0.1);
-    padding: 1px 4px;
-    border-radius: 3px;
   }
 
   /* === COLOR THEMES for Variant 3 === */
-  .v3-theme-blue .dark-bar { background: linear-gradient(90deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%); }
-  .v3-theme-orange .dark-bar { background: linear-gradient(90deg, #d35400 0%, #e67e22 50%, #d35400 100%); }
-  .v3-theme-purple .dark-bar { background: linear-gradient(90deg, #4a148c 0%, #7b1fa2 50%, #4a148c 100%); }
-  .v3-theme-silver .dark-bar { background: linear-gradient(90deg, #424242 0%, #616161 50%, #424242 100%); }
-  .v3-theme-red .dark-bar { background: linear-gradient(90deg, #8b0000 0%, #c41e3a 50%, #8b0000 100%); }
-  .v3-theme-green .dark-bar { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 50%, #1b5e20 100%); }
+  .v3-theme-blue .dark-bar { background: linear-gradient(90deg, #0a1f44 0%, #163675 50%, #0a1f44 100%); }
+  .v3-theme-orange .dark-bar { background: linear-gradient(90deg, #4a1f0a 0%, #753616 50%, #4a1f0a 100%); }
+  .v3-theme-purple .dark-bar { background: linear-gradient(90deg, #2e0a44 0%, #4f1675 50%, #2e0a44 100%); }
+  .v3-theme-silver .dark-bar { background: linear-gradient(90deg, #2a2a2a 0%, #4a4a4a 50%, #2a2a2a 100%); }
+  .v3-theme-red .dark-bar { background: linear-gradient(90deg, #440a0a 0%, #751616 50%, #440a0a 100%); }
+  .v3-theme-green .dark-bar { background: linear-gradient(90deg, #0a441f 0%, #167536 50%, #0a441f 100%); }
 
   /* === GOAL ANIMATION (TEXT) === */
   .goal-animation {
@@ -431,47 +435,38 @@
     100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
   }
 
-  /* === LOGO GOAL ANIMATION (НОВАЯ - ИЗ ЛЕВОГО НИЖНЕГО УГЛА) === */
+  /* === LOGO GOAL ANIMATION (ИСПРАВЛЕНИЕ 4: НА ВЕСЬ ЭКРАН) === */
   .logo-goal-anim {
     position: fixed;
-    bottom: -150px;
-    left: -150px;
-    width: 100px;
-    height: 100px;
+    bottom: -200px;
+    left: -200px;
+    width: 150px;
+    height: 150px;
     object-fit: contain;
     z-index: 1001;
     pointer-events: none;
-    filter: drop-shadow(0 0 20px rgba(0, 150, 255, 0.8));
+    filter: drop-shadow(0 0 30px rgba(0, 150, 255, 0.8));
     opacity: 0;
   }
   
   .logo-goal-anim.animate {
-    animation: logoFlyIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: logoFlyHuge 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
   
-  @keyframes logoFlyIn {
+  @keyframes logoFlyHuge {
     0% { 
-      bottom: -150px; 
-      left: -150px; 
-      transform: scale(0.3) rotate(-15deg); 
+      bottom: -200px; 
+      left: -200px; 
+      transform: scale(0.1) rotate(-15deg); 
       opacity: 0; 
     }
-    40% {
-      bottom: 30%;
-      left: 30%;
-      transform: scale(0.8) rotate(-10deg);
-      opacity: 1;
-    }
-    70% {
-      bottom: 40%;
-      left: 40%;
-      transform: scale(1.5) rotate(-25deg);
+    30% {
       opacity: 1;
     }
     100% { 
       bottom: 50%; 
       left: 50%; 
-      transform: translate(-50%, -50%) scale(3) rotate(-25deg); 
+      transform: translate(-50%, -50%) scale(15) rotate(-25deg); /* scale(15) = НА ВЕСЬ ЭКРАН */
       opacity: 0; 
     }
   }
@@ -778,15 +773,15 @@
       <span class="team-name away" id="name-away-v3">ГОСТИ</span>
     </div>
     
-    <div class="light-box">
+    <div class="center-box">
       <div class="scores">
         <span id="score-home-v3" class="score">0</span>
         <span class="score-separator">-</span>
         <span id="score-away-v3" class="score">0</span>
       </div>
       <div class="timer-section">
-        <span id="period-v3" class="period">1 ТАЙМ</span>
-        <span id="timer-v3" class="time">00:00</span>
+        <span id="timer-v3" class="time">55:20</span>
+        <span id="period-v3" class="period">2 тайм</span>
       </div>
     </div>
   </div>
@@ -963,7 +958,7 @@
         setTimeout(() => {
           logoAnim.classList.remove('animate');
           logoAnim.src = '';
-        }, 1300);
+        }, 1600);
       }
     }
   });
