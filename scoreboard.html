@@ -25,9 +25,9 @@
   .sc-v1-time.paused { animation: pulse 1s infinite; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-  /* === VARIANT 2: TV STYLE (ИСПРАВЛЕН ТАЙМЕР) === */
+  /* === VARIANT 2: TV STYLE (ТАЙМЕР ВЫШЕ) === */
   .sc-v2 { display: flex !important; flex-direction: column !important; align-items: center !important; width: 100% !important; max-width: 550px !important; margin: 0 auto !important; }
-  .sc-v2-bar { display: flex !important; align-items: center !important; width: 100% !important; transform: skewX(-10deg) !important; border-radius: 6px !important; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5) !important; }
+  .sc-v2-bar { display: flex !important; align-items: center !important; width: 100% !important; transform: skewX(-10deg) !important; border-radius: 6px !important; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5) !important; position: relative !important; z-index: 2 !important; }
   .sc-v2-team { display: flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; padding: 8px 15px !important; flex: 1 !important; background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%) !important; }
   .sc-v2-team.home { border-right: 1px solid rgba(255,255,255,0.1) !important; }
   .sc-v2-team.away { border-left: 1px solid rgba(255,255,255,0.1) !important; background: linear-gradient(90deg, #2d2d2d 0%, #1a1a1a 100%) !important; }
@@ -37,41 +37,44 @@
   .sc-v2-scores { display: flex !important; align-items: center !important; gap: 8px !important; }
   .sc-v2-score { font-size: 32px !important; font-weight: 900 !important; color: #fff !important; text-shadow: 0 2px 4px rgba(0,0,0,0.5) !important; }
   .sc-v2-sep { font-size: 20px !important; color: rgba(255,255,255,0.7) !important; }
-  .sc-v2-timer { display: flex !important; align-items: center !important; justify-content: center !important; gap: 12px !important; background: rgba(0,0,0,0.85) !important; padding: 4px 15px !important; margin-top: -4px !important; border-radius: 0 0 6px 6px !important; box-shadow: 0 4px 10px rgba(0,0,0,0.4) !important; }
+  .sc-v2-timer { display: flex !important; align-items: center !important; justify-content: center !important; gap: 12px !important; background: rgba(0,0,0,0.85) !important; padding: 5px 15px !important; margin-top: -12px !important; border-radius: 0 0 6px 6px !important; box-shadow: 0 4px 10px rgba(0,0,0,0.4) !important; position: relative !important; z-index: 1 !important; }
   .sc-v2-timer .time { font-size: 12px !important; font-weight: 700 !important; color: #fff !important; font-variant-numeric: tabular-nums !important; }
   .sc-v2-timer .period { font-size: 10px !important; font-weight: 700 !important; color: rgba(255,255,255,0.7) !important; text-transform: uppercase !important; padding: 1px 6px !important; background: rgba(255,255,255,0.1) !important; border-radius: 3px !important; }
 
-  /* === VARIANT 3: LAYERED (ИСПРАВЛЕНЫ ЦВЕТА И ЛОГО) === */
-  .sc-v3 { position: relative !important; width: auto !important; max-width: 600px !important; height: 65px !important; margin: 0 auto !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+  /* === VARIANT 3: LAYERED (ИСПРАВЛЕНЫ ВСЕ ПРАВИЛА) === */
+  .sc-v3 { position: relative !important; display: flex !important; align-items: center !important; justify-content: center !important; margin: 0 auto !important; height: 60px !important; }
   
-  /* Логотипы на краю плашки */
-  .sc-v3-logo-h { position: absolute !important; left: 0 !important; top: 50% !important; transform: translateY(-50%) translateX(-50%) !important; width: 55px !important; height: 55px !important; object-fit: contain !important; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important; z-index: 10 !important; }
-  .sc-v3-logo-a { position: absolute !important; right: 0 !important; top: 50% !important; transform: translateY(-50%) translateX(50%) !important; width: 55px !important; height: 55px !important; object-fit: contain !important; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important; z-index: 10 !important; }
+  /* Логотипы - центр на краю плашки */
+  .sc-v3-logo-h { position: absolute !important; left: 0 !important; top: 50% !important; transform: translateY(-50%) translateX(-50%) !important; width: 50px !important; height: 50px !important; object-fit: contain !important; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important; z-index: 10 !important; }
+  .sc-v3-logo-a { position: absolute !important; right: 0 !important; top: 50% !important; transform: translateY(-50%) translateX(50%) !important; width: 50px !important; height: 50px !important; object-fit: contain !important; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important; z-index: 10 !important; }
   
-  /* Тёмная полоса */
-  .sc-v3-dark { position: absolute !important; left: 27px !important; right: 27px !important; height: 45px !important; z-index: 1 !important; border-radius: 4px !important; }
+  /* Цветные поля - ширина по контенту */
+  .sc-v3-dark { position: absolute !important; height: 45px !important; z-index: 1 !important; border-radius: 4px !important; }
+  .sc-v3-dark.home { left: 25px !important; width: var(--half-width) !important; }
+  .sc-v3-dark.away { right: 25px !important; width: var(--half-width) !important; }
   
-  /* Названия команд */
+  /* Названия - по центру половины */
   .sc-v3-name { position: absolute !important; font-size: 14px !important; font-weight: 900 !important; color: #fff !important; text-transform: uppercase !important; letter-spacing: 1px !important; text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important; white-space: nowrap !important; z-index: 2 !important; }
-  .sc-v3-name.home { left: 40px !important; max-width: 150px !important; overflow: hidden !important; text-overflow: ellipsis !important; }
-  .sc-v3-name.away { right: 40px !important; max-width: 150px !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+  .sc-v3-name.home { left: calc(25px + var(--half-width) / 2) !important; transform: translateX(-50%) !important; max-width: 180px !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+  .sc-v3-name.away { right: calc(25px + var(--half-width) / 2) !important; transform: translateX(50%) !important; max-width: 180px !important; overflow: hidden !important; text-overflow: ellipsis !important; }
   
-  /* Центральный белый бокс */
-  .sc-v3-center { position: absolute !important; left: 50% !important; transform: translateX(-50%) !important; width: 190px !important; height: 55px !important; background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%) !important; border-radius: 10px !important; z-index: 5 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important; border: 1px solid rgba(255,255,255,0.8) !important; }
-  .sc-v3-scores { display: flex !important; align-items: center !important; gap: 10px !important; z-index: 6 !important; margin-bottom: 2px !important; }
-  .sc-v3-score { font-size: 38px !important; font-weight: 900 !important; color: #000 !important; text-shadow: 0 1px 2px rgba(255,255,255,0.8) !important; min-width: 38px !important; text-align: center !important; line-height: 1 !important; }
-  .sc-v3-sep { font-size: 24px !important; color: #555 !important; font-weight: 900 !important; }
+  /* Центральный бокс - уже */
+  .sc-v3-center { position: absolute !important; left: 50% !important; transform: translateX(-50%) !important; width: 160px !important; height: 55px !important; background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%) !important; border-radius: 10px !important; z-index: 5 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important; border: 1px solid rgba(255,255,255,0.8) !important; }
+  .sc-v3-scores { display: flex !important; align-items: center !important; gap: 8px !important; z-index: 6 !important; margin-bottom: 2px !important; }
+  .sc-v3-score { font-size: 36px !important; font-weight: 900 !important; color: #000 !important; text-shadow: 0 1px 2px rgba(255,255,255,0.8) !important; min-width: 35px !important; text-align: center !important; line-height: 1 !important; }
+  .sc-v3-sep { font-size: 22px !important; color: #555 !important; font-weight: 900 !important; }
   .sc-v3-timer { display: flex !important; align-items: center !important; gap: 6px !important; z-index: 6 !important; white-space: nowrap !important; }
-  .sc-v3-timer .time { font-size: 12px !important; font-weight: 900 !important; color: #555 !important; font-variant-numeric: tabular-nums !important; }
+  .sc-v3-timer .time { font-size: 11px !important; font-weight: 900 !important; color: #555 !important; font-variant-numeric: tabular-nums !important; }
   .sc-v3-timer .period { font-size: 9px !important; font-weight: 900 !important; color: #666 !important; text-transform: uppercase !important; }
 
   /* Цветовые темы V3 */
-  .sc-v3.theme-blue .sc-v3-dark { background: linear-gradient(90deg, #0a1f44 0%, #163675 100%) !important; }
-  .sc-v3.theme-orange .sc-v3-dark { background: linear-gradient(90deg, #c2410c 0%, #ea580c 100%) !important; }
-  .sc-v3.theme-purple .sc-v3-dark { background: linear-gradient(90deg, #581c87 0%, #7e22ce 100%) !important; }
-  .sc-v3.theme-silver .sc-v3-dark { background: linear-gradient(90deg, #404040 0%, #525252 100%) !important; }
-  .sc-v3.theme-red .sc-v3-dark { background: linear-gradient(90deg, #991b1b 0%, #dc2626 100%) !important; }
-  .sc-v3.theme-green .sc-v3-dark { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%) !important; }
+  .sc-v3.theme-blue { --theme-bg: linear-gradient(90deg, #0a1f44 0%, #163675 100%); }
+  .sc-v3.theme-orange { --theme-bg: linear-gradient(90deg, #c2410c 0%, #ea580c 100%); }
+  .sc-v3.theme-purple { --theme-bg: linear-gradient(90deg, #581c87 0%, #7e22ce 100%); }
+  .sc-v3.theme-silver { --theme-bg: linear-gradient(90deg, #404040 0%, #525252 100%); }
+  .sc-v3.theme-red { --theme-bg: linear-gradient(90deg, #991b1b 0%, #dc2626 100%); }
+  .sc-v3.theme-green { --theme-bg: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
+  .sc-v3.theme-blue .sc-v3-dark, .sc-v3.theme-orange .sc-v3-dark, .sc-v3.theme-purple .sc-v3-dark, .sc-v3.theme-silver .sc-v3-dark, .sc-v3.theme-red .sc-v3-dark, .sc-v3.theme-green .sc-v3-dark { background: var(--theme-bg) !important; }
 
   /* === ANIMATIONS === */
   .goal-anim { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); font-size: 100px; font-weight: 900; color: #ffd700; text-shadow: 0 0 30px rgba(255, 215, 0, 0.8); z-index: 1000; pointer-events: none; }
@@ -99,7 +102,9 @@
   .btn-s { background: linear-gradient(135deg, #2ed573, #1ea65a); }
   .btn-w { background: linear-gradient(135deg, #ffa502, #cc8400); }
   .btn-d { background: linear-gradient(135deg, #ff4757, #cc3344); }
-  .score-in { display: flex; gap: 10px; align-items: center; }
+  .score-in { display: flex; gap: 10px; align-items: flex-end; justify-content: center; }
+  .score-in .fld { flex: 1; text-align: center; }
+  .score-in .sep { font-size: 26px; color: rgba(255,255,255,0.5); padding-bottom: 8px; }
   .score-in input { width: 65px; text-align: center; font-size: 26px; font-weight: 900; padding: 8px; }
   .hide { display: none !important; }
   .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: linear-gradient(135deg, #2ed573, #1ea65a); color: #fff; padding: 12px 25px; border-radius: 10px; font-weight: 700; opacity: 0; transition: all 0.3s; z-index: 3000; }
@@ -159,7 +164,7 @@
     </div>
   </div>
 
-  <!-- V2: TV STYLE (ТАЙМЕР НИЖЕ) -->
+  <!-- V2: TV STYLE (ТАЙМЕР ВЫШЕ) -->
   <div id="sb-v2" class="sc-v2 hide">
     <div class="sc-v2-bar">
       <div class="sc-v2-team home">
@@ -184,11 +189,12 @@
     </div>
   </div>
 
-  <!-- V3: LAYERED (ЛОГО НА КРАЮ, ЦВЕТА ИСПРАВЛЕНЫ) -->
-  <div id="sb-v3" class="sc-v3 theme-blue hide">
+  <!-- V3: LAYERED (ВСЕ ИСПРАВЛЕНО) -->
+  <div id="sb-v3" class="sc-v3 theme-blue hide" style="--half-width: 140px;">
     <img id="v3-lh" class="sc-v3-logo-h" src="" alt="">
     <img id="v3-la" class="sc-v3-logo-a" src="" alt="">
-    <div class="sc-v3-dark"></div>
+    <div class="sc-v3-dark home"></div>
+    <div class="sc-v3-dark away"></div>
     <span id="v3-nh" class="sc-v3-name home">ДОМ</span>
     <span id="v3-na" class="sc-v3-name away">ГОСТИ</span>
     <div class="sc-v3-center">
@@ -247,9 +253,9 @@
       <div class="card">
         <h3>📊 Счёт</h3>
         <div class="score-in">
-          <div class="fld" style="flex:1"><label>Дом</label><input type="number" id="adm-sh" value="0" min="0"></div>
-          <div style="font-size: 26px; color: rgba(255,255,255,0.5); padding-top: 18px;">-</div>
-          <div class="fld" style="flex:1"><label>Гости</label><input type="number" id="adm-sa" value="0" min="0"></div>
+          <div class="fld"><label>Дом</label><input type="number" id="adm-sh" value="0" min="0"></div>
+          <div class="sep">-</div>
+          <div class="fld"><label>Гости</label><input type="number" id="adm-sa" value="0" min="0"></div>
         </div>
         <div class="btns" style="margin-top: 12px;">
           <button class="btn btn-s" onclick="updS()">✅ Обновить</button>
@@ -371,6 +377,14 @@
       document.getElementById(`${v}-p`).textContent = state.period;
     });
     updateTime();
+    updateV3Width();
+  }
+
+  function updateV3Width() {
+    const v3 = document.getElementById('sb-v3');
+    const maxLen = Math.max(state.homeName.length, state.awayName.length, 8);
+    const halfWidth = Math.min(Math.max(maxLen * 10, 100), 180);
+    v3.style.setProperty('--half-width', halfWidth + 'px');
   }
 
   function updateTime() {
@@ -395,9 +409,7 @@
 
   function updateCol() {
     const v3 = document.getElementById('sb-v3');
-    // Удаляем ВСЕ классы тем
     v3.classList.remove('theme-blue', 'theme-orange', 'theme-purple', 'theme-silver', 'theme-red', 'theme-green');
-    // Добавляем нужную
     v3.classList.add('theme-' + state.colorTheme);
   }
 
