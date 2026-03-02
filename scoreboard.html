@@ -41,107 +41,103 @@
   .sc-v2-timer .time { font-size: 12px !important; font-weight: 700 !important; color: #fff !important; font-variant-numeric: tabular-nums !important; }
   .sc-v2-timer .period { font-size: 10px !important; font-weight: 700 !important; color: rgba(255,255,255,0.7) !important; text-transform: uppercase !important; padding: 1px 6px !important; background: rgba(255,255,255,0.1) !important; border-radius: 3px !important; }
 
-  /* === VARIANT 3: LAYERED (ИСПРАВЛЕНО) === */
-  .sc-v3 { 
-    position: relative !important; 
-    display: inline-flex !important; 
-    align-items: center !important; 
-    justify-content: center !important; 
-    margin: 0 auto !important; 
+  /* === VARIANT 3: LAYERED (ФИНАЛЬНАЯ ВЕРСИЯ) === */
+  .sc-v3 {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
     height: 60px !important;
-    width: auto !important;
   }
 
-  .sc-v3-dark { 
-    position: absolute !important; 
-    height: 50px !important; 
-    z-index: 1 !important; 
-    border-radius: 4px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
+  /* Цветные полосы - одинаковая ширина */
+  .sc-v3-strip {
+    position: relative !important;
+    height: 50px !important;
+    width: var(--strip-width, 120px) !important;
+    z-index: 1 !important;
+    border-radius: 4px 0 0 4px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
-  .sc-v3-dark.home { 
-    right: 95px !important;
-    width: var(--half-width, 100px) !important;
+  .sc-v3-strip.home {
+    border-radius: 4px 0 0 4px !important;
   }
-  .sc-v3-dark.away { 
-    left: 95px !important;
-    width: var(--half-width, 100px) !important;
-  }
-
-  .sc-v3-logo-h { 
-    position: absolute !important; 
-    left: var(--half-width, 100px) !important; 
-    top: 50% !important; 
-    transform: translate(-50%, -50%) !important; 
-    width: 50px !important; 
-    height: 50px !important; 
-    object-fit: contain !important; 
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important; 
-    z-index: 10 !important; 
-  }
-  .sc-v3-logo-a { 
-    position: absolute !important; 
-    right: var(--half-width, 100px) !important; 
-    top: 50% !important; 
-    transform: translate(50%, -50%) !important; 
-    width: 50px !important; 
-    height: 50px !important; 
-    object-fit: contain !important; 
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important; 
-    z-index: 10 !important; 
+  .sc-v3-strip.away {
+    border-radius: 0 4px 4px 0 !important;
   }
 
-  .sc-v3-name { 
-    position: absolute !important; 
-    font-size: 15px !important; 
-    font-weight: 900 !important; 
-    color: #fff !important; 
-    text-transform: uppercase !important; 
-    letter-spacing: 1px !important; 
-    text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important; 
-    white-space: nowrap !important; 
+  /* Названия команд - по центру полосы */
+  .sc-v3-name {
+    font-size: 15px !important;
+    font-weight: 900 !important;
+    color: #fff !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important;
+    white-space: nowrap !important;
     z-index: 2 !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    width: var(--half-width, 100px) !important;
-    text-align: center !important;
-  }
-  .sc-v3-name.home { 
-    right: calc(95px + var(--half-width, 100px) / 2) !important;
-  }
-  .sc-v3-name.away { 
-    left: calc(95px + var(--half-width, 100px) / 2) !important;
+    max-width: 95% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
 
-  .sc-v3-center { 
-    position: relative !important; 
-    width: 170px !important; 
-    height: 55px !important; 
-    background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%) !important; 
-    border-radius: 10px !important; 
-    z-index: 5 !important; 
-    display: flex !important; 
-    flex-direction: column !important; 
-    align-items: center !important; 
-    justify-content: center !important; 
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important; 
-    border: 1px solid rgba(255,255,255,0.8) !important; 
+  /* Логотипы - на внешнем краю полосы */
+  .sc-v3-logo-h {
+    position: absolute !important;
+    left: -25px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important;
+    z-index: 3 !important;
   }
-  .sc-v3-scores { display: flex !important; align-items: center !important; gap: 10px !important; }
+  .sc-v3-logo-a {
+    position: absolute !important;
+    right: -25px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important;
+    z-index: 3 !important;
+  }
+
+  /* Белый бокс - фиксированная ширина */
+  .sc-v3-center {
+    position: relative !important;
+    width: 180px !important;
+    height: 55px !important;
+    background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%) !important;
+    border-radius: 10px !important;
+    z-index: 5 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
+    border: 1px solid rgba(255,255,255,0.8) !important;
+  }
+  .sc-v3-scores { display: flex !important; align-items: center !important; gap: 10px !important; margin-bottom: 2px !important; }
   .sc-v3-score { font-size: 38px !important; font-weight: 900 !important; color: #000 !important; min-width: 35px !important; text-align: center !important; }
   .sc-v3-sep { font-size: 24px !important; color: #555 !important; font-weight: 900 !important; }
   .sc-v3-timer { display: flex !important; align-items: center !important; gap: 6px !important; }
   .sc-v3-timer .time { font-size: 12px !important; font-weight: 900 !important; color: #555 !important; }
   .sc-v3-timer .period { font-size: 9px !important; font-weight: 900 !important; color: #666 !important; text-transform: uppercase !important; }
 
-  .sc-v3.theme-blue { --theme-bg: linear-gradient(90deg, #0a1f44 0%, #163675 100%); }
-  .sc-v3.theme-orange { --theme-bg: linear-gradient(90deg, #c2410c 0%, #ea580c 100%); }
-  .sc-v3.theme-purple { --theme-bg: linear-gradient(90deg, #581c87 0%, #7e22ce 100%); }
-  .sc-v3.theme-silver { --theme-bg: linear-gradient(90deg, #404040 0%, #525252 100%); }
-  .sc-v3.theme-red { --theme-bg: linear-gradient(90deg, #991b1b 0%, #dc2626 100%); }
-  .sc-v3.theme-green { --theme-bg: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
-  .sc-v3.theme-blue .sc-v3-dark, .sc-v3.theme-orange .sc-v3-dark, .sc-v3.theme-purple .sc-v3-dark, .sc-v3.theme-silver .sc-v3-dark, .sc-v3.theme-red .sc-v3-dark, .sc-v3.theme-green .sc-v3-dark { background: var(--theme-bg) !important; }
+  /* Цветовые темы */
+  .sc-v3.theme-blue { --strip-bg: linear-gradient(90deg, #0a1f44 0%, #163675 100%); }
+  .sc-v3.theme-orange { --strip-bg: linear-gradient(90deg, #c2410c 0%, #ea580c 100%); }
+  .sc-v3.theme-purple { --strip-bg: linear-gradient(90deg, #581c87 0%, #7e22ce 100%); }
+  .sc-v3.theme-silver { --strip-bg: linear-gradient(90deg, #404040 0%, #525252 100%); }
+  .sc-v3.theme-red { --strip-bg: linear-gradient(90deg, #991b1b 0%, #dc2626 100%); }
+  .sc-v3.theme-green { --strip-bg: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
+  .sc-v3.theme-blue .sc-v3-strip, .sc-v3.theme-orange .sc-v3-strip, .sc-v3.theme-purple .sc-v3-strip, .sc-v3.theme-silver .sc-v3-strip, .sc-v3.theme-red .sc-v3-strip, .sc-v3.theme-green .sc-v3-strip { background: var(--strip-bg) !important; }
 
   /* === ANIMATIONS === */
   .goal-anim { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); font-size: 100px; font-weight: 900; color: #ffd700; text-shadow: 0 0 30px rgba(255, 215, 0, 0.8); z-index: 1000; pointer-events: none; }
@@ -257,13 +253,13 @@
   </div>
 
   <!-- V3: LAYERED -->
-  <div id="sb-v3" class="sc-v3 theme-blue hide" style="--half-width: 100px;">
-    <div class="sc-v3-dark home"></div>
-    <div class="sc-v3-dark away"></div>
-    <img id="v3-lh" class="sc-v3-logo-h" src="" alt="">
-    <img id="v3-la" class="sc-v3-logo-a" src="" alt="">
-    <span id="v3-nh" class="sc-v3-name home">ДОМ</span>
-    <span id="v3-na" class="sc-v3-name away">ГОСТИ</span>
+  <div id="sb-v3" class="sc-v3 theme-blue hide" style="--strip-width: 120px;">
+    <!-- Левая полоса + лого -->
+    <div class="sc-v3-strip home">
+      <img id="v3-lh" class="sc-v3-logo-h" src="" alt="">
+      <span id="v3-nh" class="sc-v3-name">ДОМ</span>
+    </div>
+    <!-- Центральный бокс -->
     <div class="sc-v3-center">
       <div class="sc-v3-scores">
         <span id="v3-sh" class="sc-v3-score">0</span>
@@ -274,6 +270,11 @@
         <span id="v3-t" class="time">00:00</span>
         <span id="v3-p" class="period">1 ТАЙМ</span>
       </div>
+    </div>
+    <!-- Правая полоса + лого -->
+    <div class="sc-v3-strip away">
+      <span id="v3-na" class="sc-v3-name">ГОСТИ</span>
+      <img id="v3-la" class="sc-v3-logo-a" src="" alt="">
     </div>
   </div>
 
@@ -450,8 +451,9 @@
   function updateV3Width() {
     const v3 = document.getElementById('sb-v3');
     const maxLen = Math.max(state.homeName.length, state.awayName.length, 5);
-    const halfWidth = Math.min(Math.max(maxLen * 10 + 10, 70), 120);
-    v3.style.setProperty('--half-width', halfWidth + 'px');
+    // 11px на символ + padding, мин 90px, макс 150px
+    const stripWidth = Math.min(Math.max(maxLen * 11 + 20, 90), 150);
+    v3.style.setProperty('--strip-width', stripWidth + 'px');
   }
 
   function updateTime() {
