@@ -41,7 +41,7 @@
   .sc-v2-timer .time { font-size: 12px !important; font-weight: 700 !important; color: #fff !important; font-variant-numeric: tabular-nums !important; }
   .sc-v2-timer .period { font-size: 10px !important; font-weight: 700 !important; color: rgba(255,255,255,0.7) !important; text-transform: uppercase !important; padding: 1px 6px !important; background: rgba(255,255,255,0.1) !important; border-radius: 3px !important; }
 
-  /* === VARIANT 3: LAYERED === */
+  /* === VARIANT 3: LAYERED (ЛОГО НА ПЕРЕДНЕМ ПЛАНЕ) === */
   .sc-v3 {
     position: relative !important;
     display: flex !important;
@@ -78,6 +78,7 @@
     text-overflow: ellipsis !important;
   }
 
+  /* Логотипы НА ПЕРЕДНЕМ ПЛАНЕ (z-index 20) */
   .sc-v3-logo-h {
     position: absolute !important;
     right: -25px !important;
@@ -87,7 +88,7 @@
     height: 50px !important;
     object-fit: contain !important;
     filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important;
-    z-index: 10 !important;
+    z-index: 20 !important; /* БЫЛО 10, ТЕПЕРЬ 20 */
   }
   .sc-v3-logo-a {
     position: absolute !important;
@@ -98,12 +99,13 @@
     height: 50px !important;
     object-fit: contain !important;
     filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important;
-    z-index: 10 !important;
+    z-index: 20 !important; /* БЫЛО 10, ТЕПЕРЬ 20 */
   }
 
+  /* Белый бокс УЖЕ НА 20% (180px → 145px) */
   .sc-v3-center {
     position: relative !important;
-    width: 180px !important;
+    width: 145px !important; /* БЫЛО 180px */
     height: 55px !important;
     background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%) !important;
     border-radius: 10px !important;
@@ -119,36 +121,36 @@
   .sc-v3-scores { 
     display: flex !important; 
     align-items: center !important; 
-    gap: 10px !important; 
+    gap: 8px !important; /* Уменьшил отступ */
     margin-bottom: 0px !important;
     flex-shrink: 0 !important;
   }
   .sc-v3-score { 
-    font-size: 38px !important; 
+    font-size: 34px !important; /* Чуть меньше для узкого бокса */
     font-weight: 900 !important; 
     color: #000 !important; 
-    min-width: 35px !important; 
+    min-width: 32px !important; 
     text-align: center !important; 
     line-height: 1 !important;
   }
   .sc-v3-sep { 
-    font-size: 24px !important; 
+    font-size: 20px !important; /* Чуть меньше */
     color: #555 !important; 
     font-weight: 900 !important; 
   }
   .sc-v3-timer { 
     display: flex !important; 
     align-items: center !important; 
-    gap: 6px !important; 
+    gap: 4px !important; 
     margin-top: -3px !important;
   }
   .sc-v3-timer .time { 
-    font-size: 11px !important; 
+    font-size: 10px !important; /* Чуть меньше */
     font-weight: 900 !important; 
     color: #555 !important; 
   }
   .sc-v3-timer .period { 
-    font-size: 9px !important; 
+    font-size: 8px !important; /* Чуть меньше */
     font-weight: 900 !important; 
     color: #666 !important; 
     text-transform: uppercase !important; 
