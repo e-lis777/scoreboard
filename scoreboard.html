@@ -8,7 +8,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Arial Black', Arial, sans-serif; background: transparent; overflow: hidden; user-select: none; }
   
-  /* === VARIANT 1: COMPACT (НЕ ТРОГАЕМ) === */
+  /* === VARIANT 1: COMPACT === */
   .sc-v1 { display: flex; align-items: center; width: 100%; max-width: 500px; margin: 0 auto; }
   .sc-v1-bar { display: flex; align-items: center; width: 100%; background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); border-radius: 10px; padding: 10px 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6); }
   .sc-v1-half { display: flex; flex-direction: column; align-items: center; flex: 1; padding: 0 15px; }
@@ -25,7 +25,7 @@
   .sc-v1-time.paused { animation: pulse 1s infinite; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-  /* === VARIANT 2: TV STYLE (ОТЛИЧНО) === */
+  /* === VARIANT 2: TV STYLE === */
   .sc-v2 { display: flex !important; flex-direction: column !important; align-items: center !important; width: 100% !important; max-width: 550px !important; margin: 0 auto !important; }
   .sc-v2-bar { display: flex !important; align-items: center !important; width: 100% !important; transform: skewX(-10deg) !important; border-radius: 6px !important; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5) !important; }
   .sc-v2-team { display: flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; padding: 8px 15px !important; flex: 1 !important; background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%) !important; }
@@ -41,38 +41,38 @@
   .sc-v2-timer .time { font-size: 12px !important; font-weight: 700 !important; color: #fff !important; font-variant-numeric: tabular-nums !important; }
   .sc-v2-timer .period { font-size: 10px !important; font-weight: 700 !important; color: rgba(255,255,255,0.7) !important; text-transform: uppercase !important; padding: 1px 6px !important; background: rgba(255,255,255,0.1) !important; border-radius: 3px !important; }
 
-  /* === VARIANT 3: LAYERED (КОМПАКТНЫЙ) === */
+  /* === VARIANT 3: LAYERED (ИСПРАВЛЕНО) === */
   .sc-v3 { 
     position: relative !important; 
     display: flex !important; 
     align-items: center !important; 
     justify-content: center !important; 
     margin: 0 auto !important; 
-    height: 65px !important;
-    width: calc(var(--half-width) * 2 + 180px) !important;
+    height: 60px !important;
   }
-  
-  /* Цветные полосы - ширина из переменной */
+
   .sc-v3-dark { 
     position: absolute !important; 
     height: 50px !important; 
     z-index: 1 !important; 
     border-radius: 4px !important;
-    width: var(--half-width) !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
   }
   .sc-v3-dark.home { 
-    left: calc(var(--half-width) / 2 + 90px) !important;
+    left: 0 !important;
+    width: var(--half-width, 120px) !important;
   }
   .sc-v3-dark.away { 
-    right: calc(var(--half-width) / 2 + 90px) !important;
+    right: 0 !important;
+    width: var(--half-width, 120px) !important;
   }
-  
-  /* Логотипы на краях цветных полос */
+
   .sc-v3-logo-h { 
     position: absolute !important; 
-    left: calc(var(--half-width) + 90px) !important; 
+    left: 0 !important; 
     top: 50% !important; 
-    transform: translateY(-50%) translateX(-50%) !important; 
+    transform: translate(-40%, -50%) !important; 
     width: 50px !important; 
     height: 50px !important; 
     object-fit: contain !important; 
@@ -81,17 +81,16 @@
   }
   .sc-v3-logo-a { 
     position: absolute !important; 
-    right: calc(var(--half-width) + 90px) !important; 
+    right: 0 !important; 
     top: 50% !important; 
-    transform: translateY(-50%) translateX(50%) !important; 
+    transform: translate(40%, -50%) !important; 
     width: 50px !important; 
     height: 50px !important; 
     object-fit: contain !important; 
     filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important; 
     z-index: 10 !important; 
   }
-  
-  /* Названия по центру цветных полос */
+
   .sc-v3-name { 
     position: absolute !important; 
     font-size: 15px !important; 
@@ -102,25 +101,20 @@
     text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important; 
     white-space: nowrap !important; 
     z-index: 2 !important;
-    width: var(--half-width) !important;
-    text-align: center !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
   }
   .sc-v3-name.home { 
-    left: calc(var(--half-width) / 2 + 90px) !important;
-    transform: translateX(-50%) !important;
+    left: calc(var(--half-width, 120px) / 2) !important;
   }
   .sc-v3-name.away { 
-    right: calc(var(--half-width) / 2 + 90px) !important;
-    transform: translateX(50%) !important;
+    right: calc(var(--half-width, 120px) / 2) !important;
   }
-  
-  /* Центральный бокс - фиксированный */
+
   .sc-v3-center { 
-    position: absolute !important; 
-    left: 50% !important; 
-    transform: translateX(-50%) !important; 
-    width: 180px !important; 
-    height: 60px !important; 
+    position: relative !important; 
+    width: 170px !important; 
+    height: 55px !important; 
     background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%) !important; 
     border-radius: 10px !important; 
     z-index: 5 !important; 
@@ -130,15 +124,15 @@
     justify-content: center !important; 
     box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important; 
     border: 1px solid rgba(255,255,255,0.8) !important; 
+    margin: 0 10px !important;
   }
-  .sc-v3-scores { display: flex !important; align-items: center !important; gap: 10px !important; z-index: 6 !important; margin-bottom: 2px !important; }
-  .sc-v3-score { font-size: 38px !important; font-weight: 900 !important; color: #000 !important; text-shadow: 0 1px 2px rgba(255,255,255,0.8) !important; min-width: 38px !important; text-align: center !important; line-height: 1 !important; }
+  .sc-v3-scores { display: flex !important; align-items: center !important; gap: 10px !important; }
+  .sc-v3-score { font-size: 38px !important; font-weight: 900 !important; color: #000 !important; min-width: 35px !important; text-align: center !important; }
   .sc-v3-sep { font-size: 24px !important; color: #555 !important; font-weight: 900 !important; }
-  .sc-v3-timer { display: flex !important; align-items: center !important; gap: 6px !important; z-index: 6 !important; white-space: nowrap !important; }
-  .sc-v3-timer .time { font-size: 12px !important; font-weight: 900 !important; color: #555 !important; font-variant-numeric: tabular-nums !important; }
+  .sc-v3-timer { display: flex !important; align-items: center !important; gap: 6px !important; }
+  .sc-v3-timer .time { font-size: 12px !important; font-weight: 900 !important; color: #555 !important; }
   .sc-v3-timer .period { font-size: 9px !important; font-weight: 900 !important; color: #666 !important; text-transform: uppercase !important; }
 
-  /* Цветовые темы V3 */
   .sc-v3.theme-blue { --theme-bg: linear-gradient(90deg, #0a1f44 0%, #163675 100%); }
   .sc-v3.theme-orange { --theme-bg: linear-gradient(90deg, #c2410c 0%, #ea580c 100%); }
   .sc-v3.theme-purple { --theme-bg: linear-gradient(90deg, #581c87 0%, #7e22ce 100%); }
@@ -210,7 +204,7 @@
 </head>
 <body>
 
-  <!-- V1: COMPACT (НЕ ТРОГАЕМ) -->
+  <!-- V1: COMPACT -->
   <div id="sb-v1" class="sc-v1">
     <div class="sc-v1-bar">
       <div class="sc-v1-half home">
@@ -235,7 +229,7 @@
     </div>
   </div>
 
-  <!-- V2: TV STYLE (ОТЛИЧНО) -->
+  <!-- V2: TV STYLE -->
   <div id="sb-v2" class="sc-v2 hide">
     <div class="sc-v2-bar">
       <div class="sc-v2-team home">
@@ -260,8 +254,8 @@
     </div>
   </div>
 
-  <!-- V3: LAYERED (КОМПАКТНЫЙ) -->
-  <div id="sb-v3" class="sc-v3 theme-blue hide" style="--half-width: 100px;">
+  <!-- V3: LAYERED -->
+  <div id="sb-v3" class="sc-v3 theme-blue hide" style="--half-width: 120px;">
     <div class="sc-v3-dark home"></div>
     <div class="sc-v3-dark away"></div>
     <img id="v3-lh" class="sc-v3-logo-h" src="" alt="">
@@ -271,7 +265,7 @@
     <div class="sc-v3-center">
       <div class="sc-v3-scores">
         <span id="v3-sh" class="sc-v3-score">0</span>
-        <span class="sc-v3-sep">-</span>
+        <span class="sc-v3-sep">:</span>
         <span id="v3-sa" class="sc-v3-score">0</span>
       </div>
       <div class="sc-v3-timer">
@@ -453,10 +447,8 @@
 
   function updateV3Width() {
     const v3 = document.getElementById('sb-v3');
-    // Вычисляем ширину половины по самому длинному названию
-    const maxLen = Math.max(state.homeName.length, state.awayName.length, 6);
-    // 12px на символ + отступы, мин 80px, макс 150px
-    const halfWidth = Math.min(Math.max(maxLen * 12 + 20, 80), 150);
+    const maxLen = Math.max(state.homeName.length, state.awayName.length, 5);
+    const halfWidth = Math.min(Math.max(maxLen * 11 + 15, 80), 140);
     v3.style.setProperty('--half-width', halfWidth + 'px');
   }
 
