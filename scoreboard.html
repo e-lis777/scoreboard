@@ -8,7 +8,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Arial Black', Arial, sans-serif; background: transparent; overflow: hidden; user-select: none; }
   
-  /* === VARIANT 1: GRADIENT (ЕЩЁ КОМПАКТНЕЕ) === */
+  /* === VARIANT 1: GRADIENT === */
   .scoreboard-v1 {
     display: flex;
     align-items: center;
@@ -196,7 +196,7 @@
     border-radius: 3px;
   }
 
-  /* === VARIANT 3: IMAGE STYLE (ЕЩЁ КОМПАКТНЕЕ) === */
+  /* === VARIANT 3: IMAGE STYLE === */
   .scoreboard-v3 {
     display: flex;
     align-items: stretch;
@@ -294,19 +294,14 @@
   /* === COLOR THEMES for Variant 3 === */
   .v3-theme-blue .team-section { background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%); }
   .v3-theme-blue .score-section { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%); }
-
   .v3-theme-orange .team-section { background: linear-gradient(90deg, #d35400 0%, #e67e22 100%); }
   .v3-theme-orange .score-section { background: linear-gradient(180deg, #1a1a1a 0%, #2c1810 50%, #1a1a1a 100%); }
-
   .v3-theme-purple .team-section { background: linear-gradient(90deg, #4a148c 0%, #7b1fa2 100%); }
   .v3-theme-purple .score-section { background: linear-gradient(180deg, #1a1a2e 0%, #2d1b4e 50%, #1a1a2e 100%); }
-
   .v3-theme-silver .team-section { background: linear-gradient(90deg, #424242 0%, #616161 100%); }
   .v3-theme-silver .score-section { background: linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%); }
-
   .v3-theme-red .team-section { background: linear-gradient(90deg, #8b0000 0%, #c41e3a 100%); }
   .v3-theme-red .score-section { background: linear-gradient(180deg, #1a1a1a 0%, #2d1010 50%, #1a1a1a 100%); }
-
   .v3-theme-green .team-section { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
   .v3-theme-green .score-section { background: linear-gradient(180deg, #1a1a2e 0%, #1b2e1a 50%, #1a1a2e 100%); }
 
@@ -323,49 +318,171 @@
     100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
   }
 
-  /* === ADMIN PANEL === */
+  /* === ADMIN PANEL (MOBILE OPTIMIZED) === */
   .admin-panel {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    padding: 30px; overflow-y: auto; z-index: 2000; color: #fff;
+    padding: 15px;
+    overflow-y: auto;
+    z-index: 2000;
+    color: #fff;
   }
-  .admin-header { text-align: center; margin-bottom: 30px; }
-  .admin-header h1 { color: #00d4ff; font-size: 32px; text-transform: uppercase; letter-spacing: 2px; }
-  .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
-  .admin-card { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); }
-  .admin-card h3 { color: #00d4ff; font-size: 18px; margin-bottom: 20px; text-transform: uppercase; }
-  .form-group { margin-bottom: 15px; }
-  .form-group label { display: block; color: rgba(255,255,255,0.7); font-size: 13px; margin-bottom: 8px; text-transform: uppercase; }
-  .form-group input, .form-group select { width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: #fff; font-size: 16px; }
-  .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
-  .btn { padding: 12px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; text-transform: uppercase; cursor: pointer; font-family: inherit; }
+
+  .admin-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .admin-header h1 {
+    color: #00d4ff;
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+  }
+
+  .admin-header p {
+    color: rgba(255,255,255,0.5);
+    font-size: 12px;
+  }
+
+  .admin-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .admin-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .admin-card h3 {
+    color: #00d4ff;
+    font-size: 16px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .form-group { margin-bottom: 12px; }
+  .form-group label {
+    display: block;
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .form-group input, .form-group select {
+    width: 100%;
+    padding: 14px 12px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: #00d4ff;
+  }
+
+  .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  
+  .btn {
+    padding: 14px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: inherit;
+    flex: 1;
+    min-width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
   .btn-primary { background: linear-gradient(135deg, #00d4ff, #0099cc); color: #fff; }
   .btn-success { background: linear-gradient(135deg, #2ed573, #1ea65a); color: #fff; }
   .btn-warning { background: linear-gradient(135deg, #ffa502, #cc8400); color: #fff; }
   .btn-danger { background: linear-gradient(135deg, #ff4757, #cc3344); color: #fff; }
-  .score-inputs { display: flex; gap: 15px; align-items: center; }
-  .score-inputs input { width: 80px; text-align: center; font-size: 24px; font-weight: 900; }
+  .btn:active { transform: scale(0.98); }
+
+  .score-inputs { display: flex; gap: 10px; align-items: center; }
+  .score-inputs input {
+    width: 70px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 900;
+    padding: 10px;
+  }
+
   .hidden { display: none; }
-  .toast { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, #2ed573, #1ea65a); color: #fff; padding: 15px 25px; border-radius: 10px; font-weight: 700; box-shadow: 0 5px 20px rgba(0,0,0,0.3); transform: translateY(100px); opacity: 0; transition: all 0.3s ease; z-index: 3000; }
-  .toast.show { transform: translateY(0); opacity: 1; }
+
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: linear-gradient(135deg, #2ed573, #1ea65a);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 3000;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
   /* === VARIANT SELECTOR === */
-  .variant-selector { display: flex; gap: 10px; margin-bottom: 20px; }
-  .variant-btn { flex: 1; padding: 15px; border: 2px solid rgba(255,255,255,0.2); border-radius: 10px; background: rgba(0,0,0,0.3); color: #fff; font-weight: 700; cursor: pointer; transition: all 0.3s; font-size: 13px; }
+  .variant-selector { display: flex; gap: 8px; margin-bottom: 15px; }
+  .variant-btn {
+    flex: 1;
+    padding: 12px 10px;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    background: rgba(0,0,0,0.3);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 12px;
+  }
   .variant-btn.active { border-color: #00d4ff; background: rgba(0, 212, 255, 0.2); }
-  .variant-btn small { display: block; font-size: 11px; opacity: 0.7; margin-top: 5px; font-weight: 400; }
+  .variant-btn small { display: block; font-size: 10px; opacity: 0.7; margin-top: 3px; font-weight: 400; }
 
   /* === COLOR SELECTOR === */
-  .color-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 15px; }
+  .color-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 12px; }
   .color-btn {
-    padding: 10px 8px;
+    padding: 10px 6px;
     border: 2px solid rgba(255,255,255,0.2);
     border-radius: 6px;
     cursor: pointer;
     font-weight: 700;
     color: #fff;
     text-transform: uppercase;
-    font-size: 11px;
+    font-size: 10px;
     transition: all 0.3s;
   }
   .color-btn.active { border-color: #fff; transform: scale(1.05); box-shadow: 0 0 10px rgba(255,255,255,0.3); }
@@ -375,6 +492,47 @@
   .color-silver { background: linear-gradient(135deg, #424242, #616161); }
   .color-red { background: linear-gradient(135deg, #8b0000, #c41e3a); }
   .color-green { background: linear-gradient(135deg, #1b5e20, #2e7d32); }
+
+  /* === TIMER STATUS === */
+  .timer-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  .timer-status .indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ffa502;
+  }
+  .timer-status .indicator.running {
+    background: #2ed573;
+    box-shadow: 0 0 10px #2ed573;
+    animation: pulse 1s infinite;
+  }
+  .timer-status .text {
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+    flex: 1;
+  }
+
+  /* === DESKTOP ADJUSTMENTS === */
+  @media (min-width: 768px) {
+    .admin-panel { padding: 30px; }
+    .admin-header h1 { font-size: 32px; }
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+    }
+    .admin-card { padding: 25px; }
+    .admin-card h3 { font-size: 18px; }
+  }
 </style>
 </head>
 <body>
@@ -453,18 +611,18 @@
   <!-- === ADMIN PANEL === -->
   <div id="admin-panel" class="admin-panel hidden">
     <div class="admin-header">
-      <h1>🏆 Scoreboard Admin</h1>
+      <h1>🏆 Scoreboard</h1>
       <p>Управление трансляцией</p>
     </div>
     <div class="admin-grid">
       
       <!-- 1. ДИЗАЙН -->
       <div class="admin-card">
-        <h3>🎨 Дизайн плашки</h3>
+        <h3>🎨 Дизайн</h3>
         <div class="variant-selector">
-          <button class="variant-btn active" onclick="setVariant(1)">Вариант 1<small>Градиент</small></button>
-          <button class="variant-btn" onclick="setVariant(2)">Вариант 2<small>TV Style</small></button>
-          <button class="variant-btn" onclick="setVariant(3)">Вариант 3<small>Image</small></button>
+          <button class="variant-btn active" onclick="setVariant(1)">В-1<small>Градиент</small></button>
+          <button class="variant-btn" onclick="setVariant(2)">В-2<small>TV</small></button>
+          <button class="variant-btn" onclick="setVariant(3)">В-3<small>Image</small></button>
         </div>
         <div id="color-selector-container">
           <div class="color-selector">
@@ -475,17 +633,16 @@
             <button class="color-btn color-red" onclick="setColor('red')">Красный</button>
             <button class="color-btn color-green" onclick="setColor('green')">Зелёный</button>
           </div>
-          <p style="color:rgba(255,255,255,0.5);font-size:11px;margin-top:10px;">* Цвет для Варианта 3</p>
         </div>
       </div>
 
       <!-- 2. КОМАНДЫ -->
       <div class="admin-card">
         <h3>📋 Команды</h3>
-        <div class="form-group"><label>Домашняя команда</label><input type="text" id="admin-name-home"></div>
-        <div class="form-group"><label>Логотип (URL)</label><input type="text" id="admin-logo-home"></div>
-        <div class="form-group"><label>Гостевая команда</label><input type="text" id="admin-name-away"></div>
-        <div class="form-group"><label>Логотип (URL)</label><input type="text" id="admin-logo-away"></div>
+        <div class="form-group"><label>Дом</label><input type="text" id="admin-name-home" placeholder="Название"></div>
+        <div class="form-group"><label>Лого Дом (URL)</label><input type="text" id="admin-logo-home" placeholder="https://..."></div>
+        <div class="form-group"><label>Гости</label><input type="text" id="admin-name-away" placeholder="Название"></div>
+        <div class="form-group"><label>Лого Гости (URL)</label><input type="text" id="admin-logo-away" placeholder="https://..."></div>
         <button class="btn btn-primary" onclick="saveTeams()">💾 Сохранить</button>
       </div>
 
@@ -494,11 +651,11 @@
         <h3>📊 Счёт</h3>
         <div class="score-inputs">
           <div class="form-group" style="flex:1"><label>Дом</label><input type="number" id="admin-score-home" value="0" min="0"></div>
-          <div style="font-size: 32px; color: rgba(255,255,255,0.5);">-</div>
+          <div style="font-size: 28px; color: rgba(255,255,255,0.5); padding-top: 20px;">-</div>
           <div class="form-group" style="flex:1"><label>Гости</label><input type="number" id="admin-score-away" value="0" min="0"></div>
         </div>
-        <div class="btn-group" style="margin-top: 15px;">
-          <button class="btn btn-success" onclick="updateScore()">✅ Обновить</button>
+        <div class="btn-group" style="margin-top: 12px;">
+          <button class="btn btn-success" onclick="updateScore()">✅ Счёт</button>
           <button class="btn btn-warning" onclick="triggerGoal()">⚽ ГОЛ!</button>
           <button class="btn btn-danger" onclick="resetScore()">🔄 Сброс</button>
         </div>
@@ -507,24 +664,21 @@
       <!-- 4. ТАЙМЕР -->
       <div class="admin-card">
         <h3>⏱️ Таймер</h3>
-        <div class="form-group">
-          <label>Статус</label>
-          <div style="padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px;">
-            <span id="status-indicator" style="display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;background:#ffa502;"></span>
-            <span id="status-text">Остановлен</span>
-          </div>
+        <div class="timer-status">
+          <span id="status-indicator" class="indicator"></span>
+          <span id="status-text" class="text">Остановлен</span>
         </div>
         <div class="btn-group">
-          <button class="btn btn-success" style="flex:1" onclick="timerControl('start')">▶️ Старт</button>
-          <button class="btn btn-warning" style="flex:1" onclick="timerControl('pause')">⏸️ Пауза</button>
-          <button class="btn btn-danger" style="flex:1" onclick="timerControl('reset')">🔄 Сброс</button>
+          <button class="btn btn-success" onclick="timerStart()">▶️ Старт</button>
+          <button class="btn btn-warning" onclick="timerPause()">⏸️ Пауза</button>
+          <button class="btn btn-danger" onclick="timerReset()">🔄 Сброс</button>
         </div>
       </div>
 
       <!-- 5. ТАЙМ -->
       <div class="admin-card">
         <h3>📍 Тайм</h3>
-        <div class="form-group">
+        <div class="form-group" style="margin-bottom: 12px;">
           <select id="admin-period">
             <option value="1 ТАЙМ">1 ТАЙМ</option>
             <option value="2 ТАЙМ">2 ТАЙМ</option>
@@ -538,10 +692,10 @@
 
       <!-- 6. БЫСТРЫЕ ДЕЙСТВИЯ -->
       <div class="admin-card">
-        <h3>⚡ Быстрые действия</h3>
+        <h3>⚡ Быстро</h3>
         <div class="btn-group">
-          <button class="btn btn-warning" onclick="quickGoal('home')">🏠 Гол Дом</button>
-          <button class="btn btn-warning" onclick="quickGoal('away')">🏃 Гол Гости</button>
+          <button class="btn btn-warning" onclick="quickGoal('home')">🏠 Гол</button>
+          <button class="btn btn-warning" onclick="quickGoal('away')">🏃 Гол</button>
         </div>
       </div>
     </div>
@@ -581,6 +735,7 @@
     const data = snapshot.val();
     if (data) {
       const oldRunning = state.timerRunning;
+      const oldPeriod = state.period;
       state = { ...state, ...data };
       
       if (!ADMIN_MODE) {
@@ -685,20 +840,41 @@
     });
     
     toggleColorSelector();
-    
+    updateTimerStatus();
+  }
+
+  function updateTimerStatus() {
     const indicator = document.getElementById('status-indicator');
     const text = document.getElementById('status-text');
     if (state.timerRunning) {
-      indicator.style.background = '#2ed573';
-      indicator.style.boxShadow = '0 0 10px #2ed573';
+      indicator.classList.add('running');
       text.textContent = 'Запущен';
     } else {
-      indicator.style.background = '#ffa502';
+      indicator.classList.remove('running');
       text.textContent = 'Остановлен';
     }
   }
 
   function startTimer() {
+    state.timerRunning = true;
+    update(ref(db, DB_KEY), { timerRunning: true });
+    showToast();
+  }
+
+  function pauseTimer() {
+    state.timerRunning = false;
+    update(ref(db, DB_KEY), { timerRunning: false });
+    showToast();
+  }
+
+  function timerReset() {
+    state.timerRunning = false;
+    state.timerSeconds = 0;
+    update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: 0 });
+    showToast();
+  }
+
+  function startTimerInterval() {
     if (timerInterval) clearInterval(timerInterval);
     timerInterval = setInterval(() => {
       state.timerSeconds = Math.floor((Date.now() - localStartTime) / 1000);
@@ -709,11 +885,12 @@
     }, 1000);
   }
 
-  function stopTimer() {
+  function stopTimerInterval() {
     if (timerInterval) clearInterval(timerInterval);
     timerInterval = null;
   }
 
+  // === УПРАВЛЕНИЕ (только админка) ===
   window.setVariant = (variant) => {
     state.designVariant = variant;
     update(ref(db, DB_KEY), { designVariant: variant });
@@ -763,23 +940,18 @@
     showToast();
   };
 
-  window.timerControl = (action) => {
-    if (action === 'start') {
-      state.timerRunning = true;
-      update(ref(db, DB_KEY), { timerRunning: true });
-    } else if (action === 'pause') {
-      state.timerRunning = false;
-      update(ref(db, DB_KEY), { timerRunning: false });
-    } else if (action === 'reset') {
-      state.timerRunning = false;
-      state.timerSeconds = 0;
-      update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: 0 });
-    }
-    showToast();
-  };
+  window.timerStart = () => { startTimer(); };
+  window.timerPause = () => { pauseTimer(); };
+  window.timerReset = () => { timerReset(); };
 
   window.updatePeriod = () => {
     state.period = document.getElementById('admin-period').value;
+    
+    // === АВТО-ПАУЗА ПРИ ПЕРЕРЫВЕ ===
+    if (state.period === 'ПЕРЕРЫВ' && state.timerRunning) {
+      pauseTimer();
+    }
+    
     update(ref(db, DB_KEY), state);
     showToast();
   };
@@ -790,6 +962,7 @@
     setTimeout(() => toast.classList.remove('show'), 2000);
   }
 
+  // === ИНИЦИАЛИЗАЦИЯ ===
   if (ADMIN_MODE) {
     document.getElementById('scoreboard-v1').classList.add('hidden');
     document.getElementById('scoreboard-v2').classList.add('hidden');
@@ -802,7 +975,7 @@
     updateColorTheme();
     if (state.timerRunning) {
       localStartTime = Date.now() - (state.timerSeconds * 1000);
-      startTimer();
+      startTimerInterval();
     }
   }
 </script>
