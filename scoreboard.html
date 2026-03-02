@@ -6,15 +6,9 @@
 <title>Football Scoreboard</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Arial Black', Arial, sans-serif;
-    background: transparent;
-    overflow: hidden;
-    user-select: none;
-  }
-
-  /* === SCOREBOARD (для стрима) === */
+  body { font-family: 'Arial Black', Arial, sans-serif; background: transparent; overflow: hidden; user-select: none; }
+  
+  /* === SCOREBOARD === */
   .scoreboard {
     display: flex;
     align-items: center;
@@ -36,26 +30,16 @@
     backdrop-filter: blur(10px);
   }
 
-  /* === КОМАНДЫ === */
-  .team {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex: 1;
-  }
-
-  .team.right {
-    justify-content: flex-end;
-    flex-direction: row-reverse;
-  }
-
+  .team { display: flex; align-items: center; gap: 12px; flex: 1; }
+  .team.right { justify-content: flex-end; flex-direction: row-reverse; }
+  
   .logo {
     width: 60px;
     height: 60px;
     object-fit: contain;
     filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
   }
-
+  
   .team-name {
     font-size: 20px;
     font-weight: 900;
@@ -65,14 +49,8 @@
     letter-spacing: 1px;
   }
 
-  /* === СЧЁТ === */
-  .score-container {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 0 30px;
-  }
-
+  .score-container { display: flex; align-items: center; gap: 15px; padding: 0 30px; }
+  
   .score {
     font-size: 48px;
     font-weight: 900;
@@ -83,13 +61,9 @@
     min-width: 50px;
     text-align: center;
   }
+  
+  .score-separator { font-size: 32px; color: rgba(255,255,255,0.4); }
 
-  .score-separator {
-    font-size: 32px;
-    color: rgba(255,255,255,0.4);
-  }
-
-  /* === ТАЙМЕР И ТАЙМ === */
   .timer-section {
     position: absolute;
     bottom: -45px;
@@ -136,7 +110,6 @@
     50% { opacity: 0.6; }
   }
 
-  /* === АНИМАЦИЯ ГОЛА === */
   .goal-animation {
     position: fixed;
     top: 50%;
@@ -162,7 +135,7 @@
     100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0; }
   }
 
-  /* === АДМИН-ПАНЕЛЬ === */
+  /* === ADMIN PANEL === */
   .admin-panel {
     position: fixed;
     top: 0;
@@ -173,25 +146,12 @@
     padding: 30px;
     overflow-y: auto;
     z-index: 2000;
+    color: #fff;
   }
 
-  .admin-header {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-
-  .admin-header h1 {
-    color: #00d4ff;
-    font-size: 32px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-  }
-
-  .admin-header p {
-    color: rgba(255,255,255,0.6);
-    font-size: 14px;
-  }
+  .admin-header { text-align: center; margin-bottom: 30px; }
+  .admin-header h1 { color: #00d4ff; font-size: 32px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+  .admin-header p { color: rgba(255,255,255,0.6); font-size: 14px; }
 
   .admin-grid {
     display: grid;
@@ -208,28 +168,12 @@
     border: 1px solid rgba(255,255,255,0.1);
   }
 
-  .admin-card h3 {
-    color: #00d4ff;
-    font-size: 18px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
+  .admin-card h3 { color: #00d4ff; font-size: 18px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
 
-  .form-group {
-    margin-bottom: 15px;
-  }
-
-  .form-group label {
-    display: block;
-    color: rgba(255,255,255,0.7);
-    font-size: 13px;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-  }
-
-  .form-group input,
-  .form-group select {
+  .form-group { margin-bottom: 15px; }
+  .form-group label { display: block; color: rgba(255,255,255,0.7); font-size: 13px; margin-bottom: 8px; text-transform: uppercase; }
+  
+  .form-group input, .form-group select {
     width: 100%;
     padding: 12px 15px;
     background: rgba(0,0,0,0.3);
@@ -240,19 +184,8 @@
     font-family: inherit;
   }
 
-  .form-group input:focus,
-  .form-group select:focus {
-    outline: none;
-    border-color: #00d4ff;
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
-  }
-
-  .btn-group {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
+  .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+  
   .btn {
     padding: 12px 20px;
     border: none;
@@ -265,69 +198,17 @@
     font-family: inherit;
   }
 
-  .btn-primary {
-    background: linear-gradient(135deg, #00d4ff, #0099cc);
-    color: #fff;
-  }
+  .btn-primary { background: linear-gradient(135deg, #00d4ff, #0099cc); color: #fff; }
+  .btn-success { background: linear-gradient(135deg, #2ed573, #1ea65a); color: #fff; }
+  .btn-warning { background: linear-gradient(135deg, #ffa502, #cc8400); color: #fff; }
+  .btn-danger { background: linear-gradient(135deg, #ff4757, #cc3344); color: #fff; }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
 
-  .btn-danger {
-    background: linear-gradient(135deg, #ff4757, #cc3344);
-    color: #fff;
-  }
-
-  .btn-success {
-    background: linear-gradient(135deg, #2ed573, #1ea65a);
-    color: #fff;
-  }
-
-  .btn-warning {
-    background: linear-gradient(135deg, #ffa502, #cc8400);
-    color: #fff;
-  }
-
-  .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-  }
-
-  .btn:active {
-    transform: translateY(0);
-  }
-
-  .score-inputs {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-  }
-
-  .score-inputs input {
-    width: 80px;
-    text-align: center;
-    font-size: 24px;
-    font-weight: 900;
-  }
-
-  .status-indicator {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin-right: 8px;
-  }
-
-  .status-live { background: #2ed573; box-shadow: 0 0 10px #2ed573; }
-  .status-paused { background: #ffa502; box-shadow: 0 0 10px #ffa502; }
-
-  .preview-box {
-    background: rgba(0,0,0,0.5);
-    border-radius: 12px;
-    padding: 20px;
-    margin-top: 20px;
-  }
+  .score-inputs { display: flex; gap: 15px; align-items: center; }
+  .score-inputs input { width: 80px; text-align: center; font-size: 24px; font-weight: 900; }
 
   .hidden { display: none; }
 
-  /* === УВЕДОМЛЕНИЕ === */
   .toast {
     position: fixed;
     bottom: 30px;
@@ -344,46 +225,35 @@
     z-index: 3000;
   }
 
-  .toast.show {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  .toast.show { transform: translateY(0); opacity: 1; }
 </style>
 </head>
 <body>
 
   <!-- === SCOREBOARD (для стрима) === -->
   <div id="scoreboard" class="scoreboard">
-    <!-- Хозяева -->
     <div class="team left">
       <img id="logo-home" class="logo" src="" alt="">
       <span id="name-home" class="team-name">ДОМ</span>
     </div>
-
-    <!-- Счёт -->
     <div class="score-container">
       <span id="score-home" class="score">0</span>
       <span class="score-separator">:</span>
       <span id="score-away" class="score">0</span>
     </div>
-
-    <!-- Гости -->
     <div class="team right">
       <span id="name-away" class="team-name">ГОСТИ</span>
       <img id="logo-away" class="logo" src="" alt="">
     </div>
-
-    <!-- Таймер и тайм -->
     <div class="timer-section">
       <span id="period-badge" class="period-badge">1 ТАЙМ</span>
       <span id="timer" class="timer">00:00</span>
     </div>
   </div>
 
-  <!-- Анимация гола -->
   <div id="goal-animation" class="goal-animation">⚽ ГОЛ!</div>
 
-  <!-- === АДМИН-ПАНЕЛЬ === -->
+  <!-- === ADMIN PANEL === -->
   <div id="admin-panel" class="admin-panel hidden">
     <div class="admin-header">
       <h1>🏆 Scoreboard Admin</h1>
@@ -391,7 +261,6 @@
     </div>
 
     <div class="admin-grid">
-      <!-- Команды -->
       <div class="admin-card">
         <h3>📋 Команды</h3>
         <div class="form-group">
@@ -413,7 +282,6 @@
         <button class="btn btn-primary" onclick="saveTeams()">💾 Сохранить команды</button>
       </div>
 
-      <!-- Счёт -->
       <div class="admin-card">
         <h3>📊 Счёт</h3>
         <div class="score-inputs">
@@ -434,19 +302,18 @@
         </div>
       </div>
 
-      <!-- Таймер -->
       <div class="admin-card">
         <h3>⏱️ Таймер</h3>
         <div class="form-group">
           <label>Статус</label>
           <div style="padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px;">
-            <span id="status-indicator" class="status-indicator status-live"></span>
+            <span id="status-indicator" class="status-indicator" style="display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;background:#2ed573;box-shadow:0 0 10px #2ed573;"></span>
             <span id="status-text">Запущен</span>
           </div>
         </div>
         <div class="btn-group">
-          <button class="btn btn-success" id="btn-start" onclick="timerStart()">▶️ Старт</button>
-          <button class="btn btn-warning" id="btn-pause" onclick="timerPause()">⏸️ Пауза</button>
+          <button class="btn btn-success" onclick="timerStart()">▶️ Старт</button>
+          <button class="btn btn-warning" onclick="timerPause()">⏸️ Пауза</button>
           <button class="btn btn-danger" onclick="timerReset()">🔄 Сброс</button>
         </div>
         <div class="form-group" style="margin-top: 15px;">
@@ -456,7 +323,6 @@
         </div>
       </div>
 
-      <!-- Тайм -->
       <div class="admin-card">
         <h3>📍 Тайм</h3>
         <div class="form-group">
@@ -471,7 +337,6 @@
         <button class="btn btn-primary" style="width: 100%;" onclick="updatePeriod()">✅ Обновить тайм</button>
       </div>
 
-      <!-- Быстрые действия -->
       <div class="admin-card">
         <h3>⚡ Быстрые действия</h3>
         <div class="btn-group">
@@ -482,29 +347,33 @@
           <button class="btn btn-danger" onclick="fullReset()">⚠️ Полный сброс</button>
         </div>
       </div>
-
-      <!-- Превью -->
-      <div class="admin-card">
-        <h3>👁️ Превью</h3>
-        <div class="preview-box" id="preview-container">
-          <!-- Сюда копируется scoreboard -->
-        </div>
-        <p style="color: rgba(255,255,255,0.5); font-size: 12px; margin-top: 10px;">
-          💡 Откройте scoreboard.html в другой вкладке для стрима
-        </p>
-      </div>
     </div>
   </div>
 
-  <!-- Уведомление -->
   <div id="toast" class="toast">✓ Сохранено!</div>
 
-<script>
-  // === КОНФИГУРАЦИЯ ===
-  const ADMIN_MODE = new URLSearchParams(window.location.search).get('admin') === 'true';
-  const STORAGE_KEY = 'scoreboard_data_v1';
+<script type="module">
+  // === FIREBASE CONFIG ===
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
-  // === СОСТОЯНИЕ ===
+  const firebaseConfig = {
+    apiKey: "AIzaSyAFb-yJaI7WJFcTx_wAFmSngupHqUNai1I",
+    authDomain: "scoreboard-6d34c.firebaseapp.com",
+    databaseURL: "https://scoreboard-6d34c-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "scoreboard-6d34c",
+    storageBucket: "scoreboard-6d34c.firebasestorage.app",
+    messagingSenderId: "11785107743",
+    appId: "1:11785107743:web:a8faa98d6aaf4462dd582a"
+  };
+
+  // === ИНИЦИАЛИЗАЦИЯ ===
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const DB_KEY = 'match_data_v1';
+
+  const ADMIN_MODE = new URLSearchParams(window.location.search).get('admin') === 'true';
+  
   let state = {
     homeName: 'ДОМ',
     awayName: 'ГОСТИ',
@@ -519,49 +388,30 @@
 
   let timerInterval = null;
 
-  // === ИНИЦИАЛИЗАЦИЯ ===
-  function init() {
-    loadState();
-    
-    if (ADMIN_MODE) {
-      initAdmin();
-    } else {
-      initScoreboard();
-    }
-
-    // Слушаем изменения из других вкладок
-    window.addEventListener('storage', (e) => {
-      if (e.key === STORAGE_KEY) {
-        loadState();
-        if (!ADMIN_MODE) updateScoreboardDisplay();
-        else updateAdminDisplay();
+  // === СЛУШАТЬ ИЗМЕНЕНИЯ ИЗ FIREBASE ===
+  const dataRef = ref(db, DB_KEY);
+  onValue(dataRef, (snapshot) => {
+    const data = snapshot.val();
+    if (data) {
+      state = { ...state, ...data };
+      if (!ADMIN_MODE) {
+        updateScoreboardDisplay();
+      } else {
+        updateAdminDisplay();
       }
-    });
-  }
-
-  // === СОХРАНЕНИЕ/ЗАГРУЗКА ===
-  function saveState() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    showToast();
-  }
-
-  function loadState() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      state = { ...state, ...JSON.parse(saved) };
     }
-  }
+  });
 
-  // === SCOREBOARD (для стрима) ===
-  function initScoreboard() {
-    updateScoreboardDisplay();
-    
-    // Запускаем таймер если нужно
-    if (state.timerRunning) {
-      startTimerInterval();
+  // === СЛУШАТЬ ТРИГГЕР ГОЛА ===
+  onValue(ref(db, 'goal_trigger'), (snapshot) => {
+    if (snapshot.val() && !ADMIN_MODE) {
+      const anim = document.getElementById('goal-animation');
+      anim.classList.add('animate');
+      setTimeout(() => anim.classList.remove('animate'), 1500);
     }
-  }
+  });
 
+  // === ФУНКЦИИ ОТОБРАЖЕНИЯ ===
   function updateScoreboardDisplay() {
     document.getElementById('name-home').textContent = state.homeName;
     document.getElementById('name-away').textContent = state.awayName;
@@ -578,7 +428,6 @@
     const secs = state.timerSeconds % 60;
     const timerEl = document.getElementById('timer');
     timerEl.textContent = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
-    
     if (state.timerRunning) {
       timerEl.classList.remove('paused');
     } else {
@@ -586,23 +435,7 @@
     }
   }
 
-  function startTimerInterval() {
-    if (timerInterval) clearInterval(timerInterval);
-    timerInterval = setInterval(() => {
-      if (state.timerRunning) {
-        state.timerSeconds++;
-        saveState();
-        updateTimerDisplay();
-      }
-    }, 1000);
-  }
-
-  // === ADMIN PANEL ===
-  function initAdmin() {
-    document.getElementById('scoreboard').classList.add('hidden');
-    document.getElementById('admin-panel').classList.remove('hidden');
-
-    // Заполняем поля текущими значениями
+  function updateAdminDisplay() {
     document.getElementById('admin-name-home').value = state.homeName;
     document.getElementById('admin-name-away').value = state.awayName;
     document.getElementById('admin-logo-home').value = state.homeLogo;
@@ -611,75 +444,52 @@
     document.getElementById('admin-score-away').value = state.awayScore;
     document.getElementById('admin-period').value = state.period;
     document.getElementById('admin-timer-set').value = state.timerSeconds;
-
-    updateAdminDisplay();
-    updatePreview();
-  }
-
-  function updateAdminDisplay() {
+    
     const indicator = document.getElementById('status-indicator');
     const text = document.getElementById('status-text');
-    
     if (state.timerRunning) {
-      indicator.className = 'status-indicator status-live';
+      indicator.style.background = '#2ed573';
+      indicator.style.boxShadow = '0 0 10px #2ed573';
       text.textContent = 'Запущен';
     } else {
-      indicator.className = 'status-indicator status-paused';
+      indicator.style.background = '#ffa502';
+      indicator.style.boxShadow = '0 0 10px #ffa502';
       text.textContent = 'На паузе';
     }
   }
 
-  function updatePreview() {
-    const preview = document.getElementById('preview-container');
-    preview.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;">
-        <span>${state.homeName}</span>
-        <span style="font-size:24px;font-weight:900;">${state.homeScore}:${state.awayScore}</span>
-        <span>${state.awayName}</span>
-      </div>
-      <div style="text-align:center;color:#ff4757;">${state.period} • ${formatTime(state.timerSeconds)}</div>
-    `;
-  }
-
-  function formatTime(seconds) {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
-  }
-
   // === ФУНКЦИИ УПРАВЛЕНИЯ ===
-  function saveTeams() {
+  window.saveTeams = () => {
     state.homeName = document.getElementById('admin-name-home').value || 'ДОМ';
     state.awayName = document.getElementById('admin-name-away').value || 'ГОСТИ';
     state.homeLogo = document.getElementById('admin-logo-home').value;
     state.awayLogo = document.getElementById('admin-logo-away').value;
-    saveState();
-    updatePreview();
-  }
+    set(ref(db, DB_KEY), state);
+    showToast();
+  };
 
-  function updateScore() {
+  window.updateScore = () => {
     state.homeScore = parseInt(document.getElementById('admin-score-home').value) || 0;
     state.awayScore = parseInt(document.getElementById('admin-score-away').value) || 0;
-    saveState();
-    updatePreview();
-  }
+    set(ref(db, DB_KEY), state);
+    showToast();
+  };
 
-  function resetScore() {
+  window.resetScore = () => {
     state.homeScore = 0;
     state.awayScore = 0;
     document.getElementById('admin-score-home').value = 0;
     document.getElementById('admin-score-away').value = 0;
-    saveState();
-    updatePreview();
-  }
+    set(ref(db, DB_KEY), state);
+    showToast();
+  };
 
-  function triggerGoal() {
-    // Отправляем событие для анимации в scoreboard
-    localStorage.setItem('scoreboard_goal_trigger', Date.now().toString());
-    setTimeout(() => localStorage.removeItem('scoreboard_goal_trigger'), 2000);
-  }
+  window.triggerGoal = () => {
+    set(ref(db, 'goal_trigger'), Date.now());
+    setTimeout(() => set(ref(db, 'goal_trigger'), null), 2000);
+  };
 
-  function quickGoal(team) {
+  window.quickGoal = (team) => {
     if (team === 'home') {
       state.homeScore++;
       document.getElementById('admin-score-home').value = state.homeScore;
@@ -687,45 +497,45 @@
       state.awayScore++;
       document.getElementById('admin-score-away').value = state.awayScore;
     }
-    saveState();
+    set(ref(db, DB_KEY), state);
     triggerGoal();
-    updatePreview();
-  }
+    showToast();
+  };
 
-  function timerStart() {
+  window.timerStart = () => {
     state.timerRunning = true;
-    saveState();
-    updateAdminDisplay();
-  }
+    set(ref(db, DB_KEY), state);
+    showToast();
+  };
 
-  function timerPause() {
+  window.timerPause = () => {
     state.timerRunning = false;
-    saveState();
-    updateAdminDisplay();
-  }
+    set(ref(db, DB_KEY), state);
+    showToast();
+  };
 
-  function timerReset() {
+  window.timerReset = () => {
     state.timerSeconds = 0;
     state.timerRunning = false;
     document.getElementById('admin-timer-set').value = 0;
-    saveState();
-    updateAdminDisplay();
-  }
+    set(ref(db, DB_KEY), state);
+    showToast();
+  };
 
-  function timerSet() {
+  window.timerSet = () => {
     state.timerSeconds = parseInt(document.getElementById('admin-timer-set').value) || 0;
     state.timerRunning = false;
-    saveState();
-    updateAdminDisplay();
-  }
+    set(ref(db, DB_KEY), state);
+    showToast();
+  };
 
-  function updatePeriod() {
+  window.updatePeriod = () => {
     state.period = document.getElementById('admin-period').value;
-    saveState();
-    updatePreview();
-  }
+    set(ref(db, DB_KEY), state);
+    showToast();
+  };
 
-  function fullReset() {
+  window.fullReset = () => {
     if (confirm('Сбросить ВСЕ данные?')) {
       state = {
         homeName: 'ДОМ',
@@ -738,31 +548,35 @@
         timerRunning: false,
         period: '1 ТАЙМ'
       };
-      saveState();
+      set(ref(db, DB_KEY), state);
       location.reload();
     }
-  }
+  };
 
-  // === УВЕДОМЛЕНИЯ ===
   function showToast() {
     const toast = document.getElementById('toast');
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2000);
   }
 
-  // === АНИМАЦИЯ ГОЛА (для scoreboard) ===
-  if (!ADMIN_MODE) {
-    window.addEventListener('storage', (e) => {
-      if (e.key === 'scoreboard_goal_trigger') {
-        const anim = document.getElementById('goal-animation');
-        anim.classList.add('animate');
-        setTimeout(() => anim.classList.remove('animate'), 1500);
+  // === ЗАПУСК ТАЙМЕРА (для виджета) ===
+  if (!ADMIN_MODE && state.timerRunning) {
+    timerInterval = setInterval(() => {
+      if (state.timerRunning) {
+        state.timerSeconds++;
+        set(ref(db, DB_KEY), state);
       }
-    });
+    }, 1000);
   }
 
-  // === ЗАПУСК ===
-  init();
+  // === ИНИЦИАЛИЗАЦИЯ ===
+  if (ADMIN_MODE) {
+    document.getElementById('scoreboard').classList.add('hidden');
+    document.getElementById('admin-panel').classList.remove('hidden');
+    updateAdminDisplay();
+  } else {
+    updateScoreboardDisplay();
+  }
 </script>
 </body>
 </html>
