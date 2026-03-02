@@ -8,15 +8,14 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Arial Black', Arial, sans-serif; background: transparent; overflow: hidden; user-select: none; }
   
-  /* === VARIANT 1: GRADIENT (ИСПРАВЛЕН ПОД РЕФЕРЕНС) === */
+  /* === VARIANT 1: COMPACT GRADIENT === */
   .scoreboard-v1 {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 500px;
+    max-width: 480px;
     margin: 0 auto;
-    position: relative;
   }
 
   .scoreboard-v1 .main-bar {
@@ -25,10 +24,9 @@
     align-items: center;
     width: 100%;
     background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-    border-radius: 12px;
-    padding: 12px 20px;
+    border-radius: 10px;
+    padding: 8px 15px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-    position: relative;
   }
 
   .scoreboard-v1 .top-row {
@@ -36,21 +34,34 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    margin-bottom: 8px;
   }
 
-  .scoreboard-v1 .logo-home {
-    width: 45px;
-    height: 45px;
+  .scoreboard-v1 .logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+  }
+
+  .scoreboard-v1 .logo {
+    width: 40px;
+    height: 40px;
     object-fit: contain;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
   }
 
-  .scoreboard-v1 .logo-away {
-    width: 45px;
-    height: 45px;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  .scoreboard-v1 .team-name {
+    font-size: 11px;
+    font-weight: 900;
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    white-space: nowrap;
+    margin-top: 2px;
+    max-width: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .scoreboard-v1 .score-container {
@@ -63,84 +74,56 @@
   .scoreboard-v1 .scores {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
   }
 
   .scoreboard-v1 .score {
-    font-size: 42px;
+    font-size: 38px;
     font-weight: 900;
     color: #fff;
-    text-shadow: 0 0 20px rgba(0, 150, 255, 0.8);
-    min-width: 45px;
+    text-shadow: 0 0 15px rgba(0, 150, 255, 0.6);
+    min-width: 40px;
     text-align: center;
+    line-height: 1;
   }
 
   .scoreboard-v1 .score-separator {
-    font-size: 28px;
-    color: rgba(255,255,255,0.5);
+    font-size: 24px;
+    color: rgba(255,255,255,0.4);
   }
 
-  .scoreboard-v1 .team-names {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 10px;
-  }
-
-  .scoreboard-v1 .team-name {
-    font-size: 14px;
-    font-weight: 900;
-    color: #fff;
-    text-transform: uppercase;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-    white-space: nowrap;
-    max-width: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* Красная плашка внизу */
   .scoreboard-v1 .timer-bar {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
+    gap: 8px;
     background: linear-gradient(180deg, #ff4757 0%, #cc3344 100%);
-    padding: 6px 15px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 15px rgba(255, 50, 50, 0.4);
+    padding: 3px 10px;
+    border-radius: 6px;
+    margin-top: 4px;
     white-space: nowrap;
-    margin-top: 5px;
   }
 
   .scoreboard-v1 .period-badge { 
-    font-size: 10px; 
+    font-size: 9px; 
     font-weight: 900; 
     color: #fff; 
     text-transform: uppercase; 
-    padding: 3px 8px; 
+    padding: 2px 6px; 
     background: rgba(0,0,0,0.3); 
-    border-radius: 6px;
+    border-radius: 4px;
   }
   
   .scoreboard-v1 .timer { 
-    font-size: 14px; 
+    font-size: 12px; 
     font-weight: 900; 
     color: #ffcc00; 
     font-variant-numeric: tabular-nums;
   }
   
-  .scoreboard-v1 .timer.paused { 
-    animation: pulse 1s infinite; 
-  }
-  
-  @keyframes pulse { 
-    0%, 100% { opacity: 1; } 
-    50% { opacity: 0.6; } 
-  }
+  .scoreboard-v1 .timer.paused { animation: pulse 1s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-  /* === VARIANT 2: TV STYLE (БЕЗ ИЗМЕНЕНИЙ) === */
+  /* === VARIANT 2: TV STYLE === */
   .scoreboard-v2 {
     display: flex;
     flex-direction: column;
@@ -155,7 +138,6 @@
     align-items: center;
     width: 100%;
     transform: skewX(-10deg);
-    overflow: visible;
     border-radius: 6px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
   }
@@ -168,14 +150,10 @@
     padding: 8px 15px;
     flex: 1;
     background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
-    border-right: 1px solid rgba(255,255,255,0.1);
   }
 
-  .scoreboard-v2 .team-section.team-away {
-    border-right: none;
-    border-left: 1px solid rgba(255,255,255,0.1);
-    background: linear-gradient(90deg, #2d2d2d 0%, #1a1a1a 100%);
-  }
+  .scoreboard-v2 .team-section.team-home { border-right: 1px solid rgba(255,255,255,0.1); }
+  .scoreboard-v2 .team-section.team-away { border-left: 1px solid rgba(255,255,255,0.1); background: linear-gradient(90deg, #2d2d2d 0%, #1a1a1a 100%); }
 
   .scoreboard-v2 .score-section {
     display: flex;
@@ -185,231 +163,189 @@
     padding: 6px 20px;
     background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%);
     min-width: 90px;
-    position: relative;
-    z-index: 2;
   }
 
-  .scoreboard-v2 .score-section::before {
-    content: '';
-    position: absolute;
-    top: -3px;
-    bottom: -3px;
-    left: 0;
-    right: 0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  .scoreboard-v2 .team-name {
+    font-size: 13px;
+    font-weight: 900;
+    color: #fff;
+    text-transform: uppercase;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    white-space: nowrap;
+    transform: skewX(10deg);
+  }
+
+  .scoreboard-v2 .logo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    transform: skewX(10deg);
   }
 
   .scoreboard-v2 .scores {
     display: flex;
     align-items: center;
     gap: 8px;
-    z-index: 1;
-  }
-
-  .scoreboard-v2 .team-name {
-    font-size: 14px;
-    font-weight: 900;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-    white-space: nowrap;
   }
 
   .scoreboard-v2 .score {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 900;
     color: #fff;
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
   }
 
   .scoreboard-v2 .score-separator {
-    font-size: 20px;
+    font-size: 18px;
     color: rgba(255,255,255,0.7);
-    font-weight: 900;
-  }
-
-  .scoreboard-v2 .logo {
-    width: 34px;
-    height: 34px;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-  }
-  
-  .scoreboard-v2 .team-section .logo,
-  .scoreboard-v2 .team-section .team-name {
-    transform: skewX(10deg);
   }
 
   .scoreboard-v2 .timer-bar {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    background: rgba(0,0,0,0.8);
-    padding: 3px 15px;
-    margin-top: -8px;
+    gap: 10px;
+    background: rgba(0,0,0,0.85);
+    padding: 3px 12px;
+    margin-top: -6px;
     border-radius: 0 0 6px 6px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
     z-index: 1;
   }
 
   .scoreboard-v2 .timer-bar .time {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     color: #fff;
     font-variant-numeric: tabular-nums;
   }
 
   .scoreboard-v2 .timer-bar .period {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
     color: rgba(255,255,255,0.7);
     text-transform: uppercase;
-    padding: 1px 6px;
+    padding: 1px 5px;
     background: rgba(255,255,255,0.1);
     border-radius: 3px;
   }
 
-  /* === VARIANT 3: LAYERED STYLE (ИСПРАВЛЕН ПОД РЕФЕРЕНС) === */
+  /* === VARIANT 3: LAYERED STYLE === */
   .scoreboard-v3 {
     position: relative;
     width: 100%;
-    max-width: 550px;
-    height: 75px;
+    max-width: 520px;
+    height: 70px;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  /* Логотипы СНАРУЖИ (по краям) */
   .scoreboard-v3 .logo-home {
     position: absolute;
-    left: -35px;
-    width: 65px;
-    height: 65px;
+    left: -30px;
+    width: 60px;
+    height: 60px;
     object-fit: contain;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
     z-index: 10;
   }
 
   .scoreboard-v3 .logo-away {
     position: absolute;
-    right: -35px;
-    width: 65px;
-    height: 65px;
+    right: -30px;
+    width: 60px;
+    height: 60px;
     object-fit: contain;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6));
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
     z-index: 10;
   }
 
-  /* Тёмные полосы (названия команд) - теперь короче */
   .scoreboard-v3 .dark-bar {
     position: absolute;
     left: 25px;
     right: 25px;
-    height: 50px;
+    height: 45px;
     background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%);
     z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     border-radius: 4px;
   }
 
   .scoreboard-v3 .team-name {
-    font-size: 15px;
+    position: absolute;
+    font-size: 14px;
     font-weight: 900;
     color: #fff;
     text-transform: uppercase;
-    letter-spacing: 1px;
     text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     white-space: nowrap;
     z-index: 2;
-    padding: 0 15px;
-  }
-
-  .scoreboard-v3 .team-name.home {
-    position: absolute;
-    left: 30px;
-    max-width: 140px;
+    max-width: 130px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .scoreboard-v3 .team-name.away {
-    position: absolute;
-    right: 30px;
-    max-width: 140px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+  .scoreboard-v3 .team-name.home { left: 35px; }
+  .scoreboard-v3 .team-name.away { right: 35px; }
 
-  /* Светлый центральный блок (БОЛЬШЕ) */
   .scoreboard-v3 .center-box {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    width: 200px;
-    height: 65px;
-    background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%);
-    border-radius: 12px;
+    width: 180px;
+    height: 60px;
+    background: linear-gradient(180deg, #f5f5f5 0%, #ffffff 50%, #e0e0e0 100%);
+    border-radius: 10px;
     z-index: 5;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    border: 1px solid rgba(255,255,255,0.8);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
   }
 
   .scoreboard-v3 .scores {
     display: flex;
     align-items: center;
-    gap: 10px;
-    z-index: 6;
-    margin-bottom: 3px;
+    gap: 8px;
+    margin-bottom: 2px;
   }
 
   .scoreboard-v3 .score {
-    font-size: 40px;
+    font-size: 36px;
     font-weight: 900;
     color: #000;
-    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
-    min-width: 40px;
+    min-width: 35px;
     text-align: center;
+    line-height: 1;
   }
 
   .scoreboard-v3 .score-separator {
-    font-size: 26px;
+    font-size: 22px;
     color: #555;
-    font-weight: 900;
   }
 
   .scoreboard-v3 .timer-section {
     display: flex;
     align-items: center;
-    gap: 8px;
-    z-index: 6;
-    white-space: nowrap;
+    gap: 6px;
   }
 
   .scoreboard-v3 .timer-section .time {
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 900;
     color: #555;
     font-variant-numeric: tabular-nums;
   }
 
   .scoreboard-v3 .timer-section .period {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 900;
     color: #666;
     text-transform: uppercase;
   }
 
-  /* === COLOR THEMES for Variant 3 === */
   .v3-theme-blue .dark-bar { background: linear-gradient(90deg, #0a1f44 0%, #163675 100%); }
   .v3-theme-orange .dark-bar { background: linear-gradient(90deg, #c2410c 0%, #ea580c 100%); }
   .v3-theme-purple .dark-bar { background: linear-gradient(90deg, #581c87 0%, #7e22ce 100%); }
@@ -417,18 +353,13 @@
   .v3-theme-red .dark-bar { background: linear-gradient(90deg, #991b1b 0%, #dc2626 100%); }
   .v3-theme-green .dark-bar { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
 
-  /* === GOAL ANIMATION === */
+  /* === ANIMATIONS === */
   .goal-animation {
-    position: fixed; 
-    top: 50%; 
-    left: 50%; 
+    position: fixed; top: 50%; left: 50%;
     transform: translate(-50%, -50%) scale(0);
-    font-size: 120px; 
-    font-weight: 900; 
-    color: #ffd700;
-    text-shadow: 0 0 30px rgba(255, 215, 0, 0.8); 
-    z-index: 1000; 
-    pointer-events: none;
+    font-size: 100px; font-weight: 900; color: #ffd700;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+    z-index: 1000; pointer-events: none;
   }
   .goal-animation.animate { animation: goalPop 1.5s ease-out; }
   @keyframes goalPop {
@@ -437,24 +368,14 @@
     100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
   }
 
-  /* === LOGO GOAL ANIMATION === */
   .logo-goal-anim {
-    position: fixed;
-    bottom: -200px;
-    left: -200px;
-    width: 150px;
-    height: 150px;
-    object-fit: contain;
-    z-index: 1001;
-    pointer-events: none;
+    position: fixed; bottom: -200px; left: -200px;
+    width: 150px; height: 150px;
+    z-index: 1001; pointer-events: none;
     filter: drop-shadow(0 0 30px rgba(0, 150, 255, 0.8));
     opacity: 0;
   }
-  
-  .logo-goal-anim.animate {
-    animation: logoFlyHuge 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  }
-  
+  .logo-goal-anim.animate { animation: logoFlyHuge 1.5s forwards; }
   @keyframes logoFlyHuge {
     0% { bottom: -200px; left: -200px; transform: scale(0.1) rotate(-15deg); opacity: 0; }
     30% { opacity: 1; }
@@ -463,19 +384,12 @@
 
   /* === ADMIN PANEL === */
   .admin-panel {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    padding: 15px;
-    overflow-y: auto;
-    z-index: 2000;
-    color: #fff;
+    padding: 15px; overflow-y: auto; z-index: 2000; color: #fff;
   }
   .admin-header { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-  .admin-header h1 { color: #00d4ff; font-size: 24px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+  .admin-header h1 { color: #00d4ff; font-size: 24px; text-transform: uppercase; margin-bottom: 5px; }
   .admin-header p { color: rgba(255,255,255,0.5); font-size: 12px; }
   .admin-grid { display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; }
   .admin-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.1); }
@@ -484,22 +398,22 @@
   .form-group label { display: block; color: rgba(255,255,255,0.7); font-size: 12px; margin-bottom: 6px; text-transform: uppercase; }
   .form-group input, .form-group select { width: 100%; padding: 14px 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: #fff; font-size: 16px; }
   .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn { padding: 14px 18px; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; text-transform: uppercase; cursor: pointer; flex: 1; min-width: 80px; }
-  .btn-primary { background: linear-gradient(135deg, #00d4ff, #0099cc); color: #fff; }
-  .btn-success { background: linear-gradient(135deg, #2ed573, #1ea65a); color: #fff; }
-  .btn-warning { background: linear-gradient(135deg, #ffa502, #cc8400); color: #fff; }
-  .btn-danger { background: linear-gradient(135deg, #ff4757, #cc3344); color: #fff; }
+  .btn { padding: 14px 16px; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; text-transform: uppercase; cursor: pointer; flex: 1; min-width: 70px; color: #fff; }
+  .btn-primary { background: linear-gradient(135deg, #00d4ff, #0099cc); }
+  .btn-success { background: linear-gradient(135deg, #2ed573, #1ea65a); }
+  .btn-warning { background: linear-gradient(135deg, #ffa502, #cc8400); }
+  .btn-danger { background: linear-gradient(135deg, #ff4757, #cc3344); }
   .score-inputs { display: flex; gap: 10px; align-items: center; }
-  .score-inputs input { width: 70px; text-align: center; font-size: 28px; font-weight: 900; padding: 10px; }
+  .score-inputs input { width: 65px; text-align: center; font-size: 26px; font-weight: 900; padding: 8px; }
   .hidden { display: none; }
-  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: linear-gradient(135deg, #2ed573, #1ea65a); color: #fff; padding: 12px 25px; border-radius: 10px; font-weight: 700; opacity: 0; transition: all 0.3s ease; z-index: 3000; }
+  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: linear-gradient(135deg, #2ed573, #1ea65a); color: #fff; padding: 12px 25px; border-radius: 10px; font-weight: 700; opacity: 0; transition: all 0.3s; z-index: 3000; }
   .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
   .variant-selector { display: flex; gap: 8px; margin-bottom: 15px; }
-  .variant-btn { flex: 1; padding: 12px 10px; border: 2px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(0,0,0,0.3); color: #fff; font-weight: 700; cursor: pointer; font-size: 12px; }
+  .variant-btn { flex: 1; padding: 12px 8px; border: 2px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(0,0,0,0.3); color: #fff; font-weight: 700; cursor: pointer; font-size: 11px; }
   .variant-btn.active { border-color: #00d4ff; background: rgba(0, 212, 255, 0.2); }
-  .variant-btn small { display: block; font-size: 10px; opacity: 0.7; margin-top: 3px; }
+  .variant-btn small { display: block; font-size: 9px; opacity: 0.7; margin-top: 3px; font-weight: 400; }
   .color-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 12px; }
-  .color-btn { padding: 10px 6px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px; cursor: pointer; font-weight: 700; color: #fff; text-transform: uppercase; font-size: 10px; }
+  .color-btn { padding: 10px 5px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px; cursor: pointer; font-weight: 700; color: #fff; text-transform: uppercase; font-size: 9px; }
   .color-btn.active { border-color: #fff; transform: scale(1.05); }
   .color-blue { background: linear-gradient(135deg, #1e3c72, #2a5298); }
   .color-orange { background: linear-gradient(135deg, #d35400, #e67e22); }
@@ -508,48 +422,50 @@
   .color-red { background: linear-gradient(135deg, #8b0000, #c41e3a); }
   .color-green { background: linear-gradient(135deg, #1b5e20, #2e7d32); }
   .checkbox-group { display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 12px; cursor: pointer; }
-  .checkbox-group input[type="checkbox"] { width: 20px; height: 20px; accent-color: #00d4ff; }
-  .checkbox-group label { margin: 0; font-size: 13px; cursor: pointer; flex: 1; }
+  .checkbox-group input[type="checkbox"] { width: 18px; height: 18px; accent-color: #00d4ff; }
+  .checkbox-group label { margin: 0; font-size: 12px; cursor: pointer; flex: 1; }
   .timer-status { display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 12px; }
-  .timer-status .indicator { width: 12px; height: 12px; border-radius: 50%; background: #ffa502; }
-  .timer-status .indicator.running { background: #2ed573; box-shadow: 0 0 10px #2ed573; animation: pulse 1s infinite; }
-  .timer-status .text { font-size: 13px; color: rgba(255,255,255,0.8); flex: 1; }
+  .timer-status .indicator { width: 10px; height: 10px; border-radius: 50%; background: #ffa502; }
+  .timer-status .indicator.running { background: #2ed573; box-shadow: 0 0 8px #2ed573; animation: pulse 1s infinite; }
+  .timer-status .text { font-size: 12px; color: rgba(255,255,255,0.8); flex: 1; }
   @media (min-width: 768px) {
     .admin-panel { padding: 30px; }
-    .admin-header h1 { font-size: 32px; }
-    .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; max-width: 1200px; }
-    .admin-card { padding: 25px; }
+    .admin-header h1 { font-size: 28px; }
+    .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1100px; }
+    .admin-card { padding: 22px; }
   }
 </style>
 </head>
 <body>
 
-  <!-- === VARIANT 1: GRADIENT === -->
+  <!-- VARIANT 1 -->
   <div id="scoreboard-v1" class="scoreboard-v1">
     <div class="main-bar">
       <div class="top-row">
-        <img id="logo-home-v1" class="logo-home" src="" alt="">
+        <div class="logo-container">
+          <img id="logo-home-v1" class="logo" src="" alt="">
+          <span id="name-home-v1" class="team-name">ДОМ</span>
+        </div>
         <div class="score-container">
           <div class="scores">
             <span id="score-home-v1" class="score">0</span>
             <span class="score-separator">:</span>
             <span id="score-away-v1" class="score">0</span>
           </div>
+          <div class="timer-bar">
+            <span id="period-badge-v1" class="period-badge">1 ТАЙМ</span>
+            <span id="timer-v1" class="timer">00:00</span>
+          </div>
         </div>
-        <img id="logo-away-v1" class="logo-away" src="" alt="">
-      </div>
-      <div class="team-names">
-        <span id="name-home-v1" class="team-name">ДОМ</span>
-        <span id="name-away-v1" class="team-name">ГОСТИ</span>
-      </div>
-      <div class="timer-bar">
-        <span id="period-badge-v1" class="period-badge">1 ТАЙМ</span>
-        <span id="timer-v1" class="timer">00:00</span>
+        <div class="logo-container">
+          <img id="logo-away-v1" class="logo" src="" alt="">
+          <span id="name-away-v1" class="team-name">ГОСТИ</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- === VARIANT 2: TV STYLE === -->
+  <!-- VARIANT 2 -->
   <div id="scoreboard-v2" class="scoreboard-v2 hidden">
     <div class="main-bar">
       <div class="team-section team-home">
@@ -574,16 +490,13 @@
     </div>
   </div>
 
-  <!-- === VARIANT 3: LAYERED STYLE === -->
+  <!-- VARIANT 3 -->
   <div id="scoreboard-v3" class="scoreboard-v3 hidden v3-theme-blue">
     <img id="logo-home-v3" class="logo-home" src="" alt="">
     <img id="logo-away-v3" class="logo-away" src="" alt="">
-    
-    <div class="dark-bar">
-      <span class="team-name home" id="name-home-v3">ДОМ</span>
-      <span class="team-name away" id="name-away-v3">ГОСТИ</span>
-    </div>
-    
+    <div class="dark-bar"></div>
+    <span class="team-name home" id="name-home-v3">ДОМ</span>
+    <span class="team-name away" id="name-away-v3">ГОСТИ</span>
     <div class="center-box">
       <div class="scores">
         <span id="score-home-v3" class="score">0</span>
@@ -600,18 +513,18 @@
   <div id="goal-animation" class="goal-animation">⚽ ГОЛ!</div>
   <img id="logo-goal-anim" class="logo-goal-anim" src="" alt="">
 
-  <!-- === ADMIN PANEL === -->
+  <!-- ADMIN PANEL -->
   <div id="admin-panel" class="admin-panel hidden">
     <div class="admin-header">
       <h1>🏆 Scoreboard</h1>
-      <p>Управление</p>
+      <p>Управление трансляцией</p>
     </div>
     <div class="admin-grid">
       <div class="admin-card">
-        <h3>🎨 Дизайн</h3>
+        <h3>🎨 Дизайн плашки</h3>
         <div class="variant-selector">
-          <button class="variant-btn active" onclick="setVariant(1)">В-1<small>Тёмный</small></button>
-          <button class="variant-btn" onclick="setVariant(2)">В-2<small>TV</small></button>
+          <button class="variant-btn active" onclick="setVariant(1)">В-1<small>Компакт</small></button>
+          <button class="variant-btn" onclick="setVariant(2)">В-2<small>TV Style</small></button>
           <button class="variant-btn" onclick="setVariant(3)">В-3<small>Слои</small></button>
         </div>
         <div id="color-selector-container">
@@ -626,28 +539,28 @@
         </div>
         <div class="checkbox-group" style="margin-top: 15px;" onclick="toggleLogoAnim()">
           <input type="checkbox" id="logo-anim-checkbox">
-          <label for="logo-anim-checkbox">🎬 Анимация лого (Дом)</label>
+          <label for="logo-anim-checkbox">🎬 Анимация лого при голе (Дом)</label>
         </div>
       </div>
       <div class="admin-card">
         <h3>📋 Команды</h3>
-        <div class="form-group"><label>Дом</label><input type="text" id="admin-name-home"></div>
-        <div class="form-group"><label>Лого Дом</label><input type="text" id="admin-logo-home"></div>
-        <div class="form-group"><label>Гости</label><input type="text" id="admin-name-away"></div>
-        <div class="form-group"><label>Лого Гости</label><input type="text" id="admin-logo-away"></div>
+        <div class="form-group"><label>Домашняя команда</label><input type="text" id="admin-name-home" placeholder="Название"></div>
+        <div class="form-group"><label>Логотип (URL)</label><input type="text" id="admin-logo-home" placeholder="https://..."></div>
+        <div class="form-group"><label>Гостевая команда</label><input type="text" id="admin-name-away" placeholder="Название"></div>
+        <div class="form-group"><label>Логотип (URL)</label><input type="text" id="admin-logo-away" placeholder="https://..."></div>
         <button class="btn btn-primary" onclick="saveTeams()">💾 Сохранить</button>
       </div>
       <div class="admin-card">
         <h3>📊 Счёт</h3>
         <div class="score-inputs">
-          <div class="form-group" style="flex:1"><label>Дом</label><input type="number" id="admin-score-home" value="0"></div>
-          <div style="font-size: 28px; color: rgba(255,255,255,0.5); padding-top: 20px;">-</div>
-          <div class="form-group" style="flex:1"><label>Гости</label><input type="number" id="admin-score-away" value="0"></div>
+          <div class="form-group" style="flex:1"><label>Дом</label><input type="number" id="admin-score-home" value="0" min="0"></div>
+          <div style="font-size: 26px; color: rgba(255,255,255,0.5); padding-top: 18px;">-</div>
+          <div class="form-group" style="flex:1"><label>Гости</label><input type="number" id="admin-score-away" value="0" min="0"></div>
         </div>
         <div class="btn-group" style="margin-top: 12px;">
-          <button class="btn btn-success" onclick="updateScore()">✅</button>
-          <button class="btn btn-warning" onclick="triggerGoal()">⚽</button>
-          <button class="btn btn-danger" onclick="resetScore()">🔄</button>
+          <button class="btn btn-success" onclick="updateScore()">✅ Обновить</button>
+          <button class="btn btn-warning" onclick="triggerGoal()">⚽ ГОЛ!</button>
+          <button class="btn btn-danger" onclick="resetScore()">🔄 Сброс</button>
         </div>
       </div>
       <div class="admin-card">
@@ -657,9 +570,9 @@
           <span id="status-text" class="text">Остановлен</span>
         </div>
         <div class="btn-group">
-          <button class="btn btn-success" onclick="timerStart()">▶️</button>
-          <button class="btn btn-warning" onclick="timerPause()">⏸️</button>
-          <button class="btn btn-danger" onclick="timerReset()">🔄</button>
+          <button class="btn btn-success" onclick="timerStart()">▶️ Старт</button>
+          <button class="btn btn-warning" onclick="timerPause()">⏸️ Пауза</button>
+          <button class="btn btn-danger" onclick="timerReset()">🔄 Сброс</button>
         </div>
       </div>
       <div class="admin-card">
@@ -670,20 +583,21 @@
             <option value="2 ТАЙМ">2 ТАЙМ</option>
             <option value="ПЕРЕРЫВ">ПЕРЕРЫВ</option>
             <option value="ДОП. ТАЙМ">ДОП. ТАЙМ</option>
+            <option value="ПЕНАЛЬТИ">ПЕНАЛЬТИ</option>
           </select>
         </div>
-        <button class="btn btn-primary" style="width: 100%;" onclick="updatePeriod()">✅</button>
+        <button class="btn btn-primary" style="width: 100%;" onclick="updatePeriod()">✅ Обновить</button>
       </div>
       <div class="admin-card">
-        <h3>⚡ Быстро</h3>
+        <h3>⚡ Быстрые действия</h3>
         <div class="btn-group">
-          <button class="btn btn-warning" onclick="quickGoal('home')">🏠</button>
-          <button class="btn btn-warning" onclick="quickGoal('away')">🏃</button>
+          <button class="btn btn-warning" onclick="quickGoal('home')">🏠 Гол Дом</button>
+          <button class="btn btn-warning" onclick="quickGoal('away')">🏃 Гол Гости</button>
         </div>
       </div>
     </div>
   </div>
-  <div id="toast" class="toast">✓</div>
+  <div id="toast" class="toast">✓ Сохранено!</div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
@@ -724,7 +638,7 @@
           localStartTime = Date.now() - (state.timerSeconds * 1000);
           startTimerInterval();
         }
-        if (!state.timerRunning && oldRunning) { stopTimerInterval(); }
+        if (!state.timerRunning && oldRunning) stopTimerInterval();
         updateScoreboardDisplay();
         updateVariantVisibility();
         updateColorTheme();
@@ -739,8 +653,9 @@
   onValue(ref(db, 'goal_trigger'), (snapshot) => {
     if (snapshot.val() && !ADMIN_MODE) {
       const data = snapshot.val();
-      document.getElementById('goal-animation').classList.add('animate');
-      setTimeout(() => document.getElementById('goal-animation').classList.remove('animate'), 1500);
+      const goalAnim = document.getElementById('goal-animation');
+      goalAnim.classList.add('animate');
+      setTimeout(() => goalAnim.classList.remove('animate'), 1500);
       if (data.team === 'home' && state.logoAnimEnabled && state.homeLogo) {
         const logoAnim = document.getElementById('logo-goal-anim');
         logoAnim.src = state.homeLogo;
@@ -780,12 +695,13 @@
   }
 
   function toggleColorSelector() {
-    document.getElementById('color-selector-container').style.display = state.designVariant === 3 ? 'block' : 'none';
+    const container = document.getElementById('color-selector-container');
+    if (container) container.style.display = state.designVariant === 3 ? 'block' : 'none';
   }
 
   function updateColorTheme() {
     const v3 = document.getElementById('scoreboard-v3');
-    v3.classList.remove('v3-theme-blue','v3-theme-orange','v3-theme-purple','v3-theme-silver','v3-theme-red','v3-theme-green');
+    ['blue','orange','purple','silver','red','green'].forEach(c => v3.classList.remove('v3-theme-' + c));
     v3.classList.add('v3-theme-' + state.colorTheme);
   }
 
@@ -842,9 +758,7 @@
   function showToast() { const t = document.getElementById('toast'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2000); }
 
   if (ADMIN_MODE) {
-    document.getElementById('scoreboard-v1').classList.add('hidden');
-    document.getElementById('scoreboard-v2').classList.add('hidden');
-    document.getElementById('scoreboard-v3').classList.add('hidden');
+    ['v1','v2','v3'].forEach(v => document.getElementById('scoreboard-' + v).classList.add('hidden'));
     document.getElementById('admin-panel').classList.remove('hidden');
     updateAdminDisplay();
   } else {
