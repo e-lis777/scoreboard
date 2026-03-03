@@ -126,7 +126,7 @@
     .sc-v1-time.paused { animation: pulse 1s infinite; }
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
 
-    /* ===== ВАРИАНТ 2: TV СТИЛЬ (ещё более сжатый) ===== */
+    /* ===== ВАРИАНТ 2: TV СТИЛЬ (сжатый) ===== */
     .sc-v2 {
       display: flex;
       flex-direction: column;
@@ -148,7 +148,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 5px 15px;          /* уменьшено с 6px до 5px */
+      padding: 5px 15px;
       flex: 1;
       background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
     }
@@ -162,7 +162,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 5px 20px;          /* уменьшено с 6px до 5px */
+      padding: 5px 20px;
       background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%);
       min-width: 90px;
     }
@@ -206,7 +206,7 @@
       justify-content: center;
       gap: 12px;
       background: rgba(0,0,0,0.85);
-      padding: 2px 15px;          /* уменьшено с 3px до 2px */
+      padding: 2px 15px;
       margin-top: 2px;
       border-radius: 0 0 6px 6px;
       box-shadow: var(--shadow-md);
@@ -231,7 +231,7 @@
       border-radius: 3px;
     }
 
-    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ ===== */
+    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ (темный фон уже) ===== */
     .sc-v3 {
       position: relative;
       display: flex;
@@ -260,7 +260,7 @@
       text-shadow: var(--shadow-sm);
       white-space: nowrap;
       z-index: 15;
-      padding: 0 15px;
+      padding: 0 8px;               /* уменьшено с 15px до 8px */
       max-width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -653,7 +653,7 @@
     </div>
   </div>
 
-  <!-- V2: TV СТИЛЬ (ещё более сжатый) -->
+  <!-- V2: TV СТИЛЬ (сжатый) -->
   <div id="sb-v2" class="sc-v2 hide">
     <div class="sc-v2-bar">
       <div class="sc-v2-team home">
@@ -678,7 +678,7 @@
     </div>
   </div>
 
-  <!-- V3: СЛОИСТЫЙ -->
+  <!-- V3: СЛОИСТЫЙ (темный фон уже) -->
   <div id="sb-v3" class="sc-v3 theme-green hide" style="--strip-width: 180px;">
     <div class="sc-v3-strip home">
       <span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span>
