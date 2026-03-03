@@ -122,7 +122,7 @@
     .sc-v1-time.paused { animation: pulse 1s infinite; }
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
 
-    /* ===== ВАРИАНТ 2: TV СТИЛЬ (полосы уже, лого могут выступать) ===== */
+    /* ===== ВАРИАНТ 2: TV СТИЛЬ (СТАБИЛЬНАЯ ВЕРСИЯ) ===== */
     .sc-v2 {
       display: flex;
       flex-direction: column;
@@ -144,10 +144,9 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 8px 12px;  /* уменьшен горизонтальный padding */
-      flex: 0 1 auto;      /* полоса занимает только необходимую ширину */
+      padding: 8px 15px;
+      flex: 1;
       background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
-      overflow: visible;   /* логотипы могут выступать */
     }
     .sc-v2-team.home { border-right: var(--border-light); }
     .sc-v2-team.away {
@@ -161,8 +160,7 @@
       justify-content: center;
       padding: 8px 20px;
       background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%);
-      min-width: 90px;     /* центральный блок фиксированной ширины */
-      flex: 0 0 auto;
+      min-width: 90px;
     }
     .sc-v2-name {
       font-size: 14px;
@@ -226,18 +224,18 @@
       border-radius: 3px;
     }
 
-    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ (полосы тоньше, лого соперника меньше) ===== */
+    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ ===== */
     .sc-v3 {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto;
-      height: 55px;        /* немного уменьшена общая высота */
+      height: 60px;
     }
     .sc-v3-strip {
       position: relative;
-      height: 30px;        /* уменьшено с 40px */
+      height: 40px;
       width: var(--strip-width, 180px);
       z-index: 1;
       display: flex;
@@ -255,40 +253,35 @@
       text-shadow: var(--shadow-sm);
       white-space: nowrap;
       z-index: 15;
-      padding: 0 10px;      /* уменьшен padding */
+      padding: 0 15px;
       max-width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
       background: rgba(0,0,0,0.3);
       border-radius: 4px;
-      line-height: 30px;    /* соответствует высоте полосы */
+      line-height: 40px;
     }
-    .sc-v3-logo-h {
+    .sc-v3-logo-h, .sc-v3-logo-a {
       position: absolute;
       top: 50%;
-      width: 44px;          /* лого ЛЕГИОНА без изменений */
+      width: 44px;
       height: 44px;
       object-fit: contain;
       filter: drop-shadow(var(--shadow-lg));
       z-index: 10;
+    }
+    .sc-v3-logo-h {
       left: calc(50% - 85px);
       transform: translate(-50%, -50%);
     }
     .sc-v3-logo-a {
-      position: absolute;
-      top: 50%;
-      width: 35px;          /* уменьшено на 20% (было 44px) */
-      height: 35px;
-      object-fit: contain;
-      filter: drop-shadow(var(--shadow-lg));
-      z-index: 10;
       right: calc(50% - 85px);
       transform: translate(50%, -50%);
     }
     .sc-v3-center {
       position: relative;
       width: 170px;
-      height: 48px;         /* чуть уменьшена под новые полосы */
+      height: 52px;
       background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%);
       border-radius: 12px;
       z-index: 5;
@@ -644,7 +637,7 @@
     </div>
   </div>
 
-  <!-- V2: TV СТИЛЬ (полосы уже, лого могут выступать) -->
+  <!-- V2: TV СТИЛЬ (СТАБИЛЬНАЯ ВЕРСИЯ) -->
   <div id="sb-v2" class="sc-v2 hide">
     <div class="sc-v2-bar">
       <div class="sc-v2-team home">
@@ -669,7 +662,7 @@
     </div>
   </div>
 
-  <!-- V3: СЛОИСТЫЙ (полосы тоньше, лого соперника меньше) -->
+  <!-- V3: СЛОИСТЫЙ -->
   <div id="sb-v3" class="sc-v3 theme-green hide" style="--strip-width: 180px;">
     <div class="sc-v3-strip home">
       <span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span>
@@ -696,7 +689,7 @@
   <div id="goal-anim" class="goal-anim">⚽ ГОЛ!</div>
   <img id="logo-anim" class="logo-anim" src="" alt="">
 
-  <!-- АДМИНКА (симметричный заголовок, красная кнопка соперника) -->
+  <!-- АДМИНКА -->
   <div id="admin" class="admin hide">
     <div class="admin-head">
       <h1>🏆 ФК ЛЕГИОН 🏆</h1>
