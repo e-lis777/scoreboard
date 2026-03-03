@@ -1,1 +1,535 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ФК ЛЕГИОН - Табло</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Arial Black', Arial, sans-serif; background: transparent; overflow: hidden; user-select: none; }
+  
+  /* === VARIANT 1: COMPACT === */
+  .sc-v1 { display: flex; align-items: center; width: 100%; max-width: 500px; margin: 0 auto; }
+  .sc-v1-bar { display: flex; align-items: center; width: 100%; background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); border-radius: 10px; padding: 10px 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6); }
+  .sc-v1-half { display: flex; flex-direction: column; align-items: center; flex: 1; padding: 0 15px; }
+  .sc-v1-half.home { border-right: 1px solid rgba(255,255,255,0.1); }
+  .sc-v1-logo { width: 45px !important; height: 45px !important; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+  .sc-v1-name { font-size: 12px !important; font-weight: 900 !important; color: #fff !important; text-transform: uppercase !important; text-align: center !important; text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important; white-space: nowrap !important; margin-top: 4px !important; max-width: 120px !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+  .sc-v1-score-sec { display: flex; flex-direction: column; align-items: center; padding: 0 20px; }
+  .sc-v1-scores { display: flex; align-items: center; gap: 10px; }
+  .sc-v1-score { font-size: 40px !important; font-weight: 900 !important; color: #fff !important; text-shadow: 0 0 15px rgba(0, 150, 255, 0.6) !important; min-width: 40px !important; text-align: center !important; line-height: 1 !important; }
+  .sc-v1-sep { font-size: 28px !important; color: rgba(255,255,255,0.4) !important; }
+  .sc-v1-timer { display: flex; align-items: center; gap: 8px; background: linear-gradient(180deg, #ff4757 0%, #cc3344 100%); padding: 4px 10px; border-radius: 6px; margin-top: 6px; white-space: nowrap; }
+  .sc-v1-period { font-size: 9px !important; font-weight: 900 !important; color: #fff !important; text-transform: uppercase !important; padding: 2px 6px !important; background: rgba(0,0,0,0.3) !important; border-radius: 4px !important; }
+  .sc-v1-time { font-size: 13px !important; font-weight: 900 !important; color: #ffcc00 !important; font-variant-numeric: tabular-nums !important; }
+  .sc-v1-time.paused { animation: pulse 1s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
+  /* === VARIANT 2: TV STYLE === */
+  .sc-v2 { display: flex !important; flex-direction: column !important; align-items: center !important; width: 100% !important; max-width: 550px !important; margin: 0 auto !important; }
+  .sc-v2-bar { display: flex !important; align-items: center !important; width: 100% !important; transform: skewX(-10deg) !important; border-radius: 6px !important; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5) !important; }
+  .sc-v2-team { display: flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; padding: 8px 15px !important; flex: 1 !important; background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%) !important; }
+  .sc-v2-team.home { border-right: 1px solid rgba(255,255,255,0.1) !important; }
+  .sc-v2-team.away { border-left: 1px solid rgba(255,255,255,0.1) !important; background: linear-gradient(90deg, #2d2d2d 0%, #1a1a1a 100%) !important; }
+  .sc-v2-score-sec { display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; padding: 8px 20px !important; background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%) !important; min-width: 90px !important; }
+  .sc-v2-name { font-size: 14px !important; font-weight: 900 !important; color: #fff !important; text-transform: uppercase !important; letter-spacing: 0.5px !important; text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important; white-space: nowrap !important; }
+  .sc-v2-logo { width: 34px !important; height: 34px !important; object-fit: contain !important; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)) !important; transform: skewX(10deg) !important; }
+  .sc-v2-scores { display: flex !important; align-items: center !important; gap: 8px !important; }
+  .sc-v2-score { font-size: 32px !important; font-weight: 900 !important; color: #fff !important; text-shadow: 0 2px 4px rgba(0,0,0,0.5) !important; }
+  .sc-v2-sep { font-size: 20px !important; color: rgba(255,255,255,0.7) !important; }
+  .sc-v2-timer { display: flex !important; align-items: center !important; justify-content: center !important; gap: 12px !important; background: rgba(0,0,0,0.85) !important; padding: 4px 15px !important; margin-top: 2px !important; border-radius: 0 0 6px 6px !important; box-shadow: 0 4px 10px rgba(0,0,0,0.4) !important; }
+  .sc-v2-timer .time { font-size: 12px !important; font-weight: 700 !important; color: #fff !important; font-variant-numeric: tabular-nums !important; }
+  .sc-v2-timer .period { font-size: 10px !important; font-weight: 700 !important; color: rgba(255,255,255,0.7) !important; text-transform: uppercase !important; padding: 1px 6px !important; background: rgba(255,255,255,0.1) !important; border-radius: 3px !important; }
+
+  /* === VARIANT 3: LAYERED === */
+  .sc-v3 { position: relative !important; display: flex !important; align-items: center !important; justify-content: center !important; margin: 0 auto !important; height: 60px !important; }
+  .sc-v3-strip { position: relative !important; height: 50px !important; width: var(--strip-width, 180px) !important; z-index: 1 !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+  .sc-v3-strip.home { border-radius: 4px 0 0 4px !important; }
+  .sc-v3-strip.away { border-radius: 0 4px 4px 0 !important; }
+  .sc-v3-name { font-size: 14px !important; font-weight: 900 !important; color: #fff !important; text-transform: uppercase !important; letter-spacing: 0.5px !important; text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important; white-space: nowrap !important; z-index: 2 !important; padding: 0 15px !important; max-width: 100% !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+  .sc-v3-logo-h { position: absolute !important; left: calc(50% - 85px) !important; top: 50% !important; transform: translate(-50%, -50%) !important; width: 50px !important; height: 50px !important; object-fit: contain !important; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important; z-index: 10 !important; }
+  .sc-v3-logo-a { position: absolute !important; right: calc(50% - 85px) !important; top: 50% !important; transform: translate(50%, -50%) !important; width: 50px !important; height: 50px !important; object-fit: contain !important; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important; z-index: 10 !important; }
+  .sc-v3-center { position: relative !important; width: 170px !important; height: 55px !important; background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%) !important; border-radius: 10px !important; z-index: 5 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important; border: 1px solid rgba(255,255,255,0.8) !important; padding: 6px 0 0 0 !important; }
+  .sc-v3-scores { display: flex !important; align-items: center !important; gap: 8px !important; margin-bottom: 0px !important; flex-shrink: 0 !important; }
+  .sc-v3-score { font-size: 34px !important; font-weight: 900 !important; color: #000 !important; min-width: 32px !important; text-align: center !important; line-height: 1 !important; }
+  .sc-v3-sep { font-size: 20px !important; color: #555 !important; font-weight: 900 !important; }
+  .sc-v3-timer { display: flex !important; align-items: center !important; gap: 4px !important; margin-top: -3px !important; }
+  .sc-v3-timer .time { font-size: 10px !important; font-weight: 900 !important; color: #555 !important; }
+  .sc-v3-timer .period { font-size: 8px !important; font-weight: 900 !important; color: #666 !important; text-transform: uppercase !important; }
+  .sc-v3.theme-blue { --strip-bg: linear-gradient(90deg, #0a1f44 0%, #163675 100%); }
+  .sc-v3.theme-orange { --strip-bg: linear-gradient(90deg, #c2410c 0%, #ea580c 100%); }
+  .sc-v3.theme-purple { --strip-bg: linear-gradient(90deg, #581c87 0%, #7e22ce 100%); }
+  .sc-v3.theme-silver { --strip-bg: linear-gradient(90deg, #404040 0%, #525252 100%); }
+  .sc-v3.theme-red { --strip-bg: linear-gradient(90deg, #991b1b 0%, #dc2626 100%); }
+  .sc-v3.theme-green { --strip-bg: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
+  .sc-v3.theme-blue .sc-v3-strip, .sc-v3.theme-orange .sc-v3-strip, .sc-v3.theme-purple .sc-v3-strip, .sc-v3.theme-silver .sc-v3-strip, .sc-v3.theme-red .sc-v3-strip, .sc-v3.theme-green .sc-v3-strip { background: var(--strip-bg) !important; }
+
+  /* === ANIMATIONS === */
+  .goal-anim { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); font-size: 100px; font-weight: 900; color: #ffd700; text-shadow: 0 0 30px rgba(255, 215, 0, 0.8); z-index: 1000; pointer-events: none; }
+  .goal-anim.active { animation: goalPop 1.5s ease-out; }
+  @keyframes goalPop { 0% { transform: translate(-50%, -50%) scale(0); opacity: 0; } 50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
+  .logo-anim { position: fixed; bottom: -200px; left: -200px; width: 150px; height: 150px; z-index: 1001; pointer-events: none; filter: drop-shadow(0 0 30px rgba(0, 150, 255, 0.8)); opacity: 0; }
+  .logo-anim.active { animation: logoFly 1.5s forwards; }
+  @keyframes logoFly { 0% { bottom: -200px; left: -200px; transform: scale(0.1) rotate(-15deg); opacity: 0; } 30% { opacity: 1; } 100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; } }
+
+  /* === ADMIN === */
+  .admin { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 15px; overflow-y: auto; z-index: 2000; color: #fff; }
+  .admin-head { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .admin-head h1 { color: #00d4ff; font-size: 28px; text-transform: uppercase; margin-bottom: 5px; }
+  .admin-head p { color: rgba(255,255,255,0.5); font-size: 12px; }
+  .admin-grid { display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; }
+  .card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.1); }
+  .card h3 { color: #00d4ff; font-size: 16px; margin-bottom: 15px; text-transform: uppercase; }
+  .fld { margin-bottom: 12px; }
+  .fld label { display: block; color: rgba(255,255,255,0.7); font-size: 12px; margin-bottom: 6px; text-transform: uppercase; }
+  .fld input, .fld select { width: 100%; padding: 14px 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: #fff; font-size: 16px; }
+  .btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn { padding: 14px 16px; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; text-transform: uppercase; cursor: pointer; flex: 1; min-width: 70px; color: #fff; }
+  .btn-p { background: linear-gradient(135deg, #00d4ff, #0099cc); }
+  .btn-s { background: linear-gradient(135deg, #2ed573, #1ea65a); }
+  .btn-w { background: linear-gradient(135deg, #ffa502, #cc8400); }
+  .btn-d { background: linear-gradient(135deg, #ff4757, #cc3344); }
+  .score-in { display: flex; gap: 10px; align-items: flex-end; justify-content: center; }
+  .score-in .fld { flex: 1; text-align: center; }
+  .score-in .sep { font-size: 26px; color: rgba(255,255,255,0.5); padding-bottom: 8px; }
+  .score-in input { width: 65px; text-align: center; font-size: 26px; font-weight: 900; padding: 8px; }
+  .hide { display: none !important; }
+  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: linear-gradient(135deg, #2ed573, #1ea65a); color: #fff; padding: 12px 25px; border-radius: 10px; font-weight: 700; opacity: 0; transition: all 0.3s; z-index: 3000; }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  .var-sel { display: flex; gap: 8px; margin-bottom: 15px; }
+  .var-btn { flex: 1; padding: 12px 8px; border: 2px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(0,0,0,0.3); color: #fff; font-weight: 700; cursor: pointer; font-size: 11px; }
+  .var-btn.act { border-color: #00d4ff; background: rgba(0, 212, 255, 0.2); }
+  .var-btn small { display: block; font-size: 9px; opacity: 0.7; margin-top: 3px; font-weight: 400; }
+  .col-sel { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 12px; }
+  .col-btn { padding: 10px 5px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px; cursor: pointer; font-weight: 700; color: #fff; text-transform: uppercase; font-size: 9px; }
+  .col-btn.act { border-color: #fff; transform: scale(1.05); }
+  .col-blue { background: linear-gradient(135deg, #0a1f44, #163675); }
+  .col-orange { background: linear-gradient(135deg, #c2410c, #ea580c); }
+  .col-purple { background: linear-gradient(135deg, #581c87, #7e22ce); }
+  .col-silver { background: linear-gradient(135deg, #404040, #525252); }
+  .col-red { background: linear-gradient(135deg, #991b1b, #dc2626); }
+  .col-green { background: linear-gradient(135deg, #1b5e20, #2e7d32); }
+  .chk { display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 12px; cursor: pointer; }
+  .chk input { width: 18px; height: 18px; accent-color: #00d4ff; }
+  .chk label { margin: 0; font-size: 13px; cursor: pointer; flex: 1; }
+  .tm-st { display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 12px; }
+  .tm-st .ind { width: 10px; height: 10px; border-radius: 50%; background: #ffa502; }
+  .tm-st .ind.run { background: #2ed573; box-shadow: 0 0 8px #2ed573; animation: pulse 1s infinite; }
+  .tm-st .txt { font-size: 12px; color: rgba(255,255,255,0.8); flex: 1; }
+  @media (min-width: 768px) {
+    .admin { padding: 30px; }
+    .admin-head h1 { font-size: 32px; }
+    .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1100px; }
+    .card { padding: 22px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- V1: COMPACT -->
+  <div id="sb-v1" class="sc-v1">
+    <div class="sc-v1-bar">
+      <div class="sc-v1-half home">
+        <img id="v1-lh" class="sc-v1-logo" src="https://optim.tildacdn.com/tild3762-6363-4166-b532-386532363639/-/resize/140x/-/format/webp/Vector_3.png.webp" alt="">
+        <span id="v1-nh" class="sc-v1-name">ЛЕГИОН</span>
+      </div>
+      <div class="sc-v1-score-sec">
+        <div class="sc-v1-scores">
+          <span id="v1-sh" class="sc-v1-score">0</span>
+          <span class="sc-v1-sep">-</span>
+          <span id="v1-sa" class="sc-v1-score">0</span>
+        </div>
+        <div class="sc-v1-timer">
+          <span id="v1-p" class="sc-v1-period">1 ТАЙМ</span>
+          <span id="v1-t" class="sc-v1-time">00:00</span>
+        </div>
+      </div>
+      <div class="sc-v1-half away">
+        <img id="v1-la" class="sc-v1-logo" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="">
+        <span id="v1-na" class="sc-v1-name">СОПЕРНИК</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- V2: TV STYLE -->
+  <div id="sb-v2" class="sc-v2 hide">
+    <div class="sc-v2-bar">
+      <div class="sc-v2-team home">
+        <img id="v2-lh" class="sc-v2-logo" src="https://optim.tildacdn.com/tild3762-6363-4166-b532-386532363639/-/resize/140x/-/format/webp/Vector_3.png.webp" alt="">
+        <span id="v2-nh" class="sc-v2-name">ЛЕГИОН</span>
+      </div>
+      <div class="sc-v2-score-sec">
+        <div class="sc-v2-scores">
+          <span id="v2-sh" class="sc-v2-score">0</span>
+          <span class="sc-v2-sep">-</span>
+          <span id="v2-sa" class="sc-v2-score">0</span>
+        </div>
+      </div>
+      <div class="sc-v2-team away">
+        <span id="v2-na" class="sc-v2-name">СОПЕРНИК</span>
+        <img id="v2-la" class="sc-v2-logo" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="">
+      </div>
+    </div>
+    <div class="sc-v2-timer">
+      <span id="v2-t" class="time">00:00</span>
+      <span id="v2-p" class="period">1 ТАЙМ</span>
+    </div>
+  </div>
+
+  <!-- V3: LAYERED -->
+  <div id="sb-v3" class="sc-v3 theme-green hide" style="--strip-width: 180px;">
+    <div class="sc-v3-strip home">
+      <span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span>
+    </div>
+    <div class="sc-v3-center">
+      <div class="sc-v3-scores">
+        <span id="v3-sh" class="sc-v3-score">0</span>
+        <span class="sc-v3-sep">-</span>
+        <span id="v3-sa" class="sc-v3-score">0</span>
+      </div>
+      <div class="sc-v3-timer">
+        <span id="v3-t" class="time">00:00</span>
+        <span id="v3-p" class="period">1 ТАЙМ</span>
+      </div>
+    </div>
+    <div class="sc-v3-strip away">
+      <span id="v3-na" class="sc-v3-name">СОПЕРНИК</span>
+    </div>
+    <img id="v3-lh" class="sc-v3-logo-h" src="https://optim.tildacdn.com/tild3762-6363-4166-b532-386532363639/-/resize/140x/-/format/webp/Vector_3.png.webp" alt="">
+    <img id="v3-la" class="sc-v3-logo-a" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="">
+  </div>
+
+  <div id="goal-anim" class="goal-anim">⚽ ГОЛ!</div>
+  <img id="logo-anim" class="logo-anim" src="" alt="">
+
+  <!-- ADMIN -->
+  <div id="admin" class="admin hide">
+    <div class="admin-head">
+      <h1>🏆 ФК ЛЕГИОН</h1>
+      <p>Управление табло</p>
+    </div>
+    <div class="admin-grid">
+      <div class="card">
+        <h3>🎨 Дизайн плашки</h3>
+        <div class="var-sel">
+          <button class="var-btn act" onclick="setV(1)">В-1<small>Компакт</small></button>
+          <button class="var-btn" onclick="setV(2)">В-2<small>TV Style</small></button>
+          <button class="var-btn" onclick="setV(3)">В-3<small>Слои</small></button>
+        </div>
+        <div id="col-cont">
+          <div class="col-sel">
+            <button class="col-btn col-blue act" onclick="setC('blue')">Синий</button>
+            <button class="col-btn col-orange" onclick="setC('orange')">Оранж</button>
+            <button class="col-btn col-purple" onclick="setC('purple')">Фиолет</button>
+            <button class="col-btn col-silver" onclick="setC('silver')">Серебро</button>
+            <button class="col-btn col-red" onclick="setC('red')">Красный</button>
+            <button class="col-btn col-green" onclick="setC('green')">Зелёный</button>
+          </div>
+        </div>
+        <div class="chk" style="margin-top: 15px;" onclick="togAnim()">
+          <input type="checkbox" id="anim-chk">
+          <label for="anim-chk">🎬 Анимация лого при голе</label>
+        </div>
+      </div>
+      <div class="card">
+        <h3>📋 СОПЕРНИК</h3>
+        <div class="fld"><label>Название команды</label><input type="text" id="adm-na" placeholder="Название"></div>
+        <div class="fld"><label>Логотип (URL)</label><input type="text" id="adm-la" placeholder="https://..."></div>
+        <button class="btn btn-p" onclick="saveOpponent()">💾 Сохранить</button>
+      </div>
+      <div class="card">
+        <h3>📊 Счёт</h3>
+        <div class="score-in">
+          <div class="fld"><label>ЛЕГИОН</label><input type="number" id="adm-sh" value="0" min="0"></div>
+          <div class="sep">-</div>
+          <div class="fld"><label>СОПЕРНИК</label><input type="number" id="adm-sa" value="0" min="0"></div>
+        </div>
+        <div class="btns" style="margin-top: 12px;">
+          <button class="btn btn-s" onclick="updS()">✅ Обновить</button>
+          <button class="btn btn-w" onclick="trigG()">⚽ ГОЛ!</button>
+          <button class="btn btn-d" onclick="rstS()">🔄 Сброс</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>⏱️ Таймер</h3>
+        <div class="tm-st">
+          <span id="tm-ind" class="ind"></span>
+          <span id="tm-txt" class="txt">Остановлен</span>
+        </div>
+        <div class="btns">
+          <button class="btn btn-s" onclick="tmStart()">▶️ Старт</button>
+          <button class="btn btn-w" onclick="tmPause()">⏸️ Пауза</button>
+          <button class="btn btn-d" onclick="tmRst()">🔄 Сброс</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>📍 Тайм</h3>
+        <div class="fld">
+          <select id="adm-p">
+            <option value="1 ТАЙМ">1 ТАЙМ</option>
+            <option value="2 ТАЙМ">2 ТАЙМ</option>
+            <option value="ПЕРЕРЫВ">ПЕРЕРЫВ</option>
+            <option value="ДОП. ТАЙМ">ДОП. ТАЙМ</option>
+            <option value="ПЕНАЛЬТИ">ПЕНАЛЬТИ</option>
+          </select>
+        </div>
+        <button class="btn btn-p" style="width: 100%;" onclick="updP()">✅ Обновить</button>
+      </div>
+      <div class="card">
+        <h3>⚡ Быстрые действия</h3>
+        <div class="btns">
+          <button class="btn btn-s" onclick="qG('h')">⚽ ГОЛ ЛЕГИОН</button>
+          <button class="btn btn-w" onclick="qG('a')">⚽ ГОЛ СОПЕРНИК</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="toast" class="toast">✓ Сохранено!</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAFb-yJaI7WJFcTx_wAFmSngupHqUNai1I",
+    authDomain: "scoreboard-6d34c.firebaseapp.com",
+    databaseURL: "https://scoreboard-6d34c-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "scoreboard-6d34c",
+    storageBucket: "scoreboard-6d34c.firebasestorage.app",
+    messagingSenderId: "11785107743",
+    appId: "1:11785107743:web:a8faa98d6aaf4462dd582a"
+  };
+
+  const LEGION_LOGO = "https://optim.tildacdn.com/tild3762-6363-4166-b532-386532363639/-/resize/140x/-/format/webp/Vector_3.png.webp";
+  const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png";
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const DB_KEY = 'legion_match_v1';
+  const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
+
+  let state = {
+    opponentName: 'СОПЕРНИК',
+    opponentLogo: '',
+    legionScore: 0,
+    opponentScore: 0,
+    timerSeconds: 0,
+    timerRunning: false,
+    period: '1 ТАЙМ',
+    designVariant: 3,
+    colorTheme: 'green',
+    logoAnimEnabled: true
+  };
+
+  let timerInterval = null;
+  let localStartTime = null;
+
+  const dataRef = ref(db, DB_KEY);
+  onValue(dataRef, (snapshot) => {
+    const data = snapshot.val();
+    if (data) {
+      const oldRunning = state.timerRunning;
+      state = { ...state, ...data };
+      if (!ADMIN) {
+        if (state.timerRunning && !oldRunning) {
+          localStartTime = Date.now() - (state.timerSeconds * 1000);
+          startTimerInterval();
+        }
+        if (!state.timerRunning && oldRunning) stopTimerInterval();
+        updateSB();
+        updateVis();
+        updateCol();
+        togCol();
+        updAnimChk();
+      } else {
+        updateAdmin();
+      }
+    }
+  });
+
+  onValue(ref(db, 'goal_trigger'), (snapshot) => {
+    if (snapshot.val() && !ADMIN) {
+      const data = snapshot.val();
+      const ga = document.getElementById('goal-anim');
+      ga.classList.add('active');
+      setTimeout(() => ga.classList.remove('active'), 1500);
+      if (data.team === 'legion' && state.logoAnimEnabled) {
+        const la = document.getElementById('logo-anim');
+        la.src = LEGION_LOGO;
+        la.classList.remove('active');
+        setTimeout(() => la.classList.add('active'), 50);
+        setTimeout(() => { la.classList.remove('active'); la.src = ''; }, 1600);
+      }
+    }
+  });
+
+  function updateSB() {
+    const oppLogo = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
+    ['v1','v2','v3'].forEach(v => {
+      document.getElementById(`${v}-lh`).src = LEGION_LOGO;
+      document.getElementById(`${v}-la`).src = oppLogo;
+      document.getElementById(`${v}-nh`).textContent = 'ЛЕГИОН';
+      document.getElementById(`${v}-na`).textContent = state.opponentName;
+      document.getElementById(`${v}-sh`).textContent = state.legionScore;
+      document.getElementById(`${v}-sa`).textContent = state.opponentScore;
+      document.getElementById(`${v}-p`).textContent = state.period;
+    });
+    updateTime();
+    updateV3Width();
+  }
+
+  function updateV3Width() {
+    const v3 = document.getElementById('sb-v3');
+    const maxLen = Math.max(7, state.opponentName.length, 6);
+    const stripWidth = Math.min(Math.max(maxLen * 13 + 30, 140), 220);
+    v3.style.setProperty('--strip-width', stripWidth + 'px');
+  }
+
+  function updateTime() {
+    const m = Math.floor(state.timerSeconds / 60);
+    const s = state.timerSeconds % 60;
+    const t = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+    ['v1','v2','v3'].forEach(v => document.getElementById(`${v}-t`).textContent = t);
+    document.getElementById('v1-t').classList.toggle('paused', !state.timerRunning);
+  }
+
+  function updateVis() {
+    document.getElementById('sb-v1').classList.toggle('hide', state.designVariant !== 1);
+    document.getElementById('sb-v2').classList.toggle('hide', state.designVariant !== 2);
+    document.getElementById('sb-v3').classList.toggle('hide', state.designVariant !== 3);
+    togCol();
+  }
+
+  function togCol() {
+    const c = document.getElementById('col-cont');
+    if (c) c.style.display = state.designVariant === 3 ? 'block' : 'none';
+  }
+
+  function updateCol() {
+    const v3 = document.getElementById('sb-v3');
+    v3.classList.remove('theme-blue', 'theme-orange', 'theme-purple', 'theme-silver', 'theme-red', 'theme-green');
+    v3.classList.add('theme-' + state.colorTheme);
+  }
+
+  function updateAdmin() {
+    document.getElementById('adm-na').value = state.opponentName;
+    document.getElementById('adm-la').value = state.opponentLogo;
+    document.getElementById('adm-sh').value = state.legionScore;
+    document.getElementById('adm-sa').value = state.opponentScore;
+    document.getElementById('adm-p').value = state.period;
+    document.getElementById('anim-chk').checked = state.logoAnimEnabled;
+    document.querySelectorAll('.var-btn').forEach((b, i) => b.classList.toggle('act', i + 1 === state.designVariant));
+    document.querySelectorAll('.col-btn').forEach(b => b.classList.toggle('act', b.classList.contains('col-' + state.colorTheme)));
+    togCol();
+    const ind = document.getElementById('tm-ind');
+    const txt = document.getElementById('tm-txt');
+    if (state.timerRunning) { ind.classList.add('run'); txt.textContent = 'Запущен'; }
+    else { ind.classList.remove('run'); txt.textContent = 'Остановлен'; }
+  }
+
+  function updAnimChk() {
+    const c = document.getElementById('anim-chk');
+    if (c) c.checked = state.logoAnimEnabled;
+  }
+
+  function startTimer() { state.timerRunning = true; update(ref(db, DB_KEY), { timerRunning: true }); toast(); }
+  function pauseTimer() { state.timerRunning = false; update(ref(db, DB_KEY), { timerRunning: false }); toast(); }
+  function tmRst() { 
+    state.timerRunning = false; 
+    state.timerSeconds = 0; 
+    localStartTime = null;
+    update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: 0 }); 
+    updateTime();
+    toast(); 
+  }
+
+  function startTimerInterval() {
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      state.timerSeconds = Math.floor((Date.now() - localStartTime) / 1000);
+      updateTime();
+      if (state.timerSeconds % 5 === 0) update(ref(db, DB_KEY), { timerSeconds: state.timerSeconds });
+    }, 1000);
+  }
+
+  function stopTimerInterval() { if (timerInterval) clearInterval(timerInterval); timerInterval = null; }
+
+  window.setV = (v) => { state.designVariant = v; update(ref(db, DB_KEY), { designVariant: v }); toast(); };
+  window.setC = (c) => { state.colorTheme = c; update(ref(db, DB_KEY), { colorTheme: c }); toast(); };
+  window.togAnim = () => { setTimeout(() => { state.logoAnimEnabled = document.getElementById('anim-chk').checked; update(ref(db, DB_KEY), { logoAnimEnabled: state.logoAnimEnabled }); toast(); }, 50); };
+  
+  window.saveOpponent = () => {
+    state.opponentName = document.getElementById('adm-na').value || 'СОПЕРНИК';
+    state.opponentLogo = document.getElementById('adm-la').value;
+    update(ref(db, DB_KEY), state);
+    toast();
+  };
+  
+  window.updS = () => {
+    state.legionScore = parseInt(document.getElementById('adm-sh').value) || 0;
+    state.opponentScore = parseInt(document.getElementById('adm-sa').value) || 0;
+    update(ref(db, DB_KEY), state);
+    toast();
+  };
+  
+  window.rstS = () => {
+    state.legionScore = 0;
+    state.opponentScore = 0;
+    document.getElementById('adm-sh').value = 0;
+    document.getElementById('adm-sa').value = 0;
+    update(ref(db, DB_KEY), state);
+    toast();
+  };
+  
+  window.trigG = () => {
+    set(ref(db, 'goal_trigger'), { time: Date.now(), team: 'none' });
+    setTimeout(() => set(ref(db, 'goal_trigger'), null), 2000);
+  };
+  
+  window.qG = (t) => {
+    if (t === 'legion') {
+      state.legionScore++;
+      document.getElementById('adm-sh').value = state.legionScore;
+    } else {
+      state.opponentScore++;
+      document.getElementById('adm-sa').value = state.opponentScore;
+    }
+    update(ref(db, DB_KEY), state);
+    set(ref(db, 'goal_trigger'), { time: Date.now(), team: t });
+    setTimeout(() => set(ref(db, 'goal_trigger'), null), 2000);
+    toast();
+  };
+  
+  window.tmStart = () => { startTimer(); };
+  window.tmPause = () => { pauseTimer(); };
+  window.tmRst = () => { tmRst(); };
+  
+  window.updP = () => {
+    state.period = document.getElementById('adm-p').value;
+    if (state.period === 'ПЕРЕРЫВ' && state.timerRunning) pauseTimer();
+    update(ref(db, DB_KEY), state);
+    toast();
+  };
+  
+  function toast() {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  }
+
+  if (ADMIN) {
+    ['v1','v2','v3'].forEach(v => document.getElementById('sb-' + v).classList.add('hide'));
+    document.getElementById('admin').classList.remove('hide');
+    updateAdmin();
+  } else {
+    updateSB();
+    updateVis();
+    updateCol();
+    if (state.timerRunning) {
+      localStartTime = Date.now() - (state.timerSeconds * 1000);
+      startTimerInterval();
+    }
+  }
+</script>
+</body>
+</html>
