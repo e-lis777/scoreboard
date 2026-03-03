@@ -444,7 +444,16 @@
       text-align: center; margin-bottom: 20px; padding-bottom: 15px;
       border-bottom: var(--border-light);
     }
-    .admin-head h1 { color: #00d4ff; font-size: 28px; text-transform: uppercase; margin-bottom: 5px; }
+    .admin-head h1 {
+      color: #00d4ff; /* цвет для эмодзи */
+      font-size: 28px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    /* зеленый цвет для текста "ФК ЛЕГИОН" */
+    .admin-head .team-name-green {
+      color: #4caf50;
+    }
     .admin-head p { color: rgba(255,255,255,0.5); font-size: 12px; }
     .admin-grid { display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; }
     .card {
@@ -528,6 +537,11 @@
       border-top: 1px solid rgba(255,255,255,0.1);
       color: rgba(255,255,255,0.6);
       font-size: 14px;
+    }
+    /* очень тонкий шрифт для подписи */
+    .admin-footer p {
+      font-weight: 100;
+      font-family: Arial, sans-serif;
     }
 
     @media (min-width: 768px) {
@@ -620,10 +634,12 @@
   <div id="goal-anim" class="goal-anim">⚽ ГОЛ!</div>
   <img id="logo-anim" class="logo-anim" src="" alt="">
 
-  <!-- АДМИНКА -->
+  <!-- АДМИНКА с изменениями -->
   <div id="admin" class="admin hide">
     <div class="admin-head">
-      <h1>🏆 ФК ЛЕГИОН 🏆</h1>
+      <h1>
+        <span class="team-name-green">🏆 ФК ЛЕГИОН 🏆</span>
+      </h1>
       <p>Управление табло</p>
     </div>
     <div class="admin-grid">
@@ -701,7 +717,7 @@
         </div>
       </div>
     </div>
-    <!-- Футер админки -->
+    <!-- Футер админки с тонким шрифтом -->
     <div class="admin-footer">
       <p>Сделал li sits in. Болеем за наших!</p>
     </div>
