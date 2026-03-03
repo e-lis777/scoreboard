@@ -18,7 +18,6 @@ body {
   --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
   --border-light: 1px solid rgba(255,255,255,0.1);
   --text-white: #fff;
-  --transition: all 0.2s ease;
   --accent-green: #4caf50;
 }
 
@@ -49,8 +48,8 @@ body {
 .sc-v1-half.home { border-right: var(--border-light); }
 .sc-v1-half.away { border-left: var(--border-light); }
 .sc-v1-logo {
-  width: 67px; /* +20% */
-  height: 67px; /* +20% */
+  width: 67px; /* +20% от 56px */
+  height: 67px;
   object-fit: contain;
   filter: drop-shadow(var(--shadow-sm));
 }
@@ -110,7 +109,7 @@ body {
   color: var(--text-white);
   text-transform: uppercase;
   padding: 2px 6px;
-  background:0,0,0,0.3);
+  background: rgba(0,0,0,0.3);
   border-radius: 4px;
 }
 .sc-v1-time {
@@ -172,8 +171,8 @@ body {
   white-space: nowrap;
 }
 .sc-v2-logo {
-  width: 50px; /* +20% */
-  height: 50px; /* +20% */
+  width: 50px; /* +20% от 42px */
+  height: 50px;
   object-fit: contain;
   filter: drop-shadow(var(--shadow-sm));
   transform: skewX(8deg);
@@ -260,19 +259,19 @@ body {
 .sc-v3-logo-h {
   position: absolute;
   top: 50%;
-  width: 65px; /* +20% */
-  height: 65px; /* +20% */
+  width: 65px; /* +20% от 55px */
+  height: 65px;
   object-fit: contain;
   filter: drop-shadow(var(--shadow-lg));
   z-index: 10;
-  left: calc(50% - 85px);
+ left: calc(50% - 85px);
   transform: translate(-50%, -50%);
 }
 .sc-v3-logo-a {
   position: absolute;
   top: 50%;
-  width: 65px; /* +20% */
-  height: 65px; /* +20% */
+  width: 65px;
+  height: 65px;
   object-fit: contain;
   filter: drop-shadow(var(--shadow-lg));
   z-index: 10;
@@ -338,56 +337,6 @@ body {
   text-transform: uppercase;
 }
 
-/* ===== ЦВЕТОВЫЕ ТЕМЫ ===== */
-.theme-classic1 .sc-v1-bar { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); }
-.theme-classic1 .sc-v1-timer { background: linear-gradient(180deg, #ff4757 0%, #cc3344 100%); }
-.theme-classic1 .sc-v1-time { color: #ffcc00; }
-.theme-classic1 .sc-v2-team { background: linear-gradient(90deg, #1a1a2e 0%, #16213e 100%); }
-.theme-classic1 .sc-v2-team.away { background: linear-gradient(90deg, #16213e 0%, #1a1a2e 100%); }
-.theme-classic1 .sc-v2-score-sec { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); }
-.theme-classic1 .sc-v2-timer { background: linear-gradient(180deg, #ff4757 0%, #cc3344 100%); }
-.theme-classic1 .sc-v2-timer .time { color: #ffcc00; }
-.theme-classic1 .sc-v3-strip { background: linear-gradient(90deg, #1a1a2e 0%, #16213e 100%); }
-.theme-classic2 .sc-v1-bar { background: linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 100%); }
-.theme-classic2 .sc-v1-timer { background: rgba(0,0,0,0.85); }
-.theme-classic2 .sc-v1-time { color: #fff; }
-.theme-classic2 .sc-v2-team { background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%); }
-.theme-classic2 .sc-v2-team.away { background: linear-gradient(90deg, #2d2d2d 0%, #1a1a1a 100%); }
-.theme-classic2 .sc-v2-score-sec { background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%); }
-.theme-classic2 .sc-v2-timer { background: rgba(0,0,0,0.85); }
-.theme-classic2 .sc-v2-timer .time { color: #fff; }
-.theme-classic2 .sc-v3-strip { background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%); }
-.theme-blue .sc-v1-bar { background: linear-gradient(180deg, #0a1f44 0%, #163675 100%); }
-.theme-blue .sc-v1-timer { background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%); }
-.theme-blue .sc-v2-team { background: linear-gradient(90deg, #0a1f44 0%, #163675 100%); }
-.theme-blue .sc-v2-score-sec { background: linear-gradient(180deg, #0a1f44 0%, #163675 100%); }
-.theme-blue .sc-v3-strip { background: linear-gradient(90deg, #0a1f44 0%, #163675 100%); }
-.theme-orange .sc-v1-bar { background: linear-gradient(180deg, #c2410c 0%, #ea580c 100%); }
-.theme-orange .sc-v1-timer { background: linear-gradient(180deg, #c2410c 0%, #ea580c 100%); }
-.theme-orange .sc-v2-team { background: linear-gradient(90deg, #c240c %, #ea580c 100%); }
-.theme-orange .sc-v2-score-sec { background: linear-gradient(180deg, #c2410c 0%, #ea580c 100%); }
-.theme-orange .sc-v3-strip { background: linear-gradient(90deg, #c2410c 0%, #ea580c 100%); }
-.theme-purple .sc-v1-bar { background: linear-gradient(180deg, #581c87 0%, #7e22ce 100%); }
-.theme-purple .sc-v1-timer { background: linear-gradient(180deg, #581c87 0%, #7e22ce 100%); }
-.theme-purple .sc-v2-team { background: linear-gradient(90deg, #581c87 0%, #7e22ce 100%); }
-.theme-purple .sc-v2-score-sec { background: linear-gradient(180deg, #581c87 0%, #7e22ce 100%); }
-.theme-purple .sc-v3-strip { background: linear-gradient(90deg, #581c87 0%, #7e22ce 100%); }
-.theme-silver .sc-v1-bar { background: linear-gradient(180deg, #404040 0%, #525252 100%); }
-.theme-silver .sc-v1-timer { background: linear-gradient(180deg, #404040 0%, #525252 100%); }
-.theme-silver .sc-v2-team { background: linear-gradient(90deg, #404040 0%, #525252 10%); }
-.theme-silver .sc-v2-score-sec { background: linear-gradient(180deg, #404040 0%, #525252 100%); }
-.theme-silver .sc-v3-strip { background: linear-gradient(90deg, #404040 0%, #525252 100%); }
-.theme-red .sc-v1-bar { background: linear-gradient(180deg, #991b1b 0%, #dc2626 100%); }
-.theme-red .sc-v1-timer { background: linear-gradient(180deg, #991b1b 0%, #dc2626 100%); }
-.theme-red .sc-v2-team { background: linear-gradient(90deg, #991b1b 0%, #dc2626 100%); }
-.theme-red .sc-v2-score-sec { background: linear-gradient(180deg, #991b1b 0%, #dc2626 100%); }
-.theme-red .sc-v3-strip { background: linear-gradient(90deg, #991b1b 0%, #dc2626 100%); }
-.theme-green .sc-v1-bar { background: linear-gradient(180deg, #1b5e20 0%, #2e7d32 100%); }
-.theme-green .sc-v1-timer { background: linear-gradient(180deg, #1b5e20 0%, #2e7d32 100%); }
-.theme-green .sc-v2-team { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
-.theme-green .sc-v2-score-sec { background: linear-gradient(180deg, #1b5e20 0%, #2e7d32 100%); }
-.theme-green .sc-v3-strip { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
-
 /* ===== КАРТОЧКА ГОЛА (ЛОГО ВВЕРХ) ===== */
 .goal-card {
   position: fixed;
@@ -422,8 +371,8 @@ body {
   top: -35%; /* Выступает вверх на 35% */
   left: 50%;
   transform: translateX(-50%);
-  width: 90px; /* +20% */
-  height: 90px; /* +20% */
+  width: 90px; /* +20% от 75px */
+  height: 90px;
   object-fit: contain;
   filter: drop-shadow(0 4px 12px rgba(76, 175, 80, 0.6));
   z-index: 2002;
@@ -512,7 +461,7 @@ body {
   text-transform: uppercase;
 }
 .player-buttons {
-  display:;
+  display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 5px;
@@ -569,7 +518,7 @@ body {
 @keyframes logoFly {
   0% { bottom: -200px; left: -200px; transform: scale(0.1) rotate(-15deg); opacity: 0; }
   30% { opacity: 1; }
-  100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; }
+  100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15 rotate(-25deg); opacity: 0; }
 }
 
 /* ===== АДМИНКА ===== */
@@ -594,7 +543,7 @@ body {
   color: #4caf50;
 }
 .admin-head p { color: rgba(255,255,255,0.5); font-size: 12px; }
-.admin-grid { display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; }
+.admin-grid { display: flex; flex-direction: column; gap: ; max-width: 500px; margin: 0 auto; }
 .card {
   background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px;
   border: var(--border-light);
@@ -611,7 +560,7 @@ body {
 .btn {
   padding: 14px 16px; border: none; border-radius: 8px; font-size: 13px; font-weight: 700;
   text-transform: uppercase; cursor: pointer; flex: 1; min-width: 70px;
-  color: var(--text-white); transition: var(--transition);
+  color: var(--text-white); transition: all 0.2s;
 }
 .btn:active { transform: scale(0.96); }
 .btn-p { background: linear-gradient(135deg, #00d4ff, #0099cc); }
@@ -628,14 +577,14 @@ body {
   transform: translateX(-50%) translateY(100px);
   background: linear-gradient(135deg, #2ed573, #1ea65a);
   color: var(--text-white); padding: 12px 25px; border-radius: 10px;
-  font-weight: 700; opacity: 0; transition: var(--transition); z-index: 3000;
+  font-weight: 700; opacity: 0; transition: all 0.3s; z-index: 3000;
 }
 .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 .var-sel { display: flex; gap: 8px; margin-bottom: 15px; }
 .var-btn {
-  flex: 1; padding: 12px 8px; border: 2px solid rgba(255,255,255,0.2);
+: 1; padding: 12px 8px; border: 2px solid rgba(255,255,255,0.2);
   border-radius: 8px; background: rgba(0,0,0,0.3); color: var(--text-white);
-  font-weight: 700; cursor: pointer; font-size: 11px; transition: var(--transition);
+  font-weight: 700; cursor: pointer; font-size: 11px; transition: all 0.2s;
 }
 .var-btn.act { border-color: #00d4ff; background: rgba(0,212,255,0.2); }
 .var-btn small { display: block; font-size: 9px; opacity: 0.7; margin-top: 3px; }
@@ -643,7 +592,7 @@ body {
 .col-btn {
   padding: 10px 5px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px;
   cursor: pointer; font-weight: 700; color: var(--text-white); text-transform: uppercase;
-  font-size: 9px; transition: var(--transition);
+  font-size: 9px; transition: all 0.2s;
 }
 .col-btn.act { border-color: #fff; transform: scale(1.05); }
 .col-blue { background: linear-gradient(135deg, #0a1f44, #163675); }
@@ -743,7 +692,7 @@ body {
 <!-- V3 -->
 <div id="sb-v3" class="sc-v3 theme-green hide" style="--strip-width: 180px;">
   <div class="sc-v3-strip home">
-   span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span>
+    <span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span>
   </div>
   <div class="sc-v3-center">
     <div class="sc-v3-scores">
@@ -781,7 +730,7 @@ body {
   <div class="modal-content">
     <h3>⚽ Выберите автора гола</h3>
     <div class="modal-body">
-      <div id="scorer-buttons" class="player-buttons"></div>
+      <div id="scorer" class="player-buttons"></div>
     </div>
   </div>
 </div>
@@ -808,7 +757,7 @@ body {
         <button class="col-btn col-classic1" data-color="classic1">Классика 1</button>
         <button class="col-btn col-classic2" data-color="classic2">Классика 2</button>
       </div>
-      <div class="chk"><input type="checkbox" id="anim-chk"><label for="anim-chk">🎬 Анимация лого при голе</label></div>
+      <div class="chk"><input type="checkbox" id="anim-chk"><label for="anim-chk">🎬нимация лого при голе</label></div>
     </div>
     <div class="card"><h3>📋 СОПЕРНИК</h3>
       <div class="fld"><label>Название команды</label><input type="text" id="adm-na" placeholder="Название"></div>
@@ -835,7 +784,7 @@ body {
         <button class="btn btn-d" id="timerResetBtn">🔄 Сброс</button>
       </div>
     </div>
-    <div class="card"><h3>📍 Тайм</h3>
+    <div class="card"><h3>📍айм</h3>
       <div class="fld"><select id="adm-p">
         <option value="1 ТАЙМ">1 ТАЙМ</option>
         <option value="2 ТАЙМ">2 ТАЙМ</option>
@@ -857,9 +806,7 @@ body {
 <div id="toast" class="toast">✓ Сохранено!</div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
-
+// === 1. ИНИЦИАЛИЗАЦИЯ ===
 const firebaseConfig = {
   apiKey: "AIzaSyAFb-yJaI7WJFcTx_wAFmSngupHqUNai1I",
   authDomain: "scoreboard-6d34c.firebaseapp.com",
@@ -870,16 +817,15 @@ const firebaseConfig = {
   appId: "1:11785107743:web:a8faa98d6aaf4462dd582a"
 };
 
-// === КОНСТАНТЫ ===
-const LEGION_LOGO = "https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg";
-const PLAYERS_JSON_URL = "https://raw.githubusercontent.com/e-lis777/scoreboard/c2b7d591ff4a076125c01bf35a807eeb05a1a84b/data/players.json";
-const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png";
-const DB_KEY = 'legion_match_v1';
-const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const DB_KEY = 'legion_match_v1';
+const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 
+// === 2. СОСТОЯНИЕ ===
 let state = {
   opponentName: 'СОПЕРНИК',
   opponentLogo: '',
@@ -896,8 +842,8 @@ let state = {
 let timerInterval = null;
 let localStartTime = null;
 let players = [];
-let firstLoad = true; // ✅ Ключевой флаг для фикса 18 минут
 
+// === 3. ЭЛЕМЕНТЫ ===
 const elements = {
   v1: { lh: document.getElementById('v1-lh'), la: document.getElementById('v1-la'), nh: document.getElementById('v1-nh'), na: document.getElementById('v1-na'), sh: document.getElementById('v1-sh'), sa: document.getElementById('v1-sa'), p: document.getElementById('v1-p'), t: document.getElementById('v1-t') },
   v2: { lh: document.getElementById('v2-lh'), la: document.getElementById('v2-la'), nh: document.getElementById('v2-nh'), na: document.getElementById('v2-na'), sh: document.getElementById('v2-sh'), sa: document.getElementById('v2-sa'), p: document.getElementById('v2-p'), t: document.getElementById('v2-t') },
@@ -929,7 +875,12 @@ const elements = {
   scorerButtons: document.getElementById('scorer-buttons')
 };
 
-// === ЗАГРУЗКА ИГРОКОВ ===
+// === 4. КОНСТАНТЫ ===
+const LEGION_LOGO = "https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg";
+const PLAYERS_JSON_URL = "https://raw.githubusercontent.com/e-lis777/scoreboard/c2b7d591ff4a076125c01bf35a807eeb05a1a84b/data/players.json";
+const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png";
+
+// === 5. ЗАГРУЗКА ИГРОКОВ ===
 async function loadPlayers() {
   try {
     const response = await fetch(PLAYERS_JSON_URL);
@@ -948,7 +899,7 @@ async function loadPlayers() {
   }
 }
 
-// === МОДАЛЬНОЕ ОКНО ===
+// === 6. МОДАЛЬНОЕ ОКНО ===
 function openGoalModal() {
   if (!players.length) {
     toast('Список игроков не загружен');
@@ -961,10 +912,10 @@ function selectScorerAndGoal(player) {
   state.legionScore++;
   elements.admin.sh.value = state.legionScore;
   update(ref(db, DB_KEY), { legionScore: state.legionScore }).catch(console.error);
-  
+
   const animData = { time: Date.now(), team: 'legion' };
   set(ref(db, 'goal_trigger'), animData).catch(console.error);
-  
+
   setTimeout(() => {
     const goalData = {
       team: 'legion',
@@ -976,7 +927,7 @@ function selectScorerAndGoal(player) {
       .then(() => setTimeout(() => set(ref(db, 'live_goal'), null), 100))
       .catch(console.error);
   }, 2000);
-  
+
   elements.goalModal.classList.add('hidden');
   toast('⚽ Гол!');
 }
@@ -984,7 +935,7 @@ function selectScorerAndGoal(player) {
 function renderPlayerButtons() {
   if (!elements.scorerButtons) return;
   elements.scorerButtons.innerHTML = '';
-  players.forEach(player => {
+  players.forEach {
     const btn = document.createElement('button');
     btn.className = 'player-btn';
     btn.textContent = player.shortName;
@@ -993,98 +944,7 @@ function renderPlayerButtons() {
   });
 }
 
-// === ПОДПИСКА НА ДАННЫЕ (ФИКС 18 МИНУТ) ===
-const dataRef = ref(db, DB_KEY);
-onValue(dataRef, (snapshot) => {
-  const data = snapshot.val();
-  if (!data) return;
-
-  const oldRunning = state.timerRunning;
-  state = { ...state, ...data };
-
-  if (!ADMIN) {
-    // ✅ КРИТИЧЕСКИЙ ФИКС: первый запуск с timerRunning=true
-    if (state.timerRunning && firstLoad) {
-      // Если в Firebase timerSeconds > 600 (10 мин), считаем его устаревшим
-      if (state.timerSeconds > 600) {
-        console.warn(`[FIX] Обнаружен старый timerSeconds=${state.timerSeconds}. Сбрасываем до 0.`);
-        state.timerSeconds = 0;
-        update(ref(db, DB_KEY), { timerSeconds: 0 }).catch(console.error);
-      }
-      // В любом случае — запускаем с текущего момента
-      localStartTime = Date.now();
-      startTimerInterval(false);
-      firstLoad = false;
-      return;
-    }
-
-    // Обычная логика
-    if (state.timer && !oldRunning) {
-      localStartTime = Date.now() - (state.timerSeconds * 1000);
-      startTimerInterval(false);
-    }
-    if (!state.timerRunning && oldRunning) {
-      stopTimerInterval();
-    }
-
-    updateAllVariants();
-    updateVisibility();
-    applyColorTheme();
-    updateAnimCheckbox();
-  } else {
-    updateAdminPanel();
-  }
-});
-
-// === ПОДПИСКА НА ТРИГГЕРЫ ===
-let lastGoalTriggerTime = 0;
-onValue(ref(db, 'goal_trigger'), (snapshot) => {
-  const trigger = snapshot.val();
-  if (!trigger || ADMIN) return;
-
-  const triggerAge = Date.now() - trigger.time;
-  if (triggerAge < 5000 && !== lastGoalTriggerTime) {
-    lastGoalTriggerTime = trigger.time;
-
-    elements.goalAnim.classList.add('active');
-    setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
-
-    if (trigger.team === 'legion' && state.logoAnimEnabled) {
-      elements.logoAnim.classList.remove('active');
-      setTimeout(() => elements.logoAnim.classList.add('active'), 50);
-      setTimeout(() => elements.logoAnim.classList.remove('active'), 1600);
-    }
-
-    setTimeout(() => set(ref(db, 'goal_trigger'), null).catch(console.error), 2000);
-  }
-});
-
-onValue(ref(db, 'live_goal'), (snapshot) => {
-  const goal = snapshot.val();
-  if (!goal || ADMIN) return;
-
-  const goalAge = Date.now() - goal.timestamp;
-  if (goalAge < 5000) {
-    showGoalCard(goal);
-  }
-});
-
-// === ПОКАЗ КАРТОЧКИ ГОЛА ===
-function showGoalCard(goal) {
-  if (!goal || goal.team !== 'legion') return;
-  elements.goalLastname.textContent = goal.scorer.lastName.toUpperCase();
-  elements.goalNumber.textContent = goal.scorer.number;
-  elements.goalMinuteDisplay.textContent = `${goal.minute}'`;
-  elements.goalCard.classList.remove('hidden');
-  setTimeout(() => elements.goalCard.classList.add('show'), 10);
-  if (window.goalCardTimeout) clearTimeout(window.goalCardTimeout);
-  window.goalCardTimeout = setTimeout(() => {
-    elements.goalCard.classList.remove('show');
-    setTimeout(() => elements.goalCard.classList.add('hidden'), 400);
-  }, 5000);
-}
-
-// === ОБНОВЛЕНИЕ ТАБЛО ===
+// === 7. ОБНОВЛЕНИЕ ТАБЛО ===
 function updateAllVariants() {
   const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
 
@@ -1154,12 +1014,14 @@ function updateAdminPanel() {
   elements.admin.sa.value = state.opponentScore;
   elements.admin.p.value = state.period;
   elements.admin.animChk.checked = state.logoAnimEnabled;
+
   elements.admin.varBtns.forEach((btn, i) => {
     btn.classList.toggle('act', i + 1 === state.designVariant);
   });
   elements.admin.colBtns.forEach(btn => {
     btn.classList.toggle('act', btn.dataset.color === state.colorTheme);
   });
+
   if (state.timerRunning) {
     elements.admin.tmInd.classList.add('run');
     elements.admin.tmTxt.textContent = 'Запущен';
@@ -1175,6 +1037,7 @@ function updateAnimCheckbox() {
   }
 }
 
+// === 8. ТАЙМЕР (КЛЮЧЕВОЙ ФИКС) ===
 function startTimerInterval(writeToDB = true) {
   stopTimerInterval();
   timerInterval = setInterval(() => {
@@ -1194,7 +1057,7 @@ function stopTimerInterval() {
   }
 }
 
-// === ДЕЙСТВИЯ АДМИНКИ ===
+// === 9. ДЕЙСТВИЯ ===
 function setVariant(variant) {
   if (state.designVariant === variant) return;
   state.designVariant = variant;
@@ -1268,6 +1131,7 @@ function timerPause() {
 function timerStart() {
   if (state.timerRunning) return;
   state.timerRunning = true;
+  // 🔑 КРИТИЧЕСКИЙ ФИКС: всегда устанавливаем startTime как NOW при старте
   localStartTime = Date.now() - (state.timerSeconds * 1000);
   startTimerInterval(true);
   update(ref(db, DB_KEY), { timerRunning: true, timerSeconds: state.timerSeconds }).catch(console.error);
@@ -1301,9 +1165,90 @@ function toast(msg) {
   setTimeout(() => elements.toast.classList.remove('show'), 2000);
 }
 
-// === ИНИЦИАЛИЗАЦИЯ ===
-(async function init() {
-  // Убедимся, что анимации скрыты при старте
+// === 10. ПОКАЗ КАРТОЧКИ ГОЛА ===
+function showGoalCard(goal) {
+  if (!goal || goal.team !== 'legion') return  elements.goalLastname.textContent = goal.scorer.lastName.toUpperCase();
+  elements.goalNumber.textContent = goal.scorer.number;
+  elements.goalMinuteDisplay.textContent = `${goal.minute}'`;
+  elements.goalCard.classList.remove('hidden');
+  setTimeout(() => elements.goalCard.classList.add('show'), 10);
+  if (window.goalCardTimeout) clearTimeout(window.goalCardTimeout);
+  window.goalCardTimeout = setTimeout(() => {
+    elements.goalCard.classList.remove('show');
+    setTimeout(() => elements.goalCard.classList.add('hidden'), 400);
+  }, 5000);
+}
+
+// === 11. ПОДПИСКА НА FIREBASE (БЕЗ ФЛАГОВ — ТОЛЬКО ОДИН МЕХАНИЗМ) ===
+const dataRef = ref(db, DB_KEY);
+onValue(dataRef, (snapshot) => {
+  const data = snapshot.val();
+  if (!data) return;
+
+  // ⚠️ Если в Firebase timerSeconds > 600 (10 мин), и мы в режиме зрителя — это почти наверняка ошибка
+  // → сбрасываем до 0 и стартуем с текущего времени
+  if (!ADMIN && data.timerRunning && data.timerSeconds > 600) {
+    console.warn(`[FIX] Обнаружен timerSeconds=${data.timerSeconds} > 600. Сбрасываем.`);
+    state.timerSeconds = 0;
+    update(ref(db, DB_KEY), { timerSeconds: 0 }).catch(console.error);
+    // Не меняем timerRunning — он true, но теперь мы стартуем с 0
+  }
+
+  // Применяем данные
+  state = { ...state, ...data };
+
+  if (!ADMIN) {
+    // Всегда обновляем интерфейс
+    updateAllVariants();
+    updateVisibility();
+    applyColorTheme();
+    updateAnimCheckbox();
+
+    // Если таймер запущен — запускаем interval с правильным startTime
+    if (state.timerRunning) {
+      if (!localStartTime) {
+        localStartTime = Date.now() - (state.timerSeconds * 1000);
+        startTimerInterval(false);
+      }
+    } else {
+      stopTimerInterval();
+    }
+  } else {
+    updateAdminPanel();
+  }
+});
+
+// Подписка на триггеры
+let lastGoalTime = 0;
+onValue(ref(db, 'goal_trigger'), (snapshot) => {
+  const trigger = snapshot.val();
+  if (!trigger || ADMIN) return;
+  const age = Date.now() - trigger.time;
+  if (age < 5000 && trigger.time !== lastGoalTime) {
+    lastGoalTime = trigger.time;
+    elements.goalAnim.classList.add('active');
+    setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
+    if (trigger.team === 'legion' && state.logoAnimEnabled) {
+      elements.logoAnim.classList.remove('active');
+      setTimeout(() => elements.logoAnim.classList.add('active'), 50);
+      setTimeout(() => elements.logoAnim.classList.remove('active'), 1600);
+    }
+    setTimeout(() => set(ref(db, 'goal_trigger'), null).catch(console.error), 2000);
+  }
+});
+
+onValue(ref(db, 'live_goal'), (snapshot) => {
+  const goal = snapshot.val();
+  if (!goal || ADMIN) return;
+  const age = Date.now() - goal.timestamp;
+  if (age < 5000) {
+    showGoalCard(goal);
+  }
+});
+
+// === 12. ИНИЦИАЛИЗАЦИЯ ===
+(async () => {
+  // Убедимся, что анимации скрыты
   elements.goalAnim.classList.remove('active');
   elements.logoAnim.classList.remove('active');
   elements.goalCard.classList.add('hidden');
@@ -1338,8 +1283,7 @@ function toast(msg) {
     elements.goalModal.addEventListener('click', (e) => {
       if (e.target === elements.goalModal) {
         elements.goalModal.classList.add('hidden');
-      }
-    });
+         });
 
     updateAdminPanel();
   } else {
@@ -1347,13 +1291,10 @@ function toast(msg) {
     updateVisibility();
     applyColorTheme();
 
+    // Если таймер уже запущен — восстанавливаем из Firebase
     if (state.timerRunning) {
-      // При первом подключении — используем флаг firstLoad (уже обработан в onValue)
-      // Здесь только инициализируем интервал, если уже был запущен ранее
-      if (!firstLoad) {
-        localStartTime = Date.now() - (state.timerSeconds * 1000);
-        startTimerInterval(false);
-      }
+      localStartTime = Date.now() - (state.timerSeconds * 1000);
+      startTimerInterval(false);
     }
   }
 })();
