@@ -231,7 +231,7 @@
       border-radius: 3px;
     }
 
-    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ (доработан) ===== */
+    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ (доработан, сбалансированные отступы) ===== */
     .sc-v3 {
       position: relative;
       display: flex;
@@ -252,7 +252,7 @@
     .sc-v3-strip.home { border-radius: 4px 0 0 4px; }
     .sc-v3-strip.away { border-radius: 0 4px 4px 0; }
     .sc-v3-name {
-      display: inline-block;                /* для компактного фона */
+      display: inline-block;
       font-size: 14px;
       font-weight: 900;
       color: var(--text-white);
@@ -261,10 +261,10 @@
       text-shadow: var(--shadow-sm);
       white-space: nowrap;
       z-index: 15;
-      padding: 2px 8px;                     /* фон только вокруг текста +2px */
+      padding: 2px 8px;               /* фон облегает текст */
       background: rgba(0,0,0,0.3);
       border-radius: 4px;
-      line-height: 1;                        /* нормальная высота строки */
+      line-height: 1;
     }
     .sc-v3-logo-h {
       position: absolute;
@@ -302,7 +302,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;           /* счёт прижат к верху */
+      justify-content: flex-start;
       box-shadow: var(--shadow-lg);
       border: 1px solid rgba(255,255,255,0.8);
       padding: 0;
@@ -312,7 +312,7 @@
       align-items: center;
       gap: 8px;
       margin-bottom: 0;
-      margin-top: 1px;                      /* опускаем на 1px */
+      margin-top: 3px;               /* увеличен верхний отступ */
       flex-shrink: 0;
     }
     .sc-v3-score {
@@ -332,7 +332,7 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      margin: 1px 0;                         /* отступ сверху и снизу */
+      margin: 1px 0;                 /* нижний отступ 1px */
     }
     .sc-v3-timer .time {
       font-size: 10px;
@@ -679,7 +679,7 @@
     </div>
   </div>
 
-  <!-- V3: СЛОИСТЫЙ (доработан) -->
+  <!-- V3: СЛОИСТЫЙ (сбалансированные отступы) -->
   <div id="sb-v3" class="sc-v3 theme-green hide" style="--strip-width: 180px;">
     <div class="sc-v3-strip home">
       <span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span>
