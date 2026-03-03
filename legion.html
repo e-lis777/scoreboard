@@ -24,7 +24,7 @@
       --transition: all 0.2s ease;
     }
 
-    /* ===== ВАРИАНТ 1: КОМПАКТНЫЙ (УМЕНЬШЕН ПО ВЫСОТЕ ЗА СЧЁТ ОТСТУПОВ) ===== */
+    /* ===== ВАРИАНТ 1: КОМПАКТНЫЙ (УМЕНЬШЕН ЕЩЁ НА 20%) ===== */
     .sc-v1 {
       display: flex;
       align-items: center;
@@ -38,7 +38,7 @@
       width: 100%;
       background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
       border-radius: 10px;
-      padding: 8px 0;              /* уменьшено с 10px */
+      padding: 6px 0;              /* уменьшено с 8px до 6px */
       box-shadow: var(--shadow-lg);
     }
     .sc-v1-half {
@@ -52,15 +52,14 @@
       border-right: var(--border-light);
     }
     .sc-v1-half.away {
-      border-left: var(--border-light); /* разделитель справа */
+      border-left: var(--border-light);
     }
     .sc-v1-logo {
-      width: 45px;                  /* исходный размер */
+      width: 45px;
       height: 45px;
       object-fit: contain;
       filter: drop-shadow(var(--shadow-sm));
     }
-    /* класс away больше не используется, лого соперника такого же размера */
     .sc-v1-name {
       font-size: 12px;
       font-weight: 900;
@@ -69,7 +68,7 @@
       text-align: center;
       text-shadow: var(--shadow-sm);
       white-space: nowrap;
-      margin-top: 3px;              /* уменьшено с 4px */
+      margin-top: 2px;              /* уменьшено с 3px до 2px */
       max-width: 120px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -104,9 +103,9 @@
       gap: 8px;
       background: rgba(0,0,0,0.7);
       backdrop-filter: blur(2px);
-      padding: 3px 10px;            /* вертикальный padding уменьшен с 4px до 3px */
+      padding: 2px 10px;            /* вертикальный padding уменьшен с 3px до 2px */
       border-radius: 6px;
-      margin-top: 5px;              /* уменьшено с 6px */
+      margin-top: 4px;              /* уменьшено с 5px до 4px */
       white-space: nowrap;
       border: 1px solid rgba(255,255,255,0.2);
     }
@@ -128,7 +127,7 @@
     .sc-v1-time.paused { animation: pulse 1s infinite; }
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
 
-    /* ===== ВАРИАНТ 2: TV СТИЛЬ (без изменений) ===== */
+    /* ===== ВАРИАНТ 2: TV СТИЛЬ ===== */
     .sc-v2 {
       display: flex;
       flex-direction: column;
@@ -182,9 +181,8 @@
       height: 34px;
       object-fit: contain;
       filter: drop-shadow(var(--shadow-sm));
-      transform: skewX(8deg); /* компенсация наклона */
+      transform: skewX(8deg);
     }
-    /* лого соперника в V2 уже было уменьшено – оставляем как есть */
     .sc-v2-logo.away {
       transform: skewX(8deg) scale(0.8);
     }
@@ -234,7 +232,7 @@
       border-radius: 3px;
     }
 
-    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ (без изменений) ===== */
+    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ ===== */
     .sc-v3 {
       position: relative;
       display: flex;
@@ -285,7 +283,7 @@
     .sc-v3-logo-a {
       position: absolute;
       top: 50%;
-      width: 35px;  /* уменьшено на 20% (было 44px) */
+      width: 35px;
       height: 35px;
       object-fit: contain;
       filter: drop-shadow(var(--shadow-lg));
@@ -627,7 +625,7 @@
 </head>
 <body>
 
-  <!-- V1: КОМПАКТНЫЙ (уменьшен по высоте) -->
+  <!-- V1: КОМПАКТНЫЙ (ещё более сжатый) -->
   <div id="sb-v1" class="sc-v1">
     <div class="sc-v1-bar">
       <div class="sc-v1-half home">
@@ -646,7 +644,6 @@
         </div>
       </div>
       <div class="sc-v1-half away">
-        <!-- Убран класс away, логотип исходного размера -->
         <img id="v1-la" class="sc-v1-logo" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Логотип соперника">
         <span id="v1-na" class="sc-v1-name">СОПЕРНИК</span>
       </div>
