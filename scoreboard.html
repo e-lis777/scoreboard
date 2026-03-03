@@ -41,7 +41,7 @@
   .sc-v2-timer .time { font-size: 12px !important; font-weight: 700 !important; color: #fff !important; font-variant-numeric: tabular-nums !important; }
   .sc-v2-timer .period { font-size: 10px !important; font-weight: 700 !important; color: rgba(255,255,255,0.7) !important; text-transform: uppercase !important; padding: 1px 6px !important; background: rgba(255,255,255,0.1) !important; border-radius: 3px !important; }
 
-  /* === VARIANT 3: LAYERED (ЛОГО НА ПЕРЕДНЕМ ПЛАНЕ) === */
+  /* === VARIANT 3: LAYERED (ИСПРАВЛЕНО) === */
   .sc-v3 {
     position: relative !important;
     display: flex !important;
@@ -78,28 +78,28 @@
     text-overflow: ellipsis !important;
   }
 
-  /* Логотипы НА ПЕРЕДНЕМ ПЛАНЕ - z-index 100 */
+  /* Логотипы позиционируются относительно .sc-v3 */
   .sc-v3-logo-h {
     position: absolute !important;
-    right: -25px !important;
+    right: 97px !important; /* 145px (центр) / 2 + 25px перекрытие */
     top: 50% !important;
     transform: translateY(-50%) !important;
     width: 50px !important;
     height: 50px !important;
     object-fit: contain !important;
     filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important;
-    z-index: 100 !important; /* МАКСИМАЛЬНЫЙ Z-INDEX */
+    z-index: 10 !important;
   }
   .sc-v3-logo-a {
     position: absolute !important;
-    left: -25px !important;
+    left: 97px !important; /* 145px (центр) / 2 + 25px перекрытие */
     top: 50% !important;
     transform: translateY(-50%) !important;
     width: 50px !important;
     height: 50px !important;
     object-fit: contain !important;
     filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important;
-    z-index: 100 !important; /* МАКСИМАЛЬНЫЙ Z-INDEX */
+    z-index: 10 !important;
   }
 
   /* Белый бокс УЖЕ */
@@ -277,13 +277,12 @@
     </div>
   </div>
 
-  <!-- V3: LAYERED (ЛОГО ПОСЛЕ ЦЕНТРА В HTML) -->
+  <!-- V3: LAYERED (ЛОГО ВНУТРИ STRIP) -->
   <div id="sb-v3" class="sc-v3 theme-blue hide" style="--strip-width: 140px;">
-    <!-- Полосы БЕЗ логотипов -->
     <div class="sc-v3-strip home">
       <span id="v3-nh" class="sc-v3-name">ДОМ</span>
+      <img id="v3-lh" class="sc-v3-logo-h" src="" alt="">
     </div>
-    <!-- Центральный бокс -->
     <div class="sc-v3-center">
       <div class="sc-v3-scores">
         <span id="v3-sh" class="sc-v3-score">0</span>
@@ -297,10 +296,8 @@
     </div>
     <div class="sc-v3-strip away">
       <span id="v3-na" class="sc-v3-name">ГОСТИ</span>
+      <img id="v3-la" class="sc-v3-logo-a" src="" alt="">
     </div>
-    <!-- Логотипы ПОСЛЕ центра (будут сверху) -->
-    <img id="v3-lh" class="sc-v3-logo-h" src="" alt="">
-    <img id="v3-la" class="sc-v3-logo-a" src="" alt="">
   </div>
 
   <div id="goal-anim" class="goal-anim">⚽ ГОЛ!</div>
