@@ -21,7 +21,6 @@
       --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
       --border-light: 1px solid rgba(255,255,255,0.1);
       --text-white: #fff;
-      --text-glow: 0 0 15px currentColor;
       --transition: all 0.2s ease;
     }
 
@@ -97,7 +96,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      background: rgba(0,0,0,0.7);  /* более нейтральный фон */
+      background: rgba(0,0,0,0.7);
       backdrop-filter: blur(2px);
       padding: 4px 10px;
       border-radius: 20px;
@@ -123,7 +122,7 @@
     .sc-v1-time.paused { animation: pulse 1s infinite; }
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
 
-    /* ===== ВАРИАНТ 2: TV СТИЛЬ ===== */
+    /* ===== ВАРИАНТ 2: TV СТИЛЬ (ТЕКСТ НАКЛОННЫЙ, ЛОГО ПРЯМЫЕ) ===== */
     .sc-v2 {
       display: flex;
       flex-direction: column;
@@ -136,7 +135,7 @@
       display: flex;
       align-items: center;
       width: 100%;
-      transform: skewX(-8deg); /* чуть меньше наклон */
+      transform: skewX(-8deg);
       border-radius: 6px;
       box-shadow: var(--shadow-md);
     }
@@ -171,14 +170,14 @@
       letter-spacing: 0.5px;
       text-shadow: var(--shadow-sm);
       white-space: nowrap;
-      transform: skewX(8deg); /* компенсация наклона только для текста */
+      /* Нет компенсации наклона — текст остаётся наклонённым */
     }
     .sc-v2-logo {
       width: 34px;
       height: 34px;
       object-fit: contain;
       filter: drop-shadow(var(--shadow-sm));
-      /* логотип прямой */
+      /* Без transform — логотип прямой */
     }
     .sc-v2-scores {
       display: flex;
@@ -190,12 +189,12 @@
       font-weight: 900;
       color: var(--text-white);
       text-shadow: var(--shadow-sm);
-      transform: skewX(8deg);
+      /* Нет компенсации — наклонён */
     }
     .sc-v2-sep {
       font-size: 20px;
       color: rgba(255,255,255,0.7);
-      transform: skewX(8deg);
+      /* Нет компенсации — наклонён */
     }
     .sc-v2-timer {
       display: flex;
@@ -213,7 +212,7 @@
       font-weight: 700;
       color: var(--text-white);
       font-variant-numeric: tabular-nums;
-      transform: skewX(8deg);
+      /* Нет компенсации — наклонён */
     }
     .sc-v2-timer .period {
       font-size: 10px;
@@ -223,21 +222,21 @@
       padding: 1px 6px;
       background: rgba(255,255,255,0.1);
       border-radius: 3px;
-      transform: skewX(8deg);
+      /* Нет компенсации — наклонён */
     }
 
-    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ ===== */
+    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ (полосы уже) ===== */
     .sc-v3 {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto;
-      height: 70px; /* чуть выше, чтобы лого не налезало на текст */
+      height: 60px;
     }
     .sc-v3-strip {
       position: relative;
-      height: 50px;
+      height: 40px;  /* уменьшено */
       width: var(--strip-width, 180px);
       z-index: 1;
       display: flex;
@@ -254,18 +253,19 @@
       letter-spacing: 0.5px;
       text-shadow: var(--shadow-sm);
       white-space: nowrap;
-      z-index: 15; /* выше логотипов */
+      z-index: 15;
       padding: 0 15px;
       max-width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
-      background: rgba(0,0,0,0.3); /* небольшая подложка для читаемости */
+      background: rgba(0,0,0,0.3);
       border-radius: 4px;
+      line-height: 30px;
     }
     .sc-v3-logo-h, .sc-v3-logo-a {
       position: absolute;
       top: 50%;
-      width: 44px; /* чуть меньше */
+      width: 44px;
       height: 44px;
       object-fit: contain;
       filter: drop-shadow(var(--shadow-lg));
@@ -282,7 +282,7 @@
     .sc-v3-center {
       position: relative;
       width: 170px;
-      height: 58px;
+      height: 52px;
       background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%);
       border-radius: 12px;
       z-index: 5;
@@ -292,7 +292,7 @@
       justify-content: center;
       box-shadow: var(--shadow-lg);
       border: 1px solid rgba(255,255,255,0.8);
-      padding: 6px 0 0;
+      padding: 4px 0 0;
     }
     .sc-v3-scores {
       display: flex;
@@ -302,7 +302,7 @@
       flex-shrink: 0;
     }
     .sc-v3-score {
-      font-size: 34px;
+      font-size: 32px;
       font-weight: 900;
       color: #000;
       min-width: 32px;
@@ -318,7 +318,7 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      margin-top: -3px;
+      margin-top: -4px;
     }
     .sc-v3-timer .time {
       font-size: 10px;
@@ -638,7 +638,7 @@
     </div>
   </div>
 
-  <!-- V2: TV СТИЛЬ -->
+  <!-- V2: TV СТИЛЬ (текст наклонён, лого прямые) -->
   <div id="sb-v2" class="sc-v2 hide">
     <div class="sc-v2-bar">
       <div class="sc-v2-team home">
@@ -663,7 +663,7 @@
     </div>
   </div>
 
-  <!-- V3: СЛОИСТЫЙ -->
+  <!-- V3: СЛОИСТЫЙ (полосы уменьшены) -->
   <div id="sb-v3" class="sc-v3 theme-green hide" style="--strip-width: 180px;">
     <div class="sc-v3-strip home">
       <span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span>
@@ -789,13 +789,11 @@
       appId: "1:11785107743:web:a8faa98d6aaf4462dd582a"
     };
 
-    // Константы
     const LEGION_LOGO = "https://optim.tildacdn.com/tild3762-6363-4166-b532-386532363639/-/resize/140x/-/format/webp/Vector_3.png.webp";
     const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png";
     const DB_KEY = 'legion_match_v1';
     const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 
-    // Приложение Firebase
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
@@ -852,10 +850,9 @@
       state = { ...state, ...data };
 
       if (!ADMIN) {
-        // Управление таймером для зрителей
         if (state.timerRunning && !oldRunning) {
           localStartTime = Date.now() - (state.timerSeconds * 1000);
-          startTimerInterval(false); // false = не писать в базу
+          startTimerInterval(false);
         }
         if (!state.timerRunning && oldRunning) stopTimerInterval();
         updateAllVariants();
@@ -868,15 +865,12 @@
       }
     });
 
-    // Подписка на триггер голов
     onValue(ref(db, 'goal_trigger'), (snapshot) => {
       const trigger = snapshot.val();
       if (trigger && !ADMIN) {
-        // Анимация "ГОЛ!"
         elements.goalAnim.classList.add('active');
         setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
 
-        // Анимация лого (только для голов ЛЕГИОНА, если включено)
         if (trigger.team === 'legion' && state.logoAnimEnabled) {
           elements.logoAnim.src = LEGION_LOGO;
           elements.logoAnim.classList.remove('active');
@@ -893,7 +887,6 @@
     function updateAllVariants() {
       const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
       
-      // V1
       elements.v1.lh.src = LEGION_LOGO;
       elements.v1.la.src = opponentLogoSrc;
       elements.v1.nh.textContent = 'ЛЕГИОН';
@@ -902,7 +895,6 @@
       elements.v1.sa.textContent = state.opponentScore;
       elements.v1.p.textContent = state.period;
       
-      // V2
       elements.v2.lh.src = LEGION_LOGO;
       elements.v2.la.src = opponentLogoSrc;
       elements.v2.nh.textContent = 'ЛЕГИОН';
@@ -911,7 +903,6 @@
       elements.v2.sa.textContent = state.opponentScore;
       elements.v2.p.textContent = state.period;
       
-      // V3
       elements.v3.lh.src = LEGION_LOGO;
       elements.v3.la.src = opponentLogoSrc;
       elements.v3.nh.textContent = 'ЛЕГИОН';
@@ -968,19 +959,16 @@
       elements.admin.p.value = state.period;
       elements.admin.animChk.checked = state.logoAnimEnabled;
 
-      // Активная кнопка варианта
       elements.admin.varBtns.forEach((btn, i) => {
         btn.classList.toggle('act', i + 1 === state.designVariant);
       });
 
-      // Активная кнопка цвета
       elements.admin.colBtns.forEach(btn => {
         btn.classList.toggle('act', btn.dataset.color === state.colorTheme);
       });
 
       toggleColorPicker();
 
-      // Статус таймера
       if (state.timerRunning) {
         elements.admin.tmInd.classList.add('run');
         elements.admin.tmTxt.textContent = 'Запущен';
@@ -1004,7 +992,6 @@
         state.timerSeconds = Math.floor((Date.now() - localStartTime) / 1000);
         updateTimerDisplay();
         
-        // Запись в Firebase только для админа и раз в 5 секунд
         if (ADMIN && writeToDB && state.timerSeconds % 5 === 0) {
           update(ref(db, DB_KEY), { timerSeconds: state.timerSeconds })
             .catch(err => console.error('Firebase write error:', err));
@@ -1019,7 +1006,7 @@
       }
     }
 
-    // ==================== ДЕЙСТВИЯ (ВЫЗЫВАЮТСЯ ИЗ АДМИНКИ) ====================
+    // ==================== ДЕЙСТВИЯ ====================
     function setVariant(variant) {
       if (state.designVariant === variant) return;
       state.designVariant = variant;
@@ -1043,20 +1030,14 @@
     function saveOpponent() {
       state.opponentName = elements.admin.na.value || 'СОПЕРНИК';
       state.opponentLogo = elements.admin.la.value;
-      update(ref(db, DB_KEY), { 
-        opponentName: state.opponentName, 
-        opponentLogo: state.opponentLogo 
-      }).catch(console.error);
+      update(ref(db, DB_KEY), { opponentName: state.opponentName, opponentLogo: state.opponentLogo }).catch(console.error);
       toast();
     }
 
     function updateScore() {
       state.legionScore = parseInt(elements.admin.sh.value) || 0;
       state.opponentScore = parseInt(elements.admin.sa.value) || 0;
-      update(ref(db, DB_KEY), { 
-        legionScore: state.legionScore, 
-        opponentScore: state.opponentScore 
-      }).catch(console.error);
+      update(ref(db, DB_KEY), { legionScore: state.legionScore, opponentScore: state.opponentScore }).catch(console.error);
       toast();
     }
 
@@ -1070,7 +1051,6 @@
     }
 
     function triggerGoal(team = null) {
-      // Если team не указана, используем 'none' (просто анимация ГОЛ!)
       const goalData = { time: Date.now(), team: team };
       set(ref(db, 'goal_trigger'), goalData)
         .then(() => setTimeout(() => set(ref(db, 'goal_trigger'), null), 2000))
@@ -1085,11 +1065,8 @@
         state.opponentScore++;
         elements.admin.sa.value = state.opponentScore;
       }
-      update(ref(db, DB_KEY), { 
-        legionScore: state.legionScore, 
-        opponentScore: state.opponentScore 
-      }).catch(console.error);
-      triggerGoal(team);  // триггер с указанием команды
+      update(ref(db, DB_KEY), { legionScore: state.legionScore, opponentScore: state.opponentScore }).catch(console.error);
+      triggerGoal(team);
       toast();
     }
 
@@ -1123,7 +1100,7 @@
     function updatePeriod() {
       state.period = elements.admin.p.value;
       if (state.period === 'ПЕРЕРЫВ' && state.timerRunning) {
-        timerPause(); // автоматически ставим на паузу
+        timerPause();
       }
       update(ref(db, DB_KEY), { period: state.period }).catch(console.error);
       toast();
@@ -1134,15 +1111,13 @@
       setTimeout(() => elements.toast.classList.remove('show'), 2000);
     }
 
-    // ==================== ИНИЦИАЛИЗАЦИЯ И ОБРАБОТЧИКИ ====================
+    // ==================== ИНИЦИАЛИЗАЦИЯ ====================
     if (ADMIN) {
-      // Скрываем табло, показываем админку
       elements.sbV1.classList.add('hide');
       elements.sbV2.classList.add('hide');
       elements.sbV3.classList.add('hide');
       document.getElementById('admin').classList.remove('hide');
 
-      // Навешиваем обработчики на кнопки (через data-атрибуты или id)
       document.querySelectorAll('.var-btn').forEach(btn => {
         btn.addEventListener('click', () => setVariant(parseInt(btn.dataset.variant)));
       });
@@ -1163,7 +1138,6 @@
 
       updateAdminPanel();
     } else {
-      // Зритель: показываем табло
       updateAllVariants();
       updateVisibility();
       applyColorTheme();
