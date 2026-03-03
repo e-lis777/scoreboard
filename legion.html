@@ -56,9 +56,7 @@
       object-fit: contain;
       filter: drop-shadow(var(--shadow-sm));
     }
-    .sc-v1-logo.away {
-      transform: scale(0.8);
-    }
+    .sc-v1-logo.away { transform: scale(0.8); }
     .sc-v1-name {
       font-size: 12px;
       font-weight: 900;
@@ -126,7 +124,7 @@
     .sc-v1-time.paused { animation: pulse 1s infinite; }
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
 
-    /* ===== ВАРИАНТ 2: TV СТИЛЬ (сжатый) ===== */
+    /* ===== ВАРИАНТ 2: TV СТИЛЬ ===== */
     .sc-v2 {
       display: flex;
       flex-direction: column;
@@ -182,9 +180,7 @@
       filter: drop-shadow(var(--shadow-sm));
       transform: skewX(8deg);
     }
-    .sc-v2-logo.away {
-      transform: skewX(8deg) scale(0.8);
-    }
+    .sc-v2-logo.away { transform: skewX(8deg) scale(0.8); }
     .sc-v2-scores {
       display: flex;
       align-items: center;
@@ -214,8 +210,6 @@
     .sc-v2-timer .time,
     .sc-v2-timer .period {
       transform: skewX(-8deg);
-    }
-    .sc-v2-timer .time {
       font-size: 12px;
       font-weight: 700;
       color: var(--text-white);
@@ -223,7 +217,6 @@
     }
     .sc-v2-timer .period {
       font-size: 10px;
-      font-weight: 700;
       color: rgba(255,255,255,0.7);
       text-transform: uppercase;
       padding: 1px 6px;
@@ -231,7 +224,7 @@
       border-radius: 3px;
     }
 
-    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ (сбалансированные отступы) ===== */
+    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ ===== */
     .sc-v3 {
       position: relative;
       display: flex;
@@ -334,7 +327,8 @@
       gap: 4px;
       margin: 1px 0;
     }
-    .sc-v3-timer .time {
+    .sc-v3-timer .time,
+    .sc-v3-timer .period {
       font-size: 10px;
       font-weight: 900;
       color: #555;
@@ -342,10 +336,8 @@
     }
     .sc-v3-timer .period {
       font-size: 8px;
-      font-weight: 900;
       color: #666;
       text-transform: uppercase;
-      line-height: 1;
     }
 
     /* Цветовые темы для V3 */
@@ -401,164 +393,70 @@
       100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; }
     }
 
-    /* ===== АДМИНКА ===== */
+    /* ===== АДМИНКА (без изменений, компактный код) ===== */
     .admin {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0; width: 100%; height: 100%;
       background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      padding: 15px;
-      overflow-y: auto;
-      z-index: 2000;
+      padding: 15px; overflow-y: auto; z-index: 2000;
       color: var(--text-white);
     }
     .admin-head {
-      text-align: center;
-      margin-bottom: 20px;
-      padding-bottom: 15px;
+      text-align: center; margin-bottom: 20px; padding-bottom: 15px;
       border-bottom: var(--border-light);
     }
-    .admin-head h1 {
-      color: #00d4ff;
-      font-size: 28px;
-      text-transform: uppercase;
-      margin-bottom: 5px;
-    }
-    .admin-head p {
-      color: rgba(255,255,255,0.5);
-      font-size: 12px;
-    }
-    .admin-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      max-width: 500px;
-      margin: 0 auto;
-    }
+    .admin-head h1 { color: #00d4ff; font-size: 28px; text-transform: uppercase; margin-bottom: 5px; }
+    .admin-head p { color: rgba(255,255,255,0.5); font-size: 12px; }
+    .admin-grid { display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; }
     .card {
-      background: rgba(255,255,255,0.05);
-      border-radius: 12px;
-      padding: 20px;
+      background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px;
       border: var(--border-light);
     }
-    .card h3 {
-      color: #00d4ff;
-      font-size: 16px;
-      margin-bottom: 15px;
-      text-transform: uppercase;
-    }
+    .card h3 { color: #00d4ff; font-size: 16px; margin-bottom: 15px; text-transform: uppercase; }
     .fld { margin-bottom: 12px; }
-    .fld label {
-      display: block;
-      color: rgba(255,255,255,0.7);
-      font-size: 12px;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-    }
+    .fld label { display: block; color: rgba(255,255,255,0.7); font-size: 12px; margin-bottom: 6px; text-transform: uppercase; }
     .fld input, .fld select {
-      width: 100%;
-      padding: 14px 12px;
-      background: rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 8px;
-      color: var(--text-white);
-      font-size: 16px;
+      width: 100%; padding: 14px 12px; background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
+      color: var(--text-white); font-size: 16px;
     }
-    .btns {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
+    .btns { display: flex; gap: 8px; flex-wrap: wrap; }
     .btn {
-      padding: 14px 16px;
-      border: none;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      cursor: pointer;
-      flex: 1;
-      min-width: 70px;
-      color: var(--text-white);
-      transition: var(--transition);
+      padding: 14px 16px; border: none; border-radius: 8px; font-size: 13px; font-weight: 700;
+      text-transform: uppercase; cursor: pointer; flex: 1; min-width: 70px;
+      color: var(--text-white); transition: var(--transition);
     }
     .btn:active { transform: scale(0.96); }
     .btn-p { background: linear-gradient(135deg, #00d4ff, #0099cc); }
     .btn-s { background: linear-gradient(135deg, #2ed573, #1ea65a); }
     .btn-w { background: linear-gradient(135deg, #ffa502, #cc8400); }
     .btn-d { background: linear-gradient(135deg, #ff4757, #cc3344); }
-    .score-in {
-      display: flex;
-      gap: 10px;
-      align-items: flex-end;
-      justify-content: center;
-    }
+    .score-in { display: flex; gap: 10px; align-items: flex-end; justify-content: center; }
     .score-in .fld { flex: 1; text-align: center; }
-    .score-in .sep {
-      font-size: 26px;
-      color: rgba(255,255,255,0.5);
-      padding-bottom: 8px;
-    }
-    .score-in input {
-      width: 65px;
-      text-align: center;
-      font-size: 26px;
-      font-weight: 900;
-      padding: 8px;
-    }
+    .score-in .sep { font-size: 26px; color: rgba(255,255,255,0.5); padding-bottom: 8px; }
+    .score-in input { width: 65px; text-align: center; font-size: 26px; font-weight: 900; padding: 8px; }
     .hide { display: none !important; }
     .toast {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
+      position: fixed; bottom: 20px; left: 50%;
       transform: translateX(-50%) translateY(100px);
       background: linear-gradient(135deg, #2ed573, #1ea65a);
-      color: var(--text-white);
-      padding: 12px 25px;
-      border-radius: 10px;
-      font-weight: 700;
-      opacity: 0;
-      transition: var(--transition);
-      z-index: 3000;
+      color: var(--text-white); padding: 12px 25px; border-radius: 10px;
+      font-weight: 700; opacity: 0; transition: var(--transition); z-index: 3000;
     }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-    .var-sel {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 15px;
-    }
+    .var-sel { display: flex; gap: 8px; margin-bottom: 15px; }
     .var-btn {
-      flex: 1;
-      padding: 12px 8px;
-      border: 2px solid rgba(255,255,255,0.2);
-      border-radius: 8px;
-      background: rgba(0,0,0,0.3);
-      color: var(--text-white);
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 11px;
-      transition: var(--transition);
+      flex: 1; padding: 12px 8px; border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 8px; background: rgba(0,0,0,0.3); color: var(--text-white);
+      font-weight: 700; cursor: pointer; font-size: 11px; transition: var(--transition);
     }
     .var-btn.act { border-color: #00d4ff; background: rgba(0,212,255,0.2); }
     .var-btn small { display: block; font-size: 9px; opacity: 0.7; margin-top: 3px; }
-    .col-sel {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      margin-top: 12px;
-    }
+    .col-sel { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 12px; }
     .col-btn {
-      padding: 10px 5px;
-      border: 2px solid rgba(255,255,255,0.2);
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 700;
-      color: var(--text-white);
-      text-transform: uppercase;
-      font-size: 9px;
-      transition: var(--transition);
+      padding: 10px 5px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px;
+      cursor: pointer; font-weight: 700; color: var(--text-white); text-transform: uppercase;
+      font-size: 9px; transition: var(--transition);
     }
     .col-btn.act { border-color: #fff; transform: scale(1.05); }
     .col-blue { background: linear-gradient(135deg, #0a1f44, #163675); }
@@ -568,68 +466,32 @@
     .col-red { background: linear-gradient(135deg, #991b1b, #dc2626); }
     .col-green { background: linear-gradient(135deg, #1b5e20, #2e7d32); }
     .chk {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px;
-      background: rgba(0,0,0,0.2);
-      border-radius: 8px;
-      margin-bottom: 12px;
-      cursor: pointer;
+      display: flex; align-items: center; gap: 10px; padding: 12px;
+      background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 12px; cursor: pointer;
     }
-    .chk input {
-      width: 18px;
-      height: 18px;
-      accent-color: #00d4ff;
-    }
-    .chk label {
-      margin: 0;
-      font-size: 13px;
-      cursor: pointer;
-      flex: 1;
-    }
+    .chk input { width: 18px; height: 18px; accent-color: #00d4ff; }
+    .chk label { margin: 0; font-size: 13px; cursor: pointer; flex: 1; }
     .tm-st {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px;
-      background: rgba(0,0,0,0.3);
-      border-radius: 8px;
-      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 10px; padding: 12px;
+      background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 12px;
     }
-    .tm-st .ind {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #ffa502;
-    }
-    .tm-st .ind.run {
-      background: #2ed573;
-      box-shadow: 0 0 8px #2ed573;
-      animation: pulse 1s infinite;
-    }
-    .tm-st .txt {
-      font-size: 12px;
-      color: rgba(255,255,255,0.8);
-      flex: 1;
-    }
+    .tm-st .ind { width: 10px; height: 10px; border-radius: 50%; background: #ffa502; }
+    .tm-st .ind.run { background: #2ed573; box-shadow: 0 0 8px #2ed573; animation: pulse 1s infinite; }
+    .tm-st .txt { font-size: 12px; color: rgba(255,255,255,0.8); flex: 1; }
 
     @media (min-width: 768px) {
       .admin { padding: 30px; }
       .admin-head h1 { font-size: 32px; }
       .admin-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-        max-width: 1100px;
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px; max-width: 1100px;
       }
       .card { padding: 22px; }
     }
   </style>
 </head>
 <body>
-
-  <!-- V1: КОМПАКТНЫЙ -->
+  <!-- V1 -->
   <div id="sb-v1" class="sc-v1">
     <div class="sc-v1-bar">
       <div class="sc-v1-half home">
@@ -654,7 +516,7 @@
     </div>
   </div>
 
-  <!-- V2: TV СТИЛЬ -->
+  <!-- V2 -->
   <div id="sb-v2" class="sc-v2 hide">
     <div class="sc-v2-bar">
       <div class="sc-v2-team home">
@@ -679,11 +541,9 @@
     </div>
   </div>
 
-  <!-- V3: СЛОИСТЫЙ (сбалансированные отступы) -->
+  <!-- V3 -->
   <div id="sb-v3" class="sc-v3 theme-green hide" style="--strip-width: 180px;">
-    <div class="sc-v3-strip home">
-      <span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span>
-    </div>
+    <div class="sc-v3-strip home"><span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span></div>
     <div class="sc-v3-center">
       <div class="sc-v3-scores">
         <span id="v3-sh" class="sc-v3-score">0</span>
@@ -695,54 +555,44 @@
         <span id="v3-p" class="period">1 ТАЙМ</span>
       </div>
     </div>
-    <div class="sc-v3-strip away">
-      <span id="v3-na" class="sc-v3-name">СОПЕРНИК</span>
-    </div>
+    <div class="sc-v3-strip away"><span id="v3-na" class="sc-v3-name">СОПЕРНИК</span></div>
     <img id="v3-lh" class="sc-v3-logo-h" src="https://optim.tildacdn.com/tild3762-6363-4166-b532-386532363639/-/resize/140x/-/format/webp/Vector_3.png.webp" alt="Логотип ЛЕГИОН">
     <img id="v3-la" class="sc-v3-logo-a" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Логотип соперника">
   </div>
 
-  <!-- АНИМАЦИИ -->
+  <!-- Анимации -->
   <div id="goal-anim" class="goal-anim">⚽ ГОЛ!</div>
   <img id="logo-anim" class="logo-anim" src="" alt="">
 
-  <!-- АДМИНКА (симметричный заголовок, красная кнопка соперника) -->
+  <!-- Админка -->
   <div id="admin" class="admin hide">
-    <div class="admin-head">
-      <h1>🏆 ФК ЛЕГИОН 🏆</h1>
-      <p>Управление табло</p>
-    </div>
+    <div class="admin-head"><h1>🏆 ФК ЛЕГИОН 🏆</h1><p>Управление табло</p></div>
     <div class="admin-grid">
-      <div class="card">
-        <h3>🎨 Дизайн плашки</h3>
+      <!-- Карточка дизайна -->
+      <div class="card"><h3>🎨 Дизайн плашки</h3>
         <div class="var-sel">
           <button class="var-btn act" data-variant="1">В-1<small>Компакт</small></button>
           <button class="var-btn" data-variant="2">В-2<small>TV Style</small></button>
           <button class="var-btn" data-variant="3">В-3<small>Слои</small></button>
         </div>
-        <div id="col-cont">
-          <div class="col-sel">
-            <button class="col-btn col-blue act" data-color="blue">Синий</button>
-            <button class="col-btn col-orange" data-color="orange">Оранж</button>
-            <button class="col-btn col-purple" data-color="purple">Фиолет</button>
-            <button class="col-btn col-silver" data-color="silver">Серебро</button>
-            <button class="col-btn col-red" data-color="red">Красный</button>
-            <button class="col-btn col-green" data-color="green">Зелёный</button>
-          </div>
-        </div>
-        <div class="chk">
-          <input type="checkbox" id="anim-chk">
-          <label for="anim-chk">🎬 Анимация лого при голе</label>
-        </div>
+        <div id="col-cont"><div class="col-sel">
+          <button class="col-btn col-blue act" data-color="blue">Синий</button>
+          <button class="col-btn col-orange" data-color="orange">Оранж</button>
+          <button class="col-btn col-purple" data-color="purple">Фиолет</button>
+          <button class="col-btn col-silver" data-color="silver">Серебро</button>
+          <button class="col-btn col-red" data-color="red">Красный</button>
+          <button class="col-btn col-green" data-color="green">Зелёный</button>
+        </div></div>
+        <div class="chk"><input type="checkbox" id="anim-chk"><label for="anim-chk">🎬 Анимация лого при голе</label></div>
       </div>
-      <div class="card">
-        <h3>📋 СОПЕРНИК</h3>
+      <!-- Карточка соперника -->
+      <div class="card"><h3>📋 СОПЕРНИК</h3>
         <div class="fld"><label>Название команды</label><input type="text" id="adm-na" placeholder="Название"></div>
         <div class="fld"><label>Логотип (URL)</label><input type="text" id="adm-la" placeholder="https://..."></div>
         <button class="btn btn-p" id="saveOpponentBtn">💾 Сохранить</button>
       </div>
-      <div class="card">
-        <h3>📊 Счёт</h3>
+      <!-- Счёт -->
+      <div class="card"><h3>📊 Счёт</h3>
         <div class="score-in">
           <div class="fld"><label>ЛЕГИОН</label><input type="number" id="adm-sh" value="0" min="0"></div>
           <div class="sep">-</div>
@@ -754,33 +604,28 @@
           <button class="btn btn-d" id="resetScoreBtn">🔄 Сброс</button>
         </div>
       </div>
-      <div class="card">
-        <h3>⏱️ Таймер</h3>
-        <div class="tm-st">
-          <span id="tm-ind" class="ind"></span>
-          <span id="tm-txt" class="txt">Остановлен</span>
-        </div>
+      <!-- Таймер -->
+      <div class="card"><h3>⏱️ Таймер</h3>
+        <div class="tm-st"><span id="tm-ind" class="ind"></span><span id="tm-txt" class="txt">Остановлен</span></div>
         <div class="btns">
           <button class="btn btn-s" id="timerStartBtn">▶️ Старт</button>
           <button class="btn btn-w" id="timerPauseBtn">⏸️ Пауза</button>
           <button class="btn btn-d" id="timerResetBtn">🔄 Сброс</button>
         </div>
       </div>
-      <div class="card">
-        <h3>📍 Тайм</h3>
-        <div class="fld">
-          <select id="adm-p">
-            <option value="1 ТАЙМ">1 ТАЙМ</option>
-            <option value="2 ТАЙМ">2 ТАЙМ</option>
-            <option value="ПЕРЕРЫВ">ПЕРЕРЫВ</option>
-            <option value="ДОП. ТАЙМ">ДОП. ТАЙМ</option>
-            <option value="ПЕНАЛЬТИ">ПЕНАЛЬТИ</option>
-          </select>
-        </div>
+      <!-- Тайм -->
+      <div class="card"><h3>📍 Тайм</h3>
+        <div class="fld"><select id="adm-p">
+          <option value="1 ТАЙМ">1 ТАЙМ</option>
+          <option value="2 ТАЙМ">2 ТАЙМ</option>
+          <option value="ПЕРЕРЫВ">ПЕРЕРЫВ</option>
+          <option value="ДОП. ТАЙМ">ДОП. ТАЙМ</option>
+          <option value="ПЕНАЛЬТИ">ПЕНАЛЬТИ</option>
+        </select></div>
         <button class="btn btn-p" id="updatePeriodBtn">✅ Обновить</button>
       </div>
-      <div class="card">
-        <h3>⚡ Быстрые действия</h3>
+      <!-- Быстрые действия -->
+      <div class="card"><h3>⚡ Быстрые действия</h3>
         <div class="btns">
           <button class="btn btn-s" id="goalLegionBtn">⚽ ГОЛ ЛЕГИОН</button>
           <button class="btn btn-d" id="goalOpponentBtn">⚽ ГОЛ СОПЕРНИК</button>
@@ -791,20 +636,10 @@
   <div id="toast" class="toast">✓ Сохранено!</div>
 
   <script type="module">
-    // ==================== ИМПОРТЫ И НАСТРОЙКИ ====================
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
     import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyAFb-yJaI7WJFcTx_wAFmSngupHqUNai1I",
-      authDomain: "scoreboard-6d34c.firebaseapp.com",
-      databaseURL: "https://scoreboard-6d34c-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "scoreboard-6d34c",
-      storageBucket: "scoreboard-6d34c.firebasestorage.app",
-      messagingSenderId: "11785107743",
-      appId: "1:11785107743:web:a8faa98d6aaf4462dd582a"
-    };
-
+    const firebaseConfig = { /* ... */ };
     const LEGION_LOGO = "https://optim.tildacdn.com/tild3762-6363-4166-b532-386532363639/-/resize/140x/-/format/webp/Vector_3.png.webp";
     const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png";
     const DB_KEY = 'legion_match_v1';
@@ -813,58 +648,45 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // ==================== СОСТОЯНИЕ ====================
     let state = {
-      opponentName: 'СОПЕРНИК',
-      opponentLogo: '',
-      legionScore: 0,
-      opponentScore: 0,
-      timerSeconds: 0,
-      timerRunning: false,
-      period: '1 ТАЙМ',
-      designVariant: 3,
-      colorTheme: 'green',
-      logoAnimEnabled: true
+      opponentName: 'СОПЕРНИК', opponentLogo: '', legionScore: 0, opponentScore: 0,
+      timerSeconds: 0, timerRunning: false, period: '1 ТАЙМ',
+      designVariant: 3, colorTheme: 'green', logoAnimEnabled: true
     };
 
-    let timerInterval = null;
-    let localStartTime = null;
+    let timerInterval = null, localStartTime = null;
 
-    // Кэширование DOM-элементов
-    const elements = {
-      v1: { lh: document.getElementById('v1-lh'), la: document.getElementById('v1-la'), nh: document.getElementById('v1-nh'), na: document.getElementById('v1-na'), sh: document.getElementById('v1-sh'), sa: document.getElementById('v1-sa'), p: document.getElementById('v1-p'), t: document.getElementById('v1-t') },
-      v2: { lh: document.getElementById('v2-lh'), la: document.getElementById('v2-la'), nh: document.getElementById('v2-nh'), na: document.getElementById('v2-na'), sh: document.getElementById('v2-sh'), sa: document.getElementById('v2-sa'), p: document.getElementById('v2-p'), t: document.getElementById('v2-t') },
-      v3: { lh: document.getElementById('v3-lh'), la: document.getElementById('v3-la'), nh: document.getElementById('v3-nh'), na: document.getElementById('v3-na'), sh: document.getElementById('v3-sh'), sa: document.getElementById('v3-sa'), p: document.getElementById('v3-p'), t: document.getElementById('v3-t') },
+    // Кэширование элементов
+    const ids = ['v1','v2','v3'];
+    const elements = {};
+    ids.forEach(v => {
+      elements[v] = {
+        lh: document.getElementById(`${v}-lh`), la: document.getElementById(`${v}-la`),
+        nh: document.getElementById(`${v}-nh`), na: document.getElementById(`${v}-na`),
+        sh: document.getElementById(`${v}-sh`), sa: document.getElementById(`${v}-sa`),
+        p: document.getElementById(`${v}-p`), t: document.getElementById(`${v}-t`)
+      };
+    });
+    Object.assign(elements, {
+      sbV1: document.getElementById('sb-v1'), sbV2: document.getElementById('sb-v2'), sbV3: document.getElementById('sb-v3'),
+      goalAnim: document.getElementById('goal-anim'), logoAnim: document.getElementById('logo-anim'), toast: document.getElementById('toast'),
       admin: {
-        na: document.getElementById('adm-na'),
-        la: document.getElementById('adm-la'),
-        sh: document.getElementById('adm-sh'),
-        sa: document.getElementById('adm-sa'),
-        p: document.getElementById('adm-p'),
-        animChk: document.getElementById('anim-chk'),
-        varBtns: document.querySelectorAll('.var-btn'),
-        colBtns: document.querySelectorAll('.col-btn'),
-        tmInd: document.getElementById('tm-ind'),
-        tmTxt: document.getElementById('tm-txt'),
+        na: document.getElementById('adm-na'), la: document.getElementById('adm-la'),
+        sh: document.getElementById('adm-sh'), sa: document.getElementById('adm-sa'),
+        p: document.getElementById('adm-p'), animChk: document.getElementById('anim-chk'),
+        varBtns: document.querySelectorAll('.var-btn'), colBtns: document.querySelectorAll('.col-btn'),
+        tmInd: document.getElementById('tm-ind'), tmTxt: document.getElementById('tm-txt'),
         colCont: document.getElementById('col-cont')
-      },
-      sbV1: document.getElementById('sb-v1'),
-      sbV2: document.getElementById('sb-v2'),
-      sbV3: document.getElementById('sb-v3'),
-      goalAnim: document.getElementById('goal-anim'),
-      logoAnim: document.getElementById('logo-anim'),
-      toast: document.getElementById('toast')
-    };
+      }
+    });
 
-    // ==================== ПОДПИСКА FIREBASE ====================
+    // Firebase слушатели
     const dataRef = ref(db, DB_KEY);
     onValue(dataRef, (snapshot) => {
       const data = snapshot.val();
       if (!data) return;
-      
       const oldRunning = state.timerRunning;
       state = { ...state, ...data };
-
       if (!ADMIN) {
         if (state.timerRunning && !oldRunning) {
           localStartTime = Date.now() - (state.timerSeconds * 1000);
@@ -886,68 +708,32 @@
       if (trigger && !ADMIN) {
         elements.goalAnim.classList.add('active');
         setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
-
         if (trigger.team === 'legion' && state.logoAnimEnabled) {
           elements.logoAnim.src = LEGION_LOGO;
           elements.logoAnim.classList.remove('active');
           setTimeout(() => elements.logoAnim.classList.add('active'), 50);
-          setTimeout(() => {
-            elements.logoAnim.classList.remove('active');
-            elements.logoAnim.src = '';
-          }, 1600);
+          setTimeout(() => { elements.logoAnim.classList.remove('active'); elements.logoAnim.src = ''; }, 1600);
         }
       }
     });
 
-    // ==================== ФУНКЦИИ ОБНОВЛЕНИЯ ИНТЕРФЕЙСА ====================
     function updateAllVariants() {
-      const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
-      
-      // V1
-      elements.v1.lh.src = LEGION_LOGO;
-      elements.v1.la.src = opponentLogoSrc;
-      elements.v1.nh.textContent = 'ЛЕГИОН';
-      elements.v1.na.textContent = state.opponentName;
-      elements.v1.sh.textContent = state.legionScore;
-      elements.v1.sa.textContent = state.opponentScore;
-      elements.v1.p.textContent = state.period;
-      
-      if (state.opponentLogo === '') {
-        elements.v1.la.classList.add('away');
-      } else {
-        elements.v1.la.classList.remove('away');
-      }
-
-      // V2
-      elements.v2.lh.src = LEGION_LOGO;
-      elements.v2.la.src = opponentLogoSrc;
-      elements.v2.nh.textContent = 'ЛЕГИОН';
-      elements.v2.na.textContent = state.opponentName;
-      elements.v2.sh.textContent = state.legionScore;
-      elements.v2.sa.textContent = state.opponentScore;
-      elements.v2.p.textContent = state.period;
-      
-      if (state.opponentLogo === '') {
-        elements.v2.la.classList.add('away');
-      } else {
-        elements.v2.la.classList.remove('away');
-      }
-
-      // V3
-      elements.v3.lh.src = LEGION_LOGO;
-      elements.v3.la.src = opponentLogoSrc;
-      elements.v3.nh.textContent = 'ЛЕГИОН';
-      elements.v3.na.textContent = state.opponentName;
-      elements.v3.sh.textContent = state.legionScore;
-      elements.v3.sa.textContent = state.opponentScore;
-      elements.v3.p.textContent = state.period;
-      
-      if (state.opponentLogo === '') {
-        elements.v3.la.classList.add('default-logo');
-      } else {
-        elements.v3.la.classList.remove('default-logo');
-      }
-
+      const oppSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
+      ids.forEach(v => {
+        const el = elements[v];
+        el.lh.src = LEGION_LOGO;
+        el.la.src = oppSrc;
+        el.nh.textContent = 'ЛЕГИОН';
+        el.na.textContent = state.opponentName;
+        el.sh.textContent = state.legionScore;
+        el.sa.textContent = state.opponentScore;
+        el.p.textContent = state.period;
+      });
+      // классы для заглушек
+      const hasOppLogo = state.opponentLogo !== '';
+      elements.v1.la.classList.toggle('away', !hasOppLogo);
+      elements.v2.la.classList.toggle('away', !hasOppLogo);
+      elements.v3.la.classList.toggle('default-logo', !hasOppLogo);
       updateTimerDisplay();
       updateV3Width();
     }
@@ -961,12 +747,8 @@
     function updateTimerDisplay() {
       const m = Math.floor(state.timerSeconds / 60);
       const s = state.timerSeconds % 60;
-      const timeStr = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
-      
-      elements.v1.t.textContent = timeStr;
-      elements.v2.t.textContent = timeStr;
-      elements.v3.t.textContent = timeStr;
-      
+      const timeStr = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+      elements.v1.t.textContent = elements.v2.t.textContent = elements.v3.t.textContent = timeStr;
       elements.v1.t.classList.toggle('paused', !state.timerRunning);
     }
 
@@ -978,195 +760,74 @@
     }
 
     function toggleColorPicker() {
-      if (elements.admin.colCont) {
-        elements.admin.colCont.style.display = state.designVariant === 3 ? 'block' : 'none';
-      }
+      if (elements.admin.colCont) elements.admin.colCont.style.display = state.designVariant === 3 ? 'block' : 'none';
     }
 
     function applyColorTheme() {
-      elements.sbV3.className = elements.sbV3.className.replace(/theme-\w+/, '').trim();
-      elements.sbV3.classList.add('theme-' + state.colorTheme);
+      const v3 = elements.sbV3;
+      v3.className = v3.className.replace(/theme-\w+/, '').trim();
+      v3.classList.add('theme-' + state.colorTheme);
     }
 
     function updateAdminPanel() {
-      elements.admin.na.value = state.opponentName;
-      elements.admin.la.value = state.opponentLogo;
-      elements.admin.sh.value = state.legionScore;
-      elements.admin.sa.value = state.opponentScore;
-      elements.admin.p.value = state.period;
-      elements.admin.animChk.checked = state.logoAnimEnabled;
-
-      elements.admin.varBtns.forEach((btn, i) => {
-        btn.classList.toggle('act', i + 1 === state.designVariant);
-      });
-
-      elements.admin.colBtns.forEach(btn => {
-        btn.classList.toggle('act', btn.dataset.color === state.colorTheme);
-      });
-
+      const a = elements.admin;
+      a.na.value = state.opponentName;
+      a.la.value = state.opponentLogo;
+      a.sh.value = state.legionScore;
+      a.sa.value = state.opponentScore;
+      a.p.value = state.period;
+      a.animChk.checked = state.logoAnimEnabled;
+      a.varBtns.forEach((btn,i) => btn.classList.toggle('act', i+1 === state.designVariant));
+      a.colBtns.forEach(btn => btn.classList.toggle('act', btn.dataset.color === state.colorTheme));
       toggleColorPicker();
-
       if (state.timerRunning) {
-        elements.admin.tmInd.classList.add('run');
-        elements.admin.tmTxt.textContent = 'Запущен';
+        a.tmInd.classList.add('run');
+        a.tmTxt.textContent = 'Запущен';
       } else {
-        elements.admin.tmInd.classList.remove('run');
-        elements.admin.tmTxt.textContent = 'Остановлен';
+        a.tmInd.classList.remove('run');
+        a.tmTxt.textContent = 'Остановлен';
       }
     }
 
     function updateAnimCheckbox() {
-      if (elements.admin.animChk) {
-        elements.admin.animChk.checked = state.logoAnimEnabled;
-      }
+      if (elements.admin.animChk) elements.admin.animChk.checked = state.logoAnimEnabled;
     }
 
-    // ==================== ТАЙМЕР ====================
+    // Таймер
     function startTimerInterval(writeToDB = true) {
       stopTimerInterval();
       timerInterval = setInterval(() => {
         if (!localStartTime) return;
         state.timerSeconds = Math.floor((Date.now() - localStartTime) / 1000);
         updateTimerDisplay();
-        
         if (ADMIN && writeToDB && state.timerSeconds % 5 === 0) {
-          update(ref(db, DB_KEY), { timerSeconds: state.timerSeconds })
-            .catch(err => console.error('Firebase write error:', err));
+          update(ref(db, DB_KEY), { timerSeconds: state.timerSeconds }).catch(console.error);
         }
       }, 1000);
     }
+    function stopTimerInterval() { clearInterval(timerInterval); timerInterval = null; }
 
-    function stopTimerInterval() {
-      if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-      }
-    }
+    // Действия
+    function setVariant(v) { if (state.designVariant !== v) update(ref(db, DB_KEY), { designVariant: v }).catch(console.error); toast(); }
+    function setColor(c) { if (state.colorTheme !== c) update(ref(db, DB_KEY), { colorTheme: c }).catch(console.error); toast(); }
+    function toggleAnim() { state.logoAnimEnabled = elements.admin.animChk.checked; update(ref(db, DB_KEY), { logoAnimEnabled: state.logoAnimEnabled }).catch(console.error); toast(); }
+    function saveOpponent() { state.opponentName = elements.admin.na.value || 'СОПЕРНИК'; state.opponentLogo = elements.admin.la.value; update(ref(db, DB_KEY), { opponentName: state.opponentName, opponentLogo: state.opponentLogo }).catch(console.error); toast(); }
+    function updateScore() { state.legionScore = parseInt(elements.admin.sh.value) || 0; state.opponentScore = parseInt(elements.admin.sa.value) || 0; update(ref(db, DB_KEY), { legionScore: state.legionScore, opponentScore: state.opponentScore }).catch(console.error); toast(); }
+    function resetScore() { state.legionScore = 0; state.opponentScore = 0; elements.admin.sh.value = 0; elements.admin.sa.value = 0; update(ref(db, DB_KEY), { legionScore: 0, opponentScore: 0 }).catch(console.error); toast(); }
+    function triggerGoal(team = null) { set(ref(db, 'goal_trigger'), { time: Date.now(), team }).then(() => setTimeout(() => set(ref(db, 'goal_trigger'), null), 2000)).catch(console.error); }
+    function quickGoal(team) { if (team === 'legion') state.legionScore++; else state.opponentScore++; elements.admin.sh.value = state.legionScore; elements.admin.sa.value = state.opponentScore; update(ref(db, DB_KEY), { legionScore: state.legionScore, opponentScore: state.opponentScore }).catch(console.error); triggerGoal(team); toast(); }
+    function timerPause() { if (!state.timerRunning) return; state.timerRunning = false; stopTimerInterval(); update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: state.timerSeconds }).catch(console.error); toast(); }
+    function timerStart() { if (state.timerRunning) return; state.timerRunning = true; localStartTime = Date.now() - (state.timerSeconds * 1000); startTimerInterval(true); update(ref(db, DB_KEY), { timerRunning: true, timerSeconds: state.timerSeconds }).catch(console.error); toast(); }
+    function timerReset() { stopTimerInterval(); state.timerRunning = false; state.timerSeconds = 0; localStartTime = null; updateTimerDisplay(); update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: 0 }).catch(console.error); toast(); }
+    function updatePeriod() { state.period = elements.admin.p.value; if (state.period === 'ПЕРЕРЫВ' && state.timerRunning) timerPause(); update(ref(db, DB_KEY), { period: state.period }).catch(console.error); toast(); }
+    function toast() { elements.toast.classList.add('show'); setTimeout(() => elements.toast.classList.remove('show'), 2000); }
 
-    // ==================== ДЕЙСТВИЯ ====================
-    function setVariant(variant) {
-      if (state.designVariant === variant) return;
-      state.designVariant = variant;
-      update(ref(db, DB_KEY), { designVariant: variant }).catch(console.error);
-      toast();
-    }
-
-    function setColor(color) {
-      if (state.colorTheme === color) return;
-      state.colorTheme = color;
-      update(ref(db, DB_KEY), { colorTheme: color }).catch(console.error);
-      toast();
-    }
-
-    function toggleAnim() {
-      state.logoAnimEnabled = elements.admin.animChk.checked;
-      update(ref(db, DB_KEY), { logoAnimEnabled: state.logoAnimEnabled }).catch(console.error);
-      toast();
-    }
-
-    function saveOpponent() {
-      state.opponentName = elements.admin.na.value || 'СОПЕРНИК';
-      state.opponentLogo = elements.admin.la.value;
-      update(ref(db, DB_KEY), { opponentName: state.opponentName, opponentLogo: state.opponentLogo }).catch(console.error);
-      toast();
-    }
-
-    function updateScore() {
-      state.legionScore = parseInt(elements.admin.sh.value) || 0;
-      state.opponentScore = parseInt(elements.admin.sa.value) || 0;
-      update(ref(db, DB_KEY), { legionScore: state.legionScore, opponentScore: state.opponentScore }).catch(console.error);
-      toast();
-    }
-
-    function resetScore() {
-      state.legionScore = 0;
-      state.opponentScore = 0;
-      elements.admin.sh.value = 0;
-      elements.admin.sa.value = 0;
-      update(ref(db, DB_KEY), { legionScore: 0, opponentScore: 0 }).catch(console.error);
-      toast();
-    }
-
-    function triggerGoal(team = null) {
-      const goalData = { time: Date.now(), team: team };
-      set(ref(db, 'goal_trigger'), goalData)
-        .then(() => setTimeout(() => set(ref(db, 'goal_trigger'), null), 2000))
-        .catch(console.error);
-    }
-
-    function quickGoal(team) {
-      if (team === 'legion') {
-        state.legionScore++;
-        elements.admin.sh.value = state.legionScore;
-      } else {
-        state.opponentScore++;
-        elements.admin.sa.value = state.opponentScore;
-      }
-      update(ref(db, DB_KEY), { legionScore: state.legionScore, opponentScore: state.opponentScore }).catch(console.error);
-      triggerGoal(team);
-      toast();
-    }
-
-    // ИСПРАВЛЕНО: при паузе сохраняем точное значение секунд
-    function timerPause() {
-      if (!state.timerRunning) return;
-      state.timerRunning = false;
-      stopTimerInterval();
-      // Сохраняем текущее значение таймера вместе с состоянием
-      update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: state.timerSeconds })
-        .catch(console.error);
-      toast();
-    }
-
-    // ИСПРАВЛЕНО: при старте тоже сохраняем секунды (для надёжности)
-    function timerStart() {
-      if (state.timerRunning) return;
-      state.timerRunning = true;
-      localStartTime = Date.now() - (state.timerSeconds * 1000);
-      startTimerInterval(true);
-      update(ref(db, DB_KEY), { timerRunning: true, timerSeconds: state.timerSeconds })
-        .catch(console.error);
-      toast();
-    }
-
-    function timerReset() {
-      stopTimerInterval();
-      state.timerRunning = false;
-      state.timerSeconds = 0;
-      localStartTime = null;
-      updateTimerDisplay();
-      update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: 0 })
-        .catch(console.error);
-      toast();
-    }
-
-    function updatePeriod() {
-      state.period = elements.admin.p.value;
-      if (state.period === 'ПЕРЕРЫВ' && state.timerRunning) {
-        timerPause();
-      }
-      update(ref(db, DB_KEY), { period: state.period }).catch(console.error);
-      toast();
-    }
-
-    function toast() {
-      elements.toast.classList.add('show');
-      setTimeout(() => elements.toast.classList.remove('show'), 2000);
-    }
-
-    // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+    // Инициализация
     if (ADMIN) {
-      elements.sbV1.classList.add('hide');
-      elements.sbV2.classList.add('hide');
-      elements.sbV3.classList.add('hide');
+      elements.sbV1.classList.add('hide'); elements.sbV2.classList.add('hide'); elements.sbV3.classList.add('hide');
       document.getElementById('admin').classList.remove('hide');
-
-      document.querySelectorAll('.var-btn').forEach(btn => {
-        btn.addEventListener('click', () => setVariant(parseInt(btn.dataset.variant)));
-      });
-      document.querySelectorAll('.col-btn').forEach(btn => {
-        btn.addEventListener('click', () => setColor(btn.dataset.color));
-      });
+      document.querySelectorAll('.var-btn').forEach(btn => btn.addEventListener('click', () => setVariant(parseInt(btn.dataset.variant))));
+      document.querySelectorAll('.col-btn').forEach(btn => btn.addEventListener('click', () => setColor(btn.dataset.color)));
       document.getElementById('anim-chk').addEventListener('change', toggleAnim);
       document.getElementById('saveOpponentBtn').addEventListener('click', saveOpponent);
       document.getElementById('updateScoreBtn').addEventListener('click', updateScore);
@@ -1178,16 +839,12 @@
       document.getElementById('updatePeriodBtn').addEventListener('click', updatePeriod);
       document.getElementById('goalLegionBtn').addEventListener('click', () => quickGoal('legion'));
       document.getElementById('goalOpponentBtn').addEventListener('click', () => quickGoal('opponent'));
-
       updateAdminPanel();
     } else {
       updateAllVariants();
       updateVisibility();
       applyColorTheme();
-      if (state.timerRunning) {
-        localStartTime = Date.now() - (state.timerSeconds * 1000);
-        startTimerInterval(false);
-      }
+      if (state.timerRunning) { localStartTime = Date.now() - (state.timerSeconds * 1000); startTimerInterval(false); }
     }
   </script>
 </body>
