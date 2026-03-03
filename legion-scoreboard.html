@@ -49,8 +49,8 @@ body {
 .sc-v1-half.home { border-right: var(--border-light); }
 .sc-v1-half.away { border-left: var(--border-light); }
 .sc-v1-logo {
-  width: 56px;
-  height: 56px;
+  width: 67px; /* +20% */
+  height: 67px; /* +20% */
   object-fit: contain;
   filter: drop-shadow(var(--shadow-sm));
 }
@@ -110,7 +110,7 @@ body {
   color: var(--text-white);
   text-transform: uppercase;
   padding: 2px 6px;
-  background: rgba(0,0,0,0.3);
+  background:0,0,0,0.3);
   border-radius: 4px;
 }
 .sc-v1-time {
@@ -172,8 +172,8 @@ body {
   white-space: nowrap;
 }
 .sc-v2-logo {
-  width: 42px;
-  height: 42px;
+  width: 50px; /* +20% */
+  height: 50px; /* +20% */
   object-fit: contain;
   filter: drop-shadow(var(--shadow-sm));
   transform: skewX(8deg);
@@ -260,8 +260,8 @@ body {
 .sc-v3-logo-h {
   position: absolute;
   top: 50%;
-  width: 55px;
-  height: 55px;
+  width: 65px; /* +20% */
+  height: 65px; /* +20% */
   object-fit: contain;
   filter: drop-shadow(var(--shadow-lg));
   z-index: 10;
@@ -271,8 +271,8 @@ body {
 .sc-v3-logo-a {
   position: absolute;
   top: 50%;
-  width: 55px;
-  height: 55px;
+  width: 65px; /* +20% */
+  height: 65px; /* +20% */
   object-fit: contain;
   filter: drop-shadow(var(--shadow-lg));
   z-index: 10;
@@ -280,8 +280,8 @@ body {
   transform: translate(50%, -50%);
 }
 .sc-v3-logo-a.default-logo {
-  width: 44px;
-  height: 44px;
+  width: 52px;
+  height: 52px;
 }
 .sc-v3-center {
   position: relative;
@@ -364,7 +364,7 @@ body {
 .theme-blue .sc-v3-strip { background: linear-gradient(90deg, #0a1f44 0%, #163675 100%); }
 .theme-orange .sc-v1-bar { background: linear-gradient(180deg, #c2410c 0%, #ea580c 100%); }
 .theme-orange .sc-v1-timer { background: linear-gradient(180deg, #c2410c 0%, #ea580c 100%); }
-.theme-orange .sc-v2-team { background: linear-gradient(90deg, #c2410c 0%, #ea580c 100%); }
+.theme-orange .sc-v2-team { background: linear-gradient(90deg, #c240c %, #ea580c 100%); }
 .theme-orange .sc-v2-score-sec { background: linear-gradient(180deg, #c2410c 0%, #ea580c 100%); }
 .theme-orange .sc-v3-strip { background: linear-gradient(90deg, #c2410c 0%, #ea580c 100%); }
 .theme-purple .sc-v1-bar { background: linear-gradient(180deg, #581c87 0%, #7e22ce 100%); }
@@ -374,7 +374,7 @@ body {
 .theme-purple .sc-v3-strip { background: linear-gradient(90deg, #581c87 0%, #7e22ce 100%); }
 .theme-silver .sc-v1-bar { background: linear-gradient(180deg, #404040 0%, #525252 100%); }
 .theme-silver .sc-v1-timer { background: linear-gradient(180deg, #404040 0%, #525252 100%); }
-.theme-silver .sc-v2-team { background: linear-gradient(90deg, #404040 0%, #525252 100%); }
+.theme-silver .sc-v2-team { background: linear-gradient(90deg, #404040 0%, #525252 10%); }
 .theme-silver .sc-v2-score-sec { background: linear-gradient(180deg, #404040 0%, #525252 100%); }
 .theme-silver .sc-v3-strip { background: linear-gradient(90deg, #404040 0%, #525252 100%); }
 .theme-red .sc-v1-bar { background: linear-gradient(180deg, #991b1b 0%, #dc2626 100%); }
@@ -388,7 +388,7 @@ body {
 .theme-green .sc-v2-score-sec { background: linear-gradient(180deg, #1b5e20 0%, #2e7d32 100%); }
 .theme-green .sc-v3-strip { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
 
-/* ===== КАРТОЧКА ГОЛА (НОВЫЙ СТИЛЬ) ===== */
+/* ===== КАРТОЧКА ГОЛА (ЛОГО ВВЕРХ) ===== */
 .goal-card {
   position: fixed;
   bottom: 20px;
@@ -398,9 +398,9 @@ body {
   backdrop-filter: blur(8px);
   border-left: 5px solid var(--accent-green);
   border-radius: 12px;
-  padding: 8px 20px 8px 65px;
+  padding: 8px 20px 8px 20px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   box-shadow: var(--shadow-lg);
   z-index: 2001;
@@ -419,11 +419,11 @@ body {
 }
 .goal-card .legion-logo {
   position: absolute;
-  left: -35px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 85px;
-  height: 85px;
+  top: -35%; /* Выступает вверх на 35% */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px; /* +20% */
+  height: 90px; /* +20% */
   object-fit: contain;
   filter: drop-shadow(0 4px 12px rgba(76, 175, 80, 0.6));
   z-index: 2002;
@@ -512,7 +512,7 @@ body {
   text-transform: uppercase;
 }
 .player-buttons {
-  display: flex;
+  display:;
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 5px;
@@ -743,7 +743,7 @@ body {
 <!-- V3 -->
 <div id="sb-v3" class="sc-v3 theme-green hide" style="--strip-width: 180px;">
   <div class="sc-v3-strip home">
-    <span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span>
+   span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span>
   </div>
   <div class="sc-v3-center">
     <div class="sc-v3-scores">
@@ -770,10 +770,10 @@ body {
   <img id="goal-card-logo" class="legion-logo" src="https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg" alt="Легион">
   <div class="info">
     <div class="player-row">
-      <span id="goal-lastname" class="last-name"></span>
-      <span id="goal-number" class="number-circle"></span>
+      <span id="goal-lastname" class="last-name">ХИСАМЕТДИНОВ</span>
+      <span id="goal-number" class="number-circle">7</span>
     </div>
-    <div id="goal-minute-display" class="minute"></div>
+    <div id="goal-minute-display" class="minute">142'</div>
   </div>
 </div>
 <!-- Модальное окно -->
@@ -896,8 +896,7 @@ let state = {
 let timerInterval = null;
 let localStartTime = null;
 let players = [];
-let timerInitialized = false; // ✅ Флаг инициализации таймера
-let lastGoalTriggerTime = 0;
+let firstLoad = true; // ✅ Ключевой флаг для фикса 18 минут
 
 const elements = {
   v1: { lh: document.getElementById('v1-lh'), la: document.getElementById('v1-la'), nh: document.getElementById('v1-nh'), na: document.getElementById('v1-na'), sh: document.getElementById('v1-sh'), sa: document.getElementById('v1-sa'), p: document.getElementById('v1-p'), t: document.getElementById('v1-t') },
@@ -949,7 +948,7 @@ async function loadPlayers() {
   }
 }
 
-// === МОДАЛКА ===
+// === МОДАЛЬНОЕ ОКНО ===
 function openGoalModal() {
   if (!players.length) {
     toast('Список игроков не загружен');
@@ -994,43 +993,40 @@ function renderPlayerButtons() {
   });
 }
 
-// ✅ ИСПРАВЛЕНИЕ 1: Очищаем триггеры ДО подписки
-async function clearStaleTriggers() {
-  try {
-    await set(ref(db, 'goal_trigger'), null);
-    await set(ref(db, 'live_goal'), null);
-    console.log('✅ Триггеры очищены перед подпиской');
-  } catch (e) {
-    console.error('❌ Не удалось очистить триггеры:', e);
-  }
-}
-
-// === ПОДПИСКИ FIREBASE ===
+// === ПОДПИСКА НА ДАННЫЕ (ФИКС 18 МИНУТ) ===
 const dataRef = ref(db, DB_KEY);
 onValue(dataRef, (snapshot) => {
   const data = snapshot.val();
   if (!data) return;
-  
+
   const oldRunning = state.timerRunning;
-  const oldSeconds = state.timerSeconds;
   state = { ...state, ...data };
-  
+
   if (!ADMIN) {
-    // ✅ ИСПРАВЛЕНИЕ 2: Правильная инициализация таймера
-    if (state.timerRunning && !oldRunning) {
-      if (timerInitialized) {
-        // Таймер только что запустили - считаем с текущей позиции
-        localStartTime = Date.now() - (state.timerSeconds * 1000);
-        startTimerInterval(false);
+    // ✅ КРИТИЧЕСКИЙ ФИКС: первый запуск с timerRunning=true
+    if (state.timerRunning && firstLoad) {
+      // Если в Firebase timerSeconds > 600 (10 мин), считаем его устаревшим
+      if (state.timerSeconds > 600) {
+        console.warn(`[FIX] Обнаружен старый timerSeconds=${state.timerSeconds}. Сбрасываем до 0.`);
+        state.timerSeconds = 0;
+        update(ref(db, DB_KEY), { timerSeconds: 0 }).catch(console.error);
       }
-      // Если timerInitialized = false, это первое подключение - не перезапускаем
+      // В любом случае — запускаем с текущего момента
+      localStartTime = Date.now();
+      startTimerInterval(false);
+      firstLoad = false;
+      return;
+    }
+
+    // Обычная логика
+    if (state.timer && !oldRunning) {
+      localStartTime = Date.now() - (state.timerSeconds * 1000);
+      startTimerInterval(false);
     }
     if (!state.timerRunning && oldRunning) {
       stopTimerInterval();
     }
-    
-    timerInitialized = true; // ✅ Помечаем что инициализировались
-    
+
     updateAllVariants();
     updateVisibility();
     applyColorTheme();
@@ -1040,24 +1036,25 @@ onValue(dataRef, (snapshot) => {
   }
 });
 
-// ✅ ИСПРАВЛЕНИЕ 3: Подписка на goal_trigger с проверкой времени
+// === ПОДПИСКА НА ТРИГГЕРЫ ===
+let lastGoalTriggerTime = 0;
 onValue(ref(db, 'goal_trigger'), (snapshot) => {
   const trigger = snapshot.val();
   if (!trigger || ADMIN) return;
-  
+
   const triggerAge = Date.now() - trigger.time;
-  if (triggerAge < 5000 && trigger.time !== lastGoalTriggerTime) {
+  if (triggerAge < 5000 && !== lastGoalTriggerTime) {
     lastGoalTriggerTime = trigger.time;
-    
+
     elements.goalAnim.classList.add('active');
     setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
-    
+
     if (trigger.team === 'legion' && state.logoAnimEnabled) {
       elements.logoAnim.classList.remove('active');
       setTimeout(() => elements.logoAnim.classList.add('active'), 50);
       setTimeout(() => elements.logoAnim.classList.remove('active'), 1600);
     }
-    
+
     setTimeout(() => set(ref(db, 'goal_trigger'), null).catch(console.error), 2000);
   }
 });
@@ -1065,7 +1062,7 @@ onValue(ref(db, 'goal_trigger'), (snapshot) => {
 onValue(ref(db, 'live_goal'), (snapshot) => {
   const goal = snapshot.val();
   if (!goal || ADMIN) return;
-  
+
   const goalAge = Date.now() - goal.timestamp;
   if (goalAge < 5000) {
     showGoalCard(goal);
@@ -1090,7 +1087,7 @@ function showGoalCard(goal) {
 // === ОБНОВЛЕНИЕ ТАБЛО ===
 function updateAllVariants() {
   const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
-  
+
   ['v1', 'v2', 'v3'].forEach(v => {
     elements[v].lh.src = LEGION_LOGO;
     elements[v].la.src = opponentLogoSrc;
@@ -1100,7 +1097,7 @@ function updateAllVariants() {
     elements[v].sa.textContent = state.opponentScore;
     elements[v].p.textContent = state.period;
   });
-  
+
   if (state.opponentLogo === '') {
     elements.v1.la.classList.add('away');
     elements.v2.la.classList.add('away');
@@ -1108,13 +1105,13 @@ function updateAllVariants() {
     elements.v1.la.classList.remove('away');
     elements.v2.la.classList.remove('away');
   }
-  
+
   if (state.opponentLogo === '') {
     elements.v3.la.classList.add('default-logo');
   } else {
     elements.v3.la.classList.remove('default-logo');
   }
-  
+
   updateTimerDisplay();
   updateV3Width();
 }
@@ -1241,7 +1238,7 @@ function resetScore() {
   toast();
 }
 
-function triggerGoal(team = null) {
+function triggerGoal(team) {
   const goalData = { time: Date.now(), team: team };
   set(ref(db, 'goal_trigger'), goalData)
     .then(() => setTimeout(() => set(ref(db, 'goal_trigger'), null), 2000))
@@ -1306,26 +1303,28 @@ function toast(msg) {
 
 // === ИНИЦИАЛИЗАЦИЯ ===
 (async function init() {
-  // ✅ Сначала очищаем старые триггеры (ДО подписки)
-  if (!ADMIN) {
-    await clearStaleTriggers();
-  }
-  
+  // Убедимся, что анимации скрыты при старте
+  elements.goalAnim.classList.remove('active');
+  elements.logoAnim.classList.remove('active');
+  elements.goalCard.classList.add('hidden');
+
   if (ADMIN) {
     elements.sbV1.classList.add('hide');
     elements.sbV2.classList.add('hide');
     elements.sbV3.classList.add('hide');
     document.getElementById('admin').classList.remove('hide');
-    
-    loadPlayers().then(() => renderPlayerButtons());
-    
-    document.querySelectorAll('.var-btn').forEach(btn => {
+
+    await loadPlayers();
+    renderPlayerButtons();
+
+    // Обработчики
+    elements.admin.varBtns.forEach(btn => {
       btn.addEventListener('click', () => setVariant(parseInt(btn.dataset.variant)));
     });
-    document.querySelectorAll('.col-btn').forEach(btn => {
+    elements.admin.colBtns.forEach(btn => {
       btn.addEventListener('click', () => setColor(btn.dataset.color));
     });
-    document.getElementById('anim-chk').addEventListener('change', toggleAnim);
+    elements.admin.animChk.addEventListener('change', toggleAnim);
     document.getElementById('saveOpponentBtn').addEventListener('click', saveOpponent);
     document.getElementById('updateScoreBtn').addEventListener('click', updateScore);
     document.getElementById('genericGoalBtn').addEventListener('click', () => triggerGoal(null));
@@ -1341,21 +1340,20 @@ function toast(msg) {
         elements.goalModal.classList.add('hidden');
       }
     });
-    
+
     updateAdminPanel();
   } else {
-    elements.goalAnim.classList.remove('active');
-    elements.logoAnim.classList.remove('active');
-    elements.goalCard.classList.add('hidden');
-    
     updateAllVariants();
     updateVisibility();
     applyColorTheme();
-    
+
     if (state.timerRunning) {
-      localStartTime = Date.now() - (state.timerSeconds * 1000);
-      startTimerInterval(false);
-      timerInitialized = true; // ✅ Помечаем что инициализировались
+      // При первом подключении — используем флаг firstLoad (уже обработан в onValue)
+      // Здесь только инициализируем интервал, если уже был запущен ранее
+      if (!firstLoad) {
+        localStartTime = Date.now() - (state.timerSeconds * 1000);
+        startTimerInterval(false);
+      }
     }
   }
 })();
