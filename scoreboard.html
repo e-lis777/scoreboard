@@ -25,136 +25,37 @@
   .sc-v1-time.paused { animation: pulse 1s infinite; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-  /* === VARIANT 2: TV STYLE (ТЕКСТ НАКЛОННЫЙ, ЛОГО ПРЯМЫЕ) === */
+  /* === VARIANT 2: TV STYLE (ИСПРАВЛЕНО) === */
   .sc-v2 { display: flex !important; flex-direction: column !important; align-items: center !important; width: 100% !important; max-width: 550px !important; margin: 0 auto !important; }
   .sc-v2-bar { display: flex !important; align-items: center !important; width: 100% !important; transform: skewX(-10deg) !important; border-radius: 6px !important; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5) !important; }
   .sc-v2-team { display: flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; padding: 8px 15px !important; flex: 1 !important; background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%) !important; }
   .sc-v2-team.home { border-right: 1px solid rgba(255,255,255,0.1) !important; }
   .sc-v2-team.away { border-left: 1px solid rgba(255,255,255,0.1) !important; background: linear-gradient(90deg, #2d2d2d 0%, #1a1a1a 100%) !important; }
   .sc-v2-score-sec { display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; padding: 8px 20px !important; background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%) !important; min-width: 90px !important; }
-  .sc-v2-name { font-size: 14px !important; font-weight: 900 !important; color: #fff !important; text-transform: uppercase !important; letter-spacing: 0.5px !important; text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important; white-space: nowrap !important; transform: skewX(10deg) !important; }
-  .sc-v2-logo { width: 34px !important; height: 34px !important; object-fit: contain !important; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)) !important; } /* БЕЗ transform = ПРЯМОЕ ЛОГО */
+  .sc-v2-name { font-size: 14px !important; font-weight: 900 !important; color: #fff !important; text-transform: uppercase !important; letter-spacing: 0.5px !important; text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important; white-space: nowrap !important; }
+  .sc-v2-logo { width: 34px !important; height: 34px !important; object-fit: contain !important; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)) !important; transform: skewX(10deg) !important; }
   .sc-v2-scores { display: flex !important; align-items: center !important; gap: 8px !important; }
-  .sc-v2-score { font-size: 32px !important; font-weight: 900 !important; color: #fff !important; text-shadow: 0 2px 4px rgba(0,0,0,0.5) !important; transform: skewX(10deg) !important; }
-  .sc-v2-sep { font-size: 20px !important; color: rgba(255,255,255,0.7) !important; transform: skewX(10deg) !important; }
+  .sc-v2-score { font-size: 32px !important; font-weight: 900 !important; color: #fff !important; text-shadow: 0 2px 4px rgba(0,0,0,0.5) !important; }
+  .sc-v2-sep { font-size: 20px !important; color: rgba(255,255,255,0.7) !important; }
   .sc-v2-timer { display: flex !important; align-items: center !important; justify-content: center !important; gap: 12px !important; background: rgba(0,0,0,0.85) !important; padding: 4px 15px !important; margin-top: 2px !important; border-radius: 0 0 6px 6px !important; box-shadow: 0 4px 10px rgba(0,0,0,0.4) !important; }
-  .sc-v2-timer .time { font-size: 12px !important; font-weight: 700 !important; color: #fff !important; font-variant-numeric: tabular-nums !important; transform: skewX(10deg) !important; }
-  .sc-v2-timer .period { font-size: 10px !important; font-weight: 700 !important; color: rgba(255,255,255,0.7) !important; text-transform: uppercase !important; padding: 1px 6px !important; background: rgba(255,255,255,0.1) !important; border-radius: 3px !important; transform: skewX(10deg) !important; }
+  .sc-v2-timer .time { font-size: 12px !important; font-weight: 700 !important; color: #fff !important; font-variant-numeric: tabular-nums !important; }
+  .sc-v2-timer .period { font-size: 10px !important; font-weight: 700 !important; color: rgba(255,255,255,0.7) !important; text-transform: uppercase !important; padding: 1px 6px !important; background: rgba(255,255,255,0.1) !important; border-radius: 3px !important; }
 
-  /* === VARIANT 3: LAYERED (ШИРЕ ПОЛОСЫ, ШИРЕ БОКС, ЛОГО НА ГРАНИЦЕ) === */
-  .sc-v3 {
-    position: relative !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin: 0 auto !important;
-    height: 60px !important;
-  }
-
-  .sc-v3-strip {
-    position: relative !important;
-    height: 50px !important;
-    width: var(--strip-width, 180px) !important; /* БЫЛО 140px, ТЕПЕРЬ 180px */
-    z-index: 1 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
+  /* === VARIANT 3: LAYERED === */
+  .sc-v3 { position: relative !important; display: flex !important; align-items: center !important; justify-content: center !important; margin: 0 auto !important; height: 60px !important; }
+  .sc-v3-strip { position: relative !important; height: 50px !important; width: var(--strip-width, 180px) !important; z-index: 1 !important; display: flex !important; align-items: center !important; justify-content: center !important; }
   .sc-v3-strip.home { border-radius: 4px 0 0 4px !important; }
   .sc-v3-strip.away { border-radius: 0 4px 4px 0 !important; }
-
-  .sc-v3-name {
-    font-size: 14px !important;
-    font-weight: 900 !important;
-    color: #fff !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important;
-    white-space: nowrap !important;
-    z-index: 2 !important;
-    padding: 0 15px !important;
-    max-width: 100% !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-  }
-
-  /* Логотипы НА ГРАНИЦЕ БЕЛОГО БОКСА (170px / 2 = 85px) */
-  .sc-v3-logo-h {
-    position: absolute !important;
-    left: calc(50% - 85px) !important; /* БЫЛО 72.5px, ТЕПЕРЬ 85px */
-    top: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: 50px !important;
-    height: 50px !important;
-    object-fit: contain !important;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important;
-    z-index: 10 !important;
-  }
-  .sc-v3-logo-a {
-    position: absolute !important;
-    right: calc(50% - 85px) !important; /* БЫЛО 72.5px, ТЕПЕРЬ 85px */
-    top: 50% !important;
-    transform: translate(50%, -50%) !important;
-    width: 50px !important;
-    height: 50px !important;
-    object-fit: contain !important;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important;
-    z-index: 10 !important;
-  }
-
-  .sc-v3-center {
-    position: relative !important;
-    width: 170px !important; /* БЫЛО 145px, ТЕПЕРЬ 170px */
-    height: 55px !important;
-    background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%) !important;
-    border-radius: 10px !important;
-    z-index: 5 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important;
-    border: 1px solid rgba(255,255,255,0.8) !important;
-    padding: 6px 0 0 0 !important;
-  }
-  .sc-v3-scores { 
-    display: flex !important; 
-    align-items: center !important; 
-    gap: 8px !important;
-    margin-bottom: 0px !important;
-    flex-shrink: 0 !important;
-  }
-  .sc-v3-score { 
-    font-size: 34px !important;
-    font-weight: 900 !important; 
-    color: #000 !important; 
-    min-width: 32px !important; 
-    text-align: center !important; 
-    line-height: 1 !important;
-  }
-  .sc-v3-sep { 
-    font-size: 20px !important;
-    color: #555 !important; 
-    font-weight: 900 !important; 
-  }
-  .sc-v3-timer { 
-    display: flex !important; 
-    align-items: center !important; 
-    gap: 4px !important; 
-    margin-top: -3px !important;
-  }
-  .sc-v3-timer .time { 
-    font-size: 10px !important;
-    font-weight: 900 !important; 
-    color: #555 !important; 
-  }
-  .sc-v3-timer .period { 
-    font-size: 8px !important;
-    font-weight: 900 !important; 
-    color: #666 !important; 
-    text-transform: uppercase !important; 
-  }
-
+  .sc-v3-name { font-size: 14px !important; font-weight: 900 !important; color: #fff !important; text-transform: uppercase !important; letter-spacing: 0.5px !important; text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important; white-space: nowrap !important; z-index: 2 !important; padding: 0 15px !important; max-width: 100% !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+  .sc-v3-logo-h { position: absolute !important; left: calc(50% - 85px) !important; top: 50% !important; transform: translate(-50%, -50%) !important; width: 50px !important; height: 50px !important; object-fit: contain !important; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important; z-index: 10 !important; }
+  .sc-v3-logo-a { position: absolute !important; right: calc(50% - 85px) !important; top: 50% !important; transform: translate(50%, -50%) !important; width: 50px !important; height: 50px !important; object-fit: contain !important; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.6)) !important; z-index: 10 !important; }
+  .sc-v3-center { position: relative !important; width: 170px !important; height: 55px !important; background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%) !important; border-radius: 10px !important; z-index: 5 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; box-shadow: 0 4px 20px rgba(0,0,0,0.5) !important; border: 1px solid rgba(255,255,255,0.8) !important; padding: 6px 0 0 0 !important; }
+  .sc-v3-scores { display: flex !important; align-items: center !important; gap: 8px !important; margin-bottom: 0px !important; flex-shrink: 0 !important; }
+  .sc-v3-score { font-size: 34px !important; font-weight: 900 !important; color: #000 !important; min-width: 32px !important; text-align: center !important; line-height: 1 !important; }
+  .sc-v3-sep { font-size: 20px !important; color: #555 !important; font-weight: 900 !important; }
+  .sc-v3-timer { display: flex !important; align-items: center !important; gap: 4px !important; margin-top: -3px !important; }
+  .sc-v3-timer .time { font-size: 10px !important; font-weight: 900 !important; color: #555 !important; }
+  .sc-v3-timer .period { font-size: 8px !important; font-weight: 900 !important; color: #666 !important; text-transform: uppercase !important; }
   .sc-v3.theme-blue { --strip-bg: linear-gradient(90deg, #0a1f44 0%, #163675 100%); }
   .sc-v3.theme-orange { --strip-bg: linear-gradient(90deg, #c2410c 0%, #ea580c 100%); }
   .sc-v3.theme-purple { --strip-bg: linear-gradient(90deg, #581c87 0%, #7e22ce 100%); }
@@ -167,7 +68,6 @@
   .goal-anim { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); font-size: 100px; font-weight: 900; color: #ffd700; text-shadow: 0 0 30px rgba(255, 215, 0, 0.8); z-index: 1000; pointer-events: none; }
   .goal-anim.active { animation: goalPop 1.5s ease-out; }
   @keyframes goalPop { 0% { transform: translate(-50%, -50%) scale(0); opacity: 0; } 50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
-
   .logo-anim { position: fixed; bottom: -200px; left: -200px; width: 150px; height: 150px; z-index: 1001; pointer-events: none; filter: drop-shadow(0 0 30px rgba(0, 150, 255, 0.8)); opacity: 0; }
   .logo-anim.active { animation: logoFly 1.5s forwards; }
   @keyframes logoFly { 0% { bottom: -200px; left: -200px; transform: scale(0.1) rotate(-15deg); opacity: 0; } 30% { opacity: 1; } 100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; } }
@@ -295,7 +195,6 @@
     <div class="sc-v3-strip away">
       <span id="v3-na" class="sc-v3-name">ГОСТИ</span>
     </div>
-    <!-- Логотипы ОТДЕЛЬНО (будут сверху) -->
     <img id="v3-lh" class="sc-v3-logo-h" src="" alt="">
     <img id="v3-la" class="sc-v3-logo-a" src="" alt="">
   </div>
