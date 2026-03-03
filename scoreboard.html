@@ -25,7 +25,7 @@
   .sc-v1-time.paused { animation: pulse 1s infinite; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-  /* === VARIANT 2: TV STYLE === */
+  /* === VARIANT 2: TV STYLE (ТЕКСТ ПРЯМОЙ, ЛОГО НАКЛОННЫЕ) === */
   .sc-v2 { display: flex !important; flex-direction: column !important; align-items: center !important; width: 100% !important; max-width: 550px !important; margin: 0 auto !important; }
   .sc-v2-bar { display: flex !important; align-items: center !important; width: 100% !important; transform: skewX(-10deg) !important; border-radius: 6px !important; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5) !important; }
   .sc-v2-team { display: flex !important; align-items: center !important; justify-content: center !important; gap: 6px !important; padding: 8px 15px !important; flex: 1 !important; background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%) !important; }
@@ -33,7 +33,7 @@
   .sc-v2-team.away { border-left: 1px solid rgba(255,255,255,0.1) !important; background: linear-gradient(90deg, #2d2d2d 0%, #1a1a1a 100%) !important; }
   .sc-v2-score-sec { display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; padding: 8px 20px !important; background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%) !important; min-width: 90px !important; }
   .sc-v2-name { font-size: 14px !important; font-weight: 900 !important; color: #fff !important; text-transform: uppercase !important; letter-spacing: 0.5px !important; text-shadow: 0 2px 4px rgba(0,0,0,0.8) !important; white-space: nowrap !important; transform: skewX(10deg) !important; }
-  .sc-v2-logo { width: 34px !important; height: 34px !important; object-fit: contain !important; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)) !important; }
+  .sc-v2-logo { width: 34px !important; height: 34px !important; object-fit: contain !important; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)) !important; } /* БЕЗ transform - логотип наклонный */
   .sc-v2-scores { display: flex !important; align-items: center !important; gap: 8px !important; }
   .sc-v2-score { font-size: 32px !important; font-weight: 900 !important; color: #fff !important; text-shadow: 0 2px 4px rgba(0,0,0,0.5) !important; transform: skewX(10deg) !important; }
   .sc-v2-sep { font-size: 20px !important; color: rgba(255,255,255,0.7) !important; transform: skewX(10deg) !important; }
@@ -41,7 +41,7 @@
   .sc-v2-timer .time { font-size: 12px !important; font-weight: 700 !important; color: #fff !important; font-variant-numeric: tabular-nums !important; transform: skewX(10deg) !important; }
   .sc-v2-timer .period { font-size: 10px !important; font-weight: 700 !important; color: rgba(255,255,255,0.7) !important; text-transform: uppercase !important; padding: 1px 6px !important; background: rgba(255,255,255,0.1) !important; border-radius: 3px !important; transform: skewX(10deg) !important; }
 
-  /* === VARIANT 3: LAYERED (ЛОГО НА КРАЮ БЕЛОГО БОКСА) === */
+  /* === VARIANT 3: LAYERED (ЛОГО НА ГРАНИЦЕ БЕЛОГО БОКСА) === */
   .sc-v3 {
     position: relative !important;
     display: flex !important;
@@ -78,12 +78,12 @@
     text-overflow: ellipsis !important;
   }
 
-  /* Логотипы НА КРАЮ БЕЛОГО БОКСА (145px / 2 = 72.5px) */
+  /* Логотипы НА ГРАНИЦЕ БЕЛОГО БОКСА (145px / 2 = 72.5px) */
   .sc-v3-logo-h {
     position: absolute !important;
-    right: 73px !important; /* БЫЛО 97px, ТЕПЕРЬ 73px (край белого бокса) */
+    left: calc(50% - 72.5px) !important; /* ЛЕВЫЙ край белого бокса */
     top: 50% !important;
-    transform: translateY(-50%) !important;
+    transform: translate(-50%, -50%) !important; /* Центрируем лого по этой позиции */
     width: 50px !important;
     height: 50px !important;
     object-fit: contain !important;
@@ -92,9 +92,9 @@
   }
   .sc-v3-logo-a {
     position: absolute !important;
-    left: 73px !important; /* БЫЛО 97px, ТЕПЕРЬ 73px (край белого бокса) */
+    right: calc(50% - 72.5px) !important; /* ПРАВЫЙ край белого бокса */
     top: 50% !important;
-    transform: translateY(-50%) !important;
+    transform: translate(50%, -50%) !important; /* Центрируем лого по этой позиции */
     width: 50px !important;
     height: 50px !important;
     object-fit: contain !important;
@@ -280,7 +280,6 @@
   <div id="sb-v3" class="sc-v3 theme-blue hide" style="--strip-width: 140px;">
     <div class="sc-v3-strip home">
       <span id="v3-nh" class="sc-v3-name">ДОМ</span>
-      <img id="v3-lh" class="sc-v3-logo-h" src="" alt="">
     </div>
     <div class="sc-v3-center">
       <div class="sc-v3-scores">
@@ -295,8 +294,10 @@
     </div>
     <div class="sc-v3-strip away">
       <span id="v3-na" class="sc-v3-name">ГОСТИ</span>
-      <img id="v3-la" class="sc-v3-logo-a" src="" alt="">
     </div>
+    <!-- Логотипы ОТДЕЛЬНО (будут сверху) -->
+    <img id="v3-lh" class="sc-v3-logo-h" src="" alt="">
+    <img id="v3-la" class="sc-v3-logo-a" src="" alt="">
   </div>
 
   <div id="goal-anim" class="goal-anim">⚽ ГОЛ!</div>
