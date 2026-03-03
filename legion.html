@@ -24,7 +24,7 @@
       --transition: all 0.2s ease;
     }
 
-    /* ===== ВАРИАНТ 1: КОМПАКТНЫЙ (обновлён) ===== */
+    /* ===== ВАРИАНТ 1: КОМПАКТНЫЙ (УМЕНЬШЕН ПО ВЫСОТЕ ЗА СЧЁТ ОТСТУПОВ) ===== */
     .sc-v1 {
       display: flex;
       align-items: center;
@@ -38,7 +38,7 @@
       width: 100%;
       background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
       border-radius: 10px;
-      padding: 10px 0;
+      padding: 8px 0;              /* уменьшено с 10px */
       box-shadow: var(--shadow-lg);
     }
     .sc-v1-half {
@@ -52,18 +52,15 @@
       border-right: var(--border-light);
     }
     .sc-v1-half.away {
-      border-left: var(--border-light); /* добавили разделитель справа */
+      border-left: var(--border-light); /* разделитель справа */
     }
     .sc-v1-logo {
-      width: 45px;
+      width: 45px;                  /* исходный размер */
       height: 45px;
       object-fit: contain;
       filter: drop-shadow(var(--shadow-sm));
     }
-    /* Уменьшаем лого соперника на 20% */
-    .sc-v1-logo.away {
-      transform: scale(0.8);
-    }
+    /* класс away больше не используется, лого соперника такого же размера */
     .sc-v1-name {
       font-size: 12px;
       font-weight: 900;
@@ -72,7 +69,7 @@
       text-align: center;
       text-shadow: var(--shadow-sm);
       white-space: nowrap;
-      margin-top: 4px;
+      margin-top: 3px;              /* уменьшено с 4px */
       max-width: 120px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -107,9 +104,9 @@
       gap: 8px;
       background: rgba(0,0,0,0.7);
       backdrop-filter: blur(2px);
-      padding: 4px 10px;
-      border-radius: 6px;  /* было 20px, уменьшили */
-      margin-top: 6px;
+      padding: 3px 10px;            /* вертикальный padding уменьшен с 4px до 3px */
+      border-radius: 6px;
+      margin-top: 5px;              /* уменьшено с 6px */
       white-space: nowrap;
       border: 1px solid rgba(255,255,255,0.2);
     }
@@ -131,7 +128,7 @@
     .sc-v1-time.paused { animation: pulse 1s infinite; }
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
 
-    /* ===== ВАРИАНТ 2: TV СТИЛЬ ===== */
+    /* ===== ВАРИАНТ 2: TV СТИЛЬ (без изменений) ===== */
     .sc-v2 {
       display: flex;
       flex-direction: column;
@@ -187,7 +184,7 @@
       filter: drop-shadow(var(--shadow-sm));
       transform: skewX(8deg); /* компенсация наклона */
     }
-    /* Уменьшаем лого соперника на 20% */
+    /* лого соперника в V2 уже было уменьшено – оставляем как есть */
     .sc-v2-logo.away {
       transform: skewX(8deg) scale(0.8);
     }
@@ -237,7 +234,7 @@
       border-radius: 3px;
     }
 
-    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ ===== */
+    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ (без изменений) ===== */
     .sc-v3 {
       position: relative;
       display: flex;
@@ -630,7 +627,7 @@
 </head>
 <body>
 
-  <!-- V1: КОМПАКТНЫЙ (обновлён) -->
+  <!-- V1: КОМПАКТНЫЙ (уменьшен по высоте) -->
   <div id="sb-v1" class="sc-v1">
     <div class="sc-v1-bar">
       <div class="sc-v1-half home">
@@ -649,13 +646,14 @@
         </div>
       </div>
       <div class="sc-v1-half away">
-        <img id="v1-la" class="sc-v1-logo away" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Логотип соперника">
+        <!-- Убран класс away, логотип исходного размера -->
+        <img id="v1-la" class="sc-v1-logo" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Логотип соперника">
         <span id="v1-na" class="sc-v1-name">СОПЕРНИК</span>
       </div>
     </div>
   </div>
 
-  <!-- V2: TV СТИЛЬ -->
+  <!-- V2: TV СТИЛЬ (без изменений) -->
   <div id="sb-v2" class="sc-v2 hide">
     <div class="sc-v2-bar">
       <div class="sc-v2-team home">
@@ -680,7 +678,7 @@
     </div>
   </div>
 
-  <!-- V3: СЛОИСТЫЙ -->
+  <!-- V3: СЛОИСТЫЙ (без изменений) -->
   <div id="sb-v3" class="sc-v3 theme-green hide" style="--strip-width: 180px;">
     <div class="sc-v3-strip home">
       <span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span>
