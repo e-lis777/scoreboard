@@ -56,7 +56,6 @@
       object-fit: contain;
       filter: drop-shadow(var(--shadow-sm));
     }
-    /* класс для уменьшенной заглушки */
     .sc-v1-logo.away {
       transform: scale(0.8);
     }
@@ -127,7 +126,7 @@
     .sc-v1-time.paused { animation: pulse 1s infinite; }
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
 
-    /* ===== ВАРИАНТ 2: TV СТИЛЬ ===== */
+    /* ===== ВАРИАНТ 2: TV СТИЛЬ (ещё более сжатый) ===== */
     .sc-v2 {
       display: flex;
       flex-direction: column;
@@ -149,7 +148,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 6px 15px;
+      padding: 5px 15px;          /* уменьшено с 6px до 5px */
       flex: 1;
       background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
     }
@@ -163,7 +162,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 6px 20px;
+      padding: 5px 20px;          /* уменьшено с 6px до 5px */
       background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%);
       min-width: 90px;
     }
@@ -183,7 +182,6 @@
       filter: drop-shadow(var(--shadow-sm));
       transform: skewX(8deg);
     }
-    /* класс для уменьшенной заглушки */
     .sc-v2-logo.away {
       transform: skewX(8deg) scale(0.8);
     }
@@ -208,7 +206,7 @@
       justify-content: center;
       gap: 12px;
       background: rgba(0,0,0,0.85);
-      padding: 3px 15px;
+      padding: 2px 15px;          /* уменьшено с 3px до 2px */
       margin-top: 2px;
       border-radius: 0 0 6px 6px;
       box-shadow: var(--shadow-md);
@@ -284,7 +282,7 @@
     .sc-v3-logo-a {
       position: absolute;
       top: 50%;
-      width: 44px;           /* базовый размер как у домашнего */
+      width: 44px;
       height: 44px;
       object-fit: contain;
       filter: drop-shadow(var(--shadow-lg));
@@ -292,7 +290,6 @@
       right: calc(50% - 85px);
       transform: translate(50%, -50%);
     }
-    /* класс для уменьшенной заглушки */
     .sc-v3-logo-a.default-logo {
       width: 35px;
       height: 35px;
@@ -656,7 +653,7 @@
     </div>
   </div>
 
-  <!-- V2: TV СТИЛЬ (убрали класс away из HTML) -->
+  <!-- V2: TV СТИЛЬ (ещё более сжатый) -->
   <div id="sb-v2" class="sc-v2 hide">
     <div class="sc-v2-bar">
       <div class="sc-v2-team home">
@@ -681,7 +678,7 @@
     </div>
   </div>
 
-  <!-- V3: СЛОИСТЫЙ (базовый размер лого 44px, заглушка уменьшается классом) -->
+  <!-- V3: СЛОИСТЫЙ -->
   <div id="sb-v3" class="sc-v3 theme-green hide" style="--strip-width: 180px;">
     <div class="sc-v3-strip home">
       <span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span>
@@ -914,7 +911,6 @@
       elements.v1.sa.textContent = state.opponentScore;
       elements.v1.p.textContent = state.period;
       
-      // Управление классом уменьшения для заглушки V1
       if (state.opponentLogo === '') {
         elements.v1.la.classList.add('away');
       } else {
@@ -930,7 +926,6 @@
       elements.v2.sa.textContent = state.opponentScore;
       elements.v2.p.textContent = state.period;
       
-      // Управление классом уменьшения для заглушки V2
       if (state.opponentLogo === '') {
         elements.v2.la.classList.add('away');
       } else {
@@ -946,7 +941,6 @@
       elements.v3.sa.textContent = state.opponentScore;
       elements.v3.p.textContent = state.period;
       
-      // Управление классом уменьшения для заглушки V3
       if (state.opponentLogo === '') {
         elements.v3.la.classList.add('default-logo');
       } else {
