@@ -231,7 +231,7 @@
       border-radius: 3px;
     }
 
-    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ (доработан, сбалансированные отступы) ===== */
+    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ (сбалансированные отступы) ===== */
     .sc-v3 {
       position: relative;
       display: flex;
@@ -261,7 +261,7 @@
       text-shadow: var(--shadow-sm);
       white-space: nowrap;
       z-index: 15;
-      padding: 2px 8px;               /* фон облегает текст */
+      padding: 2px 8px;
       background: rgba(0,0,0,0.3);
       border-radius: 4px;
       line-height: 1;
@@ -312,7 +312,7 @@
       align-items: center;
       gap: 8px;
       margin-bottom: 0;
-      margin-top: 3px;               /* увеличен верхний отступ */
+      margin-top: 3px;
       flex-shrink: 0;
     }
     .sc-v3-score {
@@ -332,7 +332,7 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      margin: 1px 0;                 /* нижний отступ 1px */
+      margin: 1px 0;
     }
     .sc-v3-timer .time {
       font-size: 10px;
@@ -706,7 +706,7 @@
   <div id="goal-anim" class="goal-anim">⚽ ГОЛ!</div>
   <img id="logo-anim" class="logo-anim" src="" alt="">
 
-  <!-- АДМИНКА -->
+  <!-- АДМИНКА (симметричный заголовок, красная кнопка соперника) -->
   <div id="admin" class="admin hide">
     <div class="admin-head">
       <h1>🏆 ФК ЛЕГИОН 🏆</h1>
@@ -1107,20 +1107,25 @@
       toast();
     }
 
+    // ИСПРАВЛЕНО: при паузе сохраняем точное значение секунд
+    function timerPause() {
+      if (!state.timerRunning) return;
+      state.timerRunning = false;
+      stopTimerInterval();
+      // Сохраняем текущее значение таймера вместе с состоянием
+      update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: state.timerSeconds })
+        .catch(console.error);
+      toast();
+    }
+
+    // ИСПРАВЛЕНО: при старте тоже сохраняем секунды (для надёжности)
     function timerStart() {
       if (state.timerRunning) return;
       state.timerRunning = true;
       localStartTime = Date.now() - (state.timerSeconds * 1000);
       startTimerInterval(true);
-      update(ref(db, DB_KEY), { timerRunning: true }).catch(console.error);
-      toast();
-    }
-
-    function timerPause() {
-      if (!state.timerRunning) return;
-      state.timerRunning = false;
-      stopTimerInterval();
-      update(ref(db, DB_KEY), { timerRunning: false }).catch(console.error);
+      update(ref(db, DB_KEY), { timerRunning: true, timerSeconds: state.timerSeconds })
+        .catch(console.error);
       toast();
     }
 
@@ -1130,7 +1135,8 @@
       state.timerSeconds = 0;
       localStartTime = null;
       updateTimerDisplay();
-      update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: 0 }).catch(console.error);
+      update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: 0 })
+        .catch(console.error);
       toast();
     }
 
