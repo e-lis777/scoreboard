@@ -135,7 +135,7 @@
       display: flex;
       align-items: center;
       width: 100%;
-      transform: skewX(-8deg);
+      transform: skewX(-8deg); /* наклон всего бара */
       border-radius: 6px;
       box-shadow: var(--shadow-md);
     }
@@ -170,14 +170,14 @@
       letter-spacing: 0.5px;
       text-shadow: var(--shadow-sm);
       white-space: nowrap;
-      /* Нет компенсации наклона — текст остаётся наклонённым */
+      /* Нет компенсации — текст наклонён за счёт родителя */
     }
     .sc-v2-logo {
       width: 34px;
       height: 34px;
       object-fit: contain;
       filter: drop-shadow(var(--shadow-sm));
-      /* Без transform — логотип прямой */
+      transform: skewX(8deg); /* компенсация наклона — лого прямое */
     }
     .sc-v2-scores {
       display: flex;
@@ -206,13 +206,17 @@
       margin-top: 2px;
       border-radius: 0 0 6px 6px;
       box-shadow: var(--shadow-md);
+      /* Сам блок таймера прямой (фон не наклонён) */
+    }
+    .sc-v2-timer .time,
+    .sc-v2-timer .period {
+      transform: skewX(8deg); /* текст таймера наклонён в ту же сторону */
     }
     .sc-v2-timer .time {
       font-size: 12px;
       font-weight: 700;
       color: var(--text-white);
       font-variant-numeric: tabular-nums;
-      /* Нет компенсации — наклонён */
     }
     .sc-v2-timer .period {
       font-size: 10px;
@@ -222,10 +226,9 @@
       padding: 1px 6px;
       background: rgba(255,255,255,0.1);
       border-radius: 3px;
-      /* Нет компенсации — наклонён */
     }
 
-    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ (полосы уже) ===== */
+    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ (полосы уменьшены) ===== */
     .sc-v3 {
       position: relative;
       display: flex;
@@ -236,7 +239,7 @@
     }
     .sc-v3-strip {
       position: relative;
-      height: 40px;  /* уменьшено */
+      height: 40px;
       width: var(--strip-width, 180px);
       z-index: 1;
       display: flex;
@@ -260,7 +263,7 @@
       text-overflow: ellipsis;
       background: rgba(0,0,0,0.3);
       border-radius: 4px;
-      line-height: 30px;
+      line-height: 40px; /* вертикальное центрирование в полосе 40px */
     }
     .sc-v3-logo-h, .sc-v3-logo-a {
       position: absolute;
@@ -690,10 +693,10 @@
   <div id="goal-anim" class="goal-anim">⚽ ГОЛ!</div>
   <img id="logo-anim" class="logo-anim" src="" alt="">
 
-  <!-- АДМИНКА -->
+  <!-- АДМИНКА (симметричный заголовок, красная кнопка соперника) -->
   <div id="admin" class="admin hide">
     <div class="admin-head">
-      <h1>🏆 ФК ЛЕГИОН</h1>
+      <h1>🏆 ФК ЛЕГИОН 🏆</h1>
       <p>Управление табло</p>
     </div>
     <div class="admin-grid">
@@ -767,7 +770,7 @@
         <h3>⚡ Быстрые действия</h3>
         <div class="btns">
           <button class="btn btn-s" id="goalLegionBtn">⚽ ГОЛ ЛЕГИОН</button>
-          <button class="btn btn-w" id="goalOpponentBtn">⚽ ГОЛ СОПЕРНИК</button>
+          <button class="btn btn-d" id="goalOpponentBtn">⚽ ГОЛ СОПЕРНИК</button>
         </div>
       </div>
     </div>
