@@ -24,7 +24,7 @@
       --transition: all 0.2s ease;
     }
 
-    /* ===== ВАРИАНТ 1: КОМПАКТНЫЙ (уменьшен) ===== */
+    /* ===== ВАРИАНТ 1: КОМПАКТНЫЙ ===== */
     .sc-v1 {
       display: flex;
       align-items: center;
@@ -48,17 +48,17 @@
       flex: 1;
       padding: 0 15px;
     }
-    .sc-v1-half.home {
-      border-right: var(--border-light);
-    }
-    .sc-v1-half.away {
-      border-left: var(--border-light);
-    }
+    .sc-v1-half.home { border-right: var(--border-light); }
+    .sc-v1-half.away { border-left: var(--border-light); }
     .sc-v1-logo {
       width: 45px;
       height: 45px;
       object-fit: contain;
       filter: drop-shadow(var(--shadow-sm));
+    }
+    /* класс для уменьшенной заглушки */
+    .sc-v1-logo.away {
+      transform: scale(0.8);
     }
     .sc-v1-name {
       font-size: 12px;
@@ -127,7 +127,7 @@
     .sc-v1-time.paused { animation: pulse 1s infinite; }
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
 
-    /* ===== ВАРИАНТ 2: TV СТИЛЬ (уменьшен на 20%, таймер на 10%) ===== */
+    /* ===== ВАРИАНТ 2: TV СТИЛЬ ===== */
     .sc-v2 {
       display: flex;
       flex-direction: column;
@@ -149,7 +149,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 6px 15px;          /* уменьшено с 8px до 6px */
+      padding: 6px 15px;
       flex: 1;
       background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
     }
@@ -163,7 +163,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 6px 20px;          /* уменьшено с 8px до 6px */
+      padding: 6px 20px;
       background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%);
       min-width: 90px;
     }
@@ -183,6 +183,7 @@
       filter: drop-shadow(var(--shadow-sm));
       transform: skewX(8deg);
     }
+    /* класс для уменьшенной заглушки */
     .sc-v2-logo.away {
       transform: skewX(8deg) scale(0.8);
     }
@@ -207,7 +208,7 @@
       justify-content: center;
       gap: 12px;
       background: rgba(0,0,0,0.85);
-      padding: 3px 15px;          /* уменьшено с 4px до 3px */
+      padding: 3px 15px;
       margin-top: 2px;
       border-radius: 0 0 6px 6px;
       box-shadow: var(--shadow-md);
@@ -283,13 +284,18 @@
     .sc-v3-logo-a {
       position: absolute;
       top: 50%;
-      width: 35px;
-      height: 35px;
+      width: 44px;           /* базовый размер как у домашнего */
+      height: 44px;
       object-fit: contain;
       filter: drop-shadow(var(--shadow-lg));
       z-index: 10;
       right: calc(50% - 85px);
       transform: translate(50%, -50%);
+    }
+    /* класс для уменьшенной заглушки */
+    .sc-v3-logo-a.default-logo {
+      width: 35px;
+      height: 35px;
     }
     .sc-v3-center {
       position: relative;
@@ -650,7 +656,7 @@
     </div>
   </div>
 
-  <!-- V2: TV СТИЛЬ (уменьшен) -->
+  <!-- V2: TV СТИЛЬ (убрали класс away из HTML) -->
   <div id="sb-v2" class="sc-v2 hide">
     <div class="sc-v2-bar">
       <div class="sc-v2-team home">
@@ -666,7 +672,7 @@
       </div>
       <div class="sc-v2-team away">
         <span id="v2-na" class="sc-v2-name">СОПЕРНИК</span>
-        <img id="v2-la" class="sc-v2-logo away" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Логотип соперника">
+        <img id="v2-la" class="sc-v2-logo" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Логотип соперника">
       </div>
     </div>
     <div class="sc-v2-timer">
@@ -675,7 +681,7 @@
     </div>
   </div>
 
-  <!-- V3: СЛОИСТЫЙ -->
+  <!-- V3: СЛОИСТЫЙ (базовый размер лого 44px, заглушка уменьшается классом) -->
   <div id="sb-v3" class="sc-v3 theme-green hide" style="--strip-width: 180px;">
     <div class="sc-v3-strip home">
       <span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span>
@@ -899,6 +905,7 @@
     function updateAllVariants() {
       const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
       
+      // V1
       elements.v1.lh.src = LEGION_LOGO;
       elements.v1.la.src = opponentLogoSrc;
       elements.v1.nh.textContent = 'ЛЕГИОН';
@@ -907,6 +914,14 @@
       elements.v1.sa.textContent = state.opponentScore;
       elements.v1.p.textContent = state.period;
       
+      // Управление классом уменьшения для заглушки V1
+      if (state.opponentLogo === '') {
+        elements.v1.la.classList.add('away');
+      } else {
+        elements.v1.la.classList.remove('away');
+      }
+
+      // V2
       elements.v2.lh.src = LEGION_LOGO;
       elements.v2.la.src = opponentLogoSrc;
       elements.v2.nh.textContent = 'ЛЕГИОН';
@@ -915,6 +930,14 @@
       elements.v2.sa.textContent = state.opponentScore;
       elements.v2.p.textContent = state.period;
       
+      // Управление классом уменьшения для заглушки V2
+      if (state.opponentLogo === '') {
+        elements.v2.la.classList.add('away');
+      } else {
+        elements.v2.la.classList.remove('away');
+      }
+
+      // V3
       elements.v3.lh.src = LEGION_LOGO;
       elements.v3.la.src = opponentLogoSrc;
       elements.v3.nh.textContent = 'ЛЕГИОН';
@@ -923,6 +946,13 @@
       elements.v3.sa.textContent = state.opponentScore;
       elements.v3.p.textContent = state.period;
       
+      // Управление классом уменьшения для заглушки V3
+      if (state.opponentLogo === '') {
+        elements.v3.la.classList.add('default-logo');
+      } else {
+        elements.v3.la.classList.remove('default-logo');
+      }
+
       updateTimerDisplay();
       updateV3Width();
     }
