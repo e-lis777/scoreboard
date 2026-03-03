@@ -24,7 +24,7 @@
       --transition: all 0.2s ease;
     }
 
-    /* ===== ВАРИАНТ 1: КОМПАКТНЫЙ (уменьшен, правый разделитель) ===== */
+    /* ===== ВАРИАНТ 1: КОМПАКТНЫЙ ===== */
     .sc-v1 {
       display: flex;
       align-items: center;
@@ -48,12 +48,8 @@
       flex: 1;
       padding: 0 15px;
     }
-    .sc-v1-half.home {
-      border-right: var(--border-light);
-    }
-    .sc-v1-half.away {
-      border-left: var(--border-light); /* разделитель справа */
-    }
+    .sc-v1-half.home { border-right: var(--border-light); }
+    .sc-v1-half.away { border-left: var(--border-light); }
     .sc-v1-logo {
       width: 45px;
       height: 45px;
@@ -61,7 +57,7 @@
       filter: drop-shadow(var(--shadow-sm));
     }
     .sc-v1-logo.away {
-      transform: scale(0.8); /* уменьшенная заглушка */
+      transform: scale(0.8);
     }
     .sc-v1-name {
       font-size: 12px;
@@ -152,7 +148,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 5px 15px;          /* уменьшено */
+      padding: 5px 15px;
       flex: 1;
       background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
     }
@@ -166,7 +162,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 5px 20px;          /* уменьшено */
+      padding: 5px 20px;
       background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%);
       min-width: 90px;
     }
@@ -187,7 +183,7 @@
       transform: skewX(8deg);
     }
     .sc-v2-logo.away {
-      transform: skewX(8deg) scale(0.8); /* уменьшенная заглушка */
+      transform: skewX(8deg) scale(0.8);
     }
     .sc-v2-scores {
       display: flex;
@@ -210,7 +206,7 @@
       justify-content: center;
       gap: 12px;
       background: rgba(0,0,0,0.85);
-      padding: 2px 15px;          /* уменьшено */
+      padding: 2px 15px;
       margin-top: 2px;
       border-radius: 0 0 6px 6px;
       box-shadow: var(--shadow-md);
@@ -235,7 +231,7 @@
       border-radius: 3px;
     }
 
-    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ (уменьшены отступы фона, скругление 4px, таймер выровнен) ===== */
+    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ (доработан) ===== */
     .sc-v3 {
       position: relative;
       display: flex;
@@ -256,6 +252,7 @@
     .sc-v3-strip.home { border-radius: 4px 0 0 4px; }
     .sc-v3-strip.away { border-radius: 0 4px 4px 0; }
     .sc-v3-name {
+      display: inline-block;                /* для компактного фона */
       font-size: 14px;
       font-weight: 900;
       color: var(--text-white);
@@ -264,13 +261,10 @@
       text-shadow: var(--shadow-sm);
       white-space: nowrap;
       z-index: 15;
-      padding: 0 8px;               /* узкий фон */
-      max-width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      padding: 2px 8px;                     /* фон только вокруг текста +2px */
       background: rgba(0,0,0,0.3);
       border-radius: 4px;
-      line-height: 40px;
+      line-height: 1;                        /* нормальная высота строки */
     }
     .sc-v3-logo-h {
       position: absolute;
@@ -286,7 +280,7 @@
     .sc-v3-logo-a {
       position: absolute;
       top: 50%;
-      width: 44px;                 /* базовый размер */
+      width: 44px;
       height: 44px;
       object-fit: contain;
       filter: drop-shadow(var(--shadow-lg));
@@ -295,7 +289,7 @@
       transform: translate(50%, -50%);
     }
     .sc-v3-logo-a.default-logo {
-      width: 35px;                 /* уменьшенная заглушка */
+      width: 35px;
       height: 35px;
     }
     .sc-v3-center {
@@ -303,12 +297,12 @@
       width: 170px;
       height: 52px;
       background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%);
-      border-radius: 4px;           /* как у полос */
+      border-radius: 4px;
       z-index: 5;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;  /* счёт прижат к верху */
+      justify-content: flex-start;           /* счёт прижат к верху */
       box-shadow: var(--shadow-lg);
       border: 1px solid rgba(255,255,255,0.8);
       padding: 0;
@@ -318,6 +312,7 @@
       align-items: center;
       gap: 8px;
       margin-bottom: 0;
+      margin-top: 1px;                      /* опускаем на 1px */
       flex-shrink: 0;
     }
     .sc-v3-score {
@@ -337,7 +332,7 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      margin: 1px 0;               /* равные отступы сверху и снизу */
+      margin: 1px 0;                         /* отступ сверху и снизу */
     }
     .sc-v3-timer .time {
       font-size: 10px;
@@ -684,7 +679,7 @@
     </div>
   </div>
 
-  <!-- V3: СЛОИСТЫЙ -->
+  <!-- V3: СЛОИСТЫЙ (доработан) -->
   <div id="sb-v3" class="sc-v3 theme-green hide" style="--strip-width: 180px;">
     <div class="sc-v3-strip home">
       <span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span>
@@ -711,7 +706,7 @@
   <div id="goal-anim" class="goal-anim">⚽ ГОЛ!</div>
   <img id="logo-anim" class="logo-anim" src="" alt="">
 
-  <!-- АДМИНКА (симметричный заголовок, красная кнопка соперника) -->
+  <!-- АДМИНКА -->
   <div id="admin" class="admin hide">
     <div class="admin-head">
       <h1>🏆 ФК ЛЕГИОН 🏆</h1>
