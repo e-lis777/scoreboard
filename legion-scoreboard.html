@@ -391,7 +391,7 @@ body {
 .theme-green .sc-v2-score-sec { background: linear-gradient(180deg, #1b5e20 0%, #2e7d32 100%); }
 .theme-green .sc-v3-strip { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
 
-/* ===== КАРТОЧКА ГОЛА (финальная версия 2.4.0) ===== */
+/* ===== КАРТОЧКА ГОЛА (финальная версия 2.5.0) ===== */
 .goal-card {
   position: fixed;
   bottom: 20px;
@@ -426,12 +426,12 @@ body {
   filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.5));
   position: absolute;
   left: -35px;
-  top: -35%;  /* поднято с -30% до -35% */
+  top: -45%;  /* поднято с -35% до -45% */
   z-index: 2002;
 }
 .goal-card .info {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto 36px; /* вторая колонка точно под номер */
   align-items: center;
   gap: 0 10px;
   margin-left: 80px;
@@ -449,7 +449,7 @@ body {
 .goal-card .number-circle {
   grid-column: 2;
   grid-row: 1;
-  justify-self: start;
+  justify-self: center; /* центрируем кружок в колонке */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -480,12 +480,17 @@ body {
 .goal-card .position {
   grid-column: 2;
   grid-row: 2;
-  justify-self: start;
-  font-size: 20px;        /* как у минуты */
+  justify-self: center; /* центрируем под номером */
+  width: 36px;          /* ширина как у кружка */
+  text-align: center;
+  font-size: 20px;
   font-weight: 700;
-  color: #cccccc;         /* как у минуты */
+  color: #cccccc;
   text-transform: uppercase;
-  margin-top: 4px;        /* такой же отступ как у минуты */
+  margin-top: 4px;
+  white-space: nowrap;  /* чтобы текст не переносился */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ===== МОДАЛЬНОЕ ОКНО ===== */
@@ -964,7 +969,7 @@ const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 
 // Версия проекта
-const VERSION = "2.4.0";
+const VERSION = "2.5.0";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
