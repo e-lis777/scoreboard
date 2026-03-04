@@ -49,7 +49,7 @@ body {
 .sc-v1-half.home { border-right: var(--border-light); }
 .sc-v1-half.away { border-left: var(--border-light); }
 .sc-v1-logo {
-  width: 67px;  /* ✅ +20% от 56px */
+  width: 67px;  /* ✅ +20% */
   height: 67px;
   object-fit: contain;
   filter: drop-shadow(var(--shadow-sm));
@@ -174,7 +174,7 @@ body {
   white-space: nowrap;
 }
 .sc-v2-logo {
-  width: 50px;  /* ✅ +19% от 42px */
+  width: 50px;  /* ✅ +19% */
   height: 50px;
   object-fit: contain;
   filter: drop-shadow(var(--shadow-sm));
@@ -217,7 +217,7 @@ body {
   color: var(--text-white);
   font-variant-numeric: tabular-nums;
 }
-.sc-v2-timer .time.paused { animation: pulse 1s infinite; }  /* ✅ пульсация при паузе */
+.sc-v2-timer .time.paused { animation: pulse 1s infinite; }  /* ✅ пульсация */
 .sc-v2-timer .period {
   font-size: 10px;
   color: rgba(255,255,255,0.7);
@@ -265,7 +265,7 @@ body {
 .sc-v3-logo-h {
   position: absolute;
   top: 50%;
-  width: 66px;  /* ✅ +20% от 55px */
+  width: 66px;  /* ✅ +20% */
   height: 66px;
   object-fit: contain;
   filter: drop-shadow(var(--shadow-lg));
@@ -276,7 +276,7 @@ body {
 .sc-v3-logo-a {
   position: absolute;
   top: 50%;
-  width: 66px;  /* ✅ +20% от 55px */
+  width: 66px;  /* ✅ +20% */
   height: 66px;
   object-fit: contain;
   filter: drop-shadow(var(--shadow-lg));
@@ -337,7 +337,7 @@ body {
   color: #555;
   line-height: 1;
 }
-.sc-v3-timer .time.paused { animation: pulse 1s infinite; }  /* ✅ пульсация при паузе */
+.sc-v3-timer .time.paused { animation: pulse 1s infinite; }  /* ✅ пульсация */
 .sc-v3-timer .period {
   font-size: 8px;
   color: #666;
@@ -482,7 +482,7 @@ body {
   opacity: 0.8;
 }
 
-/* ===== МОДАЛЬНОЕ ОКНО ===== */
+/* ===== МОДАЛЬНОЕ ОКНО (с номерами) ===== */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -533,10 +533,26 @@ body {
   transition: all 0.2s;
   flex: 1 0 auto;
   min-width: 100px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .player-btn:hover {
   background: rgba(76, 175, 80, 0.3);
   border-color: var(--accent-green);
+}
+.player-number-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-green);
+  color: #000;
+  font-weight: 900;
+  font-size: 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 /* ===== АНИМАЦИИ ===== */
@@ -993,7 +1009,11 @@ function renderPlayerButtons() {
   players.forEach(player => {
     const btn = document.createElement('button');
     btn.className = 'player-btn';
-    btn.textContent = player.shortName;
+    // ✅ Номер в зелёном кружке + имя
+    btn.innerHTML = `
+      <span class="player-number-badge">${player.number}</span>
+      <span>${player.shortName}</span>
+    `;
     btn.addEventListener('click', () => selectScorerAndGoal(player));
     elements.scorerButtons.appendChild(btn);
   });
@@ -1050,19 +1070,9 @@ function showGoalCard(goal) {
   elements.goalLastname.textContent = goal.scorer.lastName.toUpperCase();
   elements.goalNumber.textContent = goal.scorer.number;
   
-  // ✅ Отображение позиции
+  // ✅ Позиция сокращённая (ЛН, ЦН и т.д.)
   if (goal.scorer.position) {
-    const posShort = {
-      'ЛН': 'Лев. нап.',
-      'ЦН': 'Цент. нап.',
-      'ПН': 'Прав. нап.',
-      'ПЗ': 'Полузащ.',
-      'ЦП': 'Цент. п/з',
-      'ЛЗ': 'Лев. защ.',
-      'ЦЗ': 'Цент. защ.',
-      'ГК': 'Вратарь'
-    };
-    elements.goalPosition.textContent = posShort[goal.scorer.position] || goal.scorer.position;
+    elements.goalPosition.textContent = goal.scorer.position;
     elements.goalPosition.style.display = 'inline';
   } else {
     elements.goalPosition.style.display = 'none';
