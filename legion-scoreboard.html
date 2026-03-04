@@ -49,13 +49,13 @@ body {
 .sc-v1-half.home { border-right: var(--border-light); }
 .sc-v1-half.away { border-left: var(--border-light); }
 .sc-v1-logo {
-  width: 67px;  /* ✅ +20% */
+  width: 67px;
   height: 67px;
   object-fit: contain;
   filter: drop-shadow(var(--shadow-sm));
 }
 .sc-v1-logo.away { 
-  transform: scale(0.72);  /* ✅ соотношение 1.25 */
+  transform: scale(0.72);
 }
 .sc-v1-name {
   font-size: 12px;
@@ -174,14 +174,14 @@ body {
   white-space: nowrap;
 }
 .sc-v2-logo {
-  width: 50px;  /* ✅ +19% */
+  width: 50px;
   height: 50px;
   object-fit: contain;
   filter: drop-shadow(var(--shadow-sm));
   transform: skewX(8deg);
 }
 .sc-v2-logo.away { 
-  transform: skewX(8deg) scale(0.8);  /* 50px × 0.8 = 40px */
+  transform: skewX(8deg) scale(0.8);
 }
 .sc-v2-scores {
   display: flex;
@@ -217,7 +217,7 @@ body {
   color: var(--text-white);
   font-variant-numeric: tabular-nums;
 }
-.sc-v2-timer .time.paused { animation: pulse 1s infinite; }  /* ✅ пульсация */
+.sc-v2-timer .time.paused { animation: pulse 1s infinite; }
 .sc-v2-timer .period {
   font-size: 10px;
   color: rgba(255,255,255,0.7);
@@ -265,7 +265,7 @@ body {
 .sc-v3-logo-h {
   position: absolute;
   top: 50%;
-  width: 66px;  /* ✅ +20% */
+  width: 66px;
   height: 66px;
   object-fit: contain;
   filter: drop-shadow(var(--shadow-lg));
@@ -276,7 +276,7 @@ body {
 .sc-v3-logo-a {
   position: absolute;
   top: 50%;
-  width: 66px;  /* ✅ +20% */
+  width: 66px;
   height: 66px;
   object-fit: contain;
   filter: drop-shadow(var(--shadow-lg));
@@ -285,7 +285,7 @@ body {
   transform: translate(50%, -50%);
 }
 .sc-v3-logo-a.default-logo {
-  width: 35px;  /* ✅ заглушка меньше */
+  width: 35px;
   height: 35px;
 }
 .sc-v3-center {
@@ -337,7 +337,7 @@ body {
   color: #555;
   line-height: 1;
 }
-.sc-v3-timer .time.paused { animation: pulse 1s infinite; }  /* ✅ пульсация */
+.sc-v3-timer .time.paused { animation: pulse 1s infinite; }
 .sc-v3-timer .period {
   font-size: 8px;
   color: #666;
@@ -482,7 +482,7 @@ body {
   opacity: 0.8;
 }
 
-/* ===== МОДАЛЬНОЕ ОКНО (с номерами) ===== */
+/* ===== МОДАЛЬНОЕ ОКНО ===== */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -519,7 +519,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .player-btn {
   padding: 12px 20px;
@@ -553,6 +553,16 @@ body {
   height: 28px;
   border-radius: 50%;
   flex-shrink: 0;
+}
+.player-btn.no-player {
+  background: rgba(255, 165, 2, 0.3);
+  border-color: #ffa502;
+  flex: 1 1 100%;
+  max-width: none;
+  justify-content: center;
+}
+.player-btn.no-player:hover {
+  background: rgba(255, 165, 2, 0.5);
 }
 
 /* ===== АНИМАЦИИ ===== */
@@ -612,6 +622,12 @@ body {
 }
 .admin-head .team-name-green {
   color: #4caf50;
+}
+.admin-head .version {
+  color: rgba(255,255,255,0.5);
+  font-size: 11px;
+  font-weight: 400;
+  margin-top: 3px;
 }
 .admin-head p { color: rgba(255,255,255,0.5); font-size: 12px; }
 .admin-grid { display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; }
@@ -803,6 +819,7 @@ body {
     <h3>⚽ Выберите автора гола</h3>
     <div class="modal-body">
       <div id="scorer-buttons" class="player-buttons"></div>
+      <button class="player-btn no-player" onclick="goalWithoutPlayerFromModal()">⚽ Без игрока (автогол/неизвестно)</button>
     </div>
   </div>
 </div>
@@ -810,7 +827,7 @@ body {
 <div id="admin" class="admin hide">
   <div class="admin-head">
     <h1><span class="team-name-green">🏆 ФК ЛЕГИОН 🏆</span></h1>
-    <p>Управление табло</p>
+    <p class="version">Версия 2.5 | Управление табло</p>
   </div>
   <div class="admin-grid">
     <div class="card"><h3>🎨 Дизайн плашки</h3>
@@ -844,7 +861,6 @@ body {
       </div>
       <div class="btns">
         <button class="btn btn-s" id="updateScoreBtn">✅ Обновить</button>
-        <button class="btn btn-w" id="genericGoalBtn">⚽ ГОЛ!</button>
         <button class="btn btn-d" id="resetScoreBtn">🔄 Сброс</button>
       </div>
     </div>
@@ -868,12 +884,12 @@ body {
     </div>
     <div class="card"><h3>⚡ Быстрые действия</h3>
       <div class="btns">
-        <button class="btn btn-s" id="goalLegionBtn">⚽ ГОЛ ЛЕГИОН</button>
+        <button class="btn btn-s" id="goalLegionBtn">👤 ГОЛ ЛЕГИОН</button>
         <button class="btn btn-d" id="goalOpponentBtn">⚽ ГОЛ СОПЕРНИК</button>
       </div>
     </div>
   </div>
-  <div class="admin-footer"><p>Сделал li-sits-in. Болеем за наших!</p></div>
+  <div class="admin-footer"><p>Болеем за наших!</p></div>
 </div>
 <div id="toast" class="toast">✓ Сохранено!</div>
 
@@ -1003,13 +1019,26 @@ function selectScorerAndGoal(player) {
   toast('⚽ Гол!');
 }
 
+// ✅ ВОССТАНОВЛЕНО: Гол без указания игрока
+function goalWithoutPlayerFromModal() {
+  state.legionScore++;
+  elements.admin.sh.value = state.legionScore;
+  update(ref(db, DB_KEY), { legionScore: state.legionScore }).catch(console.error);
+  
+  const animData = { time: Date.now(), team: 'legion' };
+  set(ref(db, 'goal_trigger'), animData).catch(console.error);
+  
+  elements.goalModal.classList.add('hidden');
+  toast('⚽ Гол!');
+}
+
 function renderPlayerButtons() {
   if (!elements.scorerButtons) return;
   elements.scorerButtons.innerHTML = '';
   players.forEach(player => {
     const btn = document.createElement('button');
     btn.className = 'player-btn';
-    // ✅ Номер в зелёном кружке + имя
+    // ✅ ВОССТАНОВЛЕНО: Номер в зелёном кружке + имя
     btn.innerHTML = `
       <span class="player-number-badge">${player.number}</span>
       <span>${player.shortName}</span>
@@ -1070,7 +1099,7 @@ function showGoalCard(goal) {
   elements.goalLastname.textContent = goal.scorer.lastName.toUpperCase();
   elements.goalNumber.textContent = goal.scorer.number;
   
-  // ✅ Позиция сокращённая (ЛН, ЦН и т.д.)
+  // ✅ ВОССТАНОВЛЕНО: Позиция игрока
   if (goal.scorer.position) {
     elements.goalPosition.textContent = goal.scorer.position;
     elements.goalPosition.style.display = 'inline';
@@ -1128,9 +1157,10 @@ function updateTimerDisplay() {
   elements.v1.t.textContent = timeStr;
   elements.v2.t.textContent = timeStr;
   elements.v3.t.textContent = timeStr;
+  // ✅ ВОССТАНОВЛЕНО: Пульсация для всех вариантов
   elements.v1.t.classList.toggle('paused', !state.timerRunning);
-  elements.v2.t.classList.toggle('paused', !state.timerRunning);  /* ✅ */
-  elements.v3.t.classList.toggle('paused', !state.timerRunning);  /* ✅ */
+  elements.v2.t.classList.toggle('paused', !state.timerRunning);
+  elements.v3.t.classList.toggle('paused', !state.timerRunning);
 }
 
 function updateVisibility() {
@@ -1313,7 +1343,6 @@ if (ADMIN) {
   document.getElementById('anim-chk').addEventListener('change', toggleAnim);
   document.getElementById('saveOpponentBtn').addEventListener('click', saveOpponent);
   document.getElementById('updateScoreBtn').addEventListener('click', updateScore);
-  document.getElementById('genericGoalBtn').addEventListener('click', () => triggerGoal(null));
   document.getElementById('resetScoreBtn').addEventListener('click', resetScore);
   document.getElementById('timerStartBtn').addEventListener('click', timerStart);
   document.getElementById('timerPauseBtn').addEventListener('click', timerPause);
@@ -1339,6 +1368,9 @@ if (ADMIN) {
     startTimerInterval(false);
   }
 }
+
+// ✅ ВОССТАНОВЛЕНО: Глобальная функция для модалки
+window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 </script>
 </body>
 </html>
