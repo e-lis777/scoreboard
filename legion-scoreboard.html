@@ -1474,6 +1474,29 @@ if (ADMIN) {
 
 window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 </script>
+  <script>
+  (function cleanup() {
+    // Удаляем пустые или лишние текстовые узлы в body (кроме пробелов и переводов строк)
+    const body = document.body;
+    const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(node) {
+        // Оставляем только текстовые узлы, которые содержат что-то кроме пробелов
+        if (node.textContent.trim() !== '') {
+          return NodeFilter.FILTER_ACCEPT;
+        }
+        return NodeFilter.FILTER_SKIP;
+      }
+    });
+    const textNodes = [];
+    while (walker.nextNode()) {
+      textNodes.push(walker.currentNode);
+    }
+    textNodes.forEach(node => {
+      console.warn('Удалён лишний текст:', node.textContent);
+      node.remove();
+    });
+  })();
+</script>
 </body>
 </html>
 ```
