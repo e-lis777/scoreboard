@@ -55,7 +55,7 @@ body {
   filter: drop-shadow(var(--shadow-sm));
 }
 .sc-v1-logo.away { 
-  transform: scale(0.72);  /* ✅ -10% от 0.8 = 0.72 */
+  transform: scale(0.72);  /* ✅ -10% от 0.8 */
 }
 .sc-v1-name {
   font-size: 12px;
@@ -124,7 +124,7 @@ body {
 .sc-v1-time.paused { animation: pulse 1s infinite; }
 @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
 
-/* ===== ВАРИАНТ 2: TV СТИЛЬ (УМЕНЬШЕНА ВЫСОТА) ===== */
+/* ===== ВАРИАНТ 2: TV СТИЛЬ (МНОГОСЛОЙНЫЙ) ===== */
 .sc-v2 {
   display: flex;
   flex-direction: column;
@@ -140,15 +140,29 @@ body {
   transform: skewX(-8deg);
   border-radius: 6px;
   box-shadow: var(--shadow-md);
+  position: relative;
+}
+/* ✅ БЕЛЫЙ ФОНОВЫЙ БЛОК (задний план) */
+.sc-v2-bg {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  background: linear-gradient(180deg, #f5f5f5 0%, #e0e0e0 100%);
+  border-radius: 8px;
+  z-index: 0;
 }
 .sc-v2-team {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 3px 12px;  /* ✅ -20% от 5px 15px */
+  padding: 4px 12px;  /* ✅ -20% от 5px 15px */
   flex: 1;
   background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
+  position: relative;
+  z-index: 1;
 }
 .sc-v2-team.home { border-right: var(--border-light); }
 .sc-v2-team.away {
@@ -163,6 +177,8 @@ body {
   padding: 4px 16px;  /* ✅ -20% от 5px 20px */
   background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%);
   min-width: 90px;
+  position: relative;
+  z-index: 2;
 }
 .sc-v2-name {
   font-size: 14px;
@@ -181,7 +197,7 @@ body {
   transform: skewX(8deg);
 }
 .sc-v2-logo.away { 
-  transform: skewX(8deg) scale(0.72);  /* ✅ -10% от 0.8 = 0.72 */
+  transform: skewX(8deg) scale(0.72);  /* ✅ -10% от 0.8 */
 }
 .sc-v2-scores {
   display: flex;
@@ -392,7 +408,7 @@ body {
 .theme-green .sc-v2-score-sec { background: linear-gradient(180deg, #1b5e20 0%, #2e7d32 100%); }
 .theme-green .sc-v3-strip { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
 
-/* ===== КАРТОЧКА ГОЛА (ЛОГО ВЫСТУПАЕТ ВВЕРХ) ===== */
+/* ===== КАРТОЧКА ГОЛА ===== */
 .goal-card {
   position: fixed;
   bottom: 20px;
@@ -426,8 +442,8 @@ body {
   object-fit: contain;
   filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.5));
   position: absolute;
-  left: -35px;  /* ✅ Сдвинуто вправо (было -50px) */
-  top: -55%;  /* ✅ Выступает сильнее вверх (было -45%) */
+  left: -35px;
+  top: -55%;
   z-index: 2002;
 }
 .goal-card .info {
@@ -475,7 +491,7 @@ body {
   opacity: 0.8;
 }
 
-/* ===== МОДАЛЬНОЕ ОКНО (КНОПКИ ОДИНАКОВОГО РАЗМЕРА) ===== */
+/* ===== МОДАЛЬНОЕ ОКНО ===== */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -529,7 +545,7 @@ body {
   transition: all 0.2s;
   flex: 1 0 auto;
   min-width: 100px;
-  max-width: 140px;  /* ✅ Ограничиваем ширину для одинакового размера */
+  max-width: 140px;
   text-align: center;
 }
 .player-btn:hover {
@@ -908,6 +924,7 @@ body {
 <!-- V2 -->
 <div id="sb-v2" class="sc-v2 hide">
   <div class="sc-v2-bar">
+    <div class="sc-v2-bg"></div>
     <div class="sc-v2-team home">
       <img id="v2-lh" class="sc-v2-logo" src="https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg" alt="Логотип ЛЕГИОН">
       <span id="v2-nh" class="sc-v2-name">ЛЕГИОН</span>
@@ -1037,6 +1054,7 @@ body {
     <div class="card"><h3>⚡ Быстрые действия</h3>
       <div class="btns">
         <button class="btn btn-s" id="goalLegionBtn">👤 ГОЛ ЛЕГИОН</button>
+        <button class="btn btn-w" id="goalLegionNoPlayerBtn">⚽ ГОЛ ЛЕГИОН (без игрока)</button>
         <button class="btn btn-d" id="goalOpponentBtn">⚽ ГОЛ СОПЕРНИК</button>
       </div>
     </div>
@@ -1477,6 +1495,7 @@ if (ADMIN) {
   document.getElementById('timerResetBtn').addEventListener('click', timerReset);
   document.getElementById('updatePeriodBtn').addEventListener('click', updatePeriod);
   document.getElementById('goalLegionBtn').addEventListener('click', () => quickGoal('legion'));
+  document.getElementById('goalLegionNoPlayerBtn').addEventListener('click', goalWithoutPlayerFromModal);
   document.getElementById('goalOpponentBtn').addEventListener('click', () => quickGoal('opponent'));
   elements.goalModal.addEventListener('click', (e) => {
     if (e.target === elements.goalModal) {
