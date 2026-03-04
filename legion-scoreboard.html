@@ -388,7 +388,7 @@ body {
 .theme-green .sc-v2-score-sec { background: linear-gradient(180deg, #1b5e20 0%, #2e7d32 100%); }
 .theme-green .sc-v3-strip { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
 
-/* ===== КАРТОЧКА ГОЛА (КАК НА РЕФЕРЕНСЕ) ===== */
+/* ===== КАРТОЧКА ГОЛА ===== */
 .goal-card {
   position: fixed;
   bottom: 20px;
@@ -417,35 +417,31 @@ body {
   display: none;
 }
 .goal-card .legion-logo {
-  width: 150px;  /* ✅ КРУПНОЕ ЛОГО СЛЕВА */
-  height: 150px;
+  width: 75px;
+  height: 75px;
   object-fit: contain;
   filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.5));
-  position: absolute;
-  left: -35px;
-  top: -55%;  /* ✅ ВЫСТУПАЕТ СВЕРХУ НА 30-40% */
+  transform: translateX(-35%);
   z-index: 2002;
+  position: relative;
 }
 .goal-card .info {
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin-left: 60px;  /* ✅ ОТСТУП ДЛЯ ЛОГО */
 }
 .goal-card .player-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;  /* ✅ ФАМИЛИЯ И НОМЕР ПО КРАЯМ */
-  gap: 15px;
-  margin-bottom: 8px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 .goal-card .last-name {
-  font-size: 32px;  /* ✅ КРУПНЕЕ */
+  font-size: 28px;
   font-weight: 900;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   color: #fff;
-  flex: 1;  /* ✅ ЗАНИМАЕТ ВСЁ ПРОСТРАНСТВО */
 }
 .goal-card .number-circle {
   display: inline-flex;
@@ -454,23 +450,17 @@ body {
   background: var(--accent-green);
   color: #000;
   font-weight: 900;
-  font-size: 20px;  /* ✅ КРУПНЕЕ */
-  width: 42px;  /* ✅ БОЛЬШЕ */
-  height: 42px;
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  flex-shrink: 0;  /* ✅ НЕ СЖИМАЕТСЯ */
-}
-.goal-card .bottom-row {
-  display: flex;
-  justify-content: space-between;  /* ✅ ВРЕМЯ СЛЕВА, ПОЗИЦИЯ СПРАВА */
-  align-items: center;
-  margin-top: 4px;
 }
 .goal-card .minute {
   font-size: 20px;
   font-weight: 700;
   color: #cccccc;
+  margin-top: 4px;
   letter-spacing: 0.5px;
 }
 .goal-card .minute::before {
@@ -478,14 +468,8 @@ body {
   font-size: 18px;
   opacity: 0.8;
 }
-.goal-card .position {
-  font-size: 16px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.6);
-  text-transform: uppercase;
-}
 
-/* ===== МОДАЛЬНОЕ ОКНО ===== */
+/* ===== МОДАЛЬНОЕ ОКНО (ИСПРАВЛЕНО) ===== */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -522,13 +506,13 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .player-btn {
   padding: 12px 20px;
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 40px;
+  border-radius: 8px;  /* ✅ МАЛЫЙ РАДИУС */
   color: white;
   font-size: 16px;
   font-weight: 600;
@@ -536,10 +520,36 @@ body {
   transition: all 0.2s;
   flex: 1 0 auto;
   min-width: 100px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .player-btn:hover {
   background: rgba(76, 175, 80, 0.3);
   border-color: var(--accent-green);
+}
+.player-number-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-green);
+  color: #000;
+  font-weight: 900;
+  font-size: 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.player-btn.no-player {
+  background: rgba(255, 165, 2, 0.3);
+  border-color: #ffa502;
+  flex: 1 1 100%;
+  max-width: none;
+  justify-content: center;
+}
+.player-btn.no-player:hover {
+  background: rgba(255, 165, 2, 0.5);
 }
 
 /* ===== АНИМАЦИИ ===== */
@@ -772,7 +782,7 @@ body {
 <!-- Анимации -->
 <div id="goal-anim" class="goal-anim">⚽ ГОЛ!</div>
 <img id="logo-anim" class="logo-anim" src="https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg" alt="">
-<!-- Карточка гола (НОВАЯ СТРУКТУРА) -->
+<!-- Карточка гола -->
 <div id="goal-card" class="goal-card hidden">
   <img id="goal-card-logo" class="legion-logo" src="https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg" alt="Легион">
   <div class="info">
@@ -780,10 +790,7 @@ body {
       <span id="goal-lastname" class="last-name"></span>
       <span id="goal-number" class="number-circle"></span>
     </div>
-    <div class="bottom-row">
-      <div id="goal-minute-display" class="minute"></div>
-      <div id="goal-position" class="position"></div>
-    </div>
+    <div id="goal-minute-display" class="minute"></div>
   </div>
 </div>
 <!-- Модальное окно -->
@@ -792,6 +799,7 @@ body {
     <h3>⚽ Выберите автора гола</h3>
     <div class="modal-body">
       <div id="scorer-buttons" class="player-buttons"></div>
+      <button class="player-btn no-player" onclick="goalWithoutPlayerFromModal()">⚽ Без игрока (автогол/неизвестно)</button>
     </div>
   </div>
 </div>
@@ -932,7 +940,6 @@ const elements = {
   goalCardLogo: document.getElementById('goal-card-logo'),
   goalLastname: document.getElementById('goal-lastname'),
   goalNumber: document.getElementById('goal-number'),
-  goalPosition: document.getElementById('goal-position'),
   goalMinuteDisplay: document.getElementById('goal-minute-display'),
   goalModal: document.getElementById('goal-modal'),
   scorerButtons: document.getElementById('scorer-buttons')
@@ -977,8 +984,7 @@ function selectScorerAndGoal(player) {
       team: 'legion',
       scorer: {
         lastName: player.lastName,
-        number: player.number,
-        position: player.position
+        number: player.number
       },
       minute: Math.floor(state.timerSeconds / 60),
       timestamp: Date.now()
@@ -992,13 +998,30 @@ function selectScorerAndGoal(player) {
   toast('⚽ Гол!');
 }
 
+// ✅ ГОЛ БЕЗ ИГРОКА (без карточки)
+function goalWithoutPlayerFromModal() {
+  state.legionScore++;
+  elements.admin.sh.value = state.legionScore;
+  update(ref(db, DB_KEY), { legionScore: state.legionScore }).catch(console.error);
+  
+  const animData = { time: Date.now(), team: 'legion' };
+  set(ref(db, 'goal_trigger'), animData).catch(console.error);
+  
+  elements.goalModal.classList.add('hidden');
+  toast('⚽ Гол!');
+}
+
 function renderPlayerButtons() {
   if (!elements.scorerButtons) return;
   elements.scorerButtons.innerHTML = '';
   players.forEach(player => {
     const btn = document.createElement('button');
     btn.className = 'player-btn';
-    btn.textContent = player.shortName;
+    // ✅ НОМЕР В ЗЕЛЁНОМ КРУЖКЕ + ИМЯ
+    btn.innerHTML = `
+      <span class="player-number-badge">${player.number}</span>
+      <span>${player.shortName}</span>
+    `;
     btn.addEventListener('click', () => selectScorerAndGoal(player));
     elements.scorerButtons.appendChild(btn);
   });
@@ -1050,26 +1073,13 @@ onValue(ref(db, 'live_goal'), (snapshot) => {
   showGoalCard(goal);
 });
 
-// ✅ ОБНОВЛЁННАЯ ФУНКЦИЯ ПОКАЗА КАРТОЧКИ
 function showGoalCard(goal) {
   if (!goal || goal.team !== 'legion') return;
-  
   elements.goalLastname.textContent = goal.scorer.lastName.toUpperCase();
   elements.goalNumber.textContent = goal.scorer.number;
-  
-  // ПОЗИЦИЯ
-  if (goal.scorer.position) {
-    elements.goalPosition.textContent = goal.scorer.position;
-    elements.goalPosition.style.display = 'block';
-  } else {
-    elements.goalPosition.style.display = 'none';
-  }
-  
   elements.goalMinuteDisplay.textContent = `${goal.minute}'`;
-  
   elements.goalCard.classList.remove('hidden');
   setTimeout(() => elements.goalCard.classList.add('show'), 10);
-  
   if (window.goalCardTimeout) clearTimeout(window.goalCardTimeout);
   window.goalCardTimeout = setTimeout(() => {
     elements.goalCard.classList.remove('show');
@@ -1326,6 +1336,9 @@ if (ADMIN) {
     startTimerInterval(false);
   }
 }
+
+// ✅ ГЛОБАЛЬНАЯ ФУНКЦИЯ
+window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 </script>
 </body>
 </html>
