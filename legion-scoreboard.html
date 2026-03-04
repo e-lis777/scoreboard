@@ -491,7 +491,7 @@ body {
   opacity: 0.8;
 }
 
-/* ===== МОДАЛЬНОЕ ОКНО ===== */
+/* ===== МОДАЛЬНОЕ ОКНО (ИСПРАВЛЕНО) ===== */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -531,13 +531,13 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .player-btn {
   padding: 12px 20px;
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 40px;
+  border-radius: 8px;  /* ✅ Уменьшено с 40px до 8px */
   color: white;
   font-size: 16px;
   font-weight: 600;
@@ -547,6 +547,10 @@ body {
   min-width: 100px;
   max-width: 140px;
   text-align: center;
+  height: 48px;  /* ✅ Фиксированная высота */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .player-btn:hover {
   background: rgba(76, 175, 80, 0.3);
@@ -555,6 +559,9 @@ body {
 .player-btn.no-player {
   background: rgba(255, 165, 2, 0.3);
   border-color: #ffa502;
+  flex: 1 1 100%;  /* ✅ На всю ширину */
+  max-width: none;  /* ✅ Без ограничения ширины */
+  height: 48px;  /* ✅ Та же высота */
 }
 .player-btn.no-player:hover {
   background: rgba(255, 165, 2, 0.5);
@@ -1054,7 +1061,6 @@ body {
     <div class="card"><h3>⚡ Быстрые действия</h3>
       <div class="btns">
         <button class="btn btn-s" id="goalLegionBtn">👤 ГОЛ ЛЕГИОН</button>
-        <button class="btn btn-w" id="goalLegionNoPlayerBtn">⚽ ГОЛ ЛЕГИОН (без игрока)</button>
         <button class="btn btn-d" id="goalOpponentBtn">⚽ ГОЛ СОПЕРНИК</button>
       </div>
     </div>
@@ -1495,7 +1501,6 @@ if (ADMIN) {
   document.getElementById('timerResetBtn').addEventListener('click', timerReset);
   document.getElementById('updatePeriodBtn').addEventListener('click', updatePeriod);
   document.getElementById('goalLegionBtn').addEventListener('click', () => quickGoal('legion'));
-  document.getElementById('goalLegionNoPlayerBtn').addEventListener('click', goalWithoutPlayerFromModal);
   document.getElementById('goalOpponentBtn').addEventListener('click', () => quickGoal('opponent'));
   elements.goalModal.addEventListener('click', (e) => {
     if (e.target === elements.goalModal) {
