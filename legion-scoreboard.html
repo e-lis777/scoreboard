@@ -35,7 +35,7 @@ body {
   filter: drop-shadow(var(--shadow-sm));
 }
 .sc-v1-logo.away { 
-  transform: scale(0.8);  /* ✅ Мяч ещё меньше: 67px × 0.8 = 54px (было 45px) */
+  transform: scale(0.8);  /* ✅ Мяч ещё меньше: 67px × 0.8 = 54px */
 }
 .sc-v1-name { font-size: 12px; font-weight: 900; color: var(--text-white); text-transform: uppercase; text-align: center; text-shadow: var(--shadow-sm); white-space: nowrap; margin-top: 2px; max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
 .sc-v1-score-sec { display: flex; flex-direction: column; align-items: center; padding: 0 20px; }
@@ -48,13 +48,29 @@ body {
 .sc-v1-time.paused { animation: pulse 1s infinite; }
 @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
 
-/* ===== ВАРИАНТ 2: TV СТИЛЬ ===== */
+/* ===== ВАРИАНТ 2: TV СТИЛЬ (УМЕНЬШЕНА ВЫСОТА НА 20%) ===== */
 .sc-v2 { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 550px; margin: 0 auto; }
 .sc-v2-bar { display: flex; align-items: center; width: 100%; transform: skewX(-8deg); border-radius: 6px; box-shadow: var(--shadow-md); }
-.sc-v2-team { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 5px 15px; flex: 1; background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%); }
+.sc-v2-team { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 8px; 
+  padding: 3px 12px;  /* ✅ Было 5px 15px, уменьшено на 20% */
+  flex: 1; 
+  background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%); 
+}
 .sc-v2-team.home { border-right: var(--border-light); }
 .sc-v2-team.away { border-left: var(--border-light); background: linear-gradient(90deg, #2d2d2d 0%, #1a1a1a 100%); }
-.sc-v2-score-sec { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px 20px; background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%); min-width: 90px; }
+.sc-v2-score-sec { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  padding: 4px 16px;  /* ✅ Было 5px 20px, уменьшено на 20% */
+  background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%); 
+  min-width: 90px; 
+}
 .sc-v2-name { font-size: 14px; font-weight: 900; color: var(--text-white); text-transform: uppercase; letter-spacing: 0.5px; text-shadow: var(--shadow-sm); white-space: nowrap; }
 .sc-v2-logo {
   width: 50px;  /* ✅ +20% от 42px */
@@ -63,11 +79,11 @@ body {
   filter: drop-shadow(var(--shadow-sm));
   transform: skewX(8deg);
 }
-.sc-v2-logo.away { transform: skewX(8deg) scale(0.8); }  /* ✅ Мяч ещё меньше */
+.sc-v2-logo.away { transform: skewX(8deg) scale(0.8); }
 .sc-v2-scores { display: flex; align-items: center; gap: 8px; }
 .sc-v2-score { font-size: 32px; font-weight: 900; color: var(--text-white); text-shadow: var(--shadow-sm); }
 .sc-v2-sep { font-size: 20px; color: rgba(255,255,255,0.7); }
-.sc-v2-timer { display: flex; align-items: center; justify-content: center; gap: 12px; background: rgba(0,0,0,0.85); padding: 2px 15px; margin-top: 2px; border-radius: 0 0 6px 6px; box-shadow: var(--shadow-md); }
+.sc-v2-timer { display: flex; align-items: center; justify-content: center; gap: 12px; background: rgba(0,0,0,0.85); padding: 2px 12px; margin-top: 2px; border-radius: 0 0 6px 6px; box-shadow: var(--shadow-md); }
 .sc-v2-timer .time, .sc-v2-timer .period { transform: skewX(-8deg); font-size: 12px; font-weight: 700; color: var(--text-white); font-variant-numeric: tabular-nums; }
 .sc-v2-timer .period { font-size: 10px; color: rgba(255,255,255,0.7); text-transform: uppercase; padding: 1px 6px; background: rgba(255,255,255,0.1); border-radius: 3px; }
 
@@ -161,25 +177,84 @@ body {
 .theme-green .sc-v2-score-sec { background: linear-gradient(180deg, #1b5e20 0%, #2e7d32 100%); }
 .theme-green .sc-v3-strip { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
 
-/* ===== КАРТОЧКА ГОЛА ===== */
-.goal-card { position: fixed; bottom: 20px; left: 20px; transform: translateX(-150%); background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(8px); border-left: 6px solid var(--accent-green); border-radius: 16px; padding: 12px 24px 12px 20px; display: flex; align-items: center; gap: 15px; box-shadow: var(--shadow-lg); z-index: 2001; transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1); min-width: 340px; color: white; font-family: 'Arial', sans-serif; overflow: visible; }
+/* ===== КАРТОЧКА ГОЛА (ЛОГО 2X, ВЫСТУПАЕТ ВВЕРХ) ===== */
+.goal-card { 
+  position: fixed; 
+  bottom: 20px; 
+  left: 20px; 
+  transform: translateX(-150%); 
+  background: rgba(0, 0, 0, 0.9); 
+  backdrop-filter: blur(8px); 
+  border-left: 6px solid var(--accent-green); 
+  border-radius: 16px; 
+  padding: 8px 20px 8px 25px;  /* ✅ Уменьшены отступы (было 12px 24px 12px 20px) */
+  display: flex; 
+  align-items: center; 
+  gap: 15px; 
+  box-shadow: var(--shadow-lg); 
+  z-index: 2001; 
+  transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1); 
+  min-width: 340px; 
+  color: white; 
+  font-family: 'Arial', sans-serif; 
+  overflow: visible; 
+}
 .goal-card.show { transform: translateX(0); }
 .goal-card.hidden { display: none; }
 .goal-card .legion-logo {
-  width: 90px;  /* ✅ +20% от 75px */
-  height: 90px;
+  width: 150px;  /* ✅ 2X от 75px */
+  height: 150px;
   object-fit: contain;
   filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.5));
-  transform: translateX(-35%);
+  position: absolute;
+  left: -50px;  /* ✅ Сдвинуто влево */
+  top: -45%;  /* ✅ Верхняя часть выступает на 30-40% за границы */
   z-index: 2002;
-  position: relative;
 }
-.goal-card .info { display: flex; flex-direction: column; flex: 1; }
-.goal-card .player-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.goal-card .last-name { font-size: 28px; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; color: #fff; }
-.goal-card .number-circle { display: inline-flex; align-items: center; justify-content: center; background: var(--accent-green); color: #000; font-weight: 900; font-size: 18px; width: 36px; height: 36px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
-.goal-card .minute { font-size: 20px; font-weight: 700; color: #cccccc; margin-top: 4px; letter-spacing: 0.5px; }
-.goal-card .minute::before { content: '⏱️ '; font-size: 18px; opacity: 0.8; }
+.goal-card .info { 
+  display: flex; 
+  flex-direction: column; 
+  flex: 1; 
+  margin-left: 60px;  /* ✅ Отступ для лого */
+}
+.goal-card .player-row { 
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+  flex-wrap: wrap; 
+}
+.goal-card .last-name { 
+  font-size: 28px; 
+  font-weight: 900; 
+  letter-spacing: 0.5px; 
+  text-transform: uppercase; 
+  color: #fff; 
+}
+.goal-card .number-circle { 
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+  background: var(--accent-green); 
+  color: #000; 
+  font-weight: 900; 
+  font-size: 18px; 
+  width: 36px; 
+  height: 36px; 
+  border-radius: 50%; 
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3); 
+}
+.goal-card .minute { 
+  font-size: 20px; 
+  font-weight: 700; 
+  color: #cccccc; 
+  margin-top: 4px; 
+  letter-spacing: 0.5px; 
+}
+.goal-card .minute::before { 
+  content: '⏱️ '; 
+  font-size: 18px; 
+  opacity: 0.8; 
+}
 
 /* ===== МОДАЛЬНОЕ ОКНО ===== */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 3000; display: flex; align-items: center; justify-content: center; }
@@ -194,17 +269,7 @@ body {
 .goal-anim { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); font-size: 100px; font-weight: 900; color: #ffd700; text-shadow: 0 0 30px rgba(255,215,0,0.8); z-index: 1000; pointer-events: none; }
 .goal-anim.active { animation: goalPop 1.5s ease-out; }
 @keyframes goalPop { 0% { transform: translate(-50%, -50%) scale(0); opacity: 0; } 50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
-.logo-anim {
-  position: fixed;
-  bottom: -200px;
-  left: -200px;
-  width: 226px;  /* ✅ +20% от 188px */
-  height: 226px;
-  z-index: 1001;
-  pointer-events: none;
-  filter: drop-shadow(0 0 30px rgba(0,150,255,0.8));
-  opacity: 0;
-}
+.logo-anim { position: fixed; bottom: -200px; left: -200px; width: 226px; height: 226px; z-index: 1001; pointer-events: none; filter: drop-shadow(0 0 30px rgba(0,150,255,0.8)); opacity: 0; }
 .logo-anim.active { animation: logoFly 1.5s forwards; }
 @keyframes logoFly { 0% { bottom: -200px; left: -200px; transform: scale(0.1) rotate(-15deg); opacity: 0; } 30% { opacity: 1; } 100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; } }
 
@@ -399,7 +464,6 @@ body {
       </div>
       <div class="btns">
         <button class="btn btn-s" id="updateScoreBtn">✅ Обновить</button>
-        <button class="btn btn-w" id="genericGoalBtn">⚽ ГОЛ!</button>
         <button class="btn btn-d" id="resetScoreBtn">🔄 Сброс</button>
       </div>
     </div>
@@ -423,7 +487,8 @@ body {
     </div>
     <div class="card"><h3>⚡ Быстрые действия</h3>
       <div class="btns">
-        <button class="btn btn-s" id="goalLegionBtn">⚽ ГОЛ ЛЕГИОН</button>
+        <button class="btn btn-s" id="goalLegionBtn">👤 ГОЛ ЛЕГИОН</button>
+        <button class="btn btn-w" id="goalLegionNoPlayerBtn">⚽ ГОЛ ЛЕГИОН (без игрока)</button>
         <button class="btn btn-d" id="goalOpponentBtn">⚽ ГОЛ СОПЕРНИК</button>
       </div>
     </div>
@@ -550,6 +615,15 @@ function selectScorerAndGoal(player) {
   }, 2000);
   
   elements.goalModal.classList.add('hidden');
+  toast('⚽ Гол!');
+}
+
+function goalWithoutPlayer() {
+  state.legionScore++;
+  elements.admin.sh.value = state.legionScore;
+  update(ref(db, DB_KEY), { legionScore: state.legionScore }).catch(console.error);
+  const animData = { time: Date.now(), team: 'legion' };
+  set(ref(db, 'goal_trigger'), animData).catch(console.error);
   toast('⚽ Гол!');
 }
 
@@ -848,13 +922,13 @@ if (ADMIN) {
   document.getElementById('anim-chk').addEventListener('change', toggleAnim);
   document.getElementById('saveOpponentBtn').addEventListener('click', saveOpponent);
   document.getElementById('updateScoreBtn').addEventListener('click', updateScore);
-  document.getElementById('genericGoalBtn').addEventListener('click', () => triggerGoal(null));
   document.getElementById('resetScoreBtn').addEventListener('click', resetScore);
   document.getElementById('timerStartBtn').addEventListener('click', timerStart);
   document.getElementById('timerPauseBtn').addEventListener('click', timerPause);
   document.getElementById('timerResetBtn').addEventListener('click', timerReset);
   document.getElementById('updatePeriodBtn').addEventListener('click', updatePeriod);
   document.getElementById('goalLegionBtn').addEventListener('click', () => quickGoal('legion'));
+  document.getElementById('goalLegionNoPlayerBtn').addEventListener('click', goalWithoutPlayer);
   document.getElementById('goalOpponentBtn').addEventListener('click', () => quickGoal('opponent'));
   elements.goalModal.addEventListener('click', (e) => {
     if (e.target === elements.goalModal) {
