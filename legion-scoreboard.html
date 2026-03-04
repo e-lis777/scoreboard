@@ -814,7 +814,6 @@ body {
       </div>
       <div class="btns">
         <button class="btn btn-s" id="updateScoreBtn">✅ Обновить</button>
-        <button class="btn btn-w" id="genericGoalBtn">⚽ ГОЛ!</button>
         <button class="btn btn-d" id="resetScoreBtn">🔄 Сброс</button>
       </div>
     </div>
@@ -887,7 +886,6 @@ let state = {
 let timerInterval = null;
 let localStartTime = null;
 let players = [];
-let hasInitializedTimer = false; // ✅ ФЛАГ: инициализировали ли таймер при загрузке
 
 const elements = {
   v1: { lh: document.getElementById('v1-lh'), la: document.getElementById('v1-la'), nh: document.getElementById('v1-nh'), na: document.getElementById('v1-na'), sh: document.getElementById('v1-sh'), sa: document.getElementById('v1-sa'), p: document.getElementById('v1-p'), t: document.getElementById('v1-t') },
@@ -948,7 +946,11 @@ function openGoalModal() {
   elements.goalModal.classList.remove('hidden');
 }
 
+// === ВЫБОР ИГРОКА (ГОЛ) — ИСПРАВЛЕНО: минута берётся в момент нажатия ===
 function selectScorerAndGoal(player) {
+  // ✅ БЕРЁМ текущую минуту ПРЯМО СЕЙЧАС (до задержки)
+  const currentMinute = Math.floor(state.timerSeconds / 60);
+  
   state.legionScore++;
   elements.admin.sh.value = state.legionScore;
   update(ref(db, DB_KEY), { legionScore: state.legionScore }).catch(console.error);
@@ -956,11 +958,12 @@ function selectScorerAndGoal(player) {
   const animData = { time: Date.now(), team: 'legion' };
   set(ref(db, 'goal_trigger'), animData).catch(console.error);
   
+  // ✅ Передаём минуту которая была в момент нажатия
   setTimeout(() => {
     const goalData = {
       team: 'legion',
       scorer: { lastName: player.lastName, number: player.number },
-      minute: Math.floor(state.timerSeconds / 60),
+      minute: currentMinute, // ✅ Используем сохранённую минуту
       timestamp: Date.now()
     };
     set(ref(db, 'live_goal'), goalData)
@@ -984,7 +987,7 @@ function renderPlayerButtons() {
   });
 }
 
-// === ПОДПИСКА НА ДАННЫЕ (ИСПРАВЛЕН ТАЙМЕР) ===
+// === ПОДПИСКИ FIREBASE ===
 const dataRef = ref(db, DB_KEY);
 onValue(dataRef, (snapshot) => {
   const data = snapshot.val();
@@ -994,15 +997,10 @@ onValue(dataRef, (snapshot) => {
   state = { ...state, ...data };
 
   if (!ADMIN) {
-    // ✅ ИСПРАВЛЕНИЕ: При первом подключении НЕ запускаем таймер автоматически если он уже шёл
-    if (state.timerRunning && !hasInitializedTimer) {
-      // Первый запуск при загрузке страницы
+    if (state.timerRunning && !oldRunning) {
       localStartTime = Date.now() - (state.timerSeconds * 1000);
       startTimerInterval(false);
-      hasInitializedTimer = true; // ✅ Помечаем что инициализировали
     }
-    
-    // Если таймер был остановлен админом
     if (!state.timerRunning && oldRunning) {
       stopTimerInterval();
     }
@@ -1016,7 +1014,7 @@ onValue(dataRef, (snapshot) => {
   }
 });
 
-// === ОЧИСТКА ТРИГГЕРОВ ПРИ СТАРТЕ ===
+// Очистка триггеров при старте
 set(ref(db, 'goal_trigger'), null).catch(() => {});
 set(ref(db, 'live_goal'), null).catch(() => {});
 
@@ -1242,8 +1240,6 @@ function timerPause() {
 function timerStart() {
   if (state.timerRunning) return;
   state.timerRunning = true;
-  // ✅ ВАЖНО: При старте сбрасываем флаг инициализации
-  hasInitializedTimer = false;
   localStartTime = Date.now() - (state.timerSeconds * 1000);
   startTimerInterval(true);
   update(ref(db, DB_KEY), { timerRunning: true, timerSeconds: state.timerSeconds }).catch(console.error);
@@ -1255,7 +1251,6 @@ function timerReset() {
   state.timerRunning = false;
   state.timerSeconds = 0;
   localStartTime = null;
-  hasInitializedTimer = false;
   updateTimerDisplay();
   update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: 0 }).catch(console.error);
   toast();
@@ -1296,7 +1291,7 @@ if (ADMIN) {
   document.getElementById('anim-chk').addEventListener('change', toggleAnim);
   document.getElementById('saveOpponentBtn').addEventListener('click', saveOpponent);
   document.getElementById('updateScoreBtn').addEventListener('click', updateScore);
-  document.getElementById('genericGoalBtn').addEventListener('click', () => triggerGoal(null));
+  // ✅ УДАЛЕНО: document.getElementById('genericGoalBtn') — кнопки больше нет
   document.getElementById('resetScoreBtn').addEventListener('click', resetScore);
   document.getElementById('timerStartBtn').addEventListener('click', timerStart);
   document.getElementById('timerPauseBtn').addEventListener('click', timerPause);
@@ -1312,7 +1307,6 @@ if (ADMIN) {
   
   updateAdminPanel();
 } else {
-  // Для зрителя: убеждаемся что анимации скрыты
   elements.goalAnim.classList.remove('active');
   elements.logoAnim.classList.remove('active');
   elements.goalCard.classList.add('hidden');
@@ -1324,7 +1318,6 @@ if (ADMIN) {
   if (state.timerRunning) {
     localStartTime = Date.now() - (state.timerSeconds * 1000);
     startTimerInterval(false);
-    hasInitializedTimer = true;
   }
 }
 </script>
