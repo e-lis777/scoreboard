@@ -747,6 +747,22 @@ body {
 </style>
 </head>
 <body>
+<!-- Скрипт очистки артефактов -->
+<script>
+(function() {
+  // Удаляем все текстовые узлы, которые являются прямыми потомками body и содержат видимый текст
+  const body = document.body;
+  const childNodes = body.childNodes;
+  for (let i = childNodes.length - 1; i >= 0; i--) {
+    const node = childNodes[i];
+    if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '') {
+      console.warn('Removing stray text:', node.textContent);
+      node.remove();
+    }
+  }
+})();
+</script>
+
 <!-- V1 -->
 <div id="sb-v1" class="sc-v1">
   <div class="sc-v1-bar">
@@ -1474,28 +1490,28 @@ if (ADMIN) {
 
 window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 </script>
-  <script>
-  (function cleanup() {
-    // Удаляем пустые или лишние текстовые узлы в body (кроме пробелов и переводов строк)
+<!-- Дополнительный скрипт для финальной очистки после загрузки -->
+<script>
+(function finalCleanup() {
+  // Ждём загрузки DOM, затем удаляем любые случайные текстовые узлы, которые могли появиться
+  document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
     const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, {
       acceptNode: function(node) {
-        // Оставляем только текстовые узлы, которые содержат что-то кроме пробелов
-        if (node.textContent.trim() !== '') {
+        // Если текстовый узел является прямым потомком body и содержит что-то кроме пробелов
+        if (node.parentNode === body && node.textContent.trim() !== '') {
           return NodeFilter.FILTER_ACCEPT;
         }
         return NodeFilter.FILTER_SKIP;
       }
     });
-    const textNodes = [];
     while (walker.nextNode()) {
-      textNodes.push(walker.currentNode);
-    }
-    textNodes.forEach(node => {
-      console.warn('Удалён лишний текст:', node.textContent);
+      const node = walker.currentNode;
+      console.warn('Final cleanup removed:', node.textContent);
       node.remove();
-    });
-  })();
+    }
+  });
+})();
 </script>
 </body>
 </html>
