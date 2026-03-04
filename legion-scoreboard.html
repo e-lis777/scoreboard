@@ -6,21 +6,8 @@
 <title>ФК ЛЕГИОН — Табло</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Arial Black', Arial, sans-serif;
-  background: transparent;
-  overflow: hidden;
-  user-select: none;
-}
-:root {
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.5);
-  --shadow-md: 0 4px 10px rgba(0,0,0,0.4);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
-  --border-light: 1px solid rgba(255,255,255,0.1);
-  --text-white: #fff;
-  --transition: all 0.2s ease;
-  --accent-green: #4caf50;
-}
+body { font-family: 'Arial Black', Arial, sans-serif; background: transparent; overflow: hidden; user-select: none; }
+:root { --shadow-sm: 0 2px 4px rgba(0,0,0,0.5); --shadow-md: 0 4px 10px rgba(0,0,0,0.4); --shadow-lg: 0 8px 32px rgba(0,0,0,0.6); --border-light: 1px solid rgba(255,255,255,0.1); --text-white: #fff; --transition: all 0.2s ease; --accent-green: #4caf50; }
 
 /* ===== ВАРИАНТ 1: КОМПАКТНЫЙ ===== */
 .sc-v1 { display: flex; align-items: center; width: 100%; max-width: 500px; margin: 0 auto; }
@@ -368,7 +355,8 @@ body {
     </div>
     <div class="card"><h3>⚡ Быстрые действия</h3>
       <div class="btns">
-        <button class="btn btn-s" id="goalLegionBtn">⚽ ГОЛ ЛЕГИОН</button>
+        <button class="btn btn-s" id="goalLegionBtn">👤 ГОЛ ЛЕГИОН</button>
+        <button class="btn btn-w" id="goalLegionNoPlayerBtn">⚽ ГОЛ ЛЕГИОН (без игрока)</button>
         <button class="btn btn-d" id="goalOpponentBtn">⚽ ГОЛ СОПЕРНИК</button>
       </div>
     </div>
@@ -395,29 +383,27 @@ const firebaseConfig = {
 const LEGION_LOGO = "https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg";
 const PLAYERS_JSON_URL = "https://raw.githubusercontent.com/e-lis777/scoreboard/c2b7d591ff4a076125c01bf35a807eeb05a1a84b/data/players.json";
 const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png";
-const DB_KEY = 'legion_match_v2'; // v2 = новая архитектура
+const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// === НОВАЯ СТРУКТУРА СОСТОЯНИЯ (абсолютное время) ===
 let state = {
   opponentName: 'СОПЕРНИК',
   opponentLogo: '',
   legionScore: 0,
   opponentScore: 0,
-  matchStartTime: null,      // ⏰ Когда начали матч (timestamp)
-  totalPausedMs: 0,          // ⏸️  Сколько всего времени были на паузе
-  lastPauseStart: null,      // ⏸️  Когда последний раз поставили на паузу
-  timerRunning: false,       // ▶️  Запущен ли таймер
+  timerSeconds: 0,
+  timerRunning: false,
   period: '1 ТАЙМ',
   designVariant: 3,
   colorTheme: 'green',
   logoAnimEnabled: true
 };
 
-let displayInterval = null;
+let timerInterval = null;
+let localStartTime = null;
 let players = [];
 
 const elements = {
@@ -451,21 +437,6 @@ const elements = {
   scorerButtons: document.getElementById('scorer-buttons')
 };
 
-// === 🕐 ВЫЧИСЛЕНИЕ ИГРОВОГО ВРЕМЕНИ (ключевая функция) ===
-function getGameTime() {
-  if (!state.matchStartTime) return 0;
-  
-  let elapsed = Date.now() - state.matchStartTime;
-  elapsed -= state.totalPausedMs;
-  
-  // Если сейчас на паузе — вычитаем время с момента паузы
-  if (!state.timerRunning && state.lastPauseStart) {
-    elapsed -= (Date.now() - state.lastPauseStart);
-  }
-  
-  return Math.max(0, Math.floor(elapsed / 1000)); // секунды
-}
-
 // === ЗАГРУЗКА ИГРОКОВ ===
 async function loadPlayers() {
   try {
@@ -494,11 +465,8 @@ function openGoalModal() {
   elements.goalModal.classList.remove('hidden');
 }
 
-// === 🎯 ВЫБОР ИГРОКА (ГОЛ) — теперь минута ВСЕГДА точная ===
+// === ВЫБОР ИГРОКА (ГОЛ С ИГРОКОМ) ===
 function selectScorerAndGoal(player) {
-  // ✅ БЕРЁМ текущую минуту ПРЯМО СЕЙЧАС из вычисляемого времени
-  const currentMinute = Math.floor(getGameTime() / 60);
-  
   state.legionScore++;
   elements.admin.sh.value = state.legionScore;
   update(ref(db, DB_KEY), { legionScore: state.legionScore }).catch(console.error);
@@ -506,12 +474,11 @@ function selectScorerAndGoal(player) {
   const animData = { time: Date.now(), team: 'legion' };
   set(ref(db, 'goal_trigger'), animData).catch(console.error);
   
-  // Передаём минуту которая была в момент нажатия
   setTimeout(() => {
     const goalData = {
       team: 'legion',
       scorer: { lastName: player.lastName, number: player.number },
-      minute: currentMinute, // ✅ Всегда актуальная минута
+      minute: Math.floor(state.timerSeconds / 60),
       timestamp: Date.now()
     };
     set(ref(db, 'live_goal'), goalData)
@@ -520,6 +487,19 @@ function selectScorerAndGoal(player) {
   }, 2000);
   
   elements.goalModal.classList.add('hidden');
+  toast('⚽ Гол!');
+}
+
+// === ⚽ ГОЛ БЕЗ ИГРОКА (новая функция) ===
+function goalWithoutPlayer() {
+  state.legionScore++;
+  elements.admin.sh.value = state.legionScore;
+  update(ref(db, DB_KEY), { legionScore: state.legionScore }).catch(console.error);
+  
+  // Только анимация, БЕЗ карточки
+  const animData = { time: Date.now(), team: 'legion' };
+  set(ref(db, 'goal_trigger'), animData).catch(console.error);
+  
   toast('⚽ Гол!');
 }
 
@@ -540,23 +520,23 @@ const dataRef = ref(db, DB_KEY);
 onValue(dataRef, (snapshot) => {
   const data = snapshot.val();
   if (!data) return;
-
+  const oldRunning = state.timerRunning;
   state = { ...state, ...data };
-
   if (!ADMIN) {
+    if (state.timerRunning && !oldRunning) {
+      localStartTime = Date.now() - (state.timerSeconds * 1000);
+      startTimerInterval(false);
+    }
+    if (!state.timerRunning && oldRunning) stopTimerInterval();
     updateAllVariants();
     updateVisibility();
     applyColorTheme();
     updateAnimCheckbox();
-    
-    // Запускаем интервал обновления дисплея
-    startDisplayInterval();
   } else {
     updateAdminPanel();
   }
 });
 
-// Очистка триггеров при старте
 set(ref(db, 'goal_trigger'), null).catch(() => {});
 set(ref(db, 'live_goal'), null).catch(() => {});
 
@@ -600,7 +580,6 @@ function showGoalCard(goal) {
 // === ОБНОВЛЕНИЕ ТАБЛО ===
 function updateAllVariants() {
   const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
-  
   ['v1', 'v2', 'v3'].forEach(v => {
     elements[v].lh.src = LEGION_LOGO;
     elements[v].la.src = opponentLogoSrc;
@@ -610,7 +589,6 @@ function updateAllVariants() {
     elements[v].sa.textContent = state.opponentScore;
     elements[v].p.textContent = state.period;
   });
-
   if (state.opponentLogo === '') {
     elements.v1.la.classList.add('away');
     elements.v2.la.classList.add('away');
@@ -618,13 +596,11 @@ function updateAllVariants() {
     elements.v1.la.classList.remove('away');
     elements.v2.la.classList.remove('away');
   }
-
   if (state.opponentLogo === '') {
     elements.v3.la.classList.add('default-logo');
   } else {
     elements.v3.la.classList.remove('default-logo');
   }
-
   updateTimerDisplay();
   updateV3Width();
 }
@@ -636,22 +612,13 @@ function updateV3Width() {
 }
 
 function updateTimerDisplay() {
-  const gameSeconds = getGameTime();
-  const m = Math.floor(gameSeconds / 60);
-  const s = gameSeconds % 60;
+  const m = Math.floor(state.timerSeconds / 60);
+  const s = state.timerSeconds % 60;
   const timeStr = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
   elements.v1.t.textContent = timeStr;
   elements.v2.t.textContent = timeStr;
   elements.v3.t.textContent = timeStr;
   elements.v1.t.classList.toggle('paused', !state.timerRunning);
-}
-
-// 🕐 Интервал обновления дисплея (вместо таймера)
-function startDisplayInterval() {
-  if (displayInterval) clearInterval(displayInterval);
-  displayInterval = setInterval(() => {
-    updateTimerDisplay();
-  }, 1000);
 }
 
 function updateVisibility() {
@@ -697,7 +664,23 @@ function updateAnimCheckbox() {
   }
 }
 
-// === 🎮 ДЕЙСТВИЯ АДМИНКИ (НОВАЯ ЛОГИКА) ===
+function startTimerInterval(writeToDB = true) {
+  stopTimerInterval();
+  timerInterval = setInterval(() => {
+    if (!localStartTime) return;
+    state.timerSeconds = Math.floor((Date.now() - localStartTime) / 1000);
+    updateTimerDisplay();
+    if (ADMIN && writeToDB && state.timerSeconds % 5 === 0) {
+      update(ref(db, DB_KEY), { timerSeconds: state.timerSeconds }).catch(console.error);
+    }
+  }, 1000);
+}
+
+function stopTimerInterval() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+}
+
+// === ДЕЙСТВИЯ АДМИНКИ ===
 function setVariant(variant) {
   if (state.designVariant === variant) return;
   state.designVariant = variant;
@@ -760,50 +743,30 @@ function quickGoal(team) {
   }
 }
 
-// 🕐 СТАРТ ТАЙМЕРА (абсолютное время)
-function timerStart() {
-  if (state.timerRunning) return;
-  
-  if (!state.matchStartTime) {
-    // Первый старт матча
-    update(ref(db, DB_KEY), {
-      matchStartTime: Date.now(),
-      timerRunning: true,
-      totalPausedMs: 0,
-      lastPauseStart: null
-    }).catch(console.error);
-  } else if (state.lastPauseStart) {
-    // Продолжение после паузы
-    const pauseDuration = Date.now() - state.lastPauseStart;
-    update(ref(db, DB_KEY), {
-      timerRunning: true,
-      totalPausedMs: state.totalPausedMs + pauseDuration,
-      lastPauseStart: null
-    }).catch(console.error);
-  }
-  
-  toast();
-}
-
-// ⏸️ ПАУЗА
 function timerPause() {
   if (!state.timerRunning) return;
-  update(ref(db, DB_KEY), {
-    timerRunning: false,
-    lastPauseStart: Date.now()
-  }).catch(console.error);
+  state.timerRunning = false;
+  stopTimerInterval();
+  update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: state.timerSeconds }).catch(console.error);
   toast();
 }
 
-// 🔄 СБРОС
+function timerStart() {
+  if (state.timerRunning) return;
+  state.timerRunning = true;
+  localStartTime = Date.now() - (state.timerSeconds * 1000);
+  startTimerInterval(true);
+  update(ref(db, DB_KEY), { timerRunning: true, timerSeconds: state.timerSeconds }).catch(console.error);
+  toast();
+}
+
 function timerReset() {
-  update(ref(db, DB_KEY), {
-    matchStartTime: null,
-    totalPausedMs: 0,
-    lastPauseStart: null,
-    timerRunning: false
-  }).catch(console.error);
+  stopTimerInterval();
+  state.timerRunning = false;
+  state.timerSeconds = 0;
+  localStartTime = null;
   updateTimerDisplay();
+  update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: 0 }).catch(console.error);
   toast();
 }
 
@@ -848,6 +811,7 @@ if (ADMIN) {
   document.getElementById('timerResetBtn').addEventListener('click', timerReset);
   document.getElementById('updatePeriodBtn').addEventListener('click', updatePeriod);
   document.getElementById('goalLegionBtn').addEventListener('click', () => quickGoal('legion'));
+  document.getElementById('goalLegionNoPlayerBtn').addEventListener('click', goalWithoutPlayer); // ✅ Новая кнопка
   document.getElementById('goalOpponentBtn').addEventListener('click', () => quickGoal('opponent'));
   elements.goalModal.addEventListener('click', (e) => {
     if (e.target === elements.goalModal) {
@@ -860,11 +824,13 @@ if (ADMIN) {
   elements.goalAnim.classList.remove('active');
   elements.logoAnim.classList.remove('active');
   elements.goalCard.classList.add('hidden');
-  
   updateAllVariants();
   updateVisibility();
   applyColorTheme();
-  startDisplayInterval();
+  if (state.timerRunning) {
+    localStartTime = Date.now() - (state.timerSeconds * 1000);
+    startTimerInterval(false);
+  }
 }
 </script>
 </body>
