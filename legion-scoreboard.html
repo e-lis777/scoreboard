@@ -55,7 +55,7 @@ body {
   filter: drop-shadow(var(--shadow-sm));
 }
 .sc-v1-logo.away { 
-  transform: scale(0.72);  /* ✅ -10% от 0.8 */
+  transform: scale(0.72);  /* ✅ -10% от 0.8 (или макс 50px) */
 }
 .sc-v1-name {
   font-size: 12px;
@@ -142,7 +142,7 @@ body {
   box-shadow: var(--shadow-md);
   position: relative;
 }
-/* ✅ БЕЛЫЙ ФОНОВЫЙ БЛОК (задний план) */
+/* ✅ БЕЛЫЙ ФОНОВЫЙ БЛОК (задний план) - выступает на 4px */
 .sc-v2-bg {
   position: absolute;
   top: -4px;
@@ -158,7 +158,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 4px 12px;  /* ✅ -20% от 5px 15px */
+  padding: 4px 12px;  /* ✅ -20% от 5px 15px = 4px 12px */
   flex: 1;
   background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
   position: relative;
@@ -174,7 +174,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4px 16px;  /* ✅ -20% от 5px 20px */
+  padding: 5px 20px;  /* ✅ ОСТАВИТЬ - самый высокий блок */
   background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%);
   min-width: 90px;
   position: relative;
@@ -491,7 +491,7 @@ body {
   opacity: 0.8;
 }
 
-/* ===== МОДАЛЬНОЕ ОКНО (ИСПРАВЛЕНО) ===== */
+/* ===== МОДАЛЬНОЕ ОКНО ===== */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -537,7 +537,7 @@ body {
   padding: 12px 20px;
   background: rgba(255,255,255,0.1);
   border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 8px;  /* ✅ Уменьшено с 40px до 8px */
+  border-radius: 8px;
   color: white;
   font-size: 16px;
   font-weight: 600;
@@ -547,7 +547,7 @@ body {
   min-width: 100px;
   max-width: 140px;
   text-align: center;
-  height: 48px;  /* ✅ Фиксированная высота */
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -559,9 +559,9 @@ body {
 .player-btn.no-player {
   background: rgba(255, 165, 2, 0.3);
   border-color: #ffa502;
-  flex: 1 1 100%;  /* ✅ На всю ширину */
-  max-width: none;  /* ✅ Без ограничения ширины */
-  height: 48px;  /* ✅ Та же высота */
+  flex: 1 1 100%;
+  max-width: none;
+  height: 48px;
 }
 .player-btn.no-player:hover {
   background: rgba(255, 165, 2, 0.5);
