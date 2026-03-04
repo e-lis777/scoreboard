@@ -391,7 +391,7 @@ body {
 .theme-green .sc-v2-score-sec { background: linear-gradient(180deg, #1b5e20 0%, #2e7d32 100%); }
 .theme-green .sc-v3-strip { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
 
-/* ===== КАРТОЧКА ГОЛА (ЛОГО ТОРЧИТ СВЕРХУ) ===== */
+/* ===== КАРТОЧКА ГОЛА (обновленная) ===== */
 .goal-card {
   position: fixed;
   bottom: 20px;
@@ -426,22 +426,20 @@ body {
   filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.5));
   position: absolute;
   left: -35px;
-  top: -55%;
+  top: -30%;  /* уменьшено с -55% до -30% */
   z-index: 2002;
 }
 .goal-card .info {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  margin-left: 60px;
-}
-.goal-card .player-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto auto;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 0 10px;
+  margin-left: 80px;  /* увеличено с 60px до 80px */
 }
 .goal-card .last-name {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
   font-size: 28px;
   font-weight: 900;
   letter-spacing: 0.5px;
@@ -449,6 +447,9 @@ body {
   color: #fff;
 }
 .goal-card .number-circle {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: start;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -461,15 +462,10 @@ body {
   border-radius: 50%;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
-.goal-card .position {
-  font-size: 14px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.6);
-  text-transform: uppercase;
-  margin-top: 4px;
-  margin-left: 46px;
-}
 .goal-card .minute {
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: start;
   font-size: 20px;
   font-weight: 700;
   color: #cccccc;
@@ -480,6 +476,16 @@ body {
   content: '⏱️ ';
   font-size: 18px;
   opacity: 0.8;
+}
+.goal-card .position {
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: start;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  margin-top: 4px;
 }
 
 /* ===== МОДАЛЬНОЕ ОКНО ===== */
@@ -685,14 +691,25 @@ body {
 .col-classic1 { background: linear-gradient(135deg, #1a1a2e, #16213e); }
 .col-classic2 { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); }
 .chk {
-  display: flex; align-items: center; gap: 10px; padding: 12px;
-  background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 12px; cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
 }
 .chk input { width: 18px; height: 18px; accent-color: #00d4ff; }
 .chk label { margin: 0; font-size: 13px; cursor: pointer; flex: 1; }
 .tm-st {
-  display: flex; align-items: center; gap: 10px; padding: 12px;
-  background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 8px;
+  margin-bottom: 12px;
 }
 .tm-st .ind { width: 10px; height: 10px; border-radius: 50%; background: #ffa502; }
 .tm-st .ind.run { background: #2ed573; box-shadow: 0 0 8px #2ed573; animation: pulse 1s infinite; }
@@ -713,28 +730,28 @@ body {
   .admin { padding: 30px; }
   .admin-head h1 { font-size: 32px; }
   .admin-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px; max-width: 1100px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
   }
   .card { padding: 22px; }
   .col-sel { grid-template-columns: repeat(4, 1fr); }
 }
 
-/* ===== МАСШТАБИРОВАНИЕ ЛОГОТИПОВ (БЕЗ ИЗМЕНЕНИЯ РАЗМЕРОВ БЛОКОВ) ===== */
+/* ===== МАСШТАБИРОВАНИЕ ЛОГОТИПОВ ===== */
 .sc-v1-half.home .sc-v1-logo {
   transform: scale(1.2);
 }
 .sc-v1-half.away .sc-v1-logo {
   transform: scale(0.9);
 }
-
 .sc-v2-team.home .sc-v2-logo {
   transform: skewX(8deg) scale(1.2);
 }
 .sc-v2-team.away .sc-v2-logo {
   transform: skewX(8deg) scale(0.9);
 }
-
 .sc-v3-logo-h {
   transform: translate(-50%, -50%) scale(1.2);
 }
@@ -750,13 +767,11 @@ body {
 <!-- Скрипт очистки артефактов -->
 <script>
 (function() {
-  // Удаляем все текстовые узлы, которые являются прямыми потомками body и содержат видимый текст
   const body = document.body;
   const childNodes = body.childNodes;
   for (let i = childNodes.length - 1; i >= 0; i--) {
     const node = childNodes[i];
     if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '') {
-      console.warn('Removing stray text:', node.textContent);
       node.remove();
     }
   }
@@ -836,16 +851,14 @@ body {
 <!-- Анимации -->
 <div id="goal-anim" class="goal-anim">⚽ ГОЛ!</div>
 <img id="logo-anim" class="logo-anim" src="https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg" alt="">
-<!-- Карточка гола -->
+<!-- Карточка гола (обновленная разметка) -->
 <div id="goal-card" class="goal-card hidden">
   <img id="goal-card-logo" class="legion-logo" src="https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg" alt="Легион">
   <div class="info">
-    <div class="player-row">
-      <span id="goal-lastname" class="last-name"></span>
-      <span id="goal-number" class="number-circle"></span>
-    </div>
-    <div id="goal-position" class="position"></div>
-    <div id="goal-minute-display" class="minute"></div>
+    <span id="goal-lastname" class="last-name"></span>
+    <span id="goal-number" class="number-circle"></span>
+    <span id="goal-minute-display" class="minute"></span>
+    <span id="goal-position" class="position"></span>
   </div>
 </div>
 <!-- Модальное окно -->
@@ -951,7 +964,7 @@ const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 
 // Версия проекта
-const VERSION = "2.2.0";
+const VERSION = "2.3.0";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1010,7 +1023,6 @@ const elements = {
   versionDisplay: document.getElementById('version-display')
 };
 
-// Отображаем версию в админке
 if (elements.versionDisplay) {
   elements.versionDisplay.textContent = `v${VERSION}`;
 }
@@ -1197,7 +1209,7 @@ function showGoalCard(goal) {
   
   if (goal.scorer.position) {
     elements.goalPosition.textContent = goal.scorer.position;
-    elements.goalPosition.style.display = 'block';
+    elements.goalPosition.style.display = 'inline-block';
   } else {
     elements.goalPosition.style.display = 'none';
   }
@@ -1490,15 +1502,13 @@ if (ADMIN) {
 
 window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 </script>
-<!-- Дополнительный скрипт для финальной очистки после загрузки -->
+<!-- Дополнительный скрипт для финальной очистки -->
 <script>
 (function finalCleanup() {
-  // Ждём загрузки DOM, затем удаляем любые случайные текстовые узлы, которые могли появиться
   document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
     const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, {
       acceptNode: function(node) {
-        // Если текстовый узел является прямым потомком body и содержит что-то кроме пробелов
         if (node.parentNode === body && node.textContent.trim() !== '') {
           return NodeFilter.FILTER_ACCEPT;
         }
@@ -1506,9 +1516,7 @@ window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
       }
     });
     while (walker.nextNode()) {
-      const node = walker.currentNode;
-      console.warn('Final cleanup removed:', node.textContent);
-      node.remove();
+      walker.currentNode.remove();
     }
   });
 })();
