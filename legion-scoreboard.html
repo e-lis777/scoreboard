@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -718,6 +719,40 @@ body {
   .card { padding: 22px; }
   .col-sel { grid-template-columns: repeat(4, 1fr); }
 }
+
+/* ===== ИЗМЕНЕНИЯ РАЗМЕРОВ ЛОГОТИПОВ ===== */
+.sc-v1-half.home .sc-v1-logo {
+  width: 67px;
+  height: 67px;
+}
+.sc-v1-half.away .sc-v1-logo {
+  width: 50px;
+  height: 50px;
+  transform: none; /* убираем масштабирование */
+}
+
+.sc-v2-team.home .sc-v2-logo {
+  width: 50px;
+  height: 50px;
+}
+.sc-v2-team.away .sc-v2-logo {
+  width: 38px;
+  height: 38px;
+  transform: skewX(8deg); /* оставляем только наклон */
+}
+
+.sc-v3-logo-h {
+  width: 66px;
+  height: 66px;
+}
+.sc-v3-logo-a {
+  width: 50px;
+  height: 50px;
+}
+.sc-v3-logo-a.default-logo {
+  width: 40px;
+  height: 40px;
+}
 </style>
 </head>
 <body>
@@ -909,7 +944,7 @@ const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 
 // Версия проекта
-const VERSION = "2.0.0";
+const VERSION = "2.1.0";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1450,3 +1485,4 @@ window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 </script>
 </body>
 </html>
+```
