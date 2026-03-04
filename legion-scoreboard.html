@@ -882,7 +882,9 @@ body {
       </div>
     </div>
   </div>
-  <div class="admin-footer"><p>Сделал li-sits-in. Болеем за наших!</p></div>
+  <div class="admin-footer">
+    <p>Сделал li-sits-in. Болеем за наших! <span id="version-display"></span></p>
+  </div>
 </div>
 <div id="toast" class="toast">✓ Сохранено!</div>
 
@@ -906,10 +908,12 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 
+// Версия проекта
+const VERSION = "2.0.0";
+
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Новая структура таймера
 let state = {
   opponentName: 'СОПЕРНИК',
   opponentLogo: '',
@@ -917,8 +921,8 @@ let state = {
   opponentScore: 0,
   timer: {
     running: false,
-    startTime: 0,      // timestamp последнего запуска (0 если остановлен)
-    elapsed: 0         // накопленных секунд до последнего запуска/останова
+    startTime: 0,
+    elapsed: 0
   },
   period: '1 ТАЙМ',
   designVariant: 3,
@@ -926,7 +930,6 @@ let state = {
   logoAnimEnabled: true
 };
 
-// Локальное значение текущих секунд (обновляется каждую секунду)
 let currentTimerSeconds = 0;
 let timerInterval = null;
 
@@ -961,8 +964,14 @@ const elements = {
   goalPosition: document.getElementById('goal-position'),
   goalMinuteDisplay: document.getElementById('goal-minute-display'),
   goalModal: document.getElementById('goal-modal'),
-  scorerButtons: document.getElementById('scorer-buttons')
+  scorerButtons: document.getElementById('scorer-buttons'),
+  versionDisplay: document.getElementById('version-display')
 };
+
+// Отображаем версию в админке
+if (elements.versionDisplay) {
+  elements.versionDisplay.textContent = `v${VERSION}`;
+}
 
 async function loadPlayers() {
   try {
@@ -987,7 +996,6 @@ function openGoalModal() {
     toast('Список игроков не загружен');
     return;
   }
-  // Блокировка повторного открытия
   if (!elements.goalModal.classList.contains('hidden')) return;
   elements.goalModal.classList.remove('hidden');
 }
@@ -1008,11 +1016,11 @@ function selectScorerAndGoal(player) {
         number: player.number,
         position: player.position
       },
-      minute: Math.floor(currentTimerSeconds / 60), // используем актуальное значение
+      minute: Math.floor(currentTimerSeconds / 60),
       timestamp: Date.now()
     };
     set(ref(db, 'live_goal'), goalData)
-      .then(() => setTimeout(() => set(ref(db, 'live_goal'), null), 8000)) // увеличено до 8 сек
+      .then(() => setTimeout(() => set(ref(db, 'live_goal'), null), 8000))
       .catch(console.error);
   }, 2000);
   
@@ -1052,9 +1060,7 @@ onValue(dataRef, (snapshot) => {
   const data = snapshot.val();
   if (!data) return;
   
-  // Обновляем state, но для timer используем новую структуру, если её нет в данных (старая версия) – конвертируем
   if (data.timer === undefined && data.timerSeconds !== undefined) {
-    // Конвертация старого формата: timerSeconds, timerRunning
     state.timer = {
       running: data.timerRunning || false,
       startTime: data.timerRunning ? Date.now() - (data.timerSeconds * 1000) : 0,
@@ -1073,7 +1079,6 @@ onValue(dataRef, (snapshot) => {
   state.colorTheme = data.colorTheme || 'green';
   state.logoAnimEnabled = data.logoAnimEnabled !== undefined ? data.logoAnimEnabled : true;
   
-  // Пересчитываем текущие секунды
   updateCurrentTimerSeconds();
   
   if (!ADMIN) {
@@ -1081,7 +1086,6 @@ onValue(dataRef, (snapshot) => {
     updateVisibility();
     applyColorTheme();
     updateAnimCheckbox();
-    // Запускаем/останавливаем интервал в зависимости от состояния
     if (state.timer.running && !timerInterval) {
       startTimerInterval();
     } else if (!state.timer.running && timerInterval) {
@@ -1092,14 +1096,12 @@ onValue(dataRef, (snapshot) => {
   }
 });
 
-// Вычисление текущего значения таймера на основе state.timer
 function updateCurrentTimerSeconds() {
   if (state.timer.running && state.timer.startTime > 0) {
     currentTimerSeconds = state.timer.elapsed + (Date.now() - state.timer.startTime) / 1000;
   } else {
     currentTimerSeconds = state.timer.elapsed;
   }
-  // Округляем до целых секунд для отображения
   currentTimerSeconds = Math.floor(currentTimerSeconds);
   updateTimerDisplay();
 }
@@ -1108,7 +1110,6 @@ function startTimerInterval() {
   if (timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(() => {
     if (state.timer.running) {
-      // Пересчитываем текущее значение
       currentTimerSeconds = Math.floor(state.timer.elapsed + (Date.now() - state.timer.startTime) / 1000);
       updateTimerDisplay();
     }
@@ -1210,7 +1211,6 @@ function updateTimerDisplay() {
   elements.v2.t.textContent = timeStr;
   elements.v3.t.textContent = timeStr;
   
-  // Добавляем/убираем класс paused для индикации паузы (единообразие)
   const paused = !state.timer.running;
   elements.v1.t.classList.toggle('paused', paused);
   elements.v2.t.classList.toggle('paused', paused);
@@ -1260,7 +1260,6 @@ function updateAnimCheckbox() {
   }
 }
 
-// Вспомогательная функция для проверки URL изображения
 function validateImageUrl(url, callback) {
   const img = new Image();
   img.onload = () => callback(true);
@@ -1292,21 +1291,18 @@ function saveOpponent() {
   const newName = elements.admin.na.value || 'СОПЕРНИК';
   const newLogo = elements.admin.la.value;
   
-  // Проверка URL логотипа (если не пустой)
   if (newLogo) {
     validateImageUrl(newLogo, (valid) => {
       if (!valid) {
         toast('Неверный URL логотипа, сохранение отменено');
         return;
       }
-      // Если валидный, сохраняем
       state.opponentName = newName;
       state.opponentLogo = newLogo;
       update(ref(db, DB_KEY), { opponentName: newName, opponentLogo: newLogo }).catch(console.error);
       toast('Соперник сохранён');
     });
   } else {
-    // Пустой URL – сбрасываем на логотип по умолчанию
     state.opponentName = newName;
     state.opponentLogo = '';
     update(ref(db, DB_KEY), { opponentName: newName, opponentLogo: '' }).catch(console.error);
@@ -1315,7 +1311,6 @@ function saveOpponent() {
 }
 
 function updateScore() {
-  // Защита от отрицательных значений
   state.legionScore = Math.max(0, parseInt(elements.admin.sh.value) || 0);
   state.opponentScore = Math.max(0, parseInt(elements.admin.sa.value) || 0);
   elements.admin.sh.value = state.legionScore;
@@ -1355,7 +1350,6 @@ function quickGoal(team) {
 function timerPause() {
   if (!state.timer.running) return;
   
-  // Вычисляем текущее накопленное время
   const now = Date.now();
   const additional = (now - state.timer.startTime) / 1000;
   const newElapsed = state.timer.elapsed + additional;
@@ -1377,7 +1371,7 @@ function timerStart() {
   const newTimer = {
     running: true,
     startTime: now,
-    elapsed: state.timer.elapsed  // сохраняем уже накопленное
+    elapsed: state.timer.elapsed
   };
   
   update(ref(db, DB_KEY), { timer: newTimer }).catch(console.error);
@@ -1397,7 +1391,6 @@ function timerReset() {
 
 function updatePeriod() {
   state.period = elements.admin.p.value;
-  // Если выбран перерыв, автоматически ставим таймер на паузу
   if (state.period === 'ПЕРЕРЫВ' && state.timer.running) {
     timerPause();
   }
@@ -1440,7 +1433,6 @@ if (ADMIN) {
       elements.goalModal.classList.add('hidden');
     }
   });
-  // Инициализация панели
   updateAdminPanel();
 } else {
   elements.goalAnim.classList.remove('active');
