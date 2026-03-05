@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -615,7 +616,7 @@ opacity: 0;
 100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; }
 }
 
-/* ===== ОВЕРЛЕЙ ЗАСТАВКИ — ИСПРАВЛЕННОЕ ВЫРАВНИВАНИЕ ===== */
+/* ===== ОВЕРЛЕЙ ЗАСТАВКИ — ДИЗАЙН ИЗ ПРЕДЫДУЩИХ ВЕРСИЙ ===== */
 .intro-overlay {
 position: fixed;
 top: 0;
@@ -1133,7 +1134,7 @@ animation: pulse 1s infinite;
 <span id="goal-position" class="position"></span>
 </div>
 </div>
-<!-- Оверлей заставки -->
+<!-- Оверлей заставки (дизайн сохранен) -->
 <div id="intro-overlay" class="intro-overlay">
 <div class="intro-card">
 <div class="intro-teams">
@@ -1266,7 +1267,7 @@ const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
 
-const VERSION = "2.19.0";
+const VERSION = "2.20.0";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1812,31 +1813,16 @@ function toast(msg, type = 'success') {
     setTimeout(() => elements.toast.classList.remove('show'), 2000);
 }
 
-// ===== ИСПРАВЛЕННЫЕ СЛУШАТЕЛИ FIREBASE =====
+// ===== ИСПРАВЛЕННЫЕ СЛУШАТЕЛИ (как в версии 2.5.0) =====
 
 // Слушатель анимации гола
 onValue(ref(db, 'goal_trigger'), (snapshot) => {
     const trigger = snapshot.val();
-    console.log('📡 goal_trigger получен:', trigger);
-    
-    if (!trigger) return;
-    
-    // Если мы в админке - логируем, но не показываем анимацию
-    if (ADMIN) {
-        console.log('Админка: получен goal_trigger', trigger);
-        return;
-    }
-    
+    if (!trigger || ADMIN) return;  // ← ТАК РАБОТАЛО В 2.5.0
     const now = Date.now();
-    if (trigger.time && now - trigger.time > 10000) {
-        console.log('goal_trigger устарел');
-        return;
-    }
-    
-    console.log('⚽ ПОКАЗЫВАЕМ АНИМАЦИЮ ГОЛА');
+    if (trigger.time && now - trigger.time > 10000) return;
     elements.goalAnim.classList.add('active');
     setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
-    
     if (trigger.team === 'legion' && state.logoAnimEnabled) {
         elements.logoAnim.classList.remove('active');
         setTimeout(() => elements.logoAnim.classList.add('active'), 50);
@@ -1847,34 +1833,22 @@ onValue(ref(db, 'goal_trigger'), (snapshot) => {
 // Слушатель карточки гола
 onValue(ref(db, 'live_goal'), (snapshot) => {
     const goal = snapshot.val();
-    console.log('📡 live_goal получен:', goal);
-    
-    if (!goal) return;
-    
-    if (ADMIN) {
-        console.log('Админка: получен live_goal', goal);
-        return;
-    }
-    
+    if (!goal || ADMIN) return;  // ← ТАК РАБОТАЛО В 2.5.0
     const now = Date.now();
-    if (goal.timestamp && now - goal.timestamp > 10000) {
-        console.log('live_goal устарел');
-        return;
-    }
-    
-    if (goal.team !== 'legion') return;
-    
-    console.log('📋 ПОКАЗЫВАЕМ КАРТОЧКУ ГОЛА');
+    if (goal.timestamp && now - goal.timestamp > 10000) return;
+    showGoalCard(goal);
+});
+
+function showGoalCard(goal) {
+    if (!goal || goal.team !== 'legion') return;
     elements.goalLastname.textContent = goal.scorer.lastName.toUpperCase();
     elements.goalNumber.textContent = goal.scorer.number;
-    
     if (goal.scorer.position) {
         elements.goalPosition.textContent = goal.scorer.position;
         elements.goalPosition.style.display = 'inline-block';
     } else {
         elements.goalPosition.style.display = 'none';
     }
-    
     elements.goalMinuteDisplay.textContent = `${goal.minute}'`;
     elements.goalCard.classList.remove('hidden');
     setTimeout(() => elements.goalCard.classList.add('show'), 10);
@@ -1883,32 +1857,19 @@ onValue(ref(db, 'live_goal'), (snapshot) => {
         elements.goalCard.classList.remove('show');
         setTimeout(() => elements.goalCard.classList.add('hidden'), 400);
     }, 5000);
-});
+}
 
-// Слушатель заставки
+// Слушатель заставки - ТОЧНО ТАК ЖЕ, КАК В GOAL_TRIGGER
 onValue(ref(db, 'intro_trigger'), (snapshot) => {
     const trigger = snapshot.val();
-    console.log('📡 intro_trigger получен:', trigger);
-    
-    if (!trigger) return;
-    
-    if (ADMIN) {
-        console.log('Админка: получен intro_trigger', trigger);
-        return;
-    }
-    
+    if (!trigger || ADMIN) return;  // ← ТЕПЕРЬ ТАК ЖЕ!
     const now = Date.now();
-    if (trigger.time && now - trigger.time > 10000) {
-        console.log('intro_trigger устарел');
-        return;
-    }
-    
+    if (trigger.time && now - trigger.time > 10000) return;
     if (trigger.type === 'first_half') {
         showIntro('1 ТАЙМ');
     } else if (trigger.type === 'second_half') {
         showIntro('2 ТАЙМ');
     }
-    
     // Очищаем триггер через 500мс
     setTimeout(() => {
         set(ref(db, 'intro_trigger'), null).catch(console.error);
@@ -2027,3 +1988,4 @@ walker.currentNode.remove();
 </script>
 </body>
 </html>
+```
