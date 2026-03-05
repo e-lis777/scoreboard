@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -631,6 +630,7 @@ body {
   opacity: 1;
   visibility: visible;
 }
+/* Класс hide только для админки, не влияет на табло */
 .intro-overlay.hide {
   display: none !important;
 }
@@ -690,7 +690,7 @@ body {
 }
 .intro-teams {
   display: flex;
-  align-items: center; /* Выравнивание по центру логотипов */
+  align-items: center;
   justify-content: center;
   gap: 80px;
   margin-bottom: 30px;
@@ -1265,7 +1265,7 @@ const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
 
-const VERSION = "2.9.0";
+const VERSION = "2.9.1";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1363,6 +1363,8 @@ function updateRealTime() {
 function showIntroFirstHalf() {
   if (!elements.introOverlay) return;
   
+  console.log('Показываем заставку 1 тайма');
+  
   // Обновляем данные
   elements.introLogoHome.src = LEGION_LOGO;
   elements.introLogoAway.src = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
@@ -1378,6 +1380,9 @@ function showIntroFirstHalf() {
   // Обновляем реальное время
   updateRealTime();
   
+  // Убираем класс hide если он был
+  elements.introOverlay.classList.remove('hide');
+  
   // Показываем заставку
   elements.introOverlay.classList.add('show');
   
@@ -1390,6 +1395,8 @@ function showIntroFirstHalf() {
 // Функция показа заставки 2 тайма с актуальным счётом
 async function showIntroSecondHalf() {
   if (!elements.introOverlay) return;
+  
+  console.log('Показываем заставку 2 тайма');
   
   // Запрашиваем актуальные данные из Firebase
   try {
@@ -1442,6 +1449,9 @@ async function showIntroSecondHalf() {
   
   // Обновляем реальное время
   updateRealTime();
+  
+  // Убираем класс hide если он был
+  elements.introOverlay.classList.remove('hide');
   
   // Показываем заставку
   elements.introOverlay.classList.add('show');
@@ -1953,6 +1963,12 @@ if (ADMIN) {
   elements.goalAnim.classList.remove('active');
   elements.logoAnim.classList.remove('active');
   elements.goalCard.classList.add('hidden');
+  
+  // Убираем класс hide у заставки в режиме табло
+  if (elements.introOverlay) {
+    elements.introOverlay.classList.remove('hide');
+  }
+  
   updateAllVariants();
   updateVisibility();
   applyColorTheme();
@@ -1985,4 +2001,3 @@ window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 </script>
 </body>
 </html>
-```
