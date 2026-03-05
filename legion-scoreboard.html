@@ -2054,4 +2054,58 @@ walker.currentNode.remove();
 })();
 </script>
 </body>
+    <script>
+// ===== ДИАГНОСТИКА ВИДИМОСТИ ЗАСТАВКИ =====
+(function fixIntroVisibility() {
+  console.log('🔧 Проверка видимости заставки...');
+  
+  setTimeout(() => {
+    const overlay = document.getElementById('intro-overlay');
+    if (!overlay) {
+      console.error('❌ Элемент intro-overlay не найден!');
+      return;
+    }
+    
+    console.log('✅ Элемент найден:', overlay);
+    console.log('📊 Текущие классы:', overlay.className);
+    console.log('👁️ Стиль display:', window.getComputedStyle(overlay).display);
+    console.log('👁️ Стиль opacity:', window.getComputedStyle(overlay).opacity);
+    console.log('👁️ Стиль visibility:', window.getComputedStyle(overlay).visibility);
+    
+    // Принудительно показываем для теста
+    setTimeout(() => {
+      console.log('🔧 Принудительный показ через 2 секунды...');
+      overlay.classList.add('show');
+      
+      setTimeout(() => {
+        overlay.classList.remove('show');
+      }, 3000);
+    }, 2000);
+    
+    // Добавляем тестовую кнопку прямо на страницу
+    const testBtn = document.createElement('button');
+    testBtn.textContent = '🔴 ТЕСТ ЗАСТАВКИ';
+    testBtn.style.position = 'fixed';
+    testBtn.style.top = '10px';
+    testBtn.style.left = '10px';
+    testBtn.style.zIndex = '10001';
+    testBtn.style.padding = '10px';
+    testBtn.style.background = 'red';
+    testBtn.style.color = 'white';
+    testBtn.style.border = 'none';
+    testBtn.style.borderRadius = '5px';
+    testBtn.style.cursor = 'pointer';
+    
+    testBtn.onclick = () => {
+      overlay.classList.add('show');
+      setTimeout(() => {
+        overlay.classList.remove('show');
+      }, 3000);
+    };
+    
+    document.body.appendChild(testBtn);
+    
+  }, 1000);
+})();
+</script>
 </html>
