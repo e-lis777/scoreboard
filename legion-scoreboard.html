@@ -701,7 +701,6 @@ gap: 80px;
 margin-bottom: 30px;
 min-height: 300px;
 }
-/* ✅ ИСПРАВЛЕННОЕ ВЫРАВНИВАНИЕ — ЛОГО ПО ЦЕНТРАМ, НАЗВАНИЯ НА ОДНОЙ ЛИНИИ */
 .intro-team {
 display: flex;
 flex-direction: column;
@@ -725,7 +724,6 @@ animation: slideInRight 0.6s 0.2s ease-out forwards;
 0% { transform: translateX(100px); opacity: 0; }
 100% { transform: translateX(0); opacity: 1; }
 }
-/* ✅ ЛОГОТИПЫ — ВЫРАВНИВАНИЕ ПО ЦЕНТРАМ */
 .intro-logo {
 width: 200px;
 height: 200px;
@@ -734,7 +732,6 @@ filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6));
 animation: logoPulse 2s infinite ease-in-out;
 display: block;
 }
-/* ✅ КРИТИЧНО: Лого соперника на 25% меньше (150px) */
 .intro-team.away .intro-logo {
 width: 150px;
 height: 150px;
@@ -743,7 +740,7 @@ height: 150px;
 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); }
 50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); }
 }
-/* ✅ НАЗВАНИЯ — НА ОДНОЙ ГОРИЗОНТАЛЬНОЙ ЛИНИИ */
+/* ✅ ИСПРАВЛЕНИЕ #4: Название команды в одну строку */
 .intro-name {
 font-size: 32px;
 font-weight: 900;
@@ -759,6 +756,9 @@ align-items: center;
 justify-content: center;
 width: 100%;
 text-align: center;
+white-space: nowrap; /* ✅ Запрет переноса */
+overflow: hidden; /* ✅ Скрытие переполнения */
+text-overflow: ellipsis; /* ✅ Многоточие если не влезает */
 }
 .intro-footer {
 margin-top: 30px;
@@ -788,7 +788,6 @@ color: rgba(76, 175, 80, 0.9);
 font-weight: bold;
 margin: 0 5px;
 }
-/* ✅ ОСТАВЛЯЕМ ТОЛЬКО intro-period-badge (убираем plaque) */
 .intro-period-badge {
 font-size: 48px;
 font-weight: 900;
@@ -1151,7 +1150,6 @@ animation: pulse 1s infinite;
 <span id="intro-time">19:30</span> •
 <span id="intro-timezone">MSK</span>
 </div>
-<!-- ✅ ОСТАВЛЯЕМ ТОЛЬКО ЭТУ ПЛАШКУ (убран intro-period-plaque) -->
 <div class="intro-period-badge" id="intro-period">1 ТАЙМ</div>
 <div id="intro-goal-info" class="intro-goal-info" style="display: none;"></div>
 </div>
@@ -1265,7 +1263,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.15.0"; // ✅ Обновлена версия
+const VERSION = "2.16.0";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1863,7 +1861,7 @@ function toast(msg, type = 'success') {
 }
 
 // ✅ ВСЕ СЛУШАТЕЛИ FIREBASE — ВНЕ БЛОКА ADMIN/ELSE (跨-браузерная работа)
-// Слушатель goal_trigger (анимация гола)
+// ✅ ИСПРАВЛЕНИЕ #1: Анимация гола работает на табло
 onValue(ref(db, 'goal_trigger'), (snapshot) => {
     const trigger = snapshot.val();
     if (!trigger || ADMIN) return;
@@ -1889,7 +1887,7 @@ onValue(ref(db, 'goal_trigger'), (snapshot) => {
     }, 2000);
 });
 
-// Слушатель live_goal (карточка гола)
+// ✅ ИСПРАВЛЕНИЕ #2: Карточка гола работает на табло
 onValue(ref(db, 'live_goal'), (snapshot) => {
     const goal = snapshot.val();
     if (!goal || ADMIN) return;
@@ -1920,7 +1918,7 @@ function showGoalCard(goal) {
     }, 5000);
 }
 
-// ✅ Слушатель intro_trigger (заставка) — ВНЕ БЛОКА ADMIN/ELSE
+// ✅ ИСПРАВЛЕНИЕ #3: Заставка работает на табло (跨-браузерно)
 onValue(ref(db, 'intro_trigger'), (snapshot) => {
     if (introTriggerLock) return;
     
@@ -1975,6 +1973,7 @@ if (ADMIN) {
     document.getElementById('goalLegionBtn').addEventListener('click', () => quickGoal('legion'));
     document.getElementById('goalOpponentBtn').addEventListener('click', () => quickGoal('opponent'));
     
+    // ✅ Кнопки заставок — ТОЛЬКО отправляют сигнал в Firebase (не вызывают функции локально)
     document.getElementById('showIntro1Btn').addEventListener('click', () => {
         set(ref(db, 'intro_trigger'), {
             type: 'first_half',
