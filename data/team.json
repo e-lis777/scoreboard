@@ -1,1 +1,82 @@
-
+[
+  {
+    "number": 22,
+    "lastName": "Чаракчян",
+    "firstName": "Ерванд",
+    "shortName": "Ерванд",
+    "position": "ЛН",
+    "photoUrl": ""
+  },
+  {
+    "number": 28,
+    "lastName": "Коляка",
+    "firstName": "Егор",
+    "shortName": "Егор",
+    "position": "ПН",
+    "photoUrl": ""
+  },
+  {
+    "number": 9,
+    "lastName": "Хиль",
+    "firstName": "Владислав",
+    "shortName": "Влад",
+    "position": "ЦН",
+    "photoUrl": ""
+  },
+  {
+    "number": 19,
+    "lastName": "Павитов",
+    "firstName": "Михаил",
+    "shortName": "Миша П",
+    "position": "ПН",
+    "photoUrl": ""
+  },
+  {
+    "number": 6,
+    "lastName": "Захарцов",
+    "firstName": "Михаил",
+    "shortName": "Миша З",
+    "position": "ПЗ",
+    "photoUrl": ""
+  },
+  {
+    "number": 7,
+    "lastName": "Хисаметдинов",
+    "firstName": "Вильдан",
+    "shortName": "Вильдан",
+    "position": "ЦП",
+    "photoUrl": ""
+  },
+  {
+    "number": 12,
+    "lastName": "Волончук",
+    "firstName": "Савелий",
+    "shortName": "Савелий",
+    "position": "ПЗ",
+    "photoUrl": ""
+  },
+  {
+    "number": 70,
+    "lastName": "Андрианов",
+    "firstName": "Даниил",
+    "shortName": "Даня А",
+    "position": "ЛЗ",
+    "photoUrl": ""
+  },
+  {
+    "number": 35,
+    "lastName": "Лисицин",
+    "firstName": "Даниил",
+    "shortName": "Даня Л",
+    "position": "ЦЗ",
+    "photoUrl": ""
+  },
+  {
+    "number": 10,
+    "lastName": "Ильчинский",
+    "firstName": "Федор",
+    "shortName": "Федя",
+    "position": "ГК",
+    "photoUrl": ""
+  }
+]
