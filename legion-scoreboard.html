@@ -6,6 +6,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ФК ЛЕГИОН — Табло</title>
 <style>
+/* ===== все стили точно такие же, как в версии 2.5.0 ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Arial Black', Arial, sans-serif;
+  background: transparent;
+  overflow: hidden;
+  user-select: none;
+}
+:root {
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.5);
+  --shadow-md: 0 4px 10px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
+  --border-light: 1px solid rgba(255,255,255,0.1);
+  --text-white: #fff;
+  --transition: all 0.2s ease;
+  --accent-green: #4caf50;
+}
+
 /* ===== ВАРИАНТ 1: КОМПАКТНЫЙ ===== */
 .sc-v1 {
   display: flex;
@@ -374,7 +392,7 @@
 .theme-green .sc-v2-score-sec { background: linear-gradient(180deg, #1b5e20 0%, #2e7d32 100%); }
 .theme-green .sc-v3-strip { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
 
-/* ===== КАРТОЧКА ГОЛА (финальная версия 2.5.2) ===== */
+/* ===== КАРТОЧКА ГОЛА (финальная версия 2.5.0) ===== */
 .goal-card {
   position: fixed;
   bottom: 20px;
@@ -409,12 +427,12 @@
   filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.5));
   position: absolute;
   left: -35px;
-  top: -45%;
+  top: -45%;  /* поднято с -35% до -45% */
   z-index: 2002;
 }
 .goal-card .info {
   display: grid;
-  grid-template-columns: auto 36px;
+  grid-template-columns: auto 36px; /* вторая колонка точно под номер */
   align-items: center;
   gap: 0 10px;
   margin-left: 80px;
@@ -432,7 +450,7 @@
 .goal-card .number-circle {
   grid-column: 2;
   grid-row: 1;
-  justify-self: center;
+  justify-self: center; /* центрируем кружок в колонке */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -463,15 +481,15 @@
 .goal-card .position {
   grid-column: 2;
   grid-row: 2;
-  justify-self: center;
-  width: 36px;
+  justify-self: center; /* центрируем под номером */
+  width: 36px;          /* ширина как у кружка */
   text-align: center;
   font-size: 20px;
   font-weight: 700;
   color: #cccccc;
   text-transform: uppercase;
   margin-top: 4px;
-  white-space: nowrap;
+  white-space: nowrap;  /* чтобы текст не переносился */
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -951,8 +969,8 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 
-// Версия проекта
-const VERSION = "2.5.2";
+// Версия проекта - исправлен баг с отрицательным временем
+const VERSION = "2.5.1";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
