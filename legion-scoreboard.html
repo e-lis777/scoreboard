@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -5,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ФК ЛЕГИОН — Табло</title>
 <style>
-/* ===== ВСЕ СТИЛИ БЕЗ ИЗМЕНЕНИЙ (как в версии 2.6.0) ===== */
+/* ===== все стили точно такие же, как в версии 2.6.0 ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'Arial Black', Arial, sans-serif;
@@ -971,7 +972,10 @@ const firebaseConfig = {
 };
 
 const LEGION_LOGO = "https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg";
-const PLAYERS_JSON_URL = "https://raw.githubusercontent.com/e-lis777/scoreboard/c2b7d591ff4a076125c01bf35a807eeb05a1a84b/data/players.json";
+
+// ===== ИЗМЕНЕНО: прямая ссылка на main (всегда последняя версия) =====
+const PLAYERS_JSON_URL = "https://raw.githubusercontent.com/e-lis777/scoreboard/main/data/players.json";
+
 const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png";
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
@@ -1536,3 +1540,4 @@ window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 </script>
 </body>
 </html>
+```
