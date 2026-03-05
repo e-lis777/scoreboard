@@ -615,7 +615,7 @@ opacity: 0;
 100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; }
 }
 
-/* ===== ОВЕРЛЕЙ ЗАСТАВКИ ===== */
+/* ===== ОВЕРЛЕЙ ЗАСТАВКИ — ИСПРАВЛЕННОЕ ВЫРАВНИВАНИЕ ===== */
 .intro-overlay {
 position: fixed;
 top: 0;
@@ -701,15 +701,15 @@ gap: 80px;
 margin-bottom: 30px;
 min-height: 300px;
 }
+/* ✅ ИСПРАВЛЕННОЕ ВЫРАВНИВАНИЕ — ЛОГО ПО ЦЕНТРАМ, НАЗВАНИЯ НА ОДНОЙ ЛИНИИ */
 .intro-team {
 display: flex;
 flex-direction: column;
 align-items: center;
-justify-content: flex-start;
 gap: 15px;
 opacity: 0;
-height: 280px;
 position: relative;
+width: 200px;
 }
 .intro-team.home {
 animation: slideInLeft 0.6s 0.2s ease-out forwards;
@@ -725,6 +725,7 @@ animation: slideInRight 0.6s 0.2s ease-out forwards;
 0% { transform: translateX(100px); opacity: 0; }
 100% { transform: translateX(0); opacity: 1; }
 }
+/* ✅ ЛОГОТИПЫ — ВЫРАВНИВАНИЕ ПО ЦЕНТРАМ */
 .intro-logo {
 width: 200px;
 height: 200px;
@@ -732,20 +733,17 @@ object-fit: contain;
 filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6));
 animation: logoPulse 2s infinite ease-in-out;
 display: block;
-margin: 0 auto;
-position: absolute;
-top: 0;
-left: 50%;
-transform: translateX(-50%);
 }
+/* ✅ КРИТИЧНО: Лого соперника на 25% меньше (150px) */
 .intro-team.away .intro-logo {
 width: 150px;
 height: 150px;
 }
 @keyframes logoPulse {
-0%, 100% { transform: translateX(-50%) scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); }
-50% { transform: translateX(-50%) scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); }
+0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); }
+50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); }
 }
+/* ✅ НАЗВАНИЯ — НА ОДНОЙ ГОРИЗОНТАЛЬНОЙ ЛИНИИ */
 .intro-name {
 font-size: 32px;
 font-weight: 900;
@@ -755,14 +753,12 @@ background: linear-gradient(135deg, #fff 0%, #ddd 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-height: 60px;
+height: 50px;
 display: flex;
 align-items: center;
 justify-content: center;
 width: 100%;
-position: absolute;
-bottom: 0;
-left: 0;
+text-align: center;
 }
 .intro-footer {
 margin-top: 30px;
@@ -792,24 +788,7 @@ color: rgba(76, 175, 80, 0.9);
 font-weight: bold;
 margin: 0 5px;
 }
-.intro-period-plaque {
-font-size: 20px;
-font-weight: 900;
-color: rgba(255,255,255,0.9);
-text-transform: uppercase;
-letter-spacing: 2px;
-background: rgba(0, 0, 0, 0.3);
-display: inline-block;
-padding: 8px 24px;
-border-radius: 40px;
-backdrop-filter: blur(5px);
-border: 1px solid rgba(255, 255, 255, 0.1);
-margin-top: 10px;
-}
-.intro-period-plaque span {
-color: rgba(76, 175, 80, 0.9);
-font-weight: bold;
-}
+/* ✅ ОСТАВЛЯЕМ ТОЛЬКО intro-period-badge (убираем plaque) */
 .intro-period-badge {
 font-size: 48px;
 font-weight: 900;
@@ -1172,9 +1151,7 @@ animation: pulse 1s infinite;
 <span id="intro-time">19:30</span> •
 <span id="intro-timezone">MSK</span>
 </div>
-<div id="intro-period-plaque" class="intro-period-plaque" style="display: none;">
-<span id="intro-period-plaque-text">2 ТАЙМ</span>
-</div>
+<!-- ✅ ОСТАВЛЯЕМ ТОЛЬКО ЭТУ ПЛАШКУ (убран intro-period-plaque) -->
 <div class="intro-period-badge" id="intro-period">1 ТАЙМ</div>
 <div id="intro-goal-info" class="intro-goal-info" style="display: none;"></div>
 </div>
@@ -1288,12 +1265,12 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.13.0";
+const VERSION = "2.15.0"; // ✅ Обновлена версия
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// ✅ Блокировки для предотвращения гонки состояний
+// ✅ БЛОКИРОВКИ ДЛЯ ПРЕДОТВРАЩЕНИЯ ГОНКИ СОСТОЯНИЙ
 let introTriggerLock = false;
 let goalTriggerLock = false;
 let realTimeInterval = null;
@@ -1359,8 +1336,6 @@ const elements = {
     introDate: document.getElementById('intro-date'),
     introTime: document.getElementById('intro-time'),
     introPeriod: document.getElementById('intro-period'),
-    introPeriodPlaque: document.getElementById('intro-period-plaque'),
-    introPeriodPlaqueText: document.getElementById('intro-period-plaque-text'),
     introGoalInfo: document.getElementById('intro-goal-info')
 };
 
@@ -1398,11 +1373,6 @@ function showIntro(period) {
     elements.introPeriod.textContent = period;
     
     if (period === '2 ТАЙМ') {
-        if (elements.introPeriodPlaque) {
-            elements.introPeriodPlaqueText.textContent = '2 ТАЙМ';
-            elements.introPeriodPlaque.style.display = 'inline-block';
-        }
-        
         const legionGoals = state.legionScore;
         const opponentGoals = state.opponentScore;
         if (elements.introGoalInfo) {
@@ -1423,9 +1393,6 @@ function showIntro(period) {
             elements.introGoalInfo.style.display = 'flex';
         }
     } else {
-        if (elements.introPeriodPlaque) {
-            elements.introPeriodPlaque.style.display = 'none';
-        }
         if (elements.introGoalInfo) {
             elements.introGoalInfo.style.display = 'none';
         }
@@ -1895,9 +1862,7 @@ function toast(msg, type = 'success') {
     setTimeout(() => elements.toast.classList.remove('show'), 2000);
 }
 
-// ✅ ВСЕ СЛУШАТЕЛИ FIREBASE ВЫНЕСЕНЫ ЗА ПРЕДЕЛЫ ADMIN/ELSE БЛОКА
-// Это гарантирует работу跨-браузерно
-
+// ✅ ВСЕ СЛУШАТЕЛИ FIREBASE — ВНЕ БЛОКА ADMIN/ELSE (跨-браузерная работа)
 // Слушатель goal_trigger (анимация гола)
 onValue(ref(db, 'goal_trigger'), (snapshot) => {
     const trigger = snapshot.val();
@@ -1955,7 +1920,7 @@ function showGoalCard(goal) {
     }, 5000);
 }
 
-// Слушатель intro_trigger (заставка)
+// ✅ Слушатель intro_trigger (заставка) — ВНЕ БЛОКА ADMIN/ELSE
 onValue(ref(db, 'intro_trigger'), (snapshot) => {
     if (introTriggerLock) return;
     
