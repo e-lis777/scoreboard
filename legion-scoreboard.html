@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -541,7 +540,7 @@ body {
   transition: all 0.2s;
   flex: 1 0 auto;
   min-width: 100px;
-  max-width: 180px; /* Ограничиваем максимальную ширину */
+  max-width: 180px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -674,8 +673,8 @@ body {
 .intro-card {
   position: relative;
   width: 90%;
-  max-width: 1100px;
-  padding: 40px 20px;
+  max-width: 1200px;
+  padding: 50px 30px;
   text-align: center;
   color: var(--text-white);
   transform: scale(0.9);
@@ -689,7 +688,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 40px;
+  gap: 60px;
   margin-bottom: 30px;
   flex-wrap: wrap;
 }
@@ -697,7 +696,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 20px;
   opacity: 0;
 }
 .intro-team.home {
@@ -715,22 +714,22 @@ body {
   100% { transform: translateX(0); opacity: 1; }
 }
 .intro-logo {
-  width: 130px;
-  height: 130px;
+  width: 200px;  /* увеличено в 1.5 раза с 130px */
+  height: 200px;
   object-fit: contain;
   filter: drop-shadow(0 0 20px var(--legion-glow));
   animation: logoPulse 2s infinite ease-in-out;
 }
 .intro-team.away .intro-logo {
-  width: 97.5px;
-  height: 97.5px;
+  width: 150px;  /* 200px * 0.75 = 150px (на 25% меньше) */
+  height: 150px;
 }
 @keyframes logoPulse {
   0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px var(--legion-glow)); }
   50% { transform: scale(1.05); filter: drop-shadow(0 0 40px var(--legion-green)); }
 }
 .intro-name {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -739,21 +738,8 @@ body {
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
-.intro-vs {
-  font-size: 56px;
-  font-weight: 900;
-  background: linear-gradient(135deg, var(--legion-green) 0%, #2e7d32 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 30px var(--legion-glow);
-  animation: vsPulse 1.5s infinite alternate;
-}
-@keyframes vsPulse {
-  0% { transform: scale(1); text-shadow: 0 0 20px var(--legion-glow); }
-  100% { transform: scale(1.1); text-shadow: 0 0 50px var(--legion-green); }
-}
 .intro-footer {
-  margin-top: 20px;
+  margin-top: 30px;
   opacity: 0;
   animation: fadeInUp 0.8s 0.5s ease-out forwards;
 }
@@ -762,14 +748,14 @@ body {
   100% { transform: translateY(0); opacity: 1; }
 }
 .intro-datetime {
-  font-size: 22px;
+  font-size: 24px;
   color: var(--text-gray);
   font-family: 'Arial', sans-serif;
   letter-spacing: 1px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   background: rgba(0, 0, 0, 0.3);
   display: inline-block;
-  padding: 8px 25px;
+  padding: 10px 30px;
   border-radius: 40px;
   backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -780,7 +766,7 @@ body {
   margin: 0 5px;
 }
 .intro-period-badge {
-  font-size: 42px;
+  font-size: 48px;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 4px;
@@ -793,7 +779,7 @@ body {
 .intro-footer::after {
   content: '';
   display: block;
-  width: 150px;
+  width: 200px;
   height: 4px;
   background: linear-gradient(90deg, 
       transparent, 
@@ -810,23 +796,44 @@ body {
   to { transform: scaleX(1); opacity: 1; }
 }
 .intro-goal-info {
-  margin-top: 15px;
-  font-size: 18px;
+  margin-top: 20px;
+  font-size: 20px;
   color: var(--text-gray);
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+.intro-score {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--legion-green);
+  text-shadow: 0 0 20px var(--legion-glow);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px 40px;
+  border-radius: 50px;
+  border: 2px solid var(--legion-green);
+  margin-bottom: 10px;
+}
+.intro-goal-scorers {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 15px;
-  flex-wrap: wrap;
+  max-width: 800px;
 }
 .intro-goal-scorer {
   background: rgba(76, 175, 80, 0.2);
-  padding: 5px 15px;
-  border-radius: 20px;
+  padding: 8px 20px;
+  border-radius: 30px;
   border: 1px solid var(--legion-green);
+  font-size: 18px;
 }
 .intro-goal-scorer span {
   color: var(--legion-green);
   font-weight: bold;
+  margin-right: 8px;
 }
 
 /* ===== АДМИНКА ===== */
@@ -1110,7 +1117,6 @@ body {
         <img id="intro-logo-home" class="intro-logo" src="https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg" alt="ЛЕГИОН">
         <span id="intro-name-home" class="intro-name">ЛЕГИОН</span>
       </div>
-      <div class="intro-vs">VS</div>
       <div class="intro-team away">
         <img id="intro-logo-away" class="intro-logo" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Соперник">
         <span id="intro-name-away" class="intro-name">СОПЕРНИК</span>
@@ -1205,7 +1211,7 @@ body {
     <div class="card"><h3>📺 Заставки</h3>
       <div class="btns">
         <button class="btn btn-p" id="showIntro1Btn">🎬 1 ТАЙМ</button>
-        <button class="btn btn-p" id="showIntro2Btn">🎬 2 ТАЙМ</button>
+        <button class="btn btn-p" id="showIntro2Btn">🎬 2 ТАЙМ (со счётом)</button>
       </div>
     </div>
   </div>
@@ -1217,7 +1223,7 @@ body {
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+import { getDatabase, ref, set, onValue, update, get } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAFb-yJaI7WJFcTx_wAFmSngupHqUNai1I",
@@ -1236,7 +1242,7 @@ const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
 
-const VERSION = "2.7.0";
+const VERSION = "2.8.0";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1330,8 +1336,8 @@ function updateRealTime() {
   }
 }
 
-// Функция показа заставки
-function showIntro(period) {
+// Функция показа заставки 1 тайма
+function showIntroFirstHalf() {
   if (!elements.introOverlay) return;
   
   // Обновляем данные
@@ -1339,7 +1345,12 @@ function showIntro(period) {
   elements.introLogoAway.src = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
   elements.introNameHome.textContent = 'ЛЕГИОН';
   elements.introNameAway.textContent = state.opponentName;
-  elements.introPeriod.textContent = period;
+  elements.introPeriod.textContent = '1 ТАЙМ';
+  
+  // Скрываем информацию о голах
+  if (elements.introGoalInfo) {
+    elements.introGoalInfo.style.display = 'none';
+  }
   
   // Обновляем реальное время
   updateRealTime();
@@ -1353,29 +1364,63 @@ function showIntro(period) {
   }, 7000);
 }
 
-// Функция показа заставки с голами (для 2 тайма)
-function showIntroWithGoals(period) {
-  // Собираем информацию о голах (можно сохранять в state)
+// Функция показа заставки 2 тайма с актуальным счётом
+async function showIntroSecondHalf() {
+  if (!elements.introOverlay) return;
+  
+  // Запрашиваем актуальные данные из Firebase
+  try {
+    const snapshot = await get(ref(db, DB_KEY));
+    const data = snapshot.val();
+    if (data) {
+      state.legionScore = data.legionScore || 0;
+      state.opponentScore = data.opponentScore || 0;
+    }
+  } catch (e) {
+    console.error('Ошибка получения счёта:', e);
+  }
+  
+  // Обновляем данные в заставке
+  elements.introLogoHome.src = LEGION_LOGO;
+  elements.introLogoAway.src = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
+  elements.introNameHome.textContent = 'ЛЕГИОН';
+  elements.introNameAway.textContent = state.opponentName;
+  elements.introPeriod.textContent = '2 ТАЙМ';
+  
+  // Формируем информацию о голах
   const legionGoals = state.legionScore;
   const opponentGoals = state.opponentScore;
   
-  // Формируем текст о голах
-  let goalsText = '';
-  if (legionGoals > 0 || opponentGoals > 0) {
-    goalsText = `Счёт: ${legionGoals} : ${opponentGoals}`;
-    // Здесь можно добавить фамилии забивших
-  }
-  
   if (elements.introGoalInfo) {
-    if (goalsText) {
-      elements.introGoalInfo.style.display = 'flex';
-      elements.introGoalInfo.innerHTML = `<div class="intro-goal-scorer"><span>⚽</span> ${goalsText}</div>`;
-    } else {
-      elements.introGoalInfo.style.display = 'none';
+    // Создаём HTML для отображения счёта и голов
+    let goalsHtml = `
+      <div class="intro-score">${legionGoals} : ${opponentGoals}</div>
+    `;
+    
+    // Добавляем список голов Легиона (если есть)
+    const legionGoalsList = state.goals.filter(g => g.team === 'legion');
+    if (legionGoalsList.length > 0) {
+      goalsHtml += `<div class="intro-goal-scorers">`;
+      legionGoalsList.forEach(goal => {
+        goalsHtml += `<div class="intro-goal-scorer"><span>⚽</span> ${goal.scorer} ${goal.minute}'</div>`;
+      });
+      goalsHtml += `</div>`;
     }
+    
+    elements.introGoalInfo.innerHTML = goalsHtml;
+    elements.introGoalInfo.style.display = 'flex';
   }
   
-  showIntro(period);
+  // Обновляем реальное время
+  updateRealTime();
+  
+  // Показываем заставку
+  elements.introOverlay.classList.add('show');
+  
+  // Автоматически скрываем через 7 секунд
+  setTimeout(() => {
+    elements.introOverlay.classList.remove('show');
+  }, 7000);
 }
 
 async function loadPlayers() {
@@ -1413,6 +1458,7 @@ function selectScorerAndGoal(player) {
   // Сохраняем информацию о голе
   if (!state.goals) state.goals = [];
   state.goals.push({
+    team: 'legion',
     scorer: player.shortName,
     minute: Math.floor(currentTimerSeconds / 60)
   });
@@ -1665,6 +1711,7 @@ function updateScore() {
 function resetScore() {
   state.legionScore = 0;
   state.opponentScore = 0;
+  state.goals = []; // очищаем список голов
   elements.admin.sh.value = 0;
   elements.admin.sa.value = 0;
   update(ref(db, DB_KEY), { legionScore: 0, opponentScore: 0 }).catch(console.error);
@@ -1839,11 +1886,11 @@ if (ADMIN) {
   
   // Кнопки для заставок
   document.getElementById('showIntro1Btn').addEventListener('click', () => {
-    showIntro('1 ТАЙМ');
+    showIntroFirstHalf();
     toast('Заставка 1 тайма');
   });
   document.getElementById('showIntro2Btn').addEventListener('click', () => {
-    showIntroWithGoals('2 ТАЙМ');
+    showIntroSecondHalf();
     toast('Заставка 2 тайма');
   });
   
@@ -1894,4 +1941,3 @@ window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 </script>
 </body>
 </html>
-```
