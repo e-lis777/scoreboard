@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -971,13 +972,16 @@ const firebaseConfig = {
 };
 
 const LEGION_LOGO = "https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg";
-const PLAYERS_JSON_URL = "https://raw.githubusercontent.com/e-lis777/scoreboard/c2b7d591ff4a076125c01bf35a807eeb05a1a84b/data/players.json";
+
+// ===== ИСПРАВЛЕНО: прямая ссылка на main (всегда последняя версия) =====
+const PLAYERS_JSON_URL = "https://raw.githubusercontent.com/e-lis777/scoreboard/main/data/players.json";
+
 const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png";
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
 
-const VERSION = "2.6.0"; // Новая архитектура таймера
+const VERSION = "2.6.1"; // Новая версия с исправленной ссылкой на игроков
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -991,7 +995,6 @@ let state = {
   timer: {
     running: false,
     elapsed: 0      // количество секунд, прошедших с начала таймера
-    // startTime больше не нужен на клиентах
   },
   period: '1 ТАЙМ',
   designVariant: 3,
@@ -1175,7 +1178,6 @@ onValue(dataRef, (snapshot) => {
     updateVisibility();
     applyColorTheme();
     updateAnimCheckbox();
-    // Никаких локальных интервалов для таймера!
   } else {
     // Админка
     updateAdminPanel();
@@ -1185,7 +1187,7 @@ onValue(dataRef, (snapshot) => {
   updateDebugInfo();
 });
 
-// Функции обновления интерфейса (без изменений, кроме таймера)
+// Функции обновления интерфейса
 function updateAllVariants() {
   const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
   ['v1', 'v2', 'v3'].forEach(v => {
@@ -1276,7 +1278,6 @@ function updateAnimCheckbox() {
   }
 }
 
-// Вспомогательные функции для админки
 function validateImageUrl(url, callback) {
   const img = new Image();
   img.onload = () => callback(true);
@@ -1364,20 +1365,17 @@ function quickGoal(team) {
   }
 }
 
-// ===== НОВАЯ ЛОГИКА ТАЙМЕРА (только в админке) =====
+// Логика таймера (только в админке)
 function startTimerUpdate() {
   if (timerUpdateInterval) clearInterval(timerUpdateInterval);
   timerUpdateInterval = setInterval(() => {
-    // Увеличиваем elapsed на 1 каждую секунду
     const newElapsed = state.timer.elapsed + 1;
-    // Обновляем в Firebase
     update(ref(db, DB_KEY), {
       timer: {
         running: true,
         elapsed: newElapsed
       }
     }).catch(console.error);
-    // Локально тоже обновим для плавности интерфейса админки
     state.timer.elapsed = newElapsed;
     currentTimerSeconds = newElapsed;
     updateTimerDisplay();
@@ -1406,9 +1404,7 @@ function timerPause() {
 
 function timerStart() {
   if (state.timer.running) return;
-  // Запускаем интервал
   startTimerUpdate();
-  // Отмечаем в Firebase, что таймер запущен (значение elapsed уже будет увеличено интервалом)
   update(ref(db, DB_KEY), {
     timer: {
       running: true,
@@ -1429,7 +1425,6 @@ function timerReset() {
   toast('Таймер сброшен');
 }
 
-// Обновление периода
 function updatePeriod() {
   state.period = elements.admin.p.value;
   if (state.period === 'ПЕРЕРЫВ' && state.timer.running) {
@@ -1439,7 +1434,6 @@ function updatePeriod() {
   toast('Период обновлён');
 }
 
-// Уведомления
 function toast(msg) {
   if (typeof msg === 'string') {
     elements.toast.textContent = msg;
@@ -1448,7 +1442,6 @@ function toast(msg) {
   setTimeout(() => elements.toast.classList.remove('show'), 2000);
 }
 
-// Подписка на goal_trigger и live_goal (без изменений)
 set(ref(db, 'goal_trigger'), null).catch(() => {});
 set(ref(db, 'live_goal'), null).catch(() => {});
 
@@ -1527,21 +1520,18 @@ if (ADMIN) {
     }
   });
   
-  // Если при загрузке админки таймер уже запущен в Firebase, запускаем интервал
   if (state.timer.running) {
     startTimerUpdate();
   }
   
   updateAdminPanel();
 } else {
-  // Клиентское табло
   elements.goalAnim.classList.remove('active');
   elements.logoAnim.classList.remove('active');
   elements.goalCard.classList.add('hidden');
   updateAllVariants();
   updateVisibility();
   applyColorTheme();
-  // Никаких интервалов таймера здесь нет!
 }
 
 window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
@@ -1567,3 +1557,4 @@ window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 </script>
 </body>
 </html>
+```
