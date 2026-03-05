@@ -705,10 +705,11 @@ min-height: 300px;
 display: flex;
 flex-direction: column;
 align-items: center;
-justify-content: center;
-gap: 20px;
+justify-content: flex-start;
+gap: 15px;
 opacity: 0;
 height: 280px;
+position: relative;
 }
 .intro-team.home {
 animation: slideInLeft 0.6s 0.2s ease-out forwards;
@@ -732,14 +733,18 @@ filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6));
 animation: logoPulse 2s infinite ease-in-out;
 display: block;
 margin: 0 auto;
+position: absolute;
+top: 0;
+left: 50%;
+transform: translateX(-50%);
 }
 .intro-team.away .intro-logo {
-width: 150px; /* ✅ КРИТИЧНО: всегда на 25% меньше */
+width: 150px;
 height: 150px;
 }
 @keyframes logoPulse {
-0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); }
-50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); }
+0%, 100% { transform: translateX(-50%) scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); }
+50% { transform: translateX(-50%) scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); }
 }
 .intro-name {
 font-size: 32px;
@@ -755,6 +760,9 @@ display: flex;
 align-items: center;
 justify-content: center;
 width: 100%;
+position: absolute;
+bottom: 0;
+left: 0;
 }
 .intro-footer {
 margin-top: 30px;
@@ -784,7 +792,6 @@ color: rgba(76, 175, 80, 0.9);
 font-weight: bold;
 margin: 0 5px;
 }
-/* ✅ НОВАЯ ПЛАШКА: 2 ТАЙМ (только для 2-го тайма) */
 .intro-period-plaque {
 font-size: 20px;
 font-weight: 900;
@@ -1165,7 +1172,6 @@ animation: pulse 1s infinite;
 <span id="intro-time">19:30</span> •
 <span id="intro-timezone">MSK</span>
 </div>
-<!-- ✅ НОВАЯ ПЛАШКА: 2 ТАЙМ (только для 2-го тайма) -->
 <div id="intro-period-plaque" class="intro-period-plaque" style="display: none;">
 <span id="intro-period-plaque-text">2 ТАЙМ</span>
 </div>
@@ -1282,14 +1288,14 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.12.0"; // ✅ Обновлена версия
+const VERSION = "2.13.0";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// ✅ УЛУЧШЕНИЕ 1: Блокировка для предотвращения гонки состояний
+// ✅ Блокировки для предотвращения гонки состояний
 let introTriggerLock = false;
-// ✅ УЛУЧШЕНИЕ 2: Переменные для очистки интервалов
+let goalTriggerLock = false;
 let realTimeInterval = null;
 let timerStartTime = null;
 
@@ -1306,7 +1312,7 @@ let state = {
     designVariant: 3,
     colorTheme: 'green',
     logoAnimEnabled: true,
-    goals: [] // ✅ Синхронизируется с Firebase
+    goals: []
 };
 
 let currentTimerSeconds = 0;
@@ -1391,7 +1397,6 @@ function showIntro(period) {
     elements.introNameAway.textContent = state.opponentName;
     elements.introPeriod.textContent = period;
     
-    // ✅ НОВАЯ ПЛАШКА: Показывать только для 2-го тайма
     if (period === '2 ТАЙМ') {
         if (elements.introPeriodPlaque) {
             elements.introPeriodPlaqueText.textContent = '2 ТАЙМ';
@@ -1464,7 +1469,6 @@ function selectScorerAndGoal(player) {
     state.legionScore++;
     elements.admin.sh.value = state.legionScore;
     
-    // ✅ УЛУЧШЕНИЕ 3: Сохраняем goals в Firebase
     if (!state.goals) state.goals = [];
     const goalData = {
         team: 'legion',
@@ -1485,7 +1489,7 @@ function selectScorerAndGoal(player) {
     const animData = { time: Date.now(), team: 'legion' };
     set(ref(db, 'goal_trigger'), animData).catch(console.error);
     setTimeout(() => {
-        const goalDataLive = {
+        const goalData = {
             team: 'legion',
             scorer: {
                 lastName: player.lastName,
@@ -1495,7 +1499,7 @@ function selectScorerAndGoal(player) {
             minute: Math.floor(currentTimerSeconds / 60),
             timestamp: Date.now()
         };
-        set(ref(db, 'live_goal'), goalDataLive)
+        set(ref(db, 'live_goal'), goalData)
             .then(() => setTimeout(() => set(ref(db, 'live_goal'), null), 8000))
             .catch(console.error);
     }, 2000);
@@ -1507,7 +1511,6 @@ function goalWithoutPlayerFromModal() {
     state.legionScore++;
     elements.admin.sh.value = state.legionScore;
     
-    // ✅ УЛУЧШЕНИЕ 3: Сохраняем goals в Firebase (без игрока)
     if (!state.goals) state.goals = [];
     state.goals.push({
         team: 'legion',
@@ -1564,7 +1567,6 @@ onValue(dataRef, (snapshot) => {
     state.designVariant = data.designVariant || 3;
     state.colorTheme = data.colorTheme || 'green';
     state.logoAnimEnabled = data.logoAnimEnabled !== undefined ? data.logoAnimEnabled : true;
-    // ✅ УЛУЧШЕНИЕ 4: Восстанавливаем goals из Firebase
     state.goals = data.goals || [];
     currentTimerSeconds = state.timer.elapsed;
     if (!ADMIN) {
@@ -1794,7 +1796,6 @@ function quickGoal(team) {
     }
 }
 
-// ✅ УЛУЧШЕНИЕ 5: Точный таймер с использованием Date.now()
 function startTimerUpdate() {
     if (timerUpdateInterval) clearInterval(timerUpdateInterval);
     timerStartTime = Date.now() - (state.timer.elapsed * 1000);
@@ -1882,7 +1883,6 @@ function updatePeriod() {
         });
 }
 
-// ✅ УЛУЧШЕНИЕ 6: Toast с поддержкой типов ошибок
 function toast(msg, type = 'success') {
     if (typeof msg === 'string') {
         elements.toast.textContent = msg;
@@ -1895,29 +1895,43 @@ function toast(msg, type = 'success') {
     setTimeout(() => elements.toast.classList.remove('show'), 2000);
 }
 
-// Очистка триггеров при загрузке
-set(ref(db, 'goal_trigger'), null).catch(() => {});
-set(ref(db, 'live_goal'), null).catch(() => {});
+// ✅ ВСЕ СЛУШАТЕЛИ FIREBASE ВЫНЕСЕНЫ ЗА ПРЕДЕЛЫ ADMIN/ELSE БЛОКА
+// Это гарантирует работу跨-браузерно
 
+// Слушатель goal_trigger (анимация гола)
 onValue(ref(db, 'goal_trigger'), (snapshot) => {
     const trigger = snapshot.val();
     if (!trigger || ADMIN) return;
+    
+    if (goalTriggerLock) return;
+    
     const now = Date.now();
     if (trigger.time && now - trigger.time > 10000) return;
+    
+    goalTriggerLock = true;
+    
     elements.goalAnim.classList.add('active');
     setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
+    
     if (trigger.team === 'legion' && state.logoAnimEnabled) {
         elements.logoAnim.classList.remove('active');
         setTimeout(() => elements.logoAnim.classList.add('active'), 50);
         setTimeout(() => elements.logoAnim.classList.remove('active'), 1600);
     }
+    
+    setTimeout(() => {
+        goalTriggerLock = false;
+    }, 2000);
 });
 
+// Слушатель live_goal (карточка гола)
 onValue(ref(db, 'live_goal'), (snapshot) => {
     const goal = snapshot.val();
     if (!goal || ADMIN) return;
+    
     const now = Date.now();
     if (goal.timestamp && now - goal.timestamp > 10000) return;
+    
     showGoalCard(goal);
 });
 
@@ -1941,11 +1955,37 @@ function showGoalCard(goal) {
     }, 5000);
 }
 
-// ✅ УЛУЧШЕНИЕ 7: Очистка интервалов при выгрузке страницы
-window.addEventListener('beforeunload', () => {
-    if (timerUpdateInterval) clearInterval(timerUpdateInterval);
-    if (realTimeInterval) clearInterval(realTimeInterval);
+// Слушатель intro_trigger (заставка)
+onValue(ref(db, 'intro_trigger'), (snapshot) => {
+    if (introTriggerLock) return;
+    
+    const trigger = snapshot.val();
+    if (!trigger) return;
+    
+    const now = Date.now();
+    if (trigger.time && now - trigger.time > 10000) return;
+    
+    introTriggerLock = true;
+    
+    if (trigger.type === 'first_half') {
+        showIntro('1 ТАЙМ');
+    } else if (trigger.type === 'second_half') {
+        showIntro('2 ТАЙМ');
+    }
+    
+    setTimeout(() => {
+        set(ref(db, 'intro_trigger'), null)
+            .then(() => { introTriggerLock = false; })
+            .catch((e) => {
+                console.error('Ошибка очистки триггера:', e);
+                introTriggerLock = false;
+            });
+    }, 500);
 });
+
+// Очистка триггеров при загрузке
+set(ref(db, 'goal_trigger'), null).catch(() => {});
+set(ref(db, 'live_goal'), null).catch(() => {});
 
 if (ADMIN) {
     elements.sbV1.classList.add('hide');
@@ -1970,7 +2010,6 @@ if (ADMIN) {
     document.getElementById('goalLegionBtn').addEventListener('click', () => quickGoal('legion'));
     document.getElementById('goalOpponentBtn').addEventListener('click', () => quickGoal('opponent'));
     
-    // Кнопки заставок через Firebase
     document.getElementById('showIntro1Btn').addEventListener('click', () => {
         set(ref(db, 'intro_trigger'), {
             type: 'first_half',
@@ -2001,7 +2040,6 @@ if (ADMIN) {
         }
     });
     
-    // ✅ УЛУЧШЕНИЕ 2: Очистка интервала при повторном вызове
     if (realTimeInterval) clearInterval(realTimeInterval);
     realTimeInterval = setInterval(updateRealTime, 60000);
     updateRealTime();
@@ -2014,44 +2052,20 @@ if (ADMIN) {
     updateVisibility();
     applyColorTheme();
     
-    // ✅ УЛУЧШЕНИЕ 2: Очистка интервала при повторном вызове
     if (realTimeInterval) clearInterval(realTimeInterval);
     realTimeInterval = setInterval(updateRealTime, 60000);
     updateRealTime();
-    
-    // ✅ УЛУЧШЕНИЕ 1: Слушатель заставок с блокировкой гонки состояний
-    onValue(ref(db, 'intro_trigger'), (snapshot) => {
-        if (introTriggerLock) return;
-        
-        const trigger = snapshot.val();
-        if (!trigger) return;
-        
-        const now = Date.now();
-        if (trigger.time && now - trigger.time > 10000) return;
-        
-        introTriggerLock = true;
-        
-        if (trigger.type === 'first_half') {
-            showIntro('1 ТАЙМ');
-        } else if (trigger.type === 'second_half') {
-            showIntro('2 ТАЙМ');
-        }
-        
-        setTimeout(() => {
-            set(ref(db, 'intro_trigger'), null)
-                .then(() => { introTriggerLock = false; })
-                .catch((e) => {
-                    console.error('Ошибка очистки триггера:', e);
-                    introTriggerLock = false;
-                });
-        }, 500);
-    });
 }
 
 window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
+
+// Очистка интервалов при выгрузке
+window.addEventListener('beforeunload', () => {
+    if (timerUpdateInterval) clearInterval(timerUpdateInterval);
+    if (realTimeInterval) clearInterval(realTimeInterval);
+});
 </script>
 
-<!-- Дополнительный скрипт для финальной очистки -->
 <script>
 (function finalCleanup() {
 document.addEventListener('DOMContentLoaded', function() {
