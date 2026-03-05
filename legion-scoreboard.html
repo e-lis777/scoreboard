@@ -817,7 +817,7 @@ onValue(ref(db, 'goal_trigger'), (snapshot) => {
     if (!trigger || ADMIN) { console.log('⏸️ goal_trigger пропущен:', { trigger: !!trigger, ADMIN }); return; }
     if (goalTriggerLock) { console.log('⏸️ goal_trigger заблокирован'); return; }
     const now = Date.now();
-    if (trigger.time && now - trigger.time > 10000) { console.log('⏸️ goal_trigger устарел'); return; }
+    if (trigger.time && now - trigger.time > 60000) { console.log('⏸️ goal_trigger устарел'); return; }
     goalTriggerLock = true;
     console.log('✅ Анимация гола запущена!');
     elements.goalAnim.classList.add('active');
@@ -836,7 +836,7 @@ onValue(ref(db, 'live_goal'), (snapshot) => {
     console.log('📡 live_goal:', goal, 'ADMIN:', ADMIN);
     if (!goal || ADMIN) { console.log('⏸️ live_goal пропущен:', { goal: !!goal, ADMIN }); return; }
     const now = Date.now();
-    if (goal.timestamp && now - goal.timestamp > 10000) { console.log('⏸️ live_goal устарел'); return; }
+    if (goal.timestamp && now - goal.timestamp > 60000) { console.log('⏸️ live_goal устарел'); return; }
     console.log('✅ Карточка гола запущена!');
     showGoalCard(goal);
 });
@@ -861,7 +861,7 @@ onValue(ref(db, 'intro_trigger'), (snapshot) => {
     if (introTriggerLock) { console.log('⏸️ intro_trigger заблокирован'); return; }
     if (!trigger) { console.log('⏸️ intro_trigger пустой'); return; }
     const now = Date.now();
-    if (trigger.time && now - trigger.time > 10000) { console.log('⏸️ intro_trigger устарел'); return; }
+    if (trigger.time && now - trigger.time > 40000) { console.log('⏸️ intro_trigger устарел'); return; }
     introTriggerLock = true;
     console.log('✅ Заставка запущена:', trigger.type);
     if (trigger.type === 'first_half') showIntro('1 ТАЙМ');
