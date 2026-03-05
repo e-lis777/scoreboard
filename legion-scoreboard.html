@@ -3,15 +3,20 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>ФК ЛЕГИОН — Табло</title>
 <style>
 /* ===== все стили точно такие же, как в версии 2.5.0 ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+}
 body {
   font-family: 'Arial Black', Arial, sans-serif;
   background: transparent;
-  overflow: hidden;
   user-select: none;
 }
 :root {
@@ -616,8 +621,8 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   z-index: 10000;
   opacity: 0;
   visibility: hidden;
@@ -626,6 +631,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Фиксированные размеры для landscape */
+  min-width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
 }
 .intro-overlay.show {
   opacity: 1;
@@ -673,13 +682,15 @@ body {
 }
 .intro-card {
   position: relative;
-  width: 90%;
-  max-width: 1200px;
+  width: 1200px; /* Фиксированная ширина для landscape */
+  max-width: 90vw;
   padding: 50px 30px;
   text-align: center;
   color: var(--text-white);
   transform: scale(0.9);
   animation: cardAppear 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.1) forwards;
+  /* Центрирование по горизонтали и вертикали */
+  margin: 0 auto;
 }
 @keyframes cardAppear {
   0% { transform: scale(0.9); opacity: 0; }
@@ -687,18 +698,22 @@ body {
 }
 .intro-teams {
   display: flex;
-  align-items: center;
+  align-items: center; /* Центры логотипов на одной линии */
   justify-content: center;
   gap: 80px;
   margin-bottom: 30px;
-  flex-wrap: wrap;
+  /* Фиксированные отступы для landscape */
+  min-height: 300px;
 }
 .intro-team {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 20px;
   opacity: 0;
+  /* Фиксированная высота для одинакового позиционирования */
+  height: 280px;
 }
 .intro-team.home {
   animation: slideInLeft 0.6s 0.2s ease-out forwards;
@@ -720,6 +735,9 @@ body {
   object-fit: contain;
   filter: drop-shadow(0 0 20px var(--legion-glow));
   animation: logoPulse 2s infinite ease-in-out;
+  /* Центрирование внутри блока */
+  display: block;
+  margin: 0 auto;
 }
 .intro-team.away .intro-logo {
   width: 150px; /* 200px * 0.75 = 150px (на 25% меньше) */
@@ -738,14 +756,19 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-  min-height: 60px;
+  /* Фиксированная высота для выравнивания */
+  height: 60px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 .intro-footer {
   margin-top: 30px;
   opacity: 0;
   animation: fadeInUp 0.8s 0.5s ease-out forwards;
+  /* Фиксированные отступы */
+  min-height: 200px;
 }
 @keyframes fadeInUp {
   0% { transform: translateY(30px); opacity: 0; }
