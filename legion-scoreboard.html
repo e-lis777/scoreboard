@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>ФК ЛЕГИОН — Табло</title>
 <style>
-/* ===== все стили точно такие же, как в версии 2.10.0 ===== */
+/* ===== БАЗОВЫЕ СТИЛИ ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body {
 width: 100%;
@@ -27,6 +27,7 @@ user-select: none;
 --transition: all 0.2s ease;
 --accent-green: #4caf50;
 }
+
 /* ===== ВАРИАНТ 1: КОМПАКТНЫЙ ===== */
 .sc-v1 {
 display: flex;
@@ -124,6 +125,7 @@ font-weight: 900;
 color: #ffcc00;
 font-variant-numeric: tabular-nums;
 }
+
 /* ===== ВАРИАНТ 2: TV СТИЛЬ ===== */
 .sc-v2 {
 display: flex;
@@ -223,6 +225,7 @@ padding: 1px 6px;
 background: rgba(255,255,255,0.1);
 border-radius: 3px;
 }
+
 /* ===== ВАРИАНТ 3: СЛОИСТЫЙ ===== */
 .sc-v3 {
 position: relative;
@@ -338,6 +341,7 @@ font-size: 8px;
 color: #666;
 text-transform: uppercase;
 }
+
 /* ===== ЦВЕТОВЫЕ ТЕМЫ ===== */
 .theme-classic1 .sc-v1-bar { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); }
 .theme-classic1 .sc-v1-timer { background: linear-gradient(180deg, #ff4757 0%, #cc3344 100%); }
@@ -387,6 +391,7 @@ text-transform: uppercase;
 .theme-green .sc-v2-team { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
 .theme-green .sc-v2-score-sec { background: linear-gradient(180deg, #1b5e20 0%, #2e7d32 100%); }
 .theme-green .sc-v3-strip { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
+
 /* ===== КАРТОЧКА ГОЛА ===== */
 .goal-card {
 position: fixed;
@@ -488,6 +493,7 @@ white-space: nowrap;
 overflow: hidden;
 text-overflow: ellipsis;
 }
+
 /* ===== МОДАЛЬНОЕ ОКНО ===== */
 .modal-overlay {
 position: fixed;
@@ -571,6 +577,7 @@ justify-content: center;
 .player-btn.no-player:hover {
 background: rgba(255, 165, 2, 0.5);
 }
+
 /* ===== АНИМАЦИИ ===== */
 .goal-anim {
 position: fixed;
@@ -607,6 +614,7 @@ opacity: 0;
 30% { opacity: 1; }
 100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; }
 }
+
 /* ===== ОВЕРЛЕЙ ЗАСТАВКИ ===== */
 .intro-overlay {
 position: fixed;
@@ -720,18 +728,18 @@ animation: slideInRight 0.6s 0.2s ease-out forwards;
 width: 200px;
 height: 200px;
 object-fit: contain;
-filter: drop-shadow(0 0 20px var(--legion-glow));
+filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6));
 animation: logoPulse 2s infinite ease-in-out;
 display: block;
 margin: 0 auto;
 }
 .intro-team.away .intro-logo {
-width: 150px;
+width: 150px; /* ✅ КРИТИЧНО: всегда на 25% меньше */
 height: 150px;
 }
 @keyframes logoPulse {
-0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px var(--legion-glow)); }
-50% { transform: scale(1.05); filter: drop-shadow(0 0 40px var(--legion-green)); }
+0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); }
+50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); }
 }
 .intro-name {
 font-size: 32px;
@@ -760,7 +768,7 @@ min-height: 200px;
 }
 .intro-datetime {
 font-size: 24px;
-color: var(--text-gray);
+color: rgba(255,255,255,0.8);
 font-family: 'Arial', sans-serif;
 letter-spacing: 1px;
 margin-bottom: 15px;
@@ -772,19 +780,38 @@ backdrop-filter: blur(5px);
 border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .intro-datetime span {
-color: var(--legion-green);
+color: rgba(76, 175, 80, 0.9);
 font-weight: bold;
 margin: 0 5px;
+}
+/* ✅ НОВАЯ ПЛАШКА: 2 ТАЙМ (только для 2-го тайма) */
+.intro-period-plaque {
+font-size: 20px;
+font-weight: 900;
+color: rgba(255,255,255,0.9);
+text-transform: uppercase;
+letter-spacing: 2px;
+background: rgba(0, 0, 0, 0.3);
+display: inline-block;
+padding: 8px 24px;
+border-radius: 40px;
+backdrop-filter: blur(5px);
+border: 1px solid rgba(255, 255, 255, 0.1);
+margin-top: 10px;
+}
+.intro-period-plaque span {
+color: rgba(76, 175, 80, 0.9);
+font-weight: bold;
 }
 .intro-period-badge {
 font-size: 48px;
 font-weight: 900;
 text-transform: uppercase;
 letter-spacing: 4px;
-background: linear-gradient(135deg, #fff 0%, var(--legion-green) 100%);
+background: linear-gradient(135deg, #fff 0%, rgba(76, 175, 80, 0.9) 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
-text-shadow: 0 0 20px var(--legion-glow);
+text-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
 margin-top: 10px;
 }
 .intro-footer::after {
@@ -794,8 +821,8 @@ width: 200px;
 height: 4px;
 background: linear-gradient(90deg,
 transparent,
-var(--legion-green) 20%,
-var(--legion-green) 80%,
+rgba(76, 175, 80, 0.9) 20%,
+rgba(76, 175, 80, 0.9) 80%,
 transparent);
 margin: 20px auto 0;
 border-radius: 2px;
@@ -809,7 +836,7 @@ to { transform: scaleX(1); opacity: 1; }
 .intro-goal-info {
 margin-top: 20px;
 font-size: 20px;
-color: var(--text-gray);
+color: rgba(255,255,255,0.8);
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -819,12 +846,12 @@ width: 100%;
 .intro-score {
 font-size: 36px;
 font-weight: 900;
-color: var(--legion-green);
-text-shadow: 0 0 20px var(--legion-glow);
+color: rgba(76, 175, 80, 0.9);
+text-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
 background: rgba(0, 0, 0, 0.4);
 padding: 10px 40px;
 border-radius: 50px;
-border: 2px solid var(--legion-green);
+border: 2px solid rgba(76, 175, 80, 0.9);
 margin-bottom: 10px;
 }
 .intro-goal-scorers {
@@ -838,7 +865,7 @@ max-width: 800px;
 background: rgba(76, 175, 80, 0.2);
 padding: 8px 20px;
 border-radius: 30px;
-border: 1px solid var(--legion-green);
+border: 1px solid rgba(76, 175, 80, 0.9);
 font-size: 18px;
 display: flex;
 align-items: center;
@@ -858,10 +885,11 @@ border-radius: 50%;
 margin-right: 5px;
 }
 .intro-goal-scorer span {
-color: var(--legion-green);
+color: rgba(76, 175, 80, 0.9);
 font-weight: bold;
 margin-right: 5px;
 }
+
 /* ===== АДМИНКА ===== */
 .admin {
 position: fixed;
@@ -993,28 +1021,16 @@ max-width: 1100px;
 .card { padding: 22px; }
 .col-sel { grid-template-columns: repeat(4, 1fr); }
 }
+
 /* ===== МАСШТАБИРОВАНИЕ ЛОГОТИПОВ ===== */
-.sc-v1-half.home .sc-v1-logo {
-transform: scale(1.2);
-}
-.sc-v1-half.away .sc-v1-logo {
-transform: scale(0.9);
-}
-.sc-v2-team.home .sc-v2-logo {
-transform: skewX(8deg) scale(1.2);
-}
-.sc-v2-team.away .sc-v2-logo {
-transform: skewX(8deg) scale(0.9);
-}
-.sc-v3-logo-h {
-transform: translate(-50%, -50%) scale(1.2);
-}
-.sc-v3-logo-a {
-transform: translate(50%, -50%) scale(0.9);
-}
-.sc-v3-logo-a.default-logo {
-transform: translate(50%, -50%) scale(0.9);
-}
+.sc-v1-half.home .sc-v1-logo { transform: scale(1.2); }
+.sc-v1-half.away .sc-v1-logo { transform: scale(0.9); }
+.sc-v2-team.home .sc-v2-logo { transform: skewX(8deg) scale(1.2); }
+.sc-v2-team.away .sc-v2-logo { transform: skewX(8deg) scale(0.9); }
+.sc-v3-logo-h { transform: translate(-50%, -50%) scale(1.2); }
+.sc-v3-logo-a { transform: translate(50%, -50%) scale(0.9); }
+.sc-v3-logo-a.default-logo { transform: translate(50%, -50%) scale(0.9); }
+
 /* ===== ОТЛАДОЧНАЯ ПАНЕЛЬ ===== */
 .debug-info {
 position: fixed;
@@ -1030,9 +1046,8 @@ z-index: 9999;
 pointer-events: none;
 display: none;
 }
-.debug-info.visible {
-display: block;
-}
+.debug-info.visible { display: block; }
+
 /* ===== АНИМАЦИЯ ПАУЗЫ ===== */
 .sc-v1-time.paused,
 .sc-v2 .time.paused,
@@ -1150,6 +1165,10 @@ animation: pulse 1s infinite;
 <span id="intro-time">19:30</span> •
 <span id="intro-timezone">MSK</span>
 </div>
+<!-- ✅ НОВАЯ ПЛАШКА: 2 ТАЙМ (только для 2-го тайма) -->
+<div id="intro-period-plaque" class="intro-period-plaque" style="display: none;">
+<span id="intro-period-plaque-text">2 ТАЙМ</span>
+</div>
 <div class="intro-period-badge" id="intro-period">1 ТАЙМ</div>
 <div id="intro-goal-info" class="intro-goal-info" style="display: none;"></div>
 </div>
@@ -1242,6 +1261,7 @@ animation: pulse 1s infinite;
 </div>
 </div>
 <div id="toast" class="toast">✓ Сохранено!</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
 import { getDatabase, ref, set, onValue, update, get } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
@@ -1262,7 +1282,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.11.0"; // ✅ Обновлена версия
+const VERSION = "2.12.0"; // ✅ Обновлена версия
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1286,7 +1306,7 @@ let state = {
     designVariant: 3,
     colorTheme: 'green',
     logoAnimEnabled: true,
-    goals: [] // ✅ Теперь синхронизируется с Firebase
+    goals: [] // ✅ Синхронизируется с Firebase
 };
 
 let currentTimerSeconds = 0;
@@ -1333,6 +1353,8 @@ const elements = {
     introDate: document.getElementById('intro-date'),
     introTime: document.getElementById('intro-time'),
     introPeriod: document.getElementById('intro-period'),
+    introPeriodPlaque: document.getElementById('intro-period-plaque'),
+    introPeriodPlaqueText: document.getElementById('intro-period-plaque-text'),
     introGoalInfo: document.getElementById('intro-goal-info')
 };
 
@@ -1368,7 +1390,14 @@ function showIntro(period) {
     elements.introNameHome.textContent = 'ЛЕГИОН';
     elements.introNameAway.textContent = state.opponentName;
     elements.introPeriod.textContent = period;
+    
+    // ✅ НОВАЯ ПЛАШКА: Показывать только для 2-го тайма
     if (period === '2 ТАЙМ') {
+        if (elements.introPeriodPlaque) {
+            elements.introPeriodPlaqueText.textContent = '2 ТАЙМ';
+            elements.introPeriodPlaque.style.display = 'inline-block';
+        }
+        
         const legionGoals = state.legionScore;
         const opponentGoals = state.opponentScore;
         if (elements.introGoalInfo) {
@@ -1389,6 +1418,9 @@ function showIntro(period) {
             elements.introGoalInfo.style.display = 'flex';
         }
     } else {
+        if (elements.introPeriodPlaque) {
+            elements.introPeriodPlaque.style.display = 'none';
+        }
         if (elements.introGoalInfo) {
             elements.introGoalInfo.style.display = 'none';
         }
@@ -1444,7 +1476,7 @@ function selectScorerAndGoal(player) {
     
     update(ref(db, DB_KEY), { 
         legionScore: state.legionScore,
-        goals: state.goals  // ✅ Сохраняем массив голов
+        goals: state.goals
     }).catch((e) => {
         console.error('Ошибка сохранения гола:', e);
         toast('❌ Ошибка сохранения гола', 'error');
@@ -1484,7 +1516,7 @@ function goalWithoutPlayerFromModal() {
     
     update(ref(db, DB_KEY), { 
         legionScore: state.legionScore,
-        goals: state.goals  // ✅ Сохраняем массив голов
+        goals: state.goals
     }).catch((e) => {
         console.error('Ошибка сохранения гола:', e);
         toast('❌ Ошибка сохранения гола', 'error');
@@ -1726,7 +1758,7 @@ function updateScore() {
 function resetScore() {
     state.legionScore = 0;
     state.opponentScore = 0;
-    state.goals = []; // очищаем список голов
+    state.goals = [];
     elements.admin.sh.value = 0;
     elements.admin.sa.value = 0;
     update(ref(db, DB_KEY), { legionScore: 0, opponentScore: 0, goals: [] })
@@ -1989,7 +2021,7 @@ if (ADMIN) {
     
     // ✅ УЛУЧШЕНИЕ 1: Слушатель заставок с блокировкой гонки состояний
     onValue(ref(db, 'intro_trigger'), (snapshot) => {
-        if (introTriggerLock) return;  // Блокировка повторного срабатывания
+        if (introTriggerLock) return;
         
         const trigger = snapshot.val();
         if (!trigger) return;
@@ -1997,7 +2029,7 @@ if (ADMIN) {
         const now = Date.now();
         if (trigger.time && now - trigger.time > 10000) return;
         
-        introTriggerLock = true;  // Устанавливаем блокировку
+        introTriggerLock = true;
         
         if (trigger.type === 'first_half') {
             showIntro('1 ТАЙМ');
@@ -2005,7 +2037,6 @@ if (ADMIN) {
             showIntro('2 ТАЙМ');
         }
         
-        // ✅ Очищаем триггер и снимаем блокировку
         setTimeout(() => {
             set(ref(db, 'intro_trigger'), null)
                 .then(() => { introTriggerLock = false; })
@@ -2019,6 +2050,7 @@ if (ADMIN) {
 
 window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 </script>
+
 <!-- Дополнительный скрипт для финальной очистки -->
 <script>
 (function finalCleanup() {
