@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -700,6 +701,7 @@ justify-content: center;
 gap: 80px;
 margin-bottom: 30px;
 min-height: 300px;
+flex-wrap: wrap;
 }
 .intro-team {
 display: flex;
@@ -733,14 +735,13 @@ animation: logoPulse 2s infinite ease-in-out;
 display: block;
 }
 .intro-team.away .intro-logo {
-width: 150px; /* КРИТИЧНО: на 25% меньше */
+width: 150px;
 height: 150px;
 }
 @keyframes logoPulse {
 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); }
 50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); }
 }
-/* ✅ ИСПРАВЛЕНИЕ #4: Название в одну строку */
 .intro-name {
 font-size: 32px;
 font-weight: 900;
@@ -750,15 +751,17 @@ background: linear-gradient(135deg, #fff 0%, #ddd 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-height: 50px;
+height: auto;
+min-height: 80px;
 display: flex;
 align-items: center;
 justify-content: center;
 width: 100%;
 text-align: center;
-white-space: nowrap; /* ✅ Запрет переноса */
-overflow: hidden; /* ✅ Скрытие переполнения */
-text-overflow: ellipsis; /* ✅ Многоточие если не влезает */
+word-break: break-word;
+white-space: normal;
+line-height: 1.2;
+padding: 0 5px;
 }
 .intro-footer {
 margin-top: 30px;
@@ -1263,12 +1266,12 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.17.0";
+const VERSION = "2.16.0";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// ✅ БЛОКИРОВКИ ДЛЯ ПРЕДОТВРАЩЕНИЯ ГОНКИ СОСТОЯНИЙ
+// Блокировки для предотвращения гонки состояний
 let introTriggerLock = false;
 let goalTriggerLock = false;
 let realTimeInterval = null;
@@ -1341,13 +1344,6 @@ if (elements.versionDisplay) {
     elements.versionDisplay.textContent = `v${VERSION}`;
 }
 
-// ✅ ОТЛАДОЧНЫЕ ЛОГИ
-console.log('=== ЗАГРУЗКА ТАБЛО ===');
-console.log('VERSION:', VERSION);
-console.log('ADMIN:', ADMIN);
-console.log('URL:', window.location.href);
-console.log('======================');
-
 function updateDebugInfo() {
     if (!DEBUG || !elements.debugInfo) return;
     elements.debugInfo.innerHTML = `v${VERSION} | timer: ${currentTimerSeconds}s | running: ${state.timer.running}`;
@@ -1370,11 +1366,7 @@ function updateRealTime() {
 }
 
 function showIntro(period) {
-    if (!elements.introOverlay) {
-        console.log('❌ introOverlay не найден');
-        return;
-    }
-    console.log('✅ Показываем заставку:', period);
+    if (!elements.introOverlay) return;
     elements.introLogoHome.src = LEGION_LOGO;
     elements.introLogoAway.src = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
     elements.introNameHome.textContent = 'ЛЕГИОН';
@@ -1410,7 +1402,6 @@ function showIntro(period) {
     elements.introOverlay.classList.add('show');
     setTimeout(() => {
         elements.introOverlay.classList.remove('show');
-        console.log('✅ Заставка скрыта');
     }, 7000);
 }
 
@@ -1426,9 +1417,8 @@ async function loadPlayers() {
             if (orderA !== orderB) return orderA - orderB;
             return a.number - b.number;
         });
-        console.log('✅ Игроки загружены:', players.length);
     } catch (e) {
-        console.error('❌ Ошибка загрузки игроков:', e);
+        console.error('Не удалось загрузить игроков:', e);
         toast('❌ Ошибка загрузки игроков', 'error');
     }
 }
@@ -1447,28 +1437,23 @@ function selectScorerAndGoal(player) {
     elements.admin.sh.value = state.legionScore;
     
     if (!state.goals) state.goals = [];
-    const goalData = {
+    state.goals.push({
         team: 'legion',
         number: player.number,
         lastName: player.lastName.toUpperCase(),
         minute: Math.floor(currentTimerSeconds / 60)
-    };
-    state.goals.push(goalData);
+    });
     
     update(ref(db, DB_KEY), { 
         legionScore: state.legionScore,
         goals: state.goals
-    }).catch((e) => {
-        console.error('❌ Ошибка сохранения гола:', e);
-        toast('❌ Ошибка сохранения гола', 'error');
     });
     
     const animData = { time: Date.now(), team: 'legion' };
-    set(ref(db, 'goal_trigger'), animData)
-        .then(() => console.log('✅ goal_trigger отправлен'))
-        .catch(console.error);
+    set(ref(db, 'goal_trigger'), animData);
+    
     setTimeout(() => {
-        const goalData = {
+        const liveGoalData = {
             team: 'legion',
             scorer: {
                 lastName: player.lastName,
@@ -1478,13 +1463,10 @@ function selectScorerAndGoal(player) {
             minute: Math.floor(currentTimerSeconds / 60),
             timestamp: Date.now()
         };
-        set(ref(db, 'live_goal'), goalData)
-            .then(() => {
-                console.log('✅ live_goal отправлен');
-                setTimeout(() => set(ref(db, 'live_goal'), null), 8000);
-            })
-            .catch(console.error);
+        set(ref(db, 'live_goal'), liveGoalData)
+            .then(() => setTimeout(() => set(ref(db, 'live_goal'), null), 8000));
     }, 2000);
+    
     elements.goalModal.classList.add('hidden');
     toast('⚽ Гол!');
 }
@@ -1502,15 +1484,11 @@ function goalWithoutPlayerFromModal() {
     update(ref(db, DB_KEY), { 
         legionScore: state.legionScore,
         goals: state.goals
-    }).catch((e) => {
-        console.error('❌ Ошибка сохранения гола:', e);
-        toast('❌ Ошибка сохранения гола', 'error');
     });
     
     const animData = { time: Date.now(), team: 'legion' };
-    set(ref(db, 'goal_trigger'), animData)
-        .then(() => console.log('✅ goal_trigger отправлен'))
-        .catch(console.error);
+    set(ref(db, 'goal_trigger'), animData);
+    
     elements.goalModal.classList.add('hidden');
     toast('⚽ Гол!');
 }
@@ -1534,6 +1512,7 @@ const dataRef = ref(db, DB_KEY);
 onValue(dataRef, (snapshot) => {
     const data = snapshot.val();
     if (!data) return;
+    
     if (data.timer === undefined && data.timerSeconds !== undefined) {
         state.timer = {
             running: data.timerRunning || false,
@@ -1542,7 +1521,9 @@ onValue(dataRef, (snapshot) => {
     } else {
         state.timer = data.timer || { running: false, elapsed: 0 };
     }
+    
     if (state.timer.elapsed < 0) state.timer.elapsed = 0;
+    
     state.opponentName = data.opponentName || 'СОПЕРНИК';
     state.opponentLogo = data.opponentLogo || '';
     state.legionScore = data.legionScore || 0;
@@ -1552,7 +1533,9 @@ onValue(dataRef, (snapshot) => {
     state.colorTheme = data.colorTheme || 'green';
     state.logoAnimEnabled = data.logoAnimEnabled !== undefined ? data.logoAnimEnabled : true;
     state.goals = data.goals || [];
+    
     currentTimerSeconds = state.timer.elapsed;
+    
     if (!ADMIN) {
         updateAllVariants();
         updateVisibility();
@@ -1670,32 +1653,20 @@ function setVariant(variant) {
     if (state.designVariant === variant) return;
     state.designVariant = variant;
     update(ref(db, DB_KEY), { designVariant: variant })
-        .then(() => toast('Вариант изменён'))
-        .catch((e) => {
-            console.error('❌ Ошибка сохранения варианта:', e);
-            toast('❌ Ошибка сохранения', 'error');
-        });
+        .then(() => toast('Вариант изменён'));
 }
 
 function setColor(color) {
     if (state.colorTheme === color) return;
     state.colorTheme = color;
     update(ref(db, DB_KEY), { colorTheme: color })
-        .then(() => toast('Тема изменена'))
-        .catch((e) => {
-            console.error('❌ Ошибка сохранения темы:', e);
-            toast('❌ Ошибка сохранения', 'error');
-        });
+        .then(() => toast('Тема изменена'));
 }
 
 function toggleAnim() {
     state.logoAnimEnabled = elements.admin.animChk.checked;
     update(ref(db, DB_KEY), { logoAnimEnabled: state.logoAnimEnabled })
-        .then(() => toast('Анимация лого ' + (state.logoAnimEnabled ? 'включена' : 'выключена')))
-        .catch((e) => {
-            console.error('❌ Ошибка сохранения анимации:', e);
-            toast('❌ Ошибка сохранения', 'error');
-        });
+        .then(() => toast('Анимация лого ' + (state.logoAnimEnabled ? 'включена' : 'выключена')));
 }
 
 function saveOpponent() {
@@ -1710,21 +1681,13 @@ function saveOpponent() {
             state.opponentName = newName;
             state.opponentLogo = newLogo;
             update(ref(db, DB_KEY), { opponentName: newName, opponentLogo: newLogo })
-                .then(() => toast('Соперник сохранён'))
-                .catch((e) => {
-                    console.error('❌ Ошибка сохранения соперника:', e);
-                    toast('❌ Ошибка сохранения', 'error');
-                });
+                .then(() => toast('Соперник сохранён'));
         });
     } else {
         state.opponentName = newName;
         state.opponentLogo = '';
         update(ref(db, DB_KEY), { opponentName: newName, opponentLogo: '' })
-            .then(() => toast('Соперник сохранён'))
-            .catch((e) => {
-                console.error('❌ Ошибка сохранения соперника:', e);
-                toast('❌ Ошибка сохранения', 'error');
-            });
+            .then(() => toast('Соперник сохранён'));
     }
 }
 
@@ -1734,11 +1697,7 @@ function updateScore() {
     elements.admin.sh.value = state.legionScore;
     elements.admin.sa.value = state.opponentScore;
     update(ref(db, DB_KEY), { legionScore: state.legionScore, opponentScore: state.opponentScore })
-        .then(() => toast('Счёт обновлён'))
-        .catch((e) => {
-            console.error('❌ Ошибка обновления счёта:', e);
-            toast('❌ Ошибка обновления счёта', 'error');
-        });
+        .then(() => toast('Счёт обновлён'));
 }
 
 function resetScore() {
@@ -1748,18 +1707,13 @@ function resetScore() {
     elements.admin.sh.value = 0;
     elements.admin.sa.value = 0;
     update(ref(db, DB_KEY), { legionScore: 0, opponentScore: 0, goals: [] })
-        .then(() => toast('Счёт сброшен'))
-        .catch((e) => {
-            console.error('❌ Ошибка сброса счёта:', e);
-            toast('❌ Ошибка сброса счёта', 'error');
-        });
+        .then(() => toast('Счёт сброшен'));
 }
 
 function triggerGoal(team = null) {
     const goalData = { time: Date.now(), team: team };
     set(ref(db, 'goal_trigger'), goalData)
-        .then(() => setTimeout(() => set(ref(db, 'goal_trigger'), null), 2000))
-        .catch(console.error);
+        .then(() => setTimeout(() => set(ref(db, 'goal_trigger'), null), 2000));
 }
 
 function quickGoal(team) {
@@ -1772,10 +1726,6 @@ function quickGoal(team) {
             .then(() => {
                 triggerGoal(team);
                 toast('Гол соперника');
-            })
-            .catch((e) => {
-                console.error('❌ Ошибка гола соперника:', e);
-                toast('❌ Ошибка гола', 'error');
             });
     }
 }
@@ -1791,7 +1741,7 @@ function startTimerUpdate() {
                     running: true,
                     elapsed: newElapsed
                 }
-            }).catch(console.error);
+            });
             state.timer.elapsed = newElapsed;
             currentTimerSeconds = newElapsed;
             updateTimerDisplay();
@@ -1816,11 +1766,7 @@ function timerPause() {
             elapsed: state.timer.elapsed
         }
     })
-    .then(() => toast('Таймер остановлен'))
-    .catch((e) => {
-        console.error('❌ Ошибка паузы таймера:', e);
-        toast('❌ Ошибка таймера', 'error');
-    });
+    .then(() => toast('Таймер остановлен'));
 }
 
 function timerStart() {
@@ -1832,11 +1778,7 @@ function timerStart() {
             elapsed: state.timer.elapsed
         }
     })
-    .then(() => toast('Таймер запущен'))
-    .catch((e) => {
-        console.error('❌ Ошибка запуска таймера:', e);
-        toast('❌ Ошибка таймера', 'error');
-    });
+    .then(() => toast('Таймер запущен'));
 }
 
 function timerReset() {
@@ -1847,11 +1789,7 @@ function timerReset() {
             elapsed: 0
         }
     })
-    .then(() => toast('Таймер сброшен'))
-    .catch((e) => {
-        console.error('❌ Ошибка сброса таймера:', e);
-        toast('❌ Ошибка таймера', 'error');
-    });
+    .then(() => toast('Таймер сброшен'));
 }
 
 function updatePeriod() {
@@ -1860,11 +1798,7 @@ function updatePeriod() {
         timerPause();
     }
     update(ref(db, DB_KEY), { period: state.period })
-        .then(() => toast('Период обновлён'))
-        .catch((e) => {
-            console.error('❌ Ошибка обновления периода:', e);
-            toast('❌ Ошибка обновления', 'error');
-        });
+        .then(() => toast('Период обновлён'));
 }
 
 function toast(msg, type = 'success') {
@@ -1879,29 +1813,20 @@ function toast(msg, type = 'success') {
     setTimeout(() => elements.toast.classList.remove('show'), 2000);
 }
 
-// ✅ ВСЕ СЛУШАТЕЛИ FIREBASE — ВНЕ БЛОКА ADMIN/ELSE
-// ✅ ИСПРАВЛЕНИЕ #1: Анимация гола
+// Слушатель goal_trigger (анимация гола) - работает на всех страницах, кроме админки
 onValue(ref(db, 'goal_trigger'), (snapshot) => {
     const trigger = snapshot.val();
-    console.log('📡 goal_trigger:', trigger, 'ADMIN:', ADMIN);
-    if (!trigger || ADMIN) {
-        console.log('⏸️ goal_trigger пропущен:', { trigger: !!trigger, ADMIN });
-        return;
-    }
+    if (!trigger) return;
     
-    if (goalTriggerLock) {
-        console.log('⏸️ goal_trigger заблокирован');
-        return;
-    }
+    // В админке не показываем анимацию
+    if (ADMIN) return;
+    
+    if (goalTriggerLock) return;
     
     const now = Date.now();
-    if (trigger.time && now - trigger.time > 10000) {
-        console.log('⏸️ goal_trigger устарел');
-        return;
-    }
+    if (trigger.time && now - trigger.time > 10000) return;
     
     goalTriggerLock = true;
-    console.log('✅ Анимация гола запущена!');
     
     elements.goalAnim.classList.add('active');
     setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
@@ -1917,22 +1842,17 @@ onValue(ref(db, 'goal_trigger'), (snapshot) => {
     }, 2000);
 });
 
-// ✅ ИСПРАВЛЕНИЕ #2: Карточка гола
+// Слушатель live_goal (карточка гола) - работает на всех страницах, кроме админки
 onValue(ref(db, 'live_goal'), (snapshot) => {
     const goal = snapshot.val();
-    console.log('📡 live_goal:', goal, 'ADMIN:', ADMIN);
-    if (!goal || ADMIN) {
-        console.log('⏸️ live_goal пропущен:', { goal: !!goal, ADMIN });
-        return;
-    }
+    if (!goal) return;
+    
+    // В админке не показываем карточку
+    if (ADMIN) return;
     
     const now = Date.now();
-    if (goal.timestamp && now - goal.timestamp > 10000) {
-        console.log('⏸️ live_goal устарел');
-        return;
-    }
+    if (goal.timestamp && now - goal.timestamp > 10000) return;
     
-    console.log('✅ Карточка гола запущена!');
     showGoalCard(goal);
 });
 
@@ -1956,28 +1876,17 @@ function showGoalCard(goal) {
     }, 5000);
 }
 
-// ✅ ИСПРАВЛЕНИЕ #3: Заставка
+// Слушатель intro_trigger (заставка)
 onValue(ref(db, 'intro_trigger'), (snapshot) => {
-    const trigger = snapshot.val();
-    console.log('📡 intro_trigger:', trigger, 'ADMIN:', ADMIN);
-    if (introTriggerLock) {
-        console.log('⏸️ intro_trigger заблокирован');
-        return;
-    }
+    if (introTriggerLock) return;
     
-    if (!trigger) {
-        console.log('⏸️ intro_trigger пустой');
-        return;
-    }
+    const trigger = snapshot.val();
+    if (!trigger) return;
     
     const now = Date.now();
-    if (trigger.time && now - trigger.time > 10000) {
-        console.log('⏸️ intro_trigger устарел');
-        return;
-    }
+    if (trigger.time && now - trigger.time > 10000) return;
     
     introTriggerLock = true;
-    console.log('✅ Заставка запущена:', trigger.type);
     
     if (trigger.type === 'first_half') {
         showIntro('1 ТАЙМ');
@@ -1985,18 +1894,10 @@ onValue(ref(db, 'intro_trigger'), (snapshot) => {
         showIntro('2 ТАЙМ');
     }
     
-    // ✅ Увеличена задержка очистки до 2 секунд
     setTimeout(() => {
         set(ref(db, 'intro_trigger'), null)
-            .then(() => {
-                console.log('✅ intro_trigger очищен');
-                introTriggerLock = false;
-            })
-            .catch((e) => {
-                console.error('❌ Ошибка очистки триггера:', e);
-                introTriggerLock = false;
-            });
-    }, 2000);
+            .then(() => { introTriggerLock = false; });
+    }, 500);
 });
 
 // Очистка триггеров при загрузке
@@ -2009,6 +1910,7 @@ if (ADMIN) {
     elements.sbV3.classList.add('hide');
     document.getElementById('admin').classList.remove('hide');
     loadPlayers().then(() => renderPlayerButtons());
+    
     document.querySelectorAll('.var-btn').forEach(btn => {
         btn.addEventListener('click', () => setVariant(parseInt(btn.dataset.variant)));
     });
@@ -2031,11 +1933,7 @@ if (ADMIN) {
             type: 'first_half',
             time: Date.now()
         })
-        .then(() => toast('Сигнал на заставку 1 тайма отправлен'))
-        .catch((e) => {
-            console.error('❌ Ошибка отправки заставки:', e);
-            toast('❌ Ошибка отправки заставки', 'error');
-        });
+        .then(() => toast('Сигнал на заставку 1 тайма отправлен'));
     });
     
     document.getElementById('showIntro2Btn').addEventListener('click', () => {
@@ -2043,11 +1941,7 @@ if (ADMIN) {
             type: 'second_half',
             time: Date.now()
         })
-        .then(() => toast('Сигнал на заставку 2 тайма отправлен'))
-        .catch((e) => {
-            console.error('❌ Ошибка отправки заставки:', e);
-            toast('❌ Ошибка отправки заставки', 'error');
-        });
+        .then(() => toast('Сигнал на заставку 2 тайма отправлен'));
     });
     
     elements.goalModal.addEventListener('click', (e) => {
@@ -2075,7 +1969,6 @@ if (ADMIN) {
 
 window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 
-// Очистка интервалов при выгрузке
 window.addEventListener('beforeunload', () => {
     if (timerUpdateInterval) clearInterval(timerUpdateInterval);
     if (realTimeInterval) clearInterval(realTimeInterval);
@@ -2102,3 +1995,4 @@ walker.currentNode.remove();
 </script>
 </body>
 </html>
+```
