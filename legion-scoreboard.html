@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -630,10 +631,6 @@ body {
   opacity: 1;
   visibility: visible;
 }
-/* Класс hide только для админки, не влияет на табло */
-.intro-overlay.hide {
-  display: none !important;
-}
 .intro-overlay::before {
   content: '';
   position: absolute;
@@ -658,21 +655,21 @@ body {
   background-image: 
       repeating-linear-gradient(35deg, 
           transparent, 
-          transparent 625px,
-          rgba(76, 175, 80, 0.3) 625px,
-          rgba(76, 175, 80, 0.3) 1125px),
+          transparent 125px,
+          rgba(76, 175, 80, 0.25) 125px,
+          rgba(76, 175, 80, 0.25) 225px),
       repeating-linear-gradient(125deg, 
           transparent, 
-          transparent 750px,
-          rgba(76, 175, 80, 0.25) 750px,
-          rgba(76, 175, 80, 0.25) 1375px);
+          transparent 150px,
+          rgba(76, 175, 80, 0.2) 150px,
+          rgba(76, 175, 80, 0.2) 275px);
   z-index: -1;
-  opacity: 0.8;
-  animation: linesMove 20s linear infinite;
+  opacity: 0.7;
+  animation: linesMove 12s linear infinite;
 }
 @keyframes linesMove {
   0% { background-position: 0 0; }
-  100% { background-position: 500px 500px; }
+  100% { background-position: 300px 300px; }
 }
 .intro-card {
   position: relative;
@@ -1265,7 +1262,7 @@ const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
 
-const VERSION = "2.9.1";
+const VERSION = "2.10.0";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1380,9 +1377,6 @@ function showIntroFirstHalf() {
   // Обновляем реальное время
   updateRealTime();
   
-  // Убираем класс hide если он был
-  elements.introOverlay.classList.remove('hide');
-  
   // Показываем заставку
   elements.introOverlay.classList.add('show');
   
@@ -1449,9 +1443,6 @@ async function showIntroSecondHalf() {
   
   // Обновляем реальное время
   updateRealTime();
-  
-  // Убираем класс hide если он был
-  elements.introOverlay.classList.remove('hide');
   
   // Показываем заставку
   elements.introOverlay.classList.add('show');
@@ -1914,10 +1905,7 @@ if (ADMIN) {
   elements.sbV3.classList.add('hide');
   document.getElementById('admin').classList.remove('hide');
   
-  // Скрываем заставку в админке
-  if (elements.introOverlay) {
-    elements.introOverlay.classList.add('hide');
-  }
+  // НЕ скрываем заставку в админке - она должна быть доступна для тестирования
   
   loadPlayers().then(() => renderPlayerButtons());
   
@@ -1938,14 +1926,23 @@ if (ADMIN) {
   document.getElementById('goalLegionBtn').addEventListener('click', () => quickGoal('legion'));
   document.getElementById('goalOpponentBtn').addEventListener('click', () => quickGoal('opponent'));
   
-  // Кнопки для заставок
+  // Кнопки для заставок через Firebase
   document.getElementById('showIntro1Btn').addEventListener('click', () => {
-    showIntroFirstHalf();
-    toast('Заставка 1 тайма');
+    // Отправляем сигнал в Firebase
+    set(ref(db, 'intro_trigger'), {
+      type: 'first_half',
+      time: Date.now()
+    }).catch(console.error);
+    toast('Сигнал на заставку 1 тайма отправлен');
   });
+  
   document.getElementById('showIntro2Btn').addEventListener('click', () => {
-    showIntroSecondHalf();
-    toast('Заставка 2 тайма');
+    // Отправляем сигнал в Firebase
+    set(ref(db, 'intro_trigger'), {
+      type: 'second_half',
+      time: Date.now()
+    }).catch(console.error);
+    toast('Сигнал на заставку 2 тайма отправлен');
   });
   
   elements.goalModal.addEventListener('click', (e) => {
@@ -1964,11 +1961,6 @@ if (ADMIN) {
   elements.logoAnim.classList.remove('active');
   elements.goalCard.classList.add('hidden');
   
-  // Убираем класс hide у заставки в режиме табло
-  if (elements.introOverlay) {
-    elements.introOverlay.classList.remove('hide');
-  }
-  
   updateAllVariants();
   updateVisibility();
   applyColorTheme();
@@ -1976,6 +1968,27 @@ if (ADMIN) {
   // Обновляем время каждую минуту
   updateRealTime();
   setInterval(updateRealTime, 60000);
+  
+  // Слушатель для заставок (только на табло)
+  onValue(ref(db, 'intro_trigger'), (snapshot) => {
+    const trigger = snapshot.val();
+    if (!trigger) return;
+    
+    const now = Date.now();
+    // Игнорируем старые триггеры (старше 10 секунд)
+    if (trigger.time && now - trigger.time > 10000) return;
+    
+    if (trigger.type === 'first_half') {
+      showIntroFirstHalf();
+    } else if (trigger.type === 'second_half') {
+      showIntroSecondHalf();
+    }
+    
+    // Очищаем триггер через 500мс
+    setTimeout(() => {
+      set(ref(db, 'intro_trigger'), null).catch(console.error);
+    }, 500);
+  });
 }
 
 window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
@@ -2001,3 +2014,4 @@ window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 </script>
 </body>
 </html>
+```
