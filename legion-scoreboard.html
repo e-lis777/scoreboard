@@ -977,7 +977,7 @@ const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
 
-const VERSION = "2.5.3";
+const VERSION = "2.5.4";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1001,6 +1001,7 @@ let state = {
 let currentTimerSeconds = 0;
 let timerInterval = null;
 let pollInterval = null;
+let keepAliveInterval = null; // для поддержания активности страницы
 let players = [];
 
 const elements = {
@@ -1108,6 +1109,13 @@ async function pollFirebase() {
   } catch (e) {
     console.warn('Polling error', e);
   }
+}
+
+// Функция для поддержания активности страницы (каждую секунду)
+function keepAlive() {
+  // просто записываем что-то в localStorage или делаем пустой запрос
+  // но можно ничего не делать, главное, чтобы интервал работал
+  // это заставит движок JS не засыпать
 }
 
 async function loadPlayers() {
@@ -1258,6 +1266,7 @@ function updateCurrentTimerSeconds() {
 
 function startTimerInterval() {
   if (timerInterval) clearInterval(timerInterval);
+  // Используем очень частый интервал для надёжности (50 мс)
   timerInterval = setInterval(() => {
     if (state.timer.running) {
       currentTimerSeconds = Math.floor(state.timer.elapsed + (Date.now() - state.timer.startTime) / 1000);
@@ -1265,7 +1274,7 @@ function startTimerInterval() {
       updateTimerDisplay();
       updateDebugInfo();
     }
-  }, 200); // чаще, чтобы быть отзывчивее
+  }, 50);
 }
 
 function stopTimerInterval() {
@@ -1596,8 +1605,10 @@ if (ADMIN) {
   if (state.timer.running) {
     startTimerInterval();
   }
-  // запускаем polling как запасной канал (раз в 5 секунд)
-  pollInterval = setInterval(pollFirebase, 5000);
+  // запускаем polling как запасной канал (раз в 3 секунды)
+  pollInterval = setInterval(pollFirebase, 3000);
+  // запускаем keepAlive (каждые 5 секунд)
+  keepAliveInterval = setInterval(keepAlive, 5000);
 }
 
 window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
