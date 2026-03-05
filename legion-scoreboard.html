@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -30,895 +29,154 @@ user-select: none;
 }
 
 /* ===== ВАРИАНТ 1: КОМПАКТНЫЙ ===== */
-.sc-v1 {
-display: flex;
-align-items: center;
-width: 100%;
-max-width: 500px;
-margin: 0 auto;
-}
-.sc-v1-bar {
-display: flex;
-align-items: center;
-width: 100%;
-background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-border-radius: 10px;
-padding: 6px 0;
-box-shadow: var(--shadow-lg);
-}
-.sc-v1-half {
-display: flex;
-flex-direction: column;
-align-items: center;
-flex: 1;
-padding: 0 15px;
-}
+.sc-v1 { display: flex; align-items: center; width: 100%; max-width: 500px; margin: 0 auto; }
+.sc-v1-bar { display: flex; align-items: center; width: 100%; background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); border-radius: 10px; padding: 6px 0; box-shadow: var(--shadow-lg); }
+.sc-v1-half { display: flex; flex-direction: column; align-items: center; flex: 1; padding: 0 15px; }
 .sc-v1-half.home { border-right: var(--border-light); }
 .sc-v1-half.away { border-left: var(--border-light); }
-.sc-v1-logo {
-width: 56px;
-height: 56px;
-object-fit: contain;
-filter: drop-shadow(var(--shadow-sm));
-}
+.sc-v1-logo { width: 56px; height: 56px; object-fit: contain; filter: drop-shadow(var(--shadow-sm)); }
 .sc-v1-logo.away { transform: scale(0.8); }
-.sc-v1-name {
-font-size: 12px;
-font-weight: 900;
-color: var(--text-white);
-text-transform: uppercase;
-text-align: center;
-text-shadow: var(--shadow-sm);
-white-space: nowrap;
-margin-top: 2px;
-max-width: 120px;
-overflow: hidden;
-text-overflow: ellipsis;
-}
-.sc-v1-score-sec {
-display: flex;
-flex-direction: column;
-align-items: center;
-padding: 0 20px;
-}
-.sc-v1-scores {
-display: flex;
-align-items: center;
-gap: 10px;
-}
-.sc-v1-score {
-font-size: 40px;
-font-weight: 900;
-color: var(--text-white);
-text-shadow: 0 0 15px rgba(0, 150, 255, 0.6);
-min-width: 40px;
-text-align: center;
-line-height: 1;
-}
-.sc-v1-sep {
-font-size: 28px;
-color: rgba(255,255,255,0.4);
-}
-.sc-v1-timer {
-display: flex;
-align-items: center;
-gap: 8px;
-background: rgba(0,0,0,0.7);
-backdrop-filter: blur(2px);
-padding: 2px 10px;
-border-radius: 6px;
-margin-top: 4px;
-white-space: nowrap;
-border: 1px solid rgba(255,255,255,0.2);
-}
-.sc-v1-period {
-font-size: 9px;
-font-weight: 900;
-color: var(--text-white);
-text-transform: uppercase;
-padding: 2px 6px;
-background: rgba(0,0,0,0.3);
-border-radius: 4px;
-}
-.sc-v1-time {
-font-size: 13px;
-font-weight: 900;
-color: #ffcc00;
-font-variant-numeric: tabular-nums;
-}
+.sc-v1-name { font-size: 12px; font-weight: 900; color: var(--text-white); text-transform: uppercase; text-align: center; text-shadow: var(--shadow-sm); white-space: nowrap; margin-top: 2px; max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
+.sc-v1-score-sec { display: flex; flex-direction: column; align-items: center; padding: 0 20px; }
+.sc-v1-scores { display: flex; align-items: center; gap: 10px; }
+.sc-v1-score { font-size: 40px; font-weight: 900; color: var(--text-white); text-shadow: 0 0 15px rgba(0, 150, 255, 0.6); min-width: 40px; text-align: center; line-height: 1; }
+.sc-v1-sep { font-size: 28px; color: rgba(255,255,255,0.4); }
+.sc-v1-timer { display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.7); backdrop-filter: blur(2px); padding: 2px 10px; border-radius: 6px; margin-top: 4px; white-space: nowrap; border: 1px solid rgba(255,255,255,0.2); }
+.sc-v1-period { font-size: 9px; font-weight: 900; color: var(--text-white); text-transform: uppercase; padding: 2px 6px; background: rgba(0,0,0,0.3); border-radius: 4px; }
+.sc-v1-time { font-size: 13px; font-weight: 900; color: #ffcc00; font-variant-numeric: tabular-nums; }
 
 /* ===== ВАРИАНТ 2: TV СТИЛЬ ===== */
-.sc-v2 {
-display: flex;
-flex-direction: column;
-align-items: center;
-width: 100%;
-max-width: 550px;
-margin: 0 auto;
-}
-.sc-v2-bar {
-display: flex;
-align-items: center;
-width: 100%;
-transform: skewX(-8deg);
-border-radius: 6px;
-box-shadow: var(--shadow-md);
-}
-.sc-v2-team {
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 8px;
-padding: 5px 15px;
-flex: 1;
-background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
-}
+.sc-v2 { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 550px; margin: 0 auto; }
+.sc-v2-bar { display: flex; align-items: center; width: 100%; transform: skewX(-8deg); border-radius: 6px; box-shadow: var(--shadow-md); }
+.sc-v2-team { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 5px 15px; flex: 1; background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%); }
 .sc-v2-team.home { border-right: var(--border-light); }
-.sc-v2-team.away {
-border-left: var(--border-light);
-background: linear-gradient(90deg, #2d2d2d 0%, #1a1a1a 100%);
-}
-.sc-v2-score-sec {
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-padding: 5px 20px;
-background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%);
-min-width: 90px;
-}
-.sc-v2-name {
-font-size: 14px;
-font-weight: 900;
-color: var(--text-white);
-text-transform: uppercase;
-letter-spacing: 0.5px;
-text-shadow: var(--shadow-sm);
-white-space: nowrap;
-}
-.sc-v2-logo {
-width: 42px;
-height: 42px;
-object-fit: contain;
-filter: drop-shadow(var(--shadow-sm));
-transform: skewX(8deg);
-}
+.sc-v2-team.away { border-left: var(--border-light); background: linear-gradient(90deg, #2d2d2d 0%, #1a1a1a 100%); }
+.sc-v2-score-sec { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px 20px; background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%); min-width: 90px; }
+.sc-v2-name { font-size: 14px; font-weight: 900; color: var(--text-white); text-transform: uppercase; letter-spacing: 0.5px; text-shadow: var(--shadow-sm); white-space: nowrap; }
+.sc-v2-logo { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(var(--shadow-sm)); transform: skewX(8deg); }
 .sc-v2-logo.away { transform: skewX(8deg) scale(0.8); }
-.sc-v2-scores {
-display: flex;
-align-items: center;
-gap: 8px;
-}
-.sc-v2-score {
-font-size: 32px;
-font-weight: 900;
-color: var(--text-white);
-text-shadow: var(--shadow-sm);
-}
-.sc-v2-sep {
-font-size: 20px;
-color: rgba(255,255,255,0.7);
-}
-.sc-v2-timer {
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 12px;
-background: rgba(0,0,0,0.85);
-padding: 2px 15px;
-margin-top: 2px;
-border-radius: 0 0 6px 6px;
-box-shadow: var(--shadow-md);
-}
-.sc-v2-timer .time,
-.sc-v2-timer .period {
-transform: skewX(-8deg);
-font-size: 12px;
-font-weight: 700;
-color: var(--text-white);
-font-variant-numeric: tabular-nums;
-}
-.sc-v2-timer .period {
-font-size: 10px;
-color: rgba(255,255,255,0.7);
-text-transform: uppercase;
-padding: 1px 6px;
-background: rgba(255,255,255,0.1);
-border-radius: 3px;
-}
+.sc-v2-scores { display: flex; align-items: center; gap: 8px; }
+.sc-v2-score { font-size: 32px; font-weight: 900; color: var(--text-white); text-shadow: var(--shadow-sm); }
+.sc-v2-sep { font-size: 20px; color: rgba(255,255,255,0.7); }
+.sc-v2-timer { display: flex; align-items: center; justify-content: center; gap: 12px; background: rgba(0,0,0,0.85); padding: 2px 15px; margin-top: 2px; border-radius: 0 0 6px 6px; box-shadow: var(--shadow-md); }
+.sc-v2-timer .time, .sc-v2-timer .period { transform: skewX(-8deg); font-size: 12px; font-weight: 700; color: var(--text-white); font-variant-numeric: tabular-nums; }
+.sc-v2-timer .period { font-size: 10px; color: rgba(255,255,255,0.7); text-transform: uppercase; padding: 1px 6px; background: rgba(255,255,255,0.1); border-radius: 3px; }
 
 /* ===== ВАРИАНТ 3: СЛОИСТЫЙ ===== */
-.sc-v3 {
-position: relative;
-display: flex;
-align-items: center;
-justify-content: center;
-margin: 0 auto;
-height: 60px;
-}
-.sc-v3-strip {
-position: relative;
-height: 40px;
-width: var(--strip-width, 180px);
-z-index: 1;
-display: flex;
-align-items: center;
-justify-content: center;
-}
+.sc-v3 { position: relative; display: flex; align-items: center; justify-content: center; margin: 0 auto; height: 60px; }
+.sc-v3-strip { position: relative; height: 40px; width: var(--strip-width, 180px); z-index: 1; display: flex; align-items: center; justify-content: center; }
 .sc-v3-strip.home { border-radius: 4px 0 0 4px; }
 .sc-v3-strip.away { border-radius: 0 4px 4px 0; }
-.sc-v3-name {
-display: inline-block;
-font-size: 14px;
-font-weight: 900;
-color: var(--text-white);
-text-transform: uppercase;
-letter-spacing: 0.5px;
-text-shadow: var(--shadow-sm);
-white-space: nowrap;
-z-index: 15;
-padding: 2px 8px;
-background: rgba(0,0,0,0.3);
-border-radius: 4px;
-line-height: 1;
-}
-.sc-v3-logo-h {
-position: absolute;
-top: 50%;
-width: 55px;
-height: 55px;
-object-fit: contain;
-filter: drop-shadow(var(--shadow-lg));
-z-index: 10;
-left: calc(50% - 85px);
-transform: translate(-50%, -50%);
-}
-.sc-v3-logo-a {
-position: absolute;
-top: 50%;
-width: 55px;
-height: 55px;
-object-fit: contain;
-filter: drop-shadow(var(--shadow-lg));
-z-index: 10;
-right: calc(50% - 85px);
-transform: translate(50%, -50%);
-}
-.sc-v3-logo-a.default-logo {
-width: 44px;
-height: 44px;
-}
-.sc-v3-center {
-position: relative;
-width: 170px;
-height: 52px;
-background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%);
-border-radius: 4px;
-z-index: 5;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: flex-start;
-box-shadow: var(--shadow-lg);
-border: 1px solid rgba(255,255,255,0.8);
-padding: 0;
-}
-.sc-v3-scores {
-display: flex;
-align-items: center;
-gap: 8px;
-margin-bottom: 0;
-margin-top: 3px;
-flex-shrink: 0;
-}
-.sc-v3-score {
-font-size: 32px;
-font-weight: 900;
-color: #000;
-min-width: 32px;
-text-align: center;
-line-height: 1;
-}
-.sc-v3-sep {
-font-size: 20px;
-color: #555;
-font-weight: 900;
-}
-.sc-v3-timer {
-display: flex;
-align-items: center;
-gap: 4px;
-margin: 1px 0;
-}
-.sc-v3-timer .time,
-.sc-v3-timer .period {
-font-size: 10px;
-font-weight: 900;
-color: #555;
-line-height: 1;
-}
-.sc-v3-timer .period {
-font-size: 8px;
-color: #666;
-text-transform: uppercase;
-}
+.sc-v3-name { display: inline-block; font-size: 14px; font-weight: 900; color: var(--text-white); text-transform: uppercase; letter-spacing: 0.5px; text-shadow: var(--shadow-sm); white-space: nowrap; z-index: 15; padding: 2px 8px; background: rgba(0,0,0,0.3); border-radius: 4px; line-height: 1; }
+.sc-v3-logo-h { position: absolute; top: 50%; width: 55px; height: 55px; object-fit: contain; filter: drop-shadow(var(--shadow-lg)); z-index: 10; left: calc(50% - 85px); transform: translate(-50%, -50%); }
+.sc-v3-logo-a { position: absolute; top: 50%; width: 55px; height: 55px; object-fit: contain; filter: drop-shadow(var(--shadow-lg)); z-index: 10; right: calc(50% - 85px); transform: translate(50%, -50%); }
+.sc-v3-logo-a.default-logo { width: 44px; height: 44px; }
+.sc-v3-center { position: relative; width: 170px; height: 52px; background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%); border-radius: 4px; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; box-shadow: var(--shadow-lg); border: 1px solid rgba(255,255,255,0.8); padding: 0; }
+.sc-v3-scores { display: flex; align-items: center; gap: 8px; margin-bottom: 0; margin-top: 3px; flex-shrink: 0; }
+.sc-v3-score { font-size: 32px; font-weight: 900; color: #000; min-width: 32px; text-align: center; line-height: 1; }
+.sc-v3-sep { font-size: 20px; color: #555; font-weight: 900; }
+.sc-v3-timer { display: flex; align-items: center; gap: 4px; margin: 1px 0; }
+.sc-v3-timer .time, .sc-v3-timer .period { font-size: 10px; font-weight: 900; color: #555; line-height: 1; }
+.sc-v3-timer .period { font-size: 8px; color: #666; text-transform: uppercase; }
 
 /* ===== ЦВЕТОВЫЕ ТЕМЫ ===== */
 .theme-classic1 .sc-v1-bar { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); }
 .theme-classic1 .sc-v1-timer { background: linear-gradient(180deg, #ff4757 0%, #cc3344 100%); }
 .theme-classic1 .sc-v1-time { color: #ffcc00; }
-.theme-classic1 .sc-v2-team { background: linear-gradient(90deg, #1a1a2e 0%, #16213e 100%); }
-.theme-classic1 .sc-v2-team.away { background: linear-gradient(90deg, #16213e 0%, #1a1a2e 100%); }
-.theme-classic1 .sc-v2-score-sec { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); }
-.theme-classic1 .sc-v2-timer { background: linear-gradient(180deg, #ff4757 0%, #cc3344 100%); }
-.theme-classic1 .sc-v2-timer .time { color: #ffcc00; }
-.theme-classic1 .sc-v3-strip { background: linear-gradient(90deg, #1a1a2e 0%, #16213e 100%); }
 .theme-classic2 .sc-v1-bar { background: linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 100%); }
 .theme-classic2 .sc-v1-timer { background: rgba(0,0,0,0.85); }
 .theme-classic2 .sc-v1-time { color: #fff; }
-.theme-classic2 .sc-v2-team { background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%); }
-.theme-classic2 .sc-v2-team.away { background: linear-gradient(90deg, #2d2d2d 0%, #1a1a1a 100%); }
-.theme-classic2 .sc-v2-score-sec { background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%); }
-.theme-classic2 .sc-v2-timer { background: rgba(0,0,0,0.85); }
-.theme-classic2 .sc-v2-timer .time { color: #fff; }
-.theme-classic2 .sc-v3-strip { background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%); }
 .theme-blue .sc-v1-bar { background: linear-gradient(180deg, #0a1f44 0%, #163675 100%); }
 .theme-blue .sc-v1-timer { background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%); }
-.theme-blue .sc-v2-team { background: linear-gradient(90deg, #0a1f44 0%, #163675 100%); }
-.theme-blue .sc-v2-score-sec { background: linear-gradient(180deg, #0a1f44 0%, #163675 100%); }
-.theme-blue .sc-v3-strip { background: linear-gradient(90deg, #0a1f44 0%, #163675 100%); }
 .theme-orange .sc-v1-bar { background: linear-gradient(180deg, #c2410c 0%, #ea580c 100%); }
 .theme-orange .sc-v1-timer { background: linear-gradient(180deg, #c2410c 0%, #ea580c 100%); }
-.theme-orange .sc-v2-team { background: linear-gradient(90deg, #c2410c 0%, #ea580c 100%); }
-.theme-orange .sc-v2-score-sec { background: linear-gradient(180deg, #c2410c 0%, #ea580c 100%); }
-.theme-orange .sc-v3-strip { background: linear-gradient(90deg, #c2410c 0%, #ea580c 100%); }
 .theme-purple .sc-v1-bar { background: linear-gradient(180deg, #581c87 0%, #7e22ce 100%); }
 .theme-purple .sc-v1-timer { background: linear-gradient(180deg, #581c87 0%, #7e22ce 100%); }
-.theme-purple .sc-v2-team { background: linear-gradient(90deg, #581c87 0%, #7e22ce 100%); }
-.theme-purple .sc-v2-score-sec { background: linear-gradient(180deg, #581c87 0%, #7e22ce 100%); }
-.theme-purple .sc-v3-strip { background: linear-gradient(90deg, #581c87 0%, #7e22ce 100%); }
 .theme-silver .sc-v1-bar { background: linear-gradient(180deg, #404040 0%, #525252 100%); }
 .theme-silver .sc-v1-timer { background: linear-gradient(180deg, #404040 0%, #525252 100%); }
-.theme-silver .sc-v2-team { background: linear-gradient(90deg, #404040 0%, #525252 100%); }
-.theme-silver .sc-v2-score-sec { background: linear-gradient(180deg, #404040 0%, #525252 100%); }
-.theme-silver .sc-v3-strip { background: linear-gradient(90deg, #404040 0%, #525252 100%); }
 .theme-red .sc-v1-bar { background: linear-gradient(180deg, #991b1b 0%, #dc2626 100%); }
 .theme-red .sc-v1-timer { background: linear-gradient(180deg, #991b1b 0%, #dc2626 100%); }
-.theme-red .sc-v2-team { background: linear-gradient(90deg, #991b1b 0%, #dc2626 100%); }
-.theme-red .sc-v2-score-sec { background: linear-gradient(180deg, #991b1b 0%, #dc2626 100%); }
-.theme-red .sc-v3-strip { background: linear-gradient(90deg, #991b1b 0%, #dc2626 100%); }
 .theme-green .sc-v1-bar { background: linear-gradient(180deg, #1b5e20 0%, #2e7d32 100%); }
 .theme-green .sc-v1-timer { background: linear-gradient(180deg, #1b5e20 0%, #2e7d32 100%); }
-.theme-green .sc-v2-team { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
-.theme-green .sc-v2-score-sec { background: linear-gradient(180deg, #1b5e20 0%, #2e7d32 100%); }
-.theme-green .sc-v3-strip { background: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
 
 /* ===== КАРТОЧКА ГОЛА ===== */
-.goal-card {
-position: fixed;
-bottom: 20px;
-left: 20px;
-transform: translateX(-150%);
-background: rgba(0, 0, 0, 0.9);
-backdrop-filter: blur(8px);
-border-left: 6px solid var(--accent-green);
-border-radius: 16px;
-padding: 12px 24px 12px 20px;
-display: flex;
-align-items: center;
-gap: 15px;
-box-shadow: var(--shadow-lg);
-z-index: 2001;
-transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1);
-min-width: 340px;
-color: white;
-font-family: 'Arial', sans-serif;
-overflow: visible;
-}
-.goal-card.show {
-transform: translateX(0);
-}
-.goal-card.hidden {
-display: none;
-}
-.goal-card .legion-logo {
-width: 150px;
-height: 150px;
-object-fit: contain;
-filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.5));
-position: absolute;
-left: -35px;
-top: -45%;
-z-index: 2002;
-}
-.goal-card .info {
-display: grid;
-grid-template-columns: auto 36px;
-align-items: center;
-gap: 0 10px;
-margin-left: 80px;
-}
-.goal-card .last-name {
-grid-column: 1;
-grid-row: 1;
-justify-self: start;
-font-size: 28px;
-font-weight: 900;
-letter-spacing: 0.5px;
-text-transform: uppercase;
-color: #fff;
-}
-.goal-card .number-circle {
-grid-column: 2;
-grid-row: 1;
-justify-self: center;
-display: inline-flex;
-align-items: center;
-justify-content: center;
-background: var(--accent-green);
-color: #000;
-font-weight: 900;
-font-size: 18px;
-width: 36px;
-height: 36px;
-border-radius: 50%;
-box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
-.goal-card .minute {
-grid-column: 1;
-grid-row: 2;
-justify-self: start;
-font-size: 20px;
-font-weight: 700;
-color: #cccccc;
-margin-top: 4px;
-letter-spacing: 0.5px;
-}
-.goal-card .minute::before {
-content: '⏱️ ';
-font-size: 18px;
-opacity: 0.8;
-}
-.goal-card .position {
-grid-column: 2;
-grid-row: 2;
-justify-self: center;
-width: 36px;
-text-align: center;
-font-size: 20px;
-font-weight: 700;
-color: #cccccc;
-text-transform: uppercase;
-margin-top: 4px;
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
-}
+.goal-card { position: fixed; bottom: 20px; left: 20px; transform: translateX(-150%); background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(8px); border-left: 6px solid var(--accent-green); border-radius: 16px; padding: 12px 24px 12px 20px; display: flex; align-items: center; gap: 15px; box-shadow: var(--shadow-lg); z-index: 2001; transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1); min-width: 340px; color: white; font-family: 'Arial', sans-serif; overflow: visible; }
+.goal-card.show { transform: translateX(0); }
+.goal-card.hidden { display: none; }
+.goal-card .legion-logo { width: 150px; height: 150px; object-fit: contain; filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.5)); position: absolute; left: -35px; top: -45%; z-index: 2002; }
+.goal-card .info { display: grid; grid-template-columns: auto 36px; align-items: center; gap: 0 10px; margin-left: 80px; }
+.goal-card .last-name { grid-column: 1; grid-row: 1; justify-self: start; font-size: 28px; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; color: #fff; }
+.goal-card .number-circle { grid-column: 2; grid-row: 1; justify-self: center; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-green); color: #000; font-weight: 900; font-size: 18px; width: 36px; height: 36px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+.goal-card .minute { grid-column: 1; grid-row: 2; justify-self: start; font-size: 20px; font-weight: 700; color: #cccccc; margin-top: 4px; letter-spacing: 0.5px; }
+.goal-card .minute::before { content: '⏱️ '; font-size: 18px; opacity: 0.8; }
+.goal-card .position { grid-column: 2; grid-row: 2; justify-self: center; width: 36px; text-align: center; font-size: 20px; font-weight: 700; color: #cccccc; text-transform: uppercase; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* ===== МОДАЛЬНОЕ ОКНО ===== */
-.modal-overlay {
-position: fixed;
-top: 0; left: 0; width: 100%; height: 100%;
-background: rgba(0,0,0,0.8);
-backdrop-filter: blur(5px);
-z-index: 3000;
-display: flex;
-align-items: center;
-justify-content: center;
-}
-.modal-overlay.hidden {
-display: none;
-}
-.modal-content {
-background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-border-radius: 24px;
-padding: 30px;
-max-width: 600px;
-width: 90%;
-max-height: 80vh;
-overflow-y: auto;
-color: white;
-border: 1px solid var(--accent-green);
-box-shadow: var(--shadow-lg);
-}
-.modal-content h3 {
-color: var(--accent-green);
-font-size: 24px;
-margin-bottom: 20px;
-text-align: center;
-text-transform: uppercase;
-}
-.player-buttons {
-display: flex;
-flex-wrap: wrap;
-gap: 10px;
-margin-bottom: 10px;
-}
-.player-btn {
-padding: 12px 20px;
-background: rgba(255,255,255,0.1);
-border: 1px solid rgba(255,255,255,0.2);
-border-radius: 8px;
-color: white;
-font-size: 16px;
-font-weight: 600;
-cursor: pointer;
-transition: all 0.2s;
-flex: 1 0 auto;
-min-width: 100px;
-max-width: 180px;
-display: flex;
-align-items: center;
-gap: 8px;
-}
-.player-btn:hover {
-background: rgba(76, 175, 80, 0.3);
-border-color: var(--accent-green);
-}
-.player-number-badge {
-display: inline-flex;
-align-items: center;
-justify-content: center;
-background: var(--accent-green);
-color: #000;
-font-weight: 900;
-font-size: 14px;
-width: 28px;
-height: 28px;
-border-radius: 50%;
-flex-shrink: 0;
-}
-.player-btn.no-player {
-background: rgba(255, 165, 2, 0.3);
-border-color: #ffa502;
-flex: 1 1 100%;
-max-width: none;
-justify-content: center;
-}
-.player-btn.no-player:hover {
-background: rgba(255, 165, 2, 0.5);
-}
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 3000; display: flex; align-items: center; justify-content: center; }
+.modal-overlay.hidden { display: none; }
+.modal-content { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 24px; padding: 30px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; color: white; border: 1px solid var(--accent-green); box-shadow: var(--shadow-lg); }
+.modal-content h3 { color: var(--accent-green); font-size: 24px; margin-bottom: 20px; text-align: center; text-transform: uppercase; }
+.player-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+.player-btn { padding: 12px 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; flex: 1 0 auto; min-width: 100px; max-width: 180px; display: flex; align-items: center; gap: 8px; }
+.player-btn:hover { background: rgba(76, 175, 80, 0.3); border-color: var(--accent-green); }
+.player-number-badge { display: inline-flex; align-items: center; justify-content: center; background: var(--accent-green); color: #000; font-weight: 900; font-size: 14px; width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; }
+.player-btn.no-player { background: rgba(255, 165, 2, 0.3); border-color: #ffa502; flex: 1 1 100%; max-width: none; justify-content: center; }
+.player-btn.no-player:hover { background: rgba(255, 165, 2, 0.5); }
 
 /* ===== АНИМАЦИИ ===== */
-.goal-anim {
-position: fixed;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%) scale(0);
-font-size: 100px;
-font-weight: 900;
-color: #ffd700;
-text-shadow: 0 0 30px rgba(255,215,0,0.8);
-z-index: 1000;
-pointer-events: none;
-}
+.goal-anim { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); font-size: 100px; font-weight: 900; color: #ffd700; text-shadow: 0 0 30px rgba(255,215,0,0.8); z-index: 1000; pointer-events: none; }
 .goal-anim.active { animation: goalPop 1.5s ease-out; }
-@keyframes goalPop {
-0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
-}
-.logo-anim {
-position: fixed;
-bottom: -200px;
-left: -200px;
-width: 188px;
-height: 188px;
-z-index: 1001;
-pointer-events: none;
-filter: drop-shadow(0 0 30px rgba(0,150,255,0.8));
-opacity: 0;
-}
+@keyframes goalPop { 0% { transform: translate(-50%, -50%) scale(0); opacity: 0; } 50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
+.logo-anim { position: fixed; bottom: -200px; left: -200px; width: 188px; height: 188px; z-index: 1001; pointer-events: none; filter: drop-shadow(0 0 30px rgba(0,150,255,0.8)); opacity: 0; }
 .logo-anim.active { animation: logoFly 1.5s forwards; }
-@keyframes logoFly {
-0% { bottom: -200px; left: -200px; transform: scale(0.1) rotate(-15deg); opacity: 0; }
-30% { opacity: 1; }
-100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; }
-}
+@keyframes logoFly { 0% { bottom: -200px; left: -200px; transform: scale(0.1) rotate(-15deg); opacity: 0; } 30% { opacity: 1; } 100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; } }
 
-/* ===== ОВЕРЛЕЙ ЗАСТАВКИ — ИСПРАВЛЕННОЕ ВЫРАВНИВАНИЕ ===== */
-.intro-overlay {
-position: fixed;
-top: 0;
-left: 0;
-width: 100vw;
-height: 100vh;
-z-index: 10000;
-opacity: 0;
-visibility: hidden;
-transition: opacity 0.6s ease, visibility 0.6s ease;
-pointer-events: none;
-display: flex;
-align-items: center;
-justify-content: center;
-min-width: 100vw;
-min-height: 100vh;
-overflow: hidden;
-}
-.intro-overlay.show {
-opacity: 1;
-visibility: visible;
-}
-.intro-overlay::before {
-content: '';
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: linear-gradient(125deg,
-rgba(0,0,0,0.95) 0%,
-rgba(0,0,0,0.8) 30%,
-rgba(0,0,0,0.4) 70%,
-rgba(0,0,0,0) 100%);
-z-index: -1;
-}
-.intro-overlay::after {
-content: '';
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background-image:
-repeating-linear-gradient(35deg,
-transparent,
-transparent 125px,
-rgba(76, 175, 80, 0.25) 125px,
-rgba(76, 175, 80, 0.25) 225px),
-repeating-linear-gradient(125deg,
-transparent,
-transparent 150px,
-rgba(76, 175, 80, 0.2) 150px,
-rgba(76, 175, 80, 0.2) 275px);
-z-index: -1;
-opacity: 0.7;
-animation: linesMove 12s linear infinite;
-}
-@keyframes linesMove {
-0% { background-position: 0 0; }
-100% { background-position: 300px 300px; }
-}
-.intro-card {
-position: relative;
-width: 1200px;
-max-width: 90vw;
-padding: 50px 30px;
-text-align: center;
-color: var(--text-white);
-transform: scale(0.9);
-animation: cardAppear 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.1) forwards;
-margin: 0 auto;
-}
-@keyframes cardAppear {
-0% { transform: scale(0.9); opacity: 0; }
-100% { transform: scale(1); opacity: 1; }
-}
-.intro-teams {
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 80px;
-margin-bottom: 30px;
-min-height: 300px;
-flex-wrap: wrap;
-}
-.intro-team {
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: 15px;
-opacity: 0;
-position: relative;
-width: 200px;
-}
-.intro-team.home {
-animation: slideInLeft 0.6s 0.2s ease-out forwards;
-}
-.intro-team.away {
-animation: slideInRight 0.6s 0.2s ease-out forwards;
-}
-@keyframes slideInLeft {
-0% { transform: translateX(-100px); opacity: 0; }
-100% { transform: translateX(0); opacity: 1; }
-}
-@keyframes slideInRight {
-0% { transform: translateX(100px); opacity: 0; }
-100% { transform: translateX(0); opacity: 1; }
-}
-.intro-logo {
-width: 200px;
-height: 200px;
-object-fit: contain;
-filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6));
-animation: logoPulse 2s infinite ease-in-out;
-display: block;
-}
-.intro-team.away .intro-logo {
-width: 150px;
-height: 150px;
-}
-@keyframes logoPulse {
-0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); }
-50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); }
-}
-.intro-name {
-font-size: 32px;
-font-weight: 900;
-text-transform: uppercase;
-letter-spacing: 2px;
-background: linear-gradient(135deg, #fff 0%, #ddd 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-height: auto;
-min-height: 80px;
-display: flex;
-align-items: center;
-justify-content: center;
-width: 100%;
-text-align: center;
-word-break: break-word;
-white-space: normal;
-line-height: 1.2;
-padding: 0 5px;
-}
-.intro-footer {
-margin-top: 30px;
-opacity: 0;
-animation: fadeInUp 0.8s 0.5s ease-out forwards;
-min-height: 200px;
-}
-@keyframes fadeInUp {
-0% { transform: translateY(30px); opacity: 0; }
-100% { transform: translateY(0); opacity: 1; }
-}
-.intro-datetime {
-font-size: 24px;
-color: rgba(255,255,255,0.8);
-font-family: 'Arial', sans-serif;
-letter-spacing: 1px;
-margin-bottom: 15px;
-background: rgba(0, 0, 0, 0.3);
-display: inline-block;
-padding: 10px 30px;
-border-radius: 40px;
-backdrop-filter: blur(5px);
-border: 1px solid rgba(255, 255, 255, 0.1);
-}
-.intro-datetime span {
-color: rgba(76, 175, 80, 0.9);
-font-weight: bold;
-margin: 0 5px;
-}
-.intro-period-badge {
-font-size: 48px;
-font-weight: 900;
-text-transform: uppercase;
-letter-spacing: 4px;
-background: linear-gradient(135deg, #fff 0%, rgba(76, 175, 80, 0.9) 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-text-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
-margin-top: 10px;
-}
-.intro-footer::after {
-content: '';
-display: block;
-width: 200px;
-height: 4px;
-background: linear-gradient(90deg,
-transparent,
-rgba(76, 175, 80, 0.9) 20%,
-rgba(76, 175, 80, 0.9) 80%,
-transparent);
-margin: 20px auto 0;
-border-radius: 2px;
-animation: lineExpand 0.8s 0.8s ease-out forwards;
-transform: scaleX(0);
-}
-@keyframes lineExpand {
-from { transform: scaleX(0); opacity: 0; }
-to { transform: scaleX(1); opacity: 1; }
-}
-.intro-goal-info {
-margin-top: 20px;
-font-size: 20px;
-color: rgba(255,255,255,0.8);
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: 15px;
-width: 100%;
-}
-.intro-score {
-font-size: 36px;
-font-weight: 900;
-color: rgba(76, 175, 80, 0.9);
-text-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
-background: rgba(0, 0, 0, 0.4);
-padding: 10px 40px;
-border-radius: 50px;
-border: 2px solid rgba(76, 175, 80, 0.9);
-margin-bottom: 10px;
-}
-.intro-goal-scorers {
-display: flex;
-flex-wrap: wrap;
-justify-content: center;
-gap: 15px;
-max-width: 800px;
-}
-.intro-goal-scorer {
-background: rgba(76, 175, 80, 0.2);
-padding: 8px 20px;
-border-radius: 30px;
-border: 1px solid rgba(76, 175, 80, 0.9);
-font-size: 18px;
-display: flex;
-align-items: center;
-gap: 8px;
-}
-.intro-goal-number {
-display: inline-flex;
-align-items: center;
-justify-content: center;
-background: var(--accent-green);
-color: #000;
-font-weight: 900;
-font-size: 14px;
-width: 24px;
-height: 24px;
-border-radius: 50%;
-margin-right: 5px;
-}
-.intro-goal-scorer span {
-color: rgba(76, 175, 80, 0.9);
-font-weight: bold;
-margin-right: 5px;
-}
+/* ===== ОВЕРЛЕЙ ЗАСТАВКИ ===== */
+.intro-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10000; opacity: 0; visibility: hidden; transition: opacity 0.6s ease, visibility 0.6s ease; pointer-events: none; display: flex; align-items: center; justify-content: center; min-width: 100vw; min-height: 100vh; overflow: hidden; }
+.intro-overlay.show { opacity: 1; visibility: visible; }
+.intro-overlay::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(125deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0) 100%); z-index: -1; }
+.intro-overlay::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: repeating-linear-gradient(35deg, transparent, transparent 125px, rgba(76, 175, 80, 0.25) 125px, rgba(76, 175, 80, 0.25) 225px), repeating-linear-gradient(125deg, transparent, transparent 150px, rgba(76, 175, 80, 0.2) 150px, rgba(76, 175, 80, 0.2) 275px); z-index: -1; opacity: 0.7; animation: linesMove 12s linear infinite; }
+@keyframes linesMove { 0% { background-position: 0 0; } 100% { background-position: 300px 300px; } }
+.intro-card { position: relative; width: 1200px; max-width: 90vw; padding: 50px 30px; text-align: center; color: var(--text-white); transform: scale(0.9); animation: cardAppear 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.1) forwards; margin: 0 auto; }
+@keyframes cardAppear { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+.intro-teams { display: flex; align-items: center; justify-content: center; gap: 80px; margin-bottom: 30px; min-height: 300px; }
+.intro-team { display: flex; flex-direction: column; align-items: center; gap: 15px; opacity: 0; position: relative; width: 200px; }
+.intro-team.home { animation: slideInLeft 0.6s 0.2s ease-out forwards; }
+.intro-team.away { animation: slideInRight 0.6s 0.2s ease-out forwards; }
+@keyframes slideInLeft { 0% { transform: translateX(-100px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+@keyframes slideInRight { 0% { transform: translateX(100px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+.intro-logo { width: 200px; height: 200px; object-fit: contain; filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); animation: logoPulse 2s infinite ease-in-out; display: block; }
+.intro-team.away .intro-logo { width: 150px; height: 150px; }
+@keyframes logoPulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); } 50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); } }
+.intro-name { font-size: 32px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; background: linear-gradient(135deg, #fff 0%, #ddd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 2px 10px rgba(0,0,0,0.5); height: 50px; display: flex; align-items: center; justify-content: center; width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.intro-footer { margin-top: 30px; opacity: 0; animation: fadeInUp 0.8s 0.5s ease-out forwards; min-height: 200px; }
+@keyframes fadeInUp { 0% { transform: translateY(30px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+.intro-datetime { font-size: 24px; color: rgba(255,255,255,0.8); font-family: 'Arial', sans-serif; letter-spacing: 1px; margin-bottom: 15px; background: rgba(0, 0, 0, 0.3); display: inline-block; padding: 10px 30px; border-radius: 40px; backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.1); }
+.intro-datetime span { color: rgba(76, 175, 80, 0.9); font-weight: bold; margin: 0 5px; }
+.intro-period-badge { font-size: 48px; font-weight: 900; text-transform: uppercase; letter-spacing: 4px; background: linear-gradient(135deg, #fff 0%, rgba(76, 175, 80, 0.9) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 20px rgba(76, 175, 80, 0.6); margin-top: 10px; }
+.intro-footer::after { content: ''; display: block; width: 200px; height: 4px; background: linear-gradient(90deg, transparent, rgba(76, 175, 80, 0.9) 20%, rgba(76, 175, 80, 0.9) 80%, transparent); margin: 20px auto 0; border-radius: 2px; animation: lineExpand 0.8s 0.8s ease-out forwards; transform: scaleX(0); }
+@keyframes lineExpand { from { transform: scaleX(0); opacity: 0; } to { transform: scaleX(1); opacity: 1; } }
+.intro-goal-info { margin-top: 20px; font-size: 20px; color: rgba(255,255,255,0.8); display: flex; flex-direction: column; align-items: center; gap: 15px; width: 100%; }
+.intro-score { font-size: 36px; font-weight: 900; color: rgba(76, 175, 80, 0.9); text-shadow: 0 0 20px rgba(76, 175, 80, 0.6); background: rgba(0, 0, 0, 0.4); padding: 10px 40px; border-radius: 50px; border: 2px solid rgba(76, 175, 80, 0.9); margin-bottom: 10px; }
+.intro-goal-scorers { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; max-width: 800px; }
+.intro-goal-scorer { background: rgba(76, 175, 80, 0.2); padding: 8px 20px; border-radius: 30px; border: 1px solid rgba(76, 175, 80, 0.9); font-size: 18px; display: flex; align-items: center; gap: 8px; }
+.intro-goal-number { display: inline-flex; align-items: center; justify-content: center; background: var(--accent-green); color: #000; font-weight: 900; font-size: 14px; width: 24px; height: 24px; border-radius: 50%; margin-right: 5px; }
+.intro-goal-scorer span { color: rgba(76, 175, 80, 0.9); font-weight: bold; margin-right: 5px; }
 
 /* ===== АДМИНКА ===== */
-.admin {
-position: fixed;
-top: 0; left: 0; width: 100%; height: 100%;
-background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-padding: 15px; overflow-y: auto; z-index: 2000;
-color: var(--text-white);
-}
-.admin-head {
-text-align: center; margin-bottom: 20px; padding-bottom: 15px;
-border-bottom: var(--border-light);
-}
-.admin-head h1 {
-color: #00d4ff;
-font-size: 28px;
-text-transform: uppercase;
-margin-bottom: 5px;
-}
-.admin-head .team-name-green {
-color: #4caf50;
-}
+.admin { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 15px; overflow-y: auto; z-index: 2000; color: var(--text-white); }
+.admin-head { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: var(--border-light); }
+.admin-head h1 { color: #00d4ff; font-size: 28px; text-transform: uppercase; margin-bottom: 5px; }
+.admin-head .team-name-green { color: #4caf50; }
 .admin-head p { color: rgba(255,255,255,0.5); font-size: 12px; }
 .admin-grid { display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; }
-.card {
-background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px;
-border: var(--border-light);
-}
+.card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; border: var(--border-light); }
 .card h3 { color: #00d4ff; font-size: 16px; margin-bottom: 15px; text-transform: uppercase; }
 .fld { margin-bottom: 12px; }
 .fld label { display: block; color: rgba(255,255,255,0.7); font-size: 12px; margin-bottom: 6px; text-transform: uppercase; }
-.fld input, .fld select {
-width: 100%; padding: 14px 12px; background: rgba(0,0,0,0.3);
-border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
-color: var(--text-white); font-size: 16px;
-}
+.fld input, .fld select { width: 100%; padding: 14px 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: var(--text-white); font-size: 16px; }
 .btns { display: flex; gap: 8px; flex-wrap: wrap; }
-.btn {
-padding: 14px 16px; border: none; border-radius: 8px; font-size: 13px; font-weight: 700;
-text-transform: uppercase; cursor: pointer; flex: 1; min-width: 70px;
-color: var(--text-white); transition: var(--transition);
-}
+.btn { padding: 14px 16px; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; text-transform: uppercase; cursor: pointer; flex: 1; min-width: 70px; color: var(--text-white); transition: var(--transition); }
 .btn:active { transform: scale(0.96); }
 .btn-p { background: linear-gradient(135deg, #00d4ff, #0099cc); }
 .btn-s { background: linear-gradient(135deg, #2ed573, #1ea65a); }
@@ -929,29 +187,15 @@ color: var(--text-white); transition: var(--transition);
 .score-in .sep { font-size: 26px; color: rgba(255,255,255,0.5); padding-bottom: 8px; }
 .score-in input { width: 65px; text-align: center; font-size: 26px; font-weight: 900; padding: 8px; }
 .hide { display: none !important; }
-.toast {
-position: fixed; bottom: 20px; left: 50%;
-transform: translateX(-50%) translateY(100px);
-background: linear-gradient(135deg, #2ed573, #1ea65a);
-color: var(--text-white); padding: 12px 25px; border-radius: 10px;
-font-weight: 700; opacity: 0; transition: var(--transition); z-index: 3000;
-}
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: linear-gradient(135deg, #2ed573, #1ea65a); color: var(--text-white); padding: 12px 25px; border-radius: 10px; font-weight: 700; opacity: 0; transition: var(--transition); z-index: 3000; }
 .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 .toast.error { background: linear-gradient(135deg, #ff4757, #cc3344); }
 .var-sel { display: flex; gap: 8px; margin-bottom: 15px; }
-.var-btn {
-flex: 1; padding: 12px 8px; border: 2px solid rgba(255,255,255,0.2);
-border-radius: 8px; background: rgba(0,0,0,0.3); color: var(--text-white);
-font-weight: 700; cursor: pointer; font-size: 11px; transition: var(--transition);
-}
+.var-btn { flex: 1; padding: 12px 8px; border: 2px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(0,0,0,0.3); color: var(--text-white); font-weight: 700; cursor: pointer; font-size: 11px; transition: var(--transition); }
 .var-btn.act { border-color: #00d4ff; background: rgba(0,212,255,0.2); }
 .var-btn small { display: block; font-size: 9px; opacity: 0.7; margin-top: 3px; }
 .col-sel { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 12px; }
-.col-btn {
-padding: 10px 5px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px;
-cursor: pointer; font-weight: 700; color: var(--text-white); text-transform: uppercase;
-font-size: 9px; transition: var(--transition);
-}
+.col-btn { padding: 10px 5px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px; cursor: pointer; font-weight: 700; color: var(--text-white); text-transform: uppercase; font-size: 9px; transition: var(--transition); }
 .col-btn.act { border-color: #fff; transform: scale(1.05); }
 .col-blue { background: linear-gradient(135deg, #0a1f44, #163675); }
 .col-orange { background: linear-gradient(135deg, #c2410c, #ea580c); }
@@ -961,54 +205,16 @@ font-size: 9px; transition: var(--transition);
 .col-green { background: linear-gradient(135deg, #1b5e20, #2e7d32); }
 .col-classic1 { background: linear-gradient(135deg, #1a1a2e, #16213e); }
 .col-classic2 { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); }
-.chk {
-display: flex;
-align-items: center;
-gap: 10px;
-padding: 12px;
-background: rgba(0,0,0,0.2);
-border-radius: 8px;
-margin-bottom: 12px;
-cursor: pointer;
-}
+.chk { display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 12px; cursor: pointer; }
 .chk input { width: 18px; height: 18px; accent-color: #00d4ff; }
 .chk label { margin: 0; font-size: 13px; cursor: pointer; flex: 1; }
-.tm-st {
-display: flex;
-align-items: center;
-gap: 10px;
-padding: 12px;
-background: rgba(0,0,0,0.3);
-border-radius: 8px;
-margin-bottom: 12px;
-}
+.tm-st { display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 12px; }
 .tm-st .ind { width: 10px; height: 10px; border-radius: 50%; background: #ffa502; }
 .tm-st .ind.run { background: #2ed573; box-shadow: 0 0 8px #2ed573; animation: pulse 1s infinite; }
 .tm-st .txt { font-size: 12px; color: rgba(255,255,255,0.8); flex: 1; }
-.admin-footer {
-text-align: center;
-margin-top: 30px;
-padding: 15px;
-border-top: 1px solid rgba(255,255,255,0.1);
-color: rgba(255,255,255,0.6);
-font-size: 14px;
-}
-.admin-footer p {
-font-weight: 100;
-font-family: Arial, sans-serif;
-}
-@media (min-width: 768px) {
-.admin { padding: 30px; }
-.admin-head h1 { font-size: 32px; }
-.admin-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-gap: 20px;
-max-width: 1100px;
-}
-.card { padding: 22px; }
-.col-sel { grid-template-columns: repeat(4, 1fr); }
-}
+.admin-footer { text-align: center; margin-top: 30px; padding: 15px; border-top: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); font-size: 14px; }
+.admin-footer p { font-weight: 100; font-family: Arial, sans-serif; }
+@media (min-width: 768px) { .admin { padding: 30px; } .admin-head h1 { font-size: 32px; } .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1100px; } .card { padding: 22px; } .col-sel { grid-template-columns: repeat(4, 1fr); } }
 
 /* ===== МАСШТАБИРОВАНИЕ ЛОГОТИПОВ ===== */
 .sc-v1-half.home .sc-v1-logo { transform: scale(1.2); }
@@ -1020,36 +226,15 @@ max-width: 1100px;
 .sc-v3-logo-a.default-logo { transform: translate(50%, -50%) scale(0.9); }
 
 /* ===== ОТЛАДОЧНАЯ ПАНЕЛЬ ===== */
-.debug-info {
-position: fixed;
-top: 5px;
-right: 5px;
-background: rgba(0,0,0,0.7);
-color: #0f0;
-font-size: 11px;
-font-family: monospace;
-padding: 4px 8px;
-border-radius: 4px;
-z-index: 9999;
-pointer-events: none;
-display: none;
-}
+.debug-info { position: fixed; top: 5px; right: 5px; background: rgba(0,0,0,0.7); color: #0f0; font-size: 11px; font-family: monospace; padding: 4px 8px; border-radius: 4px; z-index: 9999; pointer-events: none; display: none; }
 .debug-info.visible { display: block; }
 
 /* ===== АНИМАЦИЯ ПАУЗЫ ===== */
-.sc-v1-time.paused,
-.sc-v2 .time.paused,
-.sc-v3 .time.paused {
-animation: pulse 1s infinite;
-}
-@keyframes pulse {
-0%,100% { opacity:1; }
-50% { opacity:0.6; }
-}
+.sc-v1-time.paused, .sc-v2 .time.paused, .sc-v3 .time.paused { animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
 </style>
 </head>
 <body>
-<!-- отладочная панель -->
 <div id="debug-info" class="debug-info"></div>
 <!-- V1 -->
 <div id="sb-v1" class="sc-v1">
@@ -1101,9 +286,7 @@ animation: pulse 1s infinite;
 </div>
 <!-- V3 -->
 <div id="sb-v3" class="sc-v3 theme-green hide" style="--strip-width: 180px;">
-<div class="sc-v3-strip home">
-<span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span>
-</div>
+<div class="sc-v3-strip home"><span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span></div>
 <div class="sc-v3-center">
 <div class="sc-v3-scores">
 <span id="v3-sh" class="sc-v3-score">0</span>
@@ -1115,9 +298,7 @@ animation: pulse 1s infinite;
 <span id="v3-p" class="period">1 ТАЙМ</span>
 </div>
 </div>
-<div class="sc-v3-strip away">
-<span id="v3-na" class="sc-v3-name">СОПЕРНИК</span>
-</div>
+<div class="sc-v3-strip away"><span id="v3-na" class="sc-v3-name">СОПЕРНИК</span></div>
 <img id="v3-lh" class="sc-v3-logo-h" src="https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg" alt="Логотип ЛЕГИОН">
 <img id="v3-la" class="sc-v3-logo-a" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Логотип соперника">
 </div>
@@ -1149,9 +330,7 @@ animation: pulse 1s infinite;
 </div>
 <div class="intro-footer">
 <div class="intro-datetime">
-<span id="intro-date">05.03.2026</span> •
-<span id="intro-time">19:30</span> •
-<span id="intro-timezone">MSK</span>
+<span id="intro-date">05.03.2026</span> • <span id="intro-time">19:30</span> • <span id="intro-timezone">MSK</span>
 </div>
 <div class="intro-period-badge" id="intro-period">1 ТАЙМ</div>
 <div id="intro-goal-info" class="intro-goal-info" style="display: none;"></div>
@@ -1266,12 +445,12 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.16.0";
+const VERSION = "2.18.0";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Блокировки для предотвращения гонки состояний
+// ✅ БЛОКИРОВКИ
 let introTriggerLock = false;
 let goalTriggerLock = false;
 let realTimeInterval = null;
@@ -1282,10 +461,7 @@ let state = {
     opponentLogo: '',
     legionScore: 0,
     opponentScore: 0,
-    timer: {
-        running: false,
-        elapsed: 0
-    },
+    timer: { running: false, elapsed: 0 },
     period: '1 ТАЙМ',
     designVariant: 3,
     colorTheme: 'green',
@@ -1301,48 +477,30 @@ const elements = {
     v1: { lh: document.getElementById('v1-lh'), la: document.getElementById('v1-la'), nh: document.getElementById('v1-nh'), na: document.getElementById('v1-na'), sh: document.getElementById('v1-sh'), sa: document.getElementById('v1-sa'), p: document.getElementById('v1-p'), t: document.getElementById('v1-t') },
     v2: { lh: document.getElementById('v2-lh'), la: document.getElementById('v2-la'), nh: document.getElementById('v2-nh'), na: document.getElementById('v2-na'), sh: document.getElementById('v2-sh'), sa: document.getElementById('v2-sa'), p: document.getElementById('v2-p'), t: document.getElementById('v2-t') },
     v3: { lh: document.getElementById('v3-lh'), la: document.getElementById('v3-la'), nh: document.getElementById('v3-nh'), na: document.getElementById('v3-na'), sh: document.getElementById('v3-sh'), sa: document.getElementById('v3-sa'), p: document.getElementById('v3-p'), t: document.getElementById('v3-t') },
-    admin: {
-        na: document.getElementById('adm-na'),
-        la: document.getElementById('adm-la'),
-        sh: document.getElementById('adm-sh'),
-        sa: document.getElementById('adm-sa'),
-        p: document.getElementById('adm-p'),
-        animChk: document.getElementById('anim-chk'),
-        varBtns: document.querySelectorAll('.var-btn'),
-        colBtns: document.querySelectorAll('.col-btn'),
-        tmInd: document.getElementById('tm-ind'),
-        tmTxt: document.getElementById('tm-txt')
-    },
-    sbV1: document.getElementById('sb-v1'),
-    sbV2: document.getElementById('sb-v2'),
-    sbV3: document.getElementById('sb-v3'),
-    goalAnim: document.getElementById('goal-anim'),
-    logoAnim: document.getElementById('logo-anim'),
+    admin: { na: document.getElementById('adm-na'), la: document.getElementById('adm-la'), sh: document.getElementById('adm-sh'), sa: document.getElementById('adm-sa'), p: document.getElementById('adm-p'), animChk: document.getElementById('anim-chk'), varBtns: document.querySelectorAll('.var-btn'), colBtns: document.querySelectorAll('.col-btn'), tmInd: document.getElementById('tm-ind'), tmTxt: document.getElementById('tm-txt') },
+    sbV1: document.getElementById('sb-v1'), sbV2: document.getElementById('sb-v2'), sbV3: document.getElementById('sb-v3'),
+    goalAnim: document.getElementById('goal-anim'), logoAnim: document.getElementById('logo-anim'),
     toast: document.getElementById('toast'),
-    goalCard: document.getElementById('goal-card'),
-    goalCardLogo: document.getElementById('goal-card-logo'),
-    goalLastname: document.getElementById('goal-lastname'),
-    goalNumber: document.getElementById('goal-number'),
-    goalPosition: document.getElementById('goal-position'),
-    goalMinuteDisplay: document.getElementById('goal-minute-display'),
-    goalModal: document.getElementById('goal-modal'),
-    scorerButtons: document.getElementById('scorer-buttons'),
-    versionDisplay: document.getElementById('version-display'),
-    debugInfo: document.getElementById('debug-info'),
+    goalCard: document.getElementById('goal-card'), goalCardLogo: document.getElementById('goal-card-logo'),
+    goalLastname: document.getElementById('goal-lastname'), goalNumber: document.getElementById('goal-number'),
+    goalPosition: document.getElementById('goal-position'), goalMinuteDisplay: document.getElementById('goal-minute-display'),
+    goalModal: document.getElementById('goal-modal'), scorerButtons: document.getElementById('scorer-buttons'),
+    versionDisplay: document.getElementById('version-display'), debugInfo: document.getElementById('debug-info'),
     introOverlay: document.getElementById('intro-overlay'),
-    introLogoHome: document.getElementById('intro-logo-home'),
-    introLogoAway: document.getElementById('intro-logo-away'),
-    introNameHome: document.getElementById('intro-name-home'),
-    introNameAway: document.getElementById('intro-name-away'),
-    introDate: document.getElementById('intro-date'),
-    introTime: document.getElementById('intro-time'),
-    introPeriod: document.getElementById('intro-period'),
-    introGoalInfo: document.getElementById('intro-goal-info')
+    introLogoHome: document.getElementById('intro-logo-home'), introLogoAway: document.getElementById('intro-logo-away'),
+    introNameHome: document.getElementById('intro-name-home'), introNameAway: document.getElementById('intro-name-away'),
+    introDate: document.getElementById('intro-date'), introTime: document.getElementById('intro-time'),
+    introPeriod: document.getElementById('intro-period'), introGoalInfo: document.getElementById('intro-goal-info')
 };
 
-if (elements.versionDisplay) {
-    elements.versionDisplay.textContent = `v${VERSION}`;
-}
+if (elements.versionDisplay) elements.versionDisplay.textContent = `v${VERSION}`;
+
+// ✅ ОТЛАДКА
+console.log('=== ЗАГРУЗКА ===');
+console.log('VERSION:', VERSION);
+console.log('ADMIN:', ADMIN);
+console.log('URL:', window.location.href);
+console.log('================');
 
 function updateDebugInfo() {
     if (!DEBUG || !elements.debugInfo) return;
@@ -1352,32 +510,21 @@ function updateDebugInfo() {
 
 function updateRealTime() {
     const now = new Date();
-    const day = String(now.getDate()).padStart(2, '0');
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const year = now.getFullYear();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    if (elements.introDate) {
-        elements.introDate.textContent = `${day}.${month}.${year}`;
-    }
-    if (elements.introTime) {
-        elements.introTime.textContent = `${hours}:${minutes}`;
-    }
+    if (elements.introDate) elements.introDate.textContent = `${String(now.getDate()).padStart(2,'0')}.${String(now.getMonth()+1).padStart(2,'0')}.${now.getFullYear()}`;
+    if (elements.introTime) elements.introTime.textContent = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
 }
 
 function showIntro(period) {
-    if (!elements.introOverlay) return;
+    if (!elements.introOverlay) { console.log('❌ introOverlay не найден'); return; }
+    console.log('✅ Показываем заставку:', period);
     elements.introLogoHome.src = LEGION_LOGO;
     elements.introLogoAway.src = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
     elements.introNameHome.textContent = 'ЛЕГИОН';
     elements.introNameAway.textContent = state.opponentName;
     elements.introPeriod.textContent = period;
-    
     if (period === '2 ТАЙМ') {
-        const legionGoals = state.legionScore;
-        const opponentGoals = state.opponentScore;
         if (elements.introGoalInfo) {
-            let goalsHtml = `<div class="intro-score">${legionGoals} : ${opponentGoals}</div>`;
+            let goalsHtml = `<div class="intro-score">${state.legionScore} : ${state.opponentScore}</div>`;
             const legionGoalsList = state.goals.filter(g => g.team === 'legion');
             if (legionGoalsList.length > 0) {
                 goalsHtml += `<div class="intro-goal-scorers">`;
@@ -1394,15 +541,11 @@ function showIntro(period) {
             elements.introGoalInfo.style.display = 'flex';
         }
     } else {
-        if (elements.introGoalInfo) {
-            elements.introGoalInfo.style.display = 'none';
-        }
+        if (elements.introGoalInfo) elements.introGoalInfo.style.display = 'none';
     }
     updateRealTime();
     elements.introOverlay.classList.add('show');
-    setTimeout(() => {
-        elements.introOverlay.classList.remove('show');
-    }, 7000);
+    setTimeout(() => { elements.introOverlay.classList.remove('show'); console.log('✅ Заставка скрыта'); }, 7000);
 }
 
 async function loadPlayers() {
@@ -1417,17 +560,15 @@ async function loadPlayers() {
             if (orderA !== orderB) return orderA - orderB;
             return a.number - b.number;
         });
+        console.log('✅ Игроки загружены:', players.length);
     } catch (e) {
-        console.error('Не удалось загрузить игроков:', e);
+        console.error('❌ Ошибка загрузки игроков:', e);
         toast('❌ Ошибка загрузки игроков', 'error');
     }
 }
 
 function openGoalModal() {
-    if (!players.length) {
-        toast('Список игроков не загружен', 'error');
-        return;
-    }
+    if (!players.length) { toast('Список игроков не загружен', 'error'); return; }
     if (!elements.goalModal.classList.contains('hidden')) return;
     elements.goalModal.classList.remove('hidden');
 }
@@ -1435,38 +576,15 @@ function openGoalModal() {
 function selectScorerAndGoal(player) {
     state.legionScore++;
     elements.admin.sh.value = state.legionScore;
-    
     if (!state.goals) state.goals = [];
-    state.goals.push({
-        team: 'legion',
-        number: player.number,
-        lastName: player.lastName.toUpperCase(),
-        minute: Math.floor(currentTimerSeconds / 60)
-    });
-    
-    update(ref(db, DB_KEY), { 
-        legionScore: state.legionScore,
-        goals: state.goals
-    });
-    
+    state.goals.push({ team: 'legion', number: player.number, lastName: player.lastName.toUpperCase(), minute: Math.floor(currentTimerSeconds / 60) });
+    update(ref(db, DB_KEY), { legionScore: state.legionScore, goals: state.goals }).catch((e) => { console.error('❌ Ошибка сохранения гола:', e); toast('❌ Ошибка сохранения гола', 'error'); });
     const animData = { time: Date.now(), team: 'legion' };
-    set(ref(db, 'goal_trigger'), animData);
-    
+    set(ref(db, 'goal_trigger'), animData).then(() => console.log('✅ goal_trigger отправлен')).catch(console.error);
     setTimeout(() => {
-        const liveGoalData = {
-            team: 'legion',
-            scorer: {
-                lastName: player.lastName,
-                number: player.number,
-                position: player.position
-            },
-            minute: Math.floor(currentTimerSeconds / 60),
-            timestamp: Date.now()
-        };
-        set(ref(db, 'live_goal'), liveGoalData)
-            .then(() => setTimeout(() => set(ref(db, 'live_goal'), null), 8000));
+        const goalData = { team: 'legion', scorer: { lastName: player.lastName, number: player.number, position: player.position }, minute: Math.floor(currentTimerSeconds / 60), timestamp: Date.now() };
+        set(ref(db, 'live_goal'), goalData).then(() => { console.log('✅ live_goal отправлен'); setTimeout(() => set(ref(db, 'live_goal'), null), 8000); }).catch(console.error);
     }, 2000);
-    
     elements.goalModal.classList.add('hidden');
     toast('⚽ Гол!');
 }
@@ -1474,21 +592,11 @@ function selectScorerAndGoal(player) {
 function goalWithoutPlayerFromModal() {
     state.legionScore++;
     elements.admin.sh.value = state.legionScore;
-    
     if (!state.goals) state.goals = [];
-    state.goals.push({
-        team: 'legion',
-        minute: Math.floor(currentTimerSeconds / 60)
-    });
-    
-    update(ref(db, DB_KEY), { 
-        legionScore: state.legionScore,
-        goals: state.goals
-    });
-    
+    state.goals.push({ team: 'legion', minute: Math.floor(currentTimerSeconds / 60) });
+    update(ref(db, DB_KEY), { legionScore: state.legionScore, goals: state.goals }).catch((e) => { console.error('❌ Ошибка сохранения гола:', e); toast('❌ Ошибка сохранения гола', 'error'); });
     const animData = { time: Date.now(), team: 'legion' };
-    set(ref(db, 'goal_trigger'), animData);
-    
+    set(ref(db, 'goal_trigger'), animData).then(() => console.log('✅ goal_trigger отправлен')).catch(console.error);
     elements.goalModal.classList.add('hidden');
     toast('⚽ Гол!');
 }
@@ -1499,31 +607,23 @@ function renderPlayerButtons() {
     players.forEach(player => {
         const btn = document.createElement('button');
         btn.className = 'player-btn';
-        btn.innerHTML = `
-            <span class="player-number-badge">${player.number}</span>
-            <span>${player.shortName}</span>
-        `;
+        btn.innerHTML = `<span class="player-number-badge">${player.number}</span><span>${player.shortName}</span>`;
         btn.addEventListener('click', () => selectScorerAndGoal(player));
         elements.scorerButtons.appendChild(btn);
     });
 }
 
+// ✅ ОСНОВНЫЕ ДАННЫЕ
 const dataRef = ref(db, DB_KEY);
 onValue(dataRef, (snapshot) => {
     const data = snapshot.val();
     if (!data) return;
-    
     if (data.timer === undefined && data.timerSeconds !== undefined) {
-        state.timer = {
-            running: data.timerRunning || false,
-            elapsed: data.timerSeconds || 0
-        };
+        state.timer = { running: data.timerRunning || false, elapsed: data.timerSeconds || 0 };
     } else {
         state.timer = data.timer || { running: false, elapsed: 0 };
     }
-    
     if (state.timer.elapsed < 0) state.timer.elapsed = 0;
-    
     state.opponentName = data.opponentName || 'СОПЕРНИК';
     state.opponentLogo = data.opponentLogo || '';
     state.legionScore = data.legionScore || 0;
@@ -1533,22 +633,9 @@ onValue(dataRef, (snapshot) => {
     state.colorTheme = data.colorTheme || 'green';
     state.logoAnimEnabled = data.logoAnimEnabled !== undefined ? data.logoAnimEnabled : true;
     state.goals = data.goals || [];
-    
     currentTimerSeconds = state.timer.elapsed;
-    
-    if (!ADMIN) {
-        updateAllVariants();
-        updateVisibility();
-        applyColorTheme();
-        updateAnimCheckbox();
-    } else {
-        updateAdminPanel();
-        if (state.timer.running && !timerUpdateInterval) {
-            startTimerUpdate();
-        } else if (!state.timer.running && timerUpdateInterval) {
-            stopTimerUpdate();
-        }
-    }
+    if (!ADMIN) { updateAllVariants(); updateVisibility(); applyColorTheme(); updateAnimCheckbox(); }
+    else { updateAdminPanel(); if (state.timer.running && !timerUpdateInterval) startTimerUpdate(); else if (!state.timer.running && timerUpdateInterval) stopTimerUpdate(); }
     updateTimerDisplay();
     updateDebugInfo();
 });
@@ -1564,18 +651,10 @@ function updateAllVariants() {
         elements[v].sa.textContent = state.opponentScore;
         elements[v].p.textContent = state.period;
     });
-    if (state.opponentLogo === '') {
-        elements.v1.la.classList.add('away');
-        elements.v2.la.classList.add('away');
-    } else {
-        elements.v1.la.classList.remove('away');
-        elements.v2.la.classList.remove('away');
-    }
-    if (state.opponentLogo === '') {
-        elements.v3.la.classList.add('default-logo');
-    } else {
-        elements.v3.la.classList.remove('default-logo');
-    }
+    if (state.opponentLogo === '') { elements.v1.la.classList.add('away'); elements.v2.la.classList.add('away'); }
+    else { elements.v1.la.classList.remove('away'); elements.v2.la.classList.remove('away'); }
+    if (state.opponentLogo === '') elements.v3.la.classList.add('default-logo');
+    else elements.v3.la.classList.remove('default-logo');
     updateTimerDisplay();
     updateV3Width();
 }
@@ -1590,13 +669,9 @@ function updateTimerDisplay() {
     const m = Math.floor(currentTimerSeconds / 60);
     const s = currentTimerSeconds % 60;
     const timeStr = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
-    elements.v1.t.textContent = timeStr;
-    elements.v2.t.textContent = timeStr;
-    elements.v3.t.textContent = timeStr;
+    elements.v1.t.textContent = timeStr; elements.v2.t.textContent = timeStr; elements.v3.t.textContent = timeStr;
     const paused = !state.timer.running;
-    elements.v1.t.classList.toggle('paused', paused);
-    elements.v2.t.classList.toggle('paused', paused);
-    elements.v3.t.classList.toggle('paused', paused);
+    elements.v1.t.classList.toggle('paused', paused); elements.v2.t.classList.toggle('paused', paused); elements.v3.t.classList.toggle('paused', paused);
 }
 
 function updateVisibility() {
@@ -1606,9 +681,7 @@ function updateVisibility() {
 }
 
 function applyColorTheme() {
-    document.body.classList.forEach(cls => {
-        if (cls.startsWith('theme-')) document.body.classList.remove(cls);
-    });
+    document.body.classList.forEach(cls => { if (cls.startsWith('theme-')) document.body.classList.remove(cls); });
     document.body.classList.add('theme-' + state.colorTheme);
     elements.sbV3.className = elements.sbV3.className.replace(/theme-\w+/, '').trim();
     elements.sbV3.classList.add('theme-' + state.colorTheme);
@@ -1621,52 +694,31 @@ function updateAdminPanel() {
     elements.admin.sa.value = state.opponentScore;
     elements.admin.p.value = state.period;
     elements.admin.animChk.checked = state.logoAnimEnabled;
-    elements.admin.varBtns.forEach((btn, i) => {
-        btn.classList.toggle('act', i + 1 === state.designVariant);
-    });
-    elements.admin.colBtns.forEach(btn => {
-        btn.classList.toggle('act', btn.dataset.color === state.colorTheme);
-    });
-    if (state.timer.running) {
-        elements.admin.tmInd.classList.add('run');
-        elements.admin.tmTxt.textContent = 'Запущен';
-    } else {
-        elements.admin.tmInd.classList.remove('run');
-        elements.admin.tmTxt.textContent = 'Остановлен';
-    }
+    elements.admin.varBtns.forEach((btn, i) => { btn.classList.toggle('act', i + 1 === state.designVariant); });
+    elements.admin.colBtns.forEach(btn => { btn.classList.toggle('act', btn.dataset.color === state.colorTheme); });
+    if (state.timer.running) { elements.admin.tmInd.classList.add('run'); elements.admin.tmTxt.textContent = 'Запущен'; }
+    else { elements.admin.tmInd.classList.remove('run'); elements.admin.tmTxt.textContent = 'Остановлен'; }
 }
 
-function updateAnimCheckbox() {
-    if (elements.admin.animChk) {
-        elements.admin.animChk.checked = state.logoAnimEnabled;
-    }
-}
+function updateAnimCheckbox() { if (elements.admin.animChk) elements.admin.animChk.checked = state.logoAnimEnabled; }
 
-function validateImageUrl(url, callback) {
-    const img = new Image();
-    img.onload = () => callback(true);
-    img.onerror = () => callback(false);
-    img.src = url;
-}
+function validateImageUrl(url, callback) { const img = new Image(); img.onload = () => callback(true); img.onerror = () => callback(false); img.src = url; }
 
 function setVariant(variant) {
     if (state.designVariant === variant) return;
     state.designVariant = variant;
-    update(ref(db, DB_KEY), { designVariant: variant })
-        .then(() => toast('Вариант изменён'));
+    update(ref(db, DB_KEY), { designVariant: variant }).then(() => toast('Вариант изменён')).catch((e) => { console.error('❌ Ошибка сохранения варианта:', e); toast('❌ Ошибка сохранения', 'error'); });
 }
 
 function setColor(color) {
     if (state.colorTheme === color) return;
     state.colorTheme = color;
-    update(ref(db, DB_KEY), { colorTheme: color })
-        .then(() => toast('Тема изменена'));
+    update(ref(db, DB_KEY), { colorTheme: color }).then(() => toast('Тема изменена')).catch((e) => { console.error('❌ Ошибка сохранения темы:', e); toast('❌ Ошибка сохранения', 'error'); });
 }
 
 function toggleAnim() {
     state.logoAnimEnabled = elements.admin.animChk.checked;
-    update(ref(db, DB_KEY), { logoAnimEnabled: state.logoAnimEnabled })
-        .then(() => toast('Анимация лого ' + (state.logoAnimEnabled ? 'включена' : 'выключена')));
+    update(ref(db, DB_KEY), { logoAnimEnabled: state.logoAnimEnabled }).then(() => toast('Анимация лого ' + (state.logoAnimEnabled ? 'включена' : 'выключена'))).catch((e) => { console.error('❌ Ошибка сохранения анимации:', e); toast('❌ Ошибка сохранения', 'error'); });
 }
 
 function saveOpponent() {
@@ -1674,59 +726,40 @@ function saveOpponent() {
     const newLogo = elements.admin.la.value;
     if (newLogo) {
         validateImageUrl(newLogo, (valid) => {
-            if (!valid) {
-                toast('Неверный URL логотипа, сохранение отменено', 'error');
-                return;
-            }
-            state.opponentName = newName;
-            state.opponentLogo = newLogo;
-            update(ref(db, DB_KEY), { opponentName: newName, opponentLogo: newLogo })
-                .then(() => toast('Соперник сохранён'));
+            if (!valid) { toast('Неверный URL логотипа, сохранение отменено', 'error'); return; }
+            state.opponentName = newName; state.opponentLogo = newLogo;
+            update(ref(db, DB_KEY), { opponentName: newName, opponentLogo: newLogo }).then(() => toast('Соперник сохранён')).catch((e) => { console.error('❌ Ошибка сохранения соперника:', e); toast('❌ Ошибка сохранения', 'error'); });
         });
     } else {
-        state.opponentName = newName;
-        state.opponentLogo = '';
-        update(ref(db, DB_KEY), { opponentName: newName, opponentLogo: '' })
-            .then(() => toast('Соперник сохранён'));
+        state.opponentName = newName; state.opponentLogo = '';
+        update(ref(db, DB_KEY), { opponentName: newName, opponentLogo: '' }).then(() => toast('Соперник сохранён')).catch((e) => { console.error('❌ Ошибка сохранения соперника:', e); toast('❌ Ошибка сохранения', 'error'); });
     }
 }
 
 function updateScore() {
     state.legionScore = Math.max(0, parseInt(elements.admin.sh.value) || 0);
     state.opponentScore = Math.max(0, parseInt(elements.admin.sa.value) || 0);
-    elements.admin.sh.value = state.legionScore;
-    elements.admin.sa.value = state.opponentScore;
-    update(ref(db, DB_KEY), { legionScore: state.legionScore, opponentScore: state.opponentScore })
-        .then(() => toast('Счёт обновлён'));
+    elements.admin.sh.value = state.legionScore; elements.admin.sa.value = state.opponentScore;
+    update(ref(db, DB_KEY), { legionScore: state.legionScore, opponentScore: state.opponentScore }).then(() => toast('Счёт обновлён')).catch((e) => { console.error('❌ Ошибка обновления счёта:', e); toast('❌ Ошибка обновления счёта', 'error'); });
 }
 
 function resetScore() {
-    state.legionScore = 0;
-    state.opponentScore = 0;
-    state.goals = [];
-    elements.admin.sh.value = 0;
-    elements.admin.sa.value = 0;
-    update(ref(db, DB_KEY), { legionScore: 0, opponentScore: 0, goals: [] })
-        .then(() => toast('Счёт сброшен'));
+    state.legionScore = 0; state.opponentScore = 0; state.goals = [];
+    elements.admin.sh.value = 0; elements.admin.sa.value = 0;
+    update(ref(db, DB_KEY), { legionScore: 0, opponentScore: 0, goals: [] }).then(() => toast('Счёт сброшен')).catch((e) => { console.error('❌ Ошибка сброса счёта:', e); toast('❌ Ошибка сброса счёта', 'error'); });
 }
 
 function triggerGoal(team = null) {
     const goalData = { time: Date.now(), team: team };
-    set(ref(db, 'goal_trigger'), goalData)
-        .then(() => setTimeout(() => set(ref(db, 'goal_trigger'), null), 2000));
+    set(ref(db, 'goal_trigger'), goalData).then(() => setTimeout(() => set(ref(db, 'goal_trigger'), null), 2000)).catch(console.error);
 }
 
 function quickGoal(team) {
-    if (team === 'legion') {
-        openGoalModal();
-    } else {
+    if (team === 'legion') openGoalModal();
+    else {
         state.opponentScore++;
         elements.admin.sa.value = state.opponentScore;
-        update(ref(db, DB_KEY), { opponentScore: state.opponentScore })
-            .then(() => {
-                triggerGoal(team);
-                toast('Гол соперника');
-            });
+        update(ref(db, DB_KEY), { opponentScore: state.opponentScore }).then(() => { triggerGoal(team); toast('Гол соперника'); }).catch((e) => { console.error('❌ Ошибка гола соперника:', e); toast('❌ Ошибка гола', 'error'); });
     }
 }
 
@@ -1736,123 +769,75 @@ function startTimerUpdate() {
     timerUpdateInterval = setInterval(() => {
         const newElapsed = Math.floor((Date.now() - timerStartTime) / 1000);
         if (newElapsed !== state.timer.elapsed) {
-            update(ref(db, DB_KEY), {
-                timer: {
-                    running: true,
-                    elapsed: newElapsed
-                }
-            });
-            state.timer.elapsed = newElapsed;
-            currentTimerSeconds = newElapsed;
-            updateTimerDisplay();
-            updateAdminPanel();
+            update(ref(db, DB_KEY), { timer: { running: true, elapsed: newElapsed } }).catch(console.error);
+            state.timer.elapsed = newElapsed; currentTimerSeconds = newElapsed;
+            updateTimerDisplay(); updateAdminPanel();
         }
     }, 1000);
 }
 
-function stopTimerUpdate() {
-    if (timerUpdateInterval) {
-        clearInterval(timerUpdateInterval);
-        timerUpdateInterval = null;
-    }
-}
+function stopTimerUpdate() { if (timerUpdateInterval) { clearInterval(timerUpdateInterval); timerUpdateInterval = null; } }
 
 function timerPause() {
     if (!state.timer.running) return;
     stopTimerUpdate();
-    update(ref(db, DB_KEY), {
-        timer: {
-            running: false,
-            elapsed: state.timer.elapsed
-        }
-    })
-    .then(() => toast('Таймер остановлен'));
+    update(ref(db, DB_KEY), { timer: { running: false, elapsed: state.timer.elapsed } }).then(() => toast('Таймер остановлен')).catch((e) => { console.error('❌ Ошибка паузы таймера:', e); toast('❌ Ошибка таймера', 'error'); });
 }
 
 function timerStart() {
     if (state.timer.running) return;
     startTimerUpdate();
-    update(ref(db, DB_KEY), {
-        timer: {
-            running: true,
-            elapsed: state.timer.elapsed
-        }
-    })
-    .then(() => toast('Таймер запущен'));
+    update(ref(db, DB_KEY), { timer: { running: true, elapsed: state.timer.elapsed } }).then(() => toast('Таймер запущен')).catch((e) => { console.error('❌ Ошибка запуска таймера:', e); toast('❌ Ошибка таймера', 'error'); });
 }
 
 function timerReset() {
     stopTimerUpdate();
-    update(ref(db, DB_KEY), {
-        timer: {
-            running: false,
-            elapsed: 0
-        }
-    })
-    .then(() => toast('Таймер сброшен'));
+    update(ref(db, DB_KEY), { timer: { running: false, elapsed: 0 } }).then(() => toast('Таймер сброшен')).catch((e) => { console.error('❌ Ошибка сброса таймера:', e); toast('❌ Ошибка таймера', 'error'); });
 }
 
 function updatePeriod() {
     state.period = elements.admin.p.value;
-    if (state.period === 'ПЕРЕРЫВ' && state.timer.running) {
-        timerPause();
-    }
-    update(ref(db, DB_KEY), { period: state.period })
-        .then(() => toast('Период обновлён'));
+    if (state.period === 'ПЕРЕРЫВ' && state.timer.running) timerPause();
+    update(ref(db, DB_KEY), { period: state.period }).then(() => toast('Период обновлён')).catch((e) => { console.error('❌ Ошибка обновления периода:', e); toast('❌ Ошибка обновления', 'error'); });
 }
 
 function toast(msg, type = 'success') {
-    if (typeof msg === 'string') {
-        elements.toast.textContent = msg;
-    }
+    if (typeof msg === 'string') elements.toast.textContent = msg;
     elements.toast.classList.remove('error');
-    if (type === 'error') {
-        elements.toast.classList.add('error');
-    }
+    if (type === 'error') elements.toast.classList.add('error');
     elements.toast.classList.add('show');
     setTimeout(() => elements.toast.classList.remove('show'), 2000);
 }
 
-// Слушатель goal_trigger (анимация гола) - работает на всех страницах, кроме админки
+// ✅ ВСЕ FIREBASE СЛУШАТЕЛИ — ВНЕ БЛОКА ADMIN/ELSE (КАК В ВЕРСИИ 2.5.0)
+// ✅ СЛУШАТЕЛЬ #1: АНИМАЦИЯ ГОЛА
 onValue(ref(db, 'goal_trigger'), (snapshot) => {
     const trigger = snapshot.val();
-    if (!trigger) return;
-    
-    // В админке не показываем анимацию
-    if (ADMIN) return;
-    
-    if (goalTriggerLock) return;
-    
+    console.log('📡 goal_trigger:', trigger, 'ADMIN:', ADMIN);
+    if (!trigger || ADMIN) { console.log('⏸️ goal_trigger пропущен:', { trigger: !!trigger, ADMIN }); return; }
+    if (goalTriggerLock) { console.log('⏸️ goal_trigger заблокирован'); return; }
     const now = Date.now();
-    if (trigger.time && now - trigger.time > 10000) return;
-    
+    if (trigger.time && now - trigger.time > 10000) { console.log('⏸️ goal_trigger устарел'); return; }
     goalTriggerLock = true;
-    
+    console.log('✅ Анимация гола запущена!');
     elements.goalAnim.classList.add('active');
     setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
-    
     if (trigger.team === 'legion' && state.logoAnimEnabled) {
         elements.logoAnim.classList.remove('active');
         setTimeout(() => elements.logoAnim.classList.add('active'), 50);
         setTimeout(() => elements.logoAnim.classList.remove('active'), 1600);
     }
-    
-    setTimeout(() => {
-        goalTriggerLock = false;
-    }, 2000);
+    setTimeout(() => { goalTriggerLock = false; }, 2000);
 });
 
-// Слушатель live_goal (карточка гола) - работает на всех страницах, кроме админки
+// ✅ СЛУШАТЕЛЬ #2: КАРТОЧКА ГОЛА
 onValue(ref(db, 'live_goal'), (snapshot) => {
     const goal = snapshot.val();
-    if (!goal) return;
-    
-    // В админке не показываем карточку
-    if (ADMIN) return;
-    
+    console.log('📡 live_goal:', goal, 'ADMIN:', ADMIN);
+    if (!goal || ADMIN) { console.log('⏸️ live_goal пропущен:', { goal: !!goal, ADMIN }); return; }
     const now = Date.now();
-    if (goal.timestamp && now - goal.timestamp > 10000) return;
-    
+    if (goal.timestamp && now - goal.timestamp > 10000) { console.log('⏸️ live_goal устарел'); return; }
+    console.log('✅ Карточка гола запущена!');
     showGoalCard(goal);
 });
 
@@ -1860,63 +845,44 @@ function showGoalCard(goal) {
     if (!goal || goal.team !== 'legion') return;
     elements.goalLastname.textContent = goal.scorer.lastName.toUpperCase();
     elements.goalNumber.textContent = goal.scorer.number;
-    if (goal.scorer.position) {
-        elements.goalPosition.textContent = goal.scorer.position;
-        elements.goalPosition.style.display = 'inline-block';
-    } else {
-        elements.goalPosition.style.display = 'none';
-    }
+    if (goal.scorer.position) { elements.goalPosition.textContent = goal.scorer.position; elements.goalPosition.style.display = 'inline-block'; }
+    else elements.goalPosition.style.display = 'none';
     elements.goalMinuteDisplay.textContent = `${goal.minute}'`;
     elements.goalCard.classList.remove('hidden');
     setTimeout(() => elements.goalCard.classList.add('show'), 10);
     if (window.goalCardTimeout) clearTimeout(window.goalCardTimeout);
-    window.goalCardTimeout = setTimeout(() => {
-        elements.goalCard.classList.remove('show');
-        setTimeout(() => elements.goalCard.classList.add('hidden'), 400);
-    }, 5000);
+    window.goalCardTimeout = setTimeout(() => { elements.goalCard.classList.remove('show'); setTimeout(() => elements.goalCard.classList.add('hidden'), 400); }, 5000);
 }
 
-// Слушатель intro_trigger (заставка)
+// ✅ СЛУШАТЕЛЬ #3: ЗАСТАВКА (КАК В ВЕРСИИ 2.5.0)
 onValue(ref(db, 'intro_trigger'), (snapshot) => {
-    if (introTriggerLock) return;
-    
     const trigger = snapshot.val();
-    if (!trigger) return;
-    
+    console.log('📡 intro_trigger:', trigger, 'ADMIN:', ADMIN);
+    if (introTriggerLock) { console.log('⏸️ intro_trigger заблокирован'); return; }
+    if (!trigger) { console.log('⏸️ intro_trigger пустой'); return; }
     const now = Date.now();
-    if (trigger.time && now - trigger.time > 10000) return;
-    
+    if (trigger.time && now - trigger.time > 10000) { console.log('⏸️ intro_trigger устарел'); return; }
     introTriggerLock = true;
-    
-    if (trigger.type === 'first_half') {
-        showIntro('1 ТАЙМ');
-    } else if (trigger.type === 'second_half') {
-        showIntro('2 ТАЙМ');
-    }
-    
+    console.log('✅ Заставка запущена:', trigger.type);
+    if (trigger.type === 'first_half') showIntro('1 ТАЙМ');
+    else if (trigger.type === 'second_half') showIntro('2 ТАЙМ');
     setTimeout(() => {
-        set(ref(db, 'intro_trigger'), null)
-            .then(() => { introTriggerLock = false; });
-    }, 500);
+        set(ref(db, 'intro_trigger'), null).then(() => { console.log('✅ intro_trigger очищен'); introTriggerLock = false; }).catch((e) => { console.error('❌ Ошибка очистки триггера:', e); introTriggerLock = false; });
+    }, 2000);
 });
 
 // Очистка триггеров при загрузке
 set(ref(db, 'goal_trigger'), null).catch(() => {});
 set(ref(db, 'live_goal'), null).catch(() => {});
 
+// ✅ БЛОК ADMIN/ELSE — ТОЛЬКО ДЛЯ UI
 if (ADMIN) {
-    elements.sbV1.classList.add('hide');
-    elements.sbV2.classList.add('hide');
-    elements.sbV3.classList.add('hide');
+    console.log('✅ РЕЖИМ АДМИНКИ');
+    elements.sbV1.classList.add('hide'); elements.sbV2.classList.add('hide'); elements.sbV3.classList.add('hide');
     document.getElementById('admin').classList.remove('hide');
     loadPlayers().then(() => renderPlayerButtons());
-    
-    document.querySelectorAll('.var-btn').forEach(btn => {
-        btn.addEventListener('click', () => setVariant(parseInt(btn.dataset.variant)));
-    });
-    document.querySelectorAll('.col-btn').forEach(btn => {
-        btn.addEventListener('click', () => setColor(btn.dataset.color));
-    });
+    document.querySelectorAll('.var-btn').forEach(btn => { btn.addEventListener('click', () => setVariant(parseInt(btn.dataset.variant))); });
+    document.querySelectorAll('.col-btn').forEach(btn => { btn.addEventListener('click', () => setColor(btn.dataset.color)); });
     document.getElementById('anim-chk').addEventListener('change', toggleAnim);
     document.getElementById('saveOpponentBtn').addEventListener('click', saveOpponent);
     document.getElementById('updateScoreBtn').addEventListener('click', updateScore);
@@ -1927,72 +893,38 @@ if (ADMIN) {
     document.getElementById('updatePeriodBtn').addEventListener('click', updatePeriod);
     document.getElementById('goalLegionBtn').addEventListener('click', () => quickGoal('legion'));
     document.getElementById('goalOpponentBtn').addEventListener('click', () => quickGoal('opponent'));
-    
     document.getElementById('showIntro1Btn').addEventListener('click', () => {
-        set(ref(db, 'intro_trigger'), {
-            type: 'first_half',
-            time: Date.now()
-        })
-        .then(() => toast('Сигнал на заставку 1 тайма отправлен'));
+        set(ref(db, 'intro_trigger'), { type: 'first_half', time: Date.now() }).then(() => toast('Сигнал на заставку 1 тайма отправлен')).catch((e) => { console.error('❌ Ошибка отправки заставки:', e); toast('❌ Ошибка отправки заставки', 'error'); });
     });
-    
     document.getElementById('showIntro2Btn').addEventListener('click', () => {
-        set(ref(db, 'intro_trigger'), {
-            type: 'second_half',
-            time: Date.now()
-        })
-        .then(() => toast('Сигнал на заставку 2 тайма отправлен'));
+        set(ref(db, 'intro_trigger'), { type: 'second_half', time: Date.now() }).then(() => toast('Сигнал на заставку 2 тайма отправлен')).catch((e) => { console.error('❌ Ошибка отправки заставки:', e); toast('❌ Ошибка отправки заставки', 'error'); });
     });
-    
-    elements.goalModal.addEventListener('click', (e) => {
-        if (e.target === elements.goalModal) {
-            elements.goalModal.classList.add('hidden');
-        }
-    });
-    
+    elements.goalModal.addEventListener('click', (e) => { if (e.target === elements.goalModal) elements.goalModal.classList.add('hidden'); });
     if (realTimeInterval) clearInterval(realTimeInterval);
     realTimeInterval = setInterval(updateRealTime, 60000);
     updateRealTime();
     updateAdminPanel();
 } else {
-    elements.goalAnim.classList.remove('active');
-    elements.logoAnim.classList.remove('active');
-    elements.goalCard.classList.add('hidden');
-    updateAllVariants();
-    updateVisibility();
-    applyColorTheme();
-    
+    console.log('✅ РЕЖИМ ТАБЛО');
+    elements.goalAnim.classList.remove('active'); elements.logoAnim.classList.remove('active'); elements.goalCard.classList.add('hidden');
+    updateAllVariants(); updateVisibility(); applyColorTheme();
     if (realTimeInterval) clearInterval(realTimeInterval);
     realTimeInterval = setInterval(updateRealTime, 60000);
     updateRealTime();
 }
 
 window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
-
-window.addEventListener('beforeunload', () => {
-    if (timerUpdateInterval) clearInterval(timerUpdateInterval);
-    if (realTimeInterval) clearInterval(realTimeInterval);
-});
+window.addEventListener('beforeunload', () => { if (timerUpdateInterval) clearInterval(timerUpdateInterval); if (realTimeInterval) clearInterval(realTimeInterval); });
 </script>
 
 <script>
 (function finalCleanup() {
 document.addEventListener('DOMContentLoaded', function() {
 const body = document.body;
-const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, {
-acceptNode: function(node) {
-if (node.parentNode === body && node.textContent.trim() !== '') {
-return NodeFilter.FILTER_ACCEPT;
-}
-return NodeFilter.FILTER_SKIP;
-}
-});
-while (walker.nextNode()) {
-walker.currentNode.remove();
-}
+const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, { acceptNode: function(node) { if (node.parentNode === body && node.textContent.trim() !== '') return NodeFilter.FILTER_ACCEPT; return NodeFilter.FILTER_SKIP; } });
+while (walker.nextNode()) walker.currentNode.remove();
 });
 })();
 </script>
 </body>
 </html>
-```
