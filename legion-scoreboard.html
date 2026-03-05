@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -120,10 +121,6 @@ body {
   color: #ffcc00;
   font-variant-numeric: tabular-nums;
 }
-.sc-v1-time.paused,
-.sc-v2-time.paused,
-.sc-v3-time.paused { animation: pulse 1s infinite; }
-@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
 
 /* ===== ВАРИАНТ 2: TV СТИЛЬ ===== */
 .sc-v2 {
@@ -767,7 +764,7 @@ body {
   transform: translate(50%, -50%) scale(0.9);
 }
 
-/* ===== ОТЛАДОЧНАЯ ПАНЕЛЬ (опционально) ===== */
+/* ===== ОТЛАДОЧНАЯ ПАНЕЛЬ ===== */
 .debug-info {
   position: fixed;
   top: 5px;
@@ -784,6 +781,18 @@ body {
 }
 .debug-info.visible {
   display: block;
+}
+
+/* ===== АНИМАЦИЯ ПАУЗЫ ДЛЯ ВСЕХ ВАРИАНТОВ ===== */
+.sc-v1-time.paused,
+.sc-v2 .time.paused,
+.sc-v3 .time.paused {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse { 
+  0%,100% { opacity:1; } 
+  50% { opacity:0.6; } 
 }
 </style>
 </head>
@@ -880,7 +889,6 @@ body {
     <h3>⚽ Выберите автора гола</h3>
     <div class="modal-body">
       <div id="scorer-buttons" class="player-buttons"></div>
-      <!-- Текст кнопки изменён: убраны скобки -->
       <button class="player-btn no-player" onclick="goalWithoutPlayerFromModal()">⚽ Без игрока</button>
     </div>
   </div>
@@ -972,21 +980,17 @@ const firebaseConfig = {
 };
 
 const LEGION_LOGO = "https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg";
-
-// ===== ИСПРАВЛЕНО: прямая ссылка на main (всегда последняя версия) =====
 const PLAYERS_JSON_URL = "https://raw.githubusercontent.com/e-lis777/scoreboard/main/data/players.json";
-
 const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png";
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
 
-const VERSION = "2.6.2"; // Новая версия с исправленной ссылкой на игроков и починкой таймера
+const VERSION = "2.6.3";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Состояние приложения
 let state = {
   opponentName: 'СОПЕРНИК',
   opponentLogo: '',
@@ -994,7 +998,7 @@ let state = {
   opponentScore: 0,
   timer: {
     running: false,
-    elapsed: 0      // количество секунд, прошедших с начала таймера
+    elapsed: 0
   },
   period: '1 ТАЙМ',
   designVariant: 3,
@@ -1002,12 +1006,8 @@ let state = {
   logoAnimEnabled: true
 };
 
-// Текущее отображаемое значение таймера (берётся из Firebase)
 let currentTimerSeconds = 0;
-
-// Для админки: интервал обновления таймера
 let timerUpdateInterval = null;
-
 let players = [];
 
 const elements = {
@@ -1048,14 +1048,12 @@ if (elements.versionDisplay) {
   elements.versionDisplay.textContent = `v${VERSION}`;
 }
 
-// Отладочная информация
 function updateDebugInfo() {
   if (!DEBUG || !elements.debugInfo) return;
   elements.debugInfo.innerHTML = `v${VERSION} | timer: ${currentTimerSeconds}s | running: ${state.timer.running}`;
   elements.debugInfo.classList.add('visible');
 }
 
-// Загрузка списка игроков
 async function loadPlayers() {
   try {
     const response = await fetch(PLAYERS_JSON_URL);
@@ -1074,7 +1072,6 @@ async function loadPlayers() {
   }
 }
 
-// Модальное окно выбора игрока
 function openGoalModal() {
   if (!players.length) {
     toast('Список игроков не загружен');
@@ -1139,15 +1136,12 @@ function renderPlayerButtons() {
   });
 }
 
-// Подписка на изменения в Firebase
 const dataRef = ref(db, DB_KEY);
 onValue(dataRef, (snapshot) => {
   const data = snapshot.val();
   if (!data) return;
   
-  // Конвертация старого формата таймера (если есть)
   if (data.timer === undefined && data.timerSeconds !== undefined) {
-    // Старая структура: timerSeconds, timerRunning
     state.timer = {
       running: data.timerRunning || false,
       elapsed: data.timerSeconds || 0
@@ -1156,10 +1150,8 @@ onValue(dataRef, (snapshot) => {
     state.timer = data.timer || { running: false, elapsed: 0 };
   }
   
-  // Защита от отрицательного elapsed
   if (state.timer.elapsed < 0) state.timer.elapsed = 0;
   
-  // Обновляем остальные поля
   state.opponentName = data.opponentName || 'СОПЕРНИК';
   state.opponentLogo = data.opponentLogo || '';
   state.legionScore = data.legionScore || 0;
@@ -1169,20 +1161,16 @@ onValue(dataRef, (snapshot) => {
   state.colorTheme = data.colorTheme || 'green';
   state.logoAnimEnabled = data.logoAnimEnabled !== undefined ? data.logoAnimEnabled : true;
   
-  // Текущее значение таймера для отображения
   currentTimerSeconds = state.timer.elapsed;
   
   if (!ADMIN) {
-    // Клиентское табло
     updateAllVariants();
     updateVisibility();
     applyColorTheme();
     updateAnimCheckbox();
   } else {
-    // Админка
     updateAdminPanel();
     
-    // ===== ИСПРАВЛЕНО: запускаем интервал ТОЛЬКО если таймер запущен =====
     if (state.timer.running && !timerUpdateInterval) {
       startTimerUpdate();
     } else if (!state.timer.running && timerUpdateInterval) {
@@ -1194,7 +1182,6 @@ onValue(dataRef, (snapshot) => {
   updateDebugInfo();
 });
 
-// Функции обновления интерфейса
 function updateAllVariants() {
   const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
   ['v1', 'v2', 'v3'].forEach(v => {
@@ -1372,7 +1359,6 @@ function quickGoal(team) {
   }
 }
 
-// Логика таймера (только в админке)
 function startTimerUpdate() {
   if (timerUpdateInterval) clearInterval(timerUpdateInterval);
   timerUpdateInterval = setInterval(() => {
@@ -1496,7 +1482,6 @@ function showGoalCard(goal) {
   }, 5000);
 }
 
-// Инициализация в зависимости от режима
 if (ADMIN) {
   elements.sbV1.classList.add('hide');
   elements.sbV2.classList.add('hide');
@@ -1526,8 +1511,6 @@ if (ADMIN) {
       elements.goalModal.classList.add('hidden');
     }
   });
-  
-  // Убрали запуск таймера отсюда - теперь он в onValue
   
   updateAdminPanel();
 } else {
@@ -1562,3 +1545,4 @@ window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 </script>
 </body>
 </html>
+```
