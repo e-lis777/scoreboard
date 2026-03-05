@@ -2053,5 +2053,72 @@ walker.currentNode.remove();
 });
 })();
 </script>
+    <script>
+// ===== ДИАГНОСТИКА И ИСПРАВЛЕНИЕ =====
+(function fixIntroTrigger() {
+  console.log('🔧 Диагностика запущена...');
+  
+  // Проверяем, есть ли Firebase
+  setTimeout(() => {
+    try {
+      import("https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js")
+        .then(({ initializeApp }) => {
+          import("https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js")
+            .then(({ getDatabase, ref, set, onValue }) => {
+              
+              const firebaseConfig = {
+                apiKey: "AIzaSyAFb-yJaI7WJFcTx_wAFmSngupHqUNai1I",
+                authDomain: "scoreboard-6d34c.firebaseapp.com",
+                databaseURL: "https://scoreboard-6d34c-default-rtdb.europe-west1.firebasedatabase.app",
+                projectId: "scoreboard-6d34c",
+                storageBucket: "scoreboard-6d34c.firebasestorage.app",
+                messagingSenderId: "11785107743",
+                appId: "1:11785107743:web:a8faa98d6aaf4462dd582a"
+              };
+              
+              const app = initializeApp(firebaseConfig, "diagnostic");
+              const db = getDatabase(app);
+              
+              console.log('✅ Firebase инициализирован');
+              
+              // Тестовая запись
+              set(ref(db, 'diagnostic_test'), {
+                message: 'test',
+                time: Date.now()
+              }).then(() => {
+                console.log('✅ Тестовая запись успешна!');
+                
+                // Если тест прошел, значит проблема в коде
+                alert('✅ Firebase работает! Проблема в коде приложения');
+              }).catch(err => {
+                console.error('❌ Ошибка записи:', err);
+                alert('❌ Ошибка доступа к Firebase. Проверь правила базы данных');
+              });
+            });
+        });
+    } catch (e) {
+      console.error('❌ Критическая ошибка:', e);
+    }
+  }, 2000);
+  
+  // Добавляем кнопки принудительно
+  setTimeout(() => {
+    const adminDiv = document.getElementById('admin');
+    if (adminDiv && !adminDiv.classList.contains('hide')) {
+      const btns = document.querySelectorAll('.btn-p');
+      btns.forEach(btn => {
+        if (btn.textContent.includes('1 ТАЙМ') || btn.textContent.includes('2 ТАЙМ')) {
+          console.log('🔧 Найдена кнопка:', btn.textContent);
+          
+          // Переопределяем обработчик
+          btn.onclick = () => {
+            alert('Кнопка нажата!');
+          };
+        }
+      });
+    }
+  }, 3000);
+})();
+</script>
 </body>
 </html>
