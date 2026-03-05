@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -1248,7 +1247,7 @@ animation: pulse 1s infinite;
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+import { getDatabase, ref, set, onValue, update, get } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAFb-yJaI7WJFcTx_wAFmSngupHqUNai1I",
@@ -1267,7 +1266,7 @@ const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
 
-const VERSION = "2.17.0";
+const VERSION = "2.18.0";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1807,7 +1806,7 @@ function toast(msg, type = 'success') {
     setTimeout(() => elements.toast.classList.remove('show'), 2000);
 }
 
-// ===== ВСЕ СЛУШАТЕЛИ FIREBASE (работают на всех страницах) =====
+// ===== ВСЕ СЛУШАТЕЛИ FIREBASE =====
 
 // Слушатель анимации гола
 onValue(ref(db, 'goal_trigger'), (snapshot) => {
@@ -1856,7 +1855,7 @@ onValue(ref(db, 'live_goal'), (snapshot) => {
     }, 5000);
 });
 
-// Слушатель заставки (по тому же принципу, что и анимация гола)
+// Слушатель заставки
 onValue(ref(db, 'intro_trigger'), (snapshot) => {
     const trigger = snapshot.val();
     if (!trigger || ADMIN) return;
@@ -1870,7 +1869,7 @@ onValue(ref(db, 'intro_trigger'), (snapshot) => {
         showIntro('2 ТАЙМ');
     }
     
-    // Очищаем триггер через 500мс (как в goal_trigger)
+    // Очищаем триггер через 500мс
     setTimeout(() => {
         set(ref(db, 'intro_trigger'), null).catch(console.error);
     }, 500);
@@ -1905,21 +1904,48 @@ if (ADMIN) {
     document.getElementById('goalLegionBtn').addEventListener('click', () => quickGoal('legion'));
     document.getElementById('goalOpponentBtn').addEventListener('click', () => quickGoal('opponent'));
     
-    // Кнопки для заставок - отправляют сигнал в Firebase
+    // ИСПРАВЛЕННЫЕ КНОПКИ ДЛЯ ЗАСТАВОК
     document.getElementById('showIntro1Btn').addEventListener('click', () => {
-        set(ref(db, 'intro_trigger'), {
+        console.log('🔴 Нажата кнопка 1 ТАЙМ');
+        const triggerRef = ref(db, 'intro_trigger');
+        set(triggerRef, {
             type: 'first_half',
             time: Date.now()
-        }).catch(console.error);
-        toast('Сигнал на заставку 1 тайма отправлен');
+        })
+        .then(() => {
+            console.log('✅ Триггер 1 тайма успешно отправлен');
+            toast('Сигнал на заставку 1 тайма отправлен');
+            
+            // Проверяем, что записалось
+            get(triggerRef).then(snapshot => {
+                console.log('Проверка записи:', snapshot.val());
+            });
+        })
+        .catch((error) => {
+            console.error('❌ Ошибка отправки триггера:', error);
+            toast('❌ Ошибка отправки', 'error');
+        });
     });
     
     document.getElementById('showIntro2Btn').addEventListener('click', () => {
-        set(ref(db, 'intro_trigger'), {
+        console.log('🔴 Нажата кнопка 2 ТАЙМ');
+        const triggerRef = ref(db, 'intro_trigger');
+        set(triggerRef, {
             type: 'second_half',
             time: Date.now()
-        }).catch(console.error);
-        toast('Сигнал на заставку 2 тайма отправлен');
+        })
+        .then(() => {
+            console.log('✅ Триггер 2 тайма успешно отправлен');
+            toast('Сигнал на заставку 2 тайма отправлен');
+            
+            get(triggerRef).then(snapshot => {
+                console.log('Проверка записи:', snapshot.val());
+            });
+        })
+        .catch((error) => {
+            console.error('❌ Ошибка отправки триггера:', error);
+            toast('❌ Ошибка отправки', 'error');
+        });
     });
     
     elements.goalModal.addEventListener('click', (e) => {
@@ -1970,4 +1996,3 @@ walker.currentNode.remove();
 </script>
 </body>
 </html>
-```
