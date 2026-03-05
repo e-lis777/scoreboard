@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -881,7 +880,8 @@ body {
     <h3>⚽ Выберите автора гола</h3>
     <div class="modal-body">
       <div id="scorer-buttons" class="player-buttons"></div>
-      <button class="player-btn no-player" onclick="goalWithoutPlayerFromModal()">⚽ Без игрока (автогол/неизвестно)</button>
+      <!-- Текст кнопки изменён: убраны скобки -->
+      <button class="player-btn no-player" onclick="goalWithoutPlayerFromModal()">⚽ Без игрока</button>
     </div>
   </div>
 </div>
@@ -981,7 +981,7 @@ const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
 
-const VERSION = "2.6.1"; // Новая версия с исправленной ссылкой на игроков
+const VERSION = "2.6.2"; // Новая версия с исправленной ссылкой на игроков и починкой таймера
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1181,6 +1181,13 @@ onValue(dataRef, (snapshot) => {
   } else {
     // Админка
     updateAdminPanel();
+    
+    // ===== ИСПРАВЛЕНО: запускаем интервал ТОЛЬКО если таймер запущен =====
+    if (state.timer.running && !timerUpdateInterval) {
+      startTimerUpdate();
+    } else if (!state.timer.running && timerUpdateInterval) {
+      stopTimerUpdate();
+    }
   }
   
   updateTimerDisplay();
@@ -1520,9 +1527,7 @@ if (ADMIN) {
     }
   });
   
-  if (state.timer.running) {
-    startTimerUpdate();
-  }
+  // Убрали запуск таймера отсюда - теперь он в onValue
   
   updateAdminPanel();
 } else {
@@ -1557,4 +1562,3 @@ window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 </script>
 </body>
 </html>
-```
