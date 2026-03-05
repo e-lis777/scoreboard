@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -630,6 +631,9 @@ body {
   opacity: 1;
   visibility: visible;
 }
+.intro-overlay.hide {
+  display: none !important;
+}
 .intro-overlay::before {
   content: '';
   position: absolute;
@@ -654,21 +658,21 @@ body {
   background-image: 
       repeating-linear-gradient(35deg, 
           transparent, 
-          transparent 125px,
-          rgba(76, 175, 80, 0.25) 125px,
-          rgba(76, 175, 80, 0.25) 225px),
+          transparent 625px,
+          rgba(76, 175, 80, 0.3) 625px,
+          rgba(76, 175, 80, 0.3) 1125px),
       repeating-linear-gradient(125deg, 
           transparent, 
-          transparent 150px,
-          rgba(76, 175, 80, 0.2) 150px,
-          rgba(76, 175, 80, 0.2) 275px);
+          transparent 750px,
+          rgba(76, 175, 80, 0.25) 750px,
+          rgba(76, 175, 80, 0.25) 1375px);
   z-index: -1;
   opacity: 0.8;
-  animation: linesMove 15s linear infinite;
+  animation: linesMove 20s linear infinite;
 }
 @keyframes linesMove {
   0% { background-position: 0 0; }
-  100% { background-position: 300px 300px; }
+  100% { background-position: 500px 500px; }
 }
 .intro-card {
   position: relative;
@@ -686,7 +690,7 @@ body {
 }
 .intro-teams {
   display: flex;
-  align-items: flex-end; /* Выравнивание по нижнему краю */
+  align-items: center; /* Выравнивание по центру логотипов */
   justify-content: center;
   gap: 80px;
   margin-bottom: 30px;
@@ -737,7 +741,7 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-  min-height: 60px; /* Фиксированная высота для выравнивания */
+  min-height: 60px;
   display: flex;
   align-items: center;
 }
@@ -1230,7 +1234,7 @@ body {
     <div class="card"><h3>📺 Заставки</h3>
       <div class="btns">
         <button class="btn btn-p" id="showIntro1Btn">🎬 1 ТАЙМ</button>
-        <button class="btn btn-p" id="showIntro2Btn">🎬 2 ТАЙМ (со счётом)</button>
+        <button class="btn btn-p" id="showIntro2Btn">🎬 2 ТАЙМ</button>
       </div>
     </div>
   </div>
@@ -1899,6 +1903,12 @@ if (ADMIN) {
   elements.sbV2.classList.add('hide');
   elements.sbV3.classList.add('hide');
   document.getElementById('admin').classList.remove('hide');
+  
+  // Скрываем заставку в админке
+  if (elements.introOverlay) {
+    elements.introOverlay.classList.add('hide');
+  }
+  
   loadPlayers().then(() => renderPlayerButtons());
   
   document.querySelectorAll('.var-btn').forEach(btn => {
@@ -1975,3 +1985,4 @@ window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 </script>
 </body>
 </html>
+```
