@@ -1266,7 +1266,7 @@ const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
 
-const VERSION = "2.18.0";
+const VERSION = "2.19.0";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1361,6 +1361,7 @@ function updateRealTime() {
 
 function showIntro(period) {
     if (!elements.introOverlay) return;
+    console.log(`🎬 Показываем заставку ${period}`);
     
     elements.introLogoHome.src = LEGION_LOGO;
     elements.introLogoAway.src = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
@@ -1413,8 +1414,9 @@ async function loadPlayers() {
             if (orderA !== orderB) return orderA - orderB;
             return a.number - b.number;
         });
+        console.log('✅ Игроки загружены');
     } catch (e) {
-        console.error('Не удалось загрузить игроков:', e);
+        console.error('❌ Ошибка загрузки игроков:', e);
         toast('❌ Ошибка загрузки игроков', 'error');
     }
 }
@@ -1429,6 +1431,7 @@ function openGoalModal() {
 }
 
 function selectScorerAndGoal(player) {
+    console.log('⚽ Гол Легиона:', player);
     state.legionScore++;
     elements.admin.sh.value = state.legionScore;
     
@@ -1445,6 +1448,7 @@ function selectScorerAndGoal(player) {
         goals: state.goals
     }).catch(console.error);
     
+    console.log('📤 Отправляем goal_trigger');
     const animData = { time: Date.now(), team: 'legion' };
     set(ref(db, 'goal_trigger'), animData).catch(console.error);
     
@@ -1459,6 +1463,7 @@ function selectScorerAndGoal(player) {
             minute: Math.floor(currentTimerSeconds / 60),
             timestamp: Date.now()
         };
+        console.log('📤 Отправляем live_goal:', liveGoalData);
         set(ref(db, 'live_goal'), liveGoalData)
             .then(() => setTimeout(() => set(ref(db, 'live_goal'), null), 8000))
             .catch(console.error);
@@ -1469,6 +1474,7 @@ function selectScorerAndGoal(player) {
 }
 
 function goalWithoutPlayerFromModal() {
+    console.log('⚽ Гол без игрока');
     state.legionScore++;
     elements.admin.sh.value = state.legionScore;
     
@@ -1806,16 +1812,28 @@ function toast(msg, type = 'success') {
     setTimeout(() => elements.toast.classList.remove('show'), 2000);
 }
 
-// ===== ВСЕ СЛУШАТЕЛИ FIREBASE =====
+// ===== ИСПРАВЛЕННЫЕ СЛУШАТЕЛИ FIREBASE =====
 
 // Слушатель анимации гола
 onValue(ref(db, 'goal_trigger'), (snapshot) => {
     const trigger = snapshot.val();
-    if (!trigger || ADMIN) return;
+    console.log('📡 goal_trigger получен:', trigger);
+    
+    if (!trigger) return;
+    
+    // Если мы в админке - логируем, но не показываем анимацию
+    if (ADMIN) {
+        console.log('Админка: получен goal_trigger', trigger);
+        return;
+    }
     
     const now = Date.now();
-    if (trigger.time && now - trigger.time > 10000) return;
+    if (trigger.time && now - trigger.time > 10000) {
+        console.log('goal_trigger устарел');
+        return;
+    }
     
+    console.log('⚽ ПОКАЗЫВАЕМ АНИМАЦИЮ ГОЛА');
     elements.goalAnim.classList.add('active');
     setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
     
@@ -1829,12 +1847,24 @@ onValue(ref(db, 'goal_trigger'), (snapshot) => {
 // Слушатель карточки гола
 onValue(ref(db, 'live_goal'), (snapshot) => {
     const goal = snapshot.val();
-    if (!goal || ADMIN) return;
+    console.log('📡 live_goal получен:', goal);
+    
+    if (!goal) return;
+    
+    if (ADMIN) {
+        console.log('Админка: получен live_goal', goal);
+        return;
+    }
     
     const now = Date.now();
-    if (goal.timestamp && now - goal.timestamp > 10000) return;
+    if (goal.timestamp && now - goal.timestamp > 10000) {
+        console.log('live_goal устарел');
+        return;
+    }
     
-    if (!goal || goal.team !== 'legion') return;
+    if (goal.team !== 'legion') return;
+    
+    console.log('📋 ПОКАЗЫВАЕМ КАРТОЧКУ ГОЛА');
     elements.goalLastname.textContent = goal.scorer.lastName.toUpperCase();
     elements.goalNumber.textContent = goal.scorer.number;
     
@@ -1858,10 +1888,20 @@ onValue(ref(db, 'live_goal'), (snapshot) => {
 // Слушатель заставки
 onValue(ref(db, 'intro_trigger'), (snapshot) => {
     const trigger = snapshot.val();
-    if (!trigger || ADMIN) return;
+    console.log('📡 intro_trigger получен:', trigger);
+    
+    if (!trigger) return;
+    
+    if (ADMIN) {
+        console.log('Админка: получен intro_trigger', trigger);
+        return;
+    }
     
     const now = Date.now();
-    if (trigger.time && now - trigger.time > 10000) return;
+    if (trigger.time && now - trigger.time > 10000) {
+        console.log('intro_trigger устарел');
+        return;
+    }
     
     if (trigger.type === 'first_half') {
         showIntro('1 ТАЙМ');
@@ -1904,7 +1944,7 @@ if (ADMIN) {
     document.getElementById('goalLegionBtn').addEventListener('click', () => quickGoal('legion'));
     document.getElementById('goalOpponentBtn').addEventListener('click', () => quickGoal('opponent'));
     
-    // ИСПРАВЛЕННЫЕ КНОПКИ ДЛЯ ЗАСТАВОК
+    // Кнопки для заставок
     document.getElementById('showIntro1Btn').addEventListener('click', () => {
         console.log('🔴 Нажата кнопка 1 ТАЙМ');
         const triggerRef = ref(db, 'intro_trigger');
@@ -1915,11 +1955,6 @@ if (ADMIN) {
         .then(() => {
             console.log('✅ Триггер 1 тайма успешно отправлен');
             toast('Сигнал на заставку 1 тайма отправлен');
-            
-            // Проверяем, что записалось
-            get(triggerRef).then(snapshot => {
-                console.log('Проверка записи:', snapshot.val());
-            });
         })
         .catch((error) => {
             console.error('❌ Ошибка отправки триггера:', error);
@@ -1937,10 +1972,6 @@ if (ADMIN) {
         .then(() => {
             console.log('✅ Триггер 2 тайма успешно отправлен');
             toast('Сигнал на заставку 2 тайма отправлен');
-            
-            get(triggerRef).then(snapshot => {
-                console.log('Проверка записи:', snapshot.val());
-            });
         })
         .catch((error) => {
             console.error('❌ Ошибка отправки триггера:', error);
