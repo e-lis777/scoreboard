@@ -686,10 +686,10 @@ margin: 0 auto;
 0% { transform: scale(0.9); opacity: 0; }
 100% { transform: scale(1); opacity: 1; }
 }
-/* ✅ ИДЕАЛЬНОЕ ВЫРАВНИВАНИЕ ЛОГОТИПОВ И НАЗВАНИЙ — v2.35.0 */
+/* ✅ ВЫРАВНИВАНИЕ ЛОГОТИПОВ И НАЗВАНИЙ */
 .intro-teams {
 display: flex;
-align-items: center; /* ✅ ЦЕНТРЫ .intro-team НА ОДНОЙ ЛИНИИ */
+align-items: center;
 justify-content: center;
 gap: 100px;
 margin-bottom: 30px;
@@ -707,7 +707,6 @@ opacity: 0;
 width: auto;
 min-width: 300px;
 max-width: 50vw;
-/* ✅ УБРАЛИ ФИКСИРОВАННУЮ ВЫСОТУ */
 }
 .intro-team.home {
 animation: slideInLeft 0.6s 0.2s ease-out forwards;
@@ -723,15 +722,15 @@ animation: slideInRight 0.6s 0.2s ease-out forwards;
 0% { transform: translateX(100px); opacity: 0; }
 100% { transform: translateX(0); opacity: 1; }
 }
-/* ✅ КОНТЕЙНЕР ДЛЯ ЛОГОТИПА — ОДИНАКОВЫЙ ДЛЯ ОБЕИХ КОМАНД */
+/* ✅ КОНТЕЙНЕР ДЛЯ ЛОГОТИПА */
 .intro-logo-container {
 width: 600px;
 height: 600px;
 display: flex;
-align-items: center; /* ✅ ЦЕНТР ЛОГОТИПА ПО ВЕРТИКАЛИ */
-justify-content: center; /* ✅ ЦЕНТР ЛОГОТИПА ПО ГОРИЗОНТАЛИ */
+align-items: center;
+justify-content: center;
 }
-/* ✅ ЛОГОТИПЫ: ЛЕГИОН ВСЕГДА НА 25% БОЛЬШЕ */
+/* ✅ ЛОГОТИПЫ */
 .intro-logo {
 width: 600px;
 height: 600px;
@@ -741,17 +740,16 @@ animation: logoPulse 2s infinite ease-in-out;
 display: block;
 }
 .intro-team.away .intro-logo-container {
-/* ✅ ТАКОЙ ЖЕ КОНТЕЙНЕР */
 }
 .intro-team.away .intro-logo {
-width: 450px; /* ✅ 600px × 0.75 = 450px (на 25% меньше) */
+width: 450px;
 height: 450px;
 }
 @keyframes logoPulse {
 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); }
 50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); }
 }
-/* ✅ НАЗВАНИЯ НА ОДНОЙ ГОРИЗОНТАЛЬНОЙ ЛИНИИ — v2.35.0 */
+/* ✅ НАЗВАНИЯ */
 .intro-name {
 font-size: 64px;
 font-weight: 900;
@@ -761,9 +759,9 @@ background: linear-gradient(135deg, #fff 0%, #ddd 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-height: 100px; /* ✅ ФИКСИРОВАННАЯ ВЫСОТА ДЛЯ ВЫРАВНИВАНИЯ ЦЕНТРОВ */
+height: 100px;
 display: flex;
-align-items: center; /* ✅ ЦЕНТР ТЕКСТА ПО ВЕРТИКАЛИ */
+align-items: center;
 justify-content: center;
 width: 100%;
 text-align: center;
@@ -791,7 +789,7 @@ justify-content: flex-end;
 0% { transform: translateY(30px); opacity: 0; }
 100% { transform: translateY(0); opacity: 1; }
 }
-/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — ИДЕАЛЬНОЕ ЦЕНТРИРОВАНИЕ */
+/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ */
 .intro-datetime {
 position: fixed;
 bottom: 30px;
@@ -813,13 +811,13 @@ animation: fadeInUpCentered 0.8s 0.5s ease-out forwards;
 white-space: nowrap;
 }
 @keyframes fadeInUpCentered {
-0% { 
-    transform: translate(-50%, 30px);
-    opacity: 0; 
+0% {
+transform: translate(-50%, 30px);
+opacity: 0;
 }
-100% { 
-    transform: translate(-50%, 0);
-    opacity: 1; 
+100% {
+transform: translate(-50%, 0);
+opacity: 1;
 }
 }
 .intro-datetime span {
@@ -1028,6 +1026,17 @@ animation: pulse 1s infinite;
 <img id="v1-lh" class="sc-v1-logo" src="https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg" alt="Логотип ЛЕГИОН">
 <span id="v1-nh" class="sc-v1-name">ЛЕГИОН</span>
 </div>
+<div class="sc-v1-score-sec">
+<div class="sc-v1-scores">
+<span id="v1-sh" class="sc-v1-score">0</span>
+<span class="sc-v1-sep">-</span>
+<span id="v1-sa" class="sc-v1-score">0</span>
+</div>
+<div class="sc-v1-timer">
+<span id="v1-p" class="sc-v1-period">1 ТАЙМ</span>
+<span id="v1-t" class="sc-v1-time">00:00</span>
+</div>
+</div>
 <div class="sc-v1-half away">
 <img id="v1-la" class="sc-v1-logo" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Логотип соперника">
 <span id="v1-na" class="sc-v1-name">СОПЕРНИК</span>
@@ -1098,14 +1107,12 @@ animation: pulse 1s infinite;
 <div class="intro-card">
 <div class="intro-teams">
 <div class="intro-team home">
-<!-- ✅ КОНТЕЙНЕР ДЛЯ ЛОГОТИПА -->
 <div class="intro-logo-container">
 <img id="intro-logo-home" class="intro-logo" src="https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg" alt="ЛЕГИОН">
 </div>
 <span id="intro-name-home" class="intro-name">ЛЕГИОН</span>
 </div>
 <div class="intro-team away">
-<!-- ✅ КОНТЕЙНЕР ДЛЯ ЛОГОТИПА -->
 <div class="intro-logo-container">
 <img id="intro-logo-away" class="intro-logo" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Соперник">
 </div>
@@ -1116,7 +1123,7 @@ animation: pulse 1s infinite;
 <div class="intro-period-badge" id="intro-period">1 ТАЙМ</div>
 </div>
 </div>
-<!-- ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — ВНЕ .intro-card -->
+<!-- ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ -->
 <div class="intro-datetime">
 <span id="intro-date">05.03.2026</span> •
 <span id="intro-time">19:30</span> •
@@ -1228,7 +1235,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.35.0";
+const VERSION = "2.36.0"; // ✅ ОБНОВЛЁННАЯ ВЕРСИЯ
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 let state = {
@@ -1462,28 +1469,31 @@ stopTimerUpdate();
 updateTimerDisplay();
 updateDebugInfo();
 });
+// ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ С ПРОВЕРКАМИ НА NULL
 function updateAllVariants() {
 const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
 ['v1', 'v2', 'v3'].forEach(v => {
-elements[v].lh.src = LEGION_LOGO;
-elements[v].la.src = opponentLogoSrc;
-elements[v].nh.textContent = 'ЛЕГИОН';
-elements[v].na.textContent = state.opponentName;
-elements[v].sh.textContent = state.legionScore;
-elements[v].sa.textContent = state.opponentScore;
-elements[v].p.textContent = state.period;
+// ✅ ПРОВЕРКА: если элемент существует, обновляем его
+if (elements[v].lh) elements[v].lh.src = LEGION_LOGO;
+if (elements[v].la) elements[v].la.src = opponentLogoSrc;
+if (elements[v].nh) elements[v].nh.textContent = 'ЛЕГИОН';
+if (elements[v].na) elements[v].na.textContent = state.opponentName;
+if (elements[v].sh) elements[v].sh.textContent = state.legionScore;
+if (elements[v].sa) elements[v].sa.textContent = state.opponentScore;
+if (elements[v].p) elements[v].p.textContent = state.period;
+if (elements[v].t) elements[v].t.textContent = currentTimerSeconds;
 });
 if (state.opponentLogo === '') {
-elements.v1.la.classList.add('away');
-elements.v2.la.classList.add('away');
+if (elements.v1.la) elements.v1.la.classList.add('away');
+if (elements.v2.la) elements.v2.la.classList.add('away');
 } else {
-elements.v1.la.classList.remove('away');
-elements.v2.la.classList.remove('away');
+if (elements.v1.la) elements.v1.la.classList.remove('away');
+if (elements.v2.la) elements.v2.la.classList.remove('away');
 }
 if (state.opponentLogo === '') {
-elements.v3.la.classList.add('default-logo');
+if (elements.v3.la) elements.v3.la.classList.add('default-logo');
 } else {
-elements.v3.la.classList.remove('default-logo');
+if (elements.v3.la) elements.v3.la.classList.remove('default-logo');
 }
 updateTimerDisplay();
 updateV3Width();
@@ -1493,17 +1503,18 @@ const maxLen = Math.max(7, state.opponentName.length);
 const stripWidth = Math.min(Math.max(maxLen * 13 + 30, 140), 220);
 elements.sbV3.style.setProperty('--strip-width', stripWidth + 'px');
 }
+// ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ С ПРОВЕРКАМИ НА NULL
 function updateTimerDisplay() {
 const m = Math.floor(currentTimerSeconds / 60);
 const s = currentTimerSeconds % 60;
 const timeStr = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
-elements.v1.t.textContent = timeStr;
-elements.v2.t.textContent = timeStr;
-elements.v3.t.textContent = timeStr;
+if (elements.v1.t) elements.v1.t.textContent = timeStr;
+if (elements.v2.t) elements.v2.t.textContent = timeStr;
+if (elements.v3.t) elements.v3.t.textContent = timeStr;
 const paused = !state.timer.running;
-elements.v1.t.classList.toggle('paused', paused);
-elements.v2.t.classList.toggle('paused', paused);
-elements.v3.t.classList.toggle('paused', paused);
+if (elements.v1.t) elements.v1.t.classList.toggle('paused', paused);
+if (elements.v2.t) elements.v2.t.classList.toggle('paused', paused);
+if (elements.v3.t) elements.v3.t.classList.toggle('paused', paused);
 }
 function updateVisibility() {
 elements.sbV1.classList.toggle('hide', state.designVariant !== 1);
