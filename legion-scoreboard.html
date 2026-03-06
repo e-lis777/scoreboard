@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -1048,29 +1049,20 @@ animation: pulse 1s infinite;
 }
 
 @media (max-width: 480px) {
-  .intro-teams {
-    gap: 10px;
+  body {
+    overflow-x: hidden;
   }
-  .intro-name {
-    font-size: calc(8px + 2vw);
-    white-space: nowrap;
-    padding: 0 5px;
-    overflow: visible;
-  }
-  .intro-logo {
-    width: 120px;
-    height: 120px;
-  }
-  .intro-team.away .intro-logo {
-    width: 100px;
-    height: 100px;
+  .intro-card {
+    transform: scale(0.7);
+    transform-origin: center center;
   }
   .intro-datetime {
-    font-size: 12px;
-    padding: 5px 10px;
+    font-size: 14px;
+    padding: 6px 12px;
+    bottom: 10px;
   }
   .intro-period-badge {
-    font-size: 28px;
+    font-size: 32px;
   }
 }
 </style>
@@ -1294,7 +1286,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.37.0"; // ✅ ОБНОВЛЁННАЯ ВЕРСИЯ
+const VERSION = "2.38.0"; // ✅ ОБНОВЛЁННАЯ ВЕРСИЯ
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 let state = {
@@ -1912,3 +1904,4 @@ walker.currentNode.remove();
 </script>
 </body>
 </html>
+```
