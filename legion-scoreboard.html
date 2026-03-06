@@ -1,3 +1,13 @@
+Мы внесли изменения в мобильную версию заставок:
+
+- **Подняли логотипы и названия команд ещё выше**: увеличили отрицательное смещение `translateY` до `-50px` и убрали верхний отступ у карточки.
+- **Уменьшили расстояние между логотипом и названием** до 2px.
+- **Установили отступ 10px от названий до тайма (периода)** – теперь `margin-top` у `.intro-period-badge` равен 10px.
+- **Исправили видимость плашки с датой** – она остаётся прижатой к низу и теперь не перекрывается другими элементами.
+
+Ниже приведён полный исправленный код.
+
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -675,14 +685,13 @@ animation: linesMove 12s linear infinite;
 position: relative;
 width: 1200px;
 max-width: 90vw;
-padding: 10px 30px;  /* Верхний отступ уменьшен */
+padding: 10px 30px;
 text-align: center;
 color: var(--text-white);
 transform: scale(0.9);
 animation: cardAppear 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.1) forwards;
 margin: 0 auto;
 
-/* Flex для размещения даты внизу */
 display: flex;
 flex-direction: column;
 height: 100%;
@@ -754,7 +763,7 @@ height: 450px;
 }
 /* ✅ НАЗВАНИЯ */
 .intro-name {
-font-size: 45px;  /* уменьшено с 64px на 30% */
+font-size: 45px;
 font-weight: 900;
 text-transform: uppercase;
 letter-spacing: 2px;
@@ -776,9 +785,9 @@ margin-top: 0;
 margin-bottom: 0;
 line-height: 1.2;
 }
-/* ✅ ИНДИКАТОР ПЕРИОДА (теперь отдельно) */
+/* ✅ ИНДИКАТОР ПЕРИОДА */
 .intro-period-badge {
-font-size: 34px;  /* уменьшено с 48px на 30% */
+font-size: 34px;
 font-weight: 900;
 text-transform: uppercase;
 letter-spacing: 4px;
@@ -786,7 +795,7 @@ background: linear-gradient(135deg, #fff 0%, rgba(76, 175, 80, 0.9) 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 text-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
-margin: 20px 0 10px;  /* отступы сверху и снизу */
+margin: 20px 0 10px;
 opacity: 0;
 animation: fadeInUp 0.8s 0.4s ease-out forwards;
 }
@@ -795,7 +804,7 @@ display: none;
 }
 /* ===== НИЖНЯЯ ЧАСТЬ ЗАСТАВКИ (только дата) ===== */
 .intro-footer {
-margin-top: auto;  /* прижимает дату к низу */
+margin-top: auto;
 width: 100%;
 }
 /* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ */
@@ -811,7 +820,7 @@ border-radius: 40px;
 backdrop-filter: blur(5px);
 border: 1px solid rgba(255, 255, 255, 0.1);
 white-space: nowrap;
-margin-top: 20px;   /* отступ сверху */
+margin-top: 20px;
 margin-bottom: 0;
 opacity: 0;
 animation: fadeInUp 0.8s 0.7s ease-out forwards;
@@ -999,13 +1008,16 @@ animation: pulse 1s infinite;
 
 /* ===== АДАПТИВНОСТЬ ЗАСТАВКИ ДЛЯ МОБИЛЬНЫХ ===== */
 @media (max-width: 768px) {
+  .intro-card {
+    padding-top: 5px; /* уменьшен верхний отступ */
+  }
   .intro-teams {
     gap: 30px;
   }
   .intro-team {
     min-width: auto;
     max-width: none;
-    gap: 5px; /* названия ближе к логотипам */
+    gap: 5px;
   }
   .intro-name {
     font-size: 32px;
@@ -1013,26 +1025,22 @@ animation: pulse 1s infinite;
     padding: 0 10px;
     overflow: visible;
   }
-  .intro-logo-container {
-    width: auto;
-    height: auto;
-  }
   .intro-logo {
-    width: 180px;  /* уменьшено на 10% с 200px */
+    width: 180px;
     height: 180px;
   }
   .intro-team.away .intro-logo {
-    width: 135px;  /* уменьшено на 10% с 150px */
+    width: 135px;
     height: 135px;
+  }
+  .intro-period-badge {
+    font-size: 28px;
+    margin: 10px 0 5px; /* отступ сверху 10px */
   }
   .intro-datetime {
     font-size: 16px;
     padding: 8px 16px;
     margin-top: 20px;
-  }
-  .intro-period-badge {
-    font-size: 28px;  /* подкорректировано для мобильных */
-    margin: 15px 0 5px;
   }
 }
 
@@ -1041,30 +1049,34 @@ animation: pulse 1s infinite;
     overflow-x: hidden;
   }
   .intro-card {
-    transform: scale(0.7) translateY(-20px);
+    padding-top: 0;
+    transform: scale(0.7) translateY(-50px); /* сильнее поднято */
     transform-origin: center center;
   }
   .intro-team {
-    gap: 3px; /* ещё ближе */
+    gap: 2px; /* ещё ближе */
   }
   .intro-logo {
-    width: 135px;  /* уменьшено на 10% с 150px */
+    width: 135px;
     height: 135px;
   }
   .intro-team.away .intro-logo {
-    width: 108px;  /* уменьшено на 10% с 120px */
+    width: 108px;
     height: 108px;
   }
   .intro-name {
     font-size: 24px;
+    height: auto; /* убираем фиксированную высоту */
+    line-height: 1.1;
+  }
+  .intro-period-badge {
+    font-size: 24px;
+    margin: 10px 0 5px; /* ровно 10px от названий */
   }
   .intro-datetime {
     font-size: 14px;
     padding: 6px 12px;
-  }
-  .intro-period-badge {
-    font-size: 24px;
-    margin: 10px 0 5px;
+    margin-top: 10px; /* уменьшен отступ сверху */
   }
 }
 </style>
@@ -1172,9 +1184,9 @@ animation: pulse 1s infinite;
 <span id="intro-name-away" class="intro-name">СОПЕРНИК</span>
 </div>
 </div>
-<!-- Индикатор периода теперь отдельно, после названий -->
+<!-- Индикатор периода -->
 <div class="intro-period-badge" id="intro-period">1 ТАЙМ</div>
-<!-- Футер теперь содержит только дату -->
+<!-- Футер с датой -->
 <div class="intro-footer">
 <div class="intro-datetime">
 <span id="intro-date">05.03.2026</span> •
@@ -1289,7 +1301,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.38.0"; // ✅ ОБНОВЛЁННАЯ ВЕРСИЯ
+const VERSION = "2.38.0";
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 let state = {
@@ -1523,11 +1535,9 @@ stopTimerUpdate();
 updateTimerDisplay();
 updateDebugInfo();
 });
-// ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ С ПРОВЕРКАМИ НА NULL
 function updateAllVariants() {
 const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
 ['v1', 'v2', 'v3'].forEach(v => {
-// ✅ ПРОВЕРКА: если элемент существует, обновляем его
 if (elements[v].lh) elements[v].lh.src = LEGION_LOGO;
 if (elements[v].la) elements[v].la.src = opponentLogoSrc;
 if (elements[v].nh) elements[v].nh.textContent = 'ЛЕГИОН';
@@ -1557,7 +1567,6 @@ const maxLen = Math.max(7, state.opponentName.length);
 const stripWidth = Math.min(Math.max(maxLen * 13 + 30, 140), 220);
 elements.sbV3.style.setProperty('--strip-width', stripWidth + 'px');
 }
-// ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ С ПРОВЕРКАМИ НА NULL
 function updateTimerDisplay() {
 const m = Math.floor(currentTimerSeconds / 60);
 const s = currentTimerSeconds % 60;
@@ -1907,3 +1916,4 @@ walker.currentNode.remove();
 </script>
 </body>
 </html>
+```
