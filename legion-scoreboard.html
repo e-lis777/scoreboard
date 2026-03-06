@@ -739,8 +739,6 @@ filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6));
 animation: logoPulse 2s infinite ease-in-out;
 display: block;
 }
-.intro-team.away .intro-logo-container {
-}
 .intro-team.away .intro-logo {
 width: 450px;
 height: 450px;
@@ -1021,13 +1019,12 @@ animation: pulse 1s infinite;
     gap: 30px;
   }
   .intro-team {
-    min-width: auto; /* убираем фиксированную ширину */
+    min-width: auto;
+    max-width: none; /* убираем ограничение ширины */
   }
   .intro-name {
     font-size: 32px;
-    white-space: normal; /* разрешаем перенос, если нужно */
-    word-break: break-word;
-    height: auto;
+    white-space: nowrap; /* запрет переноса */
     padding: 0 10px;
   }
   .intro-logo-container {
@@ -1051,10 +1048,12 @@ animation: pulse 1s infinite;
 
 @media (max-width: 480px) {
   .intro-teams {
-    gap: 15px;
+    gap: 10px; /* уменьшаем расстояние между командами */
   }
   .intro-name {
-    font-size: 24px;
+    font-size: calc(10px + 2vw); /* динамический размер */
+    white-space: nowrap;
+    padding: 0 5px;
   }
   .intro-logo {
     width: 150px;
@@ -1293,7 +1292,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.36.0"; // ✅ ОБНОВЛЁННАЯ ВЕРСИЯ
+const VERSION = "2.37.0"; // ✅ ОБНОВЛЁННАЯ ВЕРСИЯ
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 let state = {
