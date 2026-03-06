@@ -676,16 +676,12 @@ animation: linesMove 12s linear infinite;
 position: relative;
 width: 1200px;
 max-width: 90vw;
-padding: 10px 30px;
+padding: 50px 30px;
 text-align: center;
 color: var(--text-white);
 transform: scale(0.9);
 animation: cardAppear 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.1) forwards;
 margin: 0 auto;
-
-display: flex;
-flex-direction: column;
-height: 100%;
 }
 @keyframes cardAppear {
 0% { transform: scale(0.9); opacity: 0; }
@@ -744,6 +740,8 @@ filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6));
 animation: logoPulse 2s infinite ease-in-out;
 display: block;
 }
+.intro-team.away .intro-logo-container {
+}
 .intro-team.away .intro-logo {
 width: 450px;
 height: 450px;
@@ -754,7 +752,7 @@ height: 450px;
 }
 /* ✅ НАЗВАНИЯ */
 .intro-name {
-font-size: 45px;
+font-size: 64px;
 font-weight: 900;
 text-transform: uppercase;
 letter-spacing: 2px;
@@ -776,30 +774,28 @@ margin-top: 0;
 margin-bottom: 0;
 line-height: 1.2;
 }
-/* ✅ ИНДИКАТОР ПЕРИОДА */
-.intro-period-badge {
-font-size: 34px;
-font-weight: 900;
-text-transform: uppercase;
-letter-spacing: 4px;
-background: linear-gradient(135deg, #fff 0%, rgba(76, 175, 80, 0.9) 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-text-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
-margin: 20px 0 10px;
-opacity: 0;
-animation: fadeInUp 0.8s 0.4s ease-out forwards;
-}
-.intro-period-badge.hidden {
-display: none;
-}
-/* ===== НИЖНЯЯ ЧАСТЬ ЗАСТАВКИ (только дата) ===== */
+/* ===== НИЖНЯЯ ЧАСТЬ ЗАСТАВКИ ===== */
 .intro-footer {
 margin-top: auto;
+opacity: 0;
+animation: fadeInUp 0.8s 0.5s ease-out forwards;
 width: 100%;
+max-height: 33vh;
+overflow: hidden;
+display: flex;
+flex-direction: column;
+justify-content: flex-end;
+}
+@keyframes fadeInUp {
+0% { transform: translateY(30px); opacity: 0; }
+100% { transform: translateY(0); opacity: 1; }
 }
 /* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ */
 .intro-datetime {
+position: fixed;
+bottom: 30px;
+left: 50%;
+transform: translate(-50%, 0);
 font-size: 24px;
 color: rgba(255,255,255,0.8);
 font-family: 'Arial', sans-serif;
@@ -810,16 +806,39 @@ padding: 10px 30px;
 border-radius: 40px;
 backdrop-filter: blur(5px);
 border: 1px solid rgba(255, 255, 255, 0.1);
-white-space: nowrap;
-margin-top: 20px;
-margin-bottom: 0;
+z-index: 10001;
 opacity: 0;
-animation: fadeInUp 0.8s 0.7s ease-out forwards;
+animation: fadeInUpCentered 0.8s 0.5s ease-out forwards;
+white-space: nowrap;
+}
+@keyframes fadeInUpCentered {
+0% {
+transform: translate(-50%, 30px);
+opacity: 0;
+}
+100% {
+transform: translate(-50%, 0);
+opacity: 1;
+}
 }
 .intro-datetime span {
 color: rgba(76, 175, 80, 0.9);
 font-weight: bold;
 margin: 0 5px;
+}
+.intro-period-badge {
+font-size: 48px;
+font-weight: 900;
+text-transform: uppercase;
+letter-spacing: 4px;
+background: linear-gradient(135deg, #fff 0%, rgba(76, 175, 80, 0.9) 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+text-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
+margin-top: 10px;
+}
+.intro-period-badge.hidden {
+display: none;
 }
 .intro-footer::after {
 content: '';
@@ -999,78 +1018,59 @@ animation: pulse 1s infinite;
 
 /* ===== АДАПТИВНОСТЬ ЗАСТАВКИ ДЛЯ МОБИЛЬНЫХ ===== */
 @media (max-width: 768px) {
-  .intro-card {
-    padding-top: 5px;
-  }
   .intro-teams {
     gap: 30px;
   }
   .intro-team {
-    min-width: auto;
-    max-width: none;
-    gap: 5px;
+    min-width: auto; /* убираем фиксированную ширину */
   }
   .intro-name {
     font-size: 32px;
-    white-space: nowrap;
+    white-space: normal; /* разрешаем перенос, если нужно */
+    word-break: break-word;
+    height: auto;
     padding: 0 10px;
-    overflow: visible;
+  }
+  .intro-logo-container {
+    width: auto;
+    height: auto;
   }
   .intro-logo {
-    width: 180px;
-    height: 180px;
+    width: 200px;
+    height: 200px;
   }
   .intro-team.away .intro-logo {
-    width: 135px;
-    height: 135px;
-  }
-  .intro-period-badge {
-    font-size: 28px;
-    margin: 10px 0 5px;
+    width: 150px;
+    height: 150px;
   }
   .intro-datetime {
     font-size: 16px;
     padding: 8px 16px;
-    margin-top: 20px;
+    bottom: 15px;
   }
 }
 
 @media (max-width: 480px) {
-  body {
-    overflow-x: hidden;
-  }
-  .intro-card {
-    padding-top: 0;
-    /* поднято ещё на 2px */
-    transform: scale(0.7) translateY(-52px);
-    transform-origin: center center;
-  }
-  .intro-team {
-    gap: 2px; /* уже 2px */
-  }
-  .intro-logo {
-    width: 135px;
-    height: 135px;
-  }
-  .intro-team.away .intro-logo {
-    width: 108px;
-    height: 108px;
+  .intro-teams {
+    gap: 15px;
   }
   .intro-name {
     font-size: 24px;
-    height: auto;
-    line-height: 1.1;
   }
-  .intro-period-badge {
-    font-size: 24px;
-    /* отступ сверху 1px, снизу 0 */
-    margin: 1px 0 0;
+  .intro-logo {
+    width: 150px;
+    height: 150px;
+  }
+  .intro-team.away .intro-logo {
+    width: 120px;
+    height: 120px;
   }
   .intro-datetime {
     font-size: 14px;
     padding: 6px 12px;
-    /* отступ сверху 1px */
-    margin-top: 1px;
+  }
+  .intro-period-badge {
+    font-size: 32px;
   }
 }
 </style>
@@ -1178,16 +1178,15 @@ animation: pulse 1s infinite;
 <span id="intro-name-away" class="intro-name">СОПЕРНИК</span>
 </div>
 </div>
-<!-- Индикатор периода -->
-<div class="intro-period-badge" id="intro-period">1 ТАЙМ</div>
-<!-- Футер с датой -->
 <div class="intro-footer">
+<div class="intro-period-badge" id="intro-period">1 ТАЙМ</div>
+</div>
+</div>
+<!-- ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ -->
 <div class="intro-datetime">
 <span id="intro-date">05.03.2026</span> •
 <span id="intro-time">19:30</span> •
 <span id="intro-timezone">MSK</span>
-</div>
-</div>
 </div>
 </div>
 <!-- Модальное окно -->
@@ -1295,7 +1294,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.38.0";
+const VERSION = "2.36.0"; // ✅ ОБНОВЛЁННАЯ ВЕРСИЯ
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 let state = {
@@ -1529,9 +1528,11 @@ stopTimerUpdate();
 updateTimerDisplay();
 updateDebugInfo();
 });
+// ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ С ПРОВЕРКАМИ НА NULL
 function updateAllVariants() {
 const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
 ['v1', 'v2', 'v3'].forEach(v => {
+// ✅ ПРОВЕРКА: если элемент существует, обновляем его
 if (elements[v].lh) elements[v].lh.src = LEGION_LOGO;
 if (elements[v].la) elements[v].la.src = opponentLogoSrc;
 if (elements[v].nh) elements[v].nh.textContent = 'ЛЕГИОН';
@@ -1561,6 +1562,7 @@ const maxLen = Math.max(7, state.opponentName.length);
 const stripWidth = Math.min(Math.max(maxLen * 13 + 30, 140), 220);
 elements.sbV3.style.setProperty('--strip-width', stripWidth + 'px');
 }
+// ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ С ПРОВЕРКАМИ НА NULL
 function updateTimerDisplay() {
 const m = Math.floor(currentTimerSeconds / 60);
 const s = currentTimerSeconds % 60;
