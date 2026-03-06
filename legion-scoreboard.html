@@ -1020,12 +1020,13 @@ animation: pulse 1s infinite;
   }
   .intro-team {
     min-width: auto;
-    max-width: none; /* убираем ограничение ширины */
+    max-width: none;
   }
   .intro-name {
     font-size: 32px;
-    white-space: nowrap; /* запрет переноса */
+    white-space: nowrap;
     padding: 0 10px;
+    overflow: visible;
   }
   .intro-logo-container {
     width: auto;
@@ -1048,27 +1049,28 @@ animation: pulse 1s infinite;
 
 @media (max-width: 480px) {
   .intro-teams {
-    gap: 10px; /* уменьшаем расстояние между командами */
+    gap: 10px;
   }
   .intro-name {
-    font-size: calc(10px + 2vw); /* динамический размер */
+    font-size: calc(8px + 2vw);
     white-space: nowrap;
     padding: 0 5px;
+    overflow: visible;
   }
   .intro-logo {
-    width: 150px;
-    height: 150px;
-  }
-  .intro-team.away .intro-logo {
     width: 120px;
     height: 120px;
   }
+  .intro-team.away .intro-logo {
+    width: 100px;
+    height: 100px;
+  }
   .intro-datetime {
-    font-size: 14px;
-    padding: 6px 12px;
+    font-size: 12px;
+    padding: 5px 10px;
   }
   .intro-period-badge {
-    font-size: 32px;
+    font-size: 28px;
   }
 }
 </style>
