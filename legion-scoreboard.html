@@ -781,12 +781,12 @@ justify-content: flex-end;
 0% { transform: translateY(30px); opacity: 0; }
 100% { transform: translateY(0); opacity: 1; }
 }
-/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — ИДЕАЛЬНОЕ ЦЕНТРИРОВАНИЕ */
+/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — ИДЕАЛЬНОЕ ЦЕНТРИРОВАНИЕ v2.29.0 */
 .intro-datetime {
-position: fixed; /* Фиксация относительно окна браузера */
-bottom: 30px;    /* Отступ от низа экрана */
-left: 50%;       /* Сдвиг левого края на середину экрана */
-transform: translateX(-50%); /* Сдвиг влево на 50% ширины самой плашки */
+position: fixed; /* Фиксация относительно ОКНА БРАУЗЕРА (не родителя!) */
+bottom: 30px; /* Отступ от низа экрана */
+left: 50%; /* Левый край на 50% ширины экрана */
+transform: translateX(-50%); /* Сдвиг влево на 50% ШИРИНЫ ПЛАШКИ */
 font-size: 24px;
 color: rgba(255,255,255,0.8);
 font-family: 'Arial', sans-serif;
@@ -797,7 +797,7 @@ padding: 10px 30px;
 border-radius: 40px;
 backdrop-filter: blur(5px);
 border: 1px solid rgba(255, 255, 255, 0.1);
-z-index: 10001; /* Поверх всех элементов заставки */
+z-index: 10001;
 opacity: 0;
 animation: fadeInUp 0.8s 0.5s ease-out forwards;
 white-space: nowrap;
@@ -1102,7 +1102,7 @@ animation: pulse 1s infinite;
 <div class="intro-period-badge" id="intro-period">1 ТАЙМ</div>
 </div>
 </div>
-<!-- ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — ТЕПЕРЬ ВНЕ КАРТОЧКИ, ПРЯМО В OVERLAY -->
+<!-- ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — ТЕПЕРЬ ВНЕ .intro-card -->
 <div class="intro-datetime">
 <span id="intro-date">05.03.2026</span> •
 <span id="intro-time">19:30</span> •
@@ -1214,7 +1214,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.28.0"; // ✅ ОБНОВЛЁННАЯ ВЕРСИЯ
+const VERSION = "2.29.0"; // ✅ ОБНОВЛЁННАЯ ВЕРСИЯ
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 let state = {
@@ -1313,7 +1313,7 @@ elements.introPeriod.classList.add('hidden');
 } else {
 elements.introPeriod.classList.remove('hidden');
 }
-// ✅ УДАЛЕНО: Вся информация о голах (включая минуты)
+// ✅ УДАЛЕНО: Вся информация о голах
 updateRealTime();
 elements.introOverlay.classList.add('show');
 setTimeout(() => {
