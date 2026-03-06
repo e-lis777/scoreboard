@@ -415,12 +415,8 @@ body {
   font-family: 'Arial', sans-serif;
   overflow: visible;
 }
-.goal-card.show {
-  transform: translateX(0);
-}
-.goal-card.hidden {
-  display: none;
-}
+.goal-card.show { transform: translateX(0); }
+.goal-card.hidden { display: none; }
 .goal-card .legion-logo {
   width: 150px;
   height: 150px;
@@ -506,9 +502,7 @@ body {
   align-items: center;
   justify-content: center;
 }
-.modal-overlay.hidden {
-  display: none;
-}
+.modal-overlay.hidden { display: none; }
 .modal-content {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   border-radius: 24px;
@@ -616,7 +610,7 @@ body {
   100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; }
 }
 
-/* ===== ОВЕРЛЕЙ ЗАСТАВКИ — ИСПРАВЛЕННОЕ ВЫРАВНИВАНИЕ ===== */
+/* ===== ОВЕРЛЕЙ ЗАСТАВКИ — ПОЛНОЕ ИСПРАВЛЕНИЕ ===== */
 .intro-overlay {
   position: fixed;
   top: 0;
@@ -698,14 +692,15 @@ body {
 /* ===== ИСПРАВЛЕННОЕ ВЫРАВНИВАНИЕ ЛОГОТИПОВ И НАЗВАНИЙ ===== */
 .intro-teams {
   display: flex;
-  align-items: center;
-  justify-content: space-between; /* ✅ РАЗНЕСТИ ПО КРАЯМ */
-  gap: 40px;
+  align-items: center; /* ✅ ЦЕНТРЫ ЛОГОТИПОВ НА ОДНОЙ ЛИНИИ */
+  justify-content: center;
+  gap: 100px; /* ✅ УВЕЛИЧЕННЫЙ ОТСТУП МЕЖДУ КОМАНДАМИ */
   margin-bottom: 30px;
   flex-wrap: nowrap;
   padding: 0 40px;
   min-height: 300px;
 }
+
 .intro-team {
   display: flex;
   flex-direction: column;
@@ -713,9 +708,12 @@ body {
   justify-content: center;
   gap: 15px;
   opacity: 0;
-  width: 220px;
+  width: auto; /* ✅ АВТОМАТИЧЕСКАЯ ШИРИНА */
+  min-width: 250px; /* ✅ МИНИМАЛЬНАЯ ШИРИНА ДЛЯ ДЛИННЫХ НАЗВАНИЙ */
+  max-width: 45vw; /* ✅ МАКС 45% ОТ ЭКРАНА ЧТОБЫ НЕ ЗАЛЕЗАЛИ ДРУГ НА ДРУГА */
   height: 280px;
 }
+
 .intro-team.home {
   animation: slideInLeft 0.6s 0.2s ease-out forwards;
 }
@@ -741,10 +739,12 @@ body {
   display: block;
   margin: 0 auto;
 }
+
 .intro-team.away .intro-logo {
-  width: 150px;
+  width: 150px; /* ✅ 200px × 0.75 = 150px (на 25% меньше) */
   height: 150px;
 }
+
 @keyframes logoPulse {
   0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); }
   50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); }
@@ -760,18 +760,19 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-  height: 60px;
+  height: auto; /* ✅ АВТОМАТИЧЕСКАЯ ВЫСОТА */
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0 5px;
+  white-space: nowrap; /* ✅ НЕ ПЕРЕНОСИТЬ */
+  overflow: visible; /* ✅ НЕ ОБРЕЗАТЬ */
+  text-overflow: clip;
+  padding: 0 10px;
   margin-top: auto;
   margin-bottom: 0;
+  line-height: 1.2;
 }
 
 /* ===== НИЖНЯЯ ЧАСТЬ ЗАСТАВКИ ===== */
@@ -834,7 +835,7 @@ body {
   to { transform: scaleX(1); opacity: 1; }
 }
 
-/* ===== СПИСОК ГОЛОВ — ОДНА КОЛОНКА, ПО ЦЕНТРУ, ПО НИЖНЕМУ КРАЮ ===== */
+/* ===== СПИСОК ГОЛОВ — НЕСКОЛЬКО КОЛОНОК, МАКС ШИРИНА ===== */
 .intro-goal-info {
   margin-top: 20px;
   font-size: 20px;
@@ -848,6 +849,7 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
+
 .intro-score {
   font-size: 42px;
   font-weight: 900;
@@ -860,41 +862,46 @@ body {
   margin-bottom: 15px;
   display: inline-block;
 }
+
 .intro-goal-scorers {
   display: flex;
-  flex-direction: column; /* ✅ ОДНА КОЛОНКА */
-  justify-content: flex-end; /* ✅ ПО НИЖНЕМУ КРАЮ */
-  align-items: center; /* ✅ ПО ЦЕНТРУ */
-  gap: 8px;
+  flex-wrap: wrap; /* ✅ НЕСКОЛЬКО КОЛОНОК */
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
   width: 100%;
-  max-width: 600px;
+  max-width: 1000px;
   margin: 0 auto;
-  margin-top: 20px;
 }
+
+/* ===== КРУЖКИ С НОМЕРАМИ (ЗЕЛЁНЫЕ) — ИСПРАВЛЕНО ===== */
 .intro-goal-scorer {
   background: rgba(76, 175, 80, 0.2);
   padding: 10px 25px;
   border-radius: 40px;
   border: 1px solid rgba(76, 175, 80, 0.9);
-  font-size: 20px;
-  display: flex;
+  font-size: 18px;
+  display: inline-flex;
   align-items: center;
   gap: 12px;
   white-space: nowrap;
+  flex: 0 1 auto;
 }
+
 .intro-goal-number {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--accent-green);
-  color: #000;
+  background: var(--accent-green); /* ✅ ЗЕЛЁНЫЙ ФОН */
+  color: #000; /* ✅ ЧЁРНЫЙ ТЕКСТ */
   font-weight: 900;
-  font-size: 18px;
+  font-size: 16px;
   width: 32px;
   height: 32px;
   border-radius: 50%;
   flex-shrink: 0;
 }
+
 .intro-goal-scorer span {
   color: rgba(76, 175, 80, 0.9);
   font-weight: bold;
@@ -1400,10 +1407,10 @@ function showIntro(period) {
         goalsHtml += `<div class="intro-goal-scorers">`;
         legionGoalsList.forEach(goal => {
           if (goal.number && goal.lastName) {
-            // ✅ ДОБАВЛЕНЫ НОМЕРА В КРУЖКАХ
+            // ✅ НОМЕРА В ЗЕЛЁНЫХ КРУЖКАХ
             goalsHtml += `<div class="intro-goal-scorer">
-              <span class="intro-goal-number">${goal.number}</span> 
-              <span>${goal.lastName}</span> 
+              <span class="intro-goal-number">${goal.number}</span>
+              <span>${goal.lastName}</span>
               <span>${goal.minute}'</span>
             </div>`;
           } else {
