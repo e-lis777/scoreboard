@@ -781,12 +781,12 @@ justify-content: flex-end;
 0% { transform: translateY(30px); opacity: 0; }
 100% { transform: translateY(0); opacity: 1; }
 }
-/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — ИДЕАЛЬНОЕ ЦЕНТРИРОВАНИЕ v2.30.0 */
+/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — ИСПРАВЛЕННАЯ АНИМАЦИЯ v2.31.0 */
 .intro-datetime {
-position: fixed; /* ✅ Относительно ОКНА браузера */
-bottom: 30px; /* ✅ Отступ от низа экрана */
-left: 50%; /* ✅ Левый край на 50% ширины экрана */
-transform: translateX(-50%); /* ✅ Сдвиг влево на 50% ШИРИНЫ ПЛАШКИ */
+position: fixed;
+bottom: 30px;
+left: 50%;
+transform: translateX(-50%); /* ✅ Горизонтальное центрирование */
 font-size: 24px;
 color: rgba(255,255,255,0.8);
 font-family: 'Arial', sans-serif;
@@ -797,10 +797,21 @@ padding: 10px 30px;
 border-radius: 40px;
 backdrop-filter: blur(5px);
 border: 1px solid rgba(255, 255, 255, 0.1);
-z-index: 10001; /* ✅ Поверх всех элементов */
+z-index: 10001;
 opacity: 0;
-animation: fadeInUp 0.8s 0.5s ease-out forwards;
+animation: fadeInUpCentered 0.8s 0.5s ease-out forwards; /* ✅ НОВАЯ АНИМАЦИЯ */
 white-space: nowrap;
+}
+/* ✅ НОВАЯ АНИМАЦИЯ — СОХРАНЯЕТ ГОРИЗОНТАЛЬНОЕ ЦЕНТРИРОВАНИЕ */
+@keyframes fadeInUpCentered {
+0% { 
+    transform: translate(-50%, 30px); /* ✅ Сохраняем -50% по X */
+    opacity: 0; 
+}
+100% { 
+    transform: translate(-50%, 0); /* ✅ Сохраняем -50% по X */
+    opacity: 1; 
+}
 }
 .intro-datetime span {
 color: rgba(76, 175, 80, 0.9);
@@ -1213,7 +1224,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.30.0";
+const VERSION = "2.31.0";
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 let state = {
