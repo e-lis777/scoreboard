@@ -1,3 +1,6 @@
+Мы добавили дополнительный сдвиг вверх на 20px для мобильной версии заставки. Теперь в медиа-запросе для экранов до 480px к трансформации `scale(0.7)` добавлено `translateY(-20px)`, что поднимает всё содержимое карточки (логотипы, названия, индикатор периода), оставляя плашку с датой прижатой к низу благодаря flex-верстке. Ниже приведён полный исправленный код.
+
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -675,7 +678,7 @@ animation: linesMove 12s linear infinite;
 position: relative;
 width: 1200px;
 max-width: 90vw;
-padding: 10px 30px;  /* Верхний отступ уменьшен ещё на 20px (было 30px) */
+padding: 10px 30px;  /* Верхний отступ уменьшен */
 text-align: center;
 color: var(--text-white);
 transform: scale(0.9);
@@ -1054,7 +1057,7 @@ animation: pulse 1s infinite;
     overflow-x: hidden;
   }
   .intro-card {
-    transform: scale(0.7);
+    transform: scale(0.7) translateY(-20px); /* Добавлен подъём на 20px */
     transform-origin: center center;
   }
   .intro-datetime {
@@ -1904,3 +1907,4 @@ walker.currentNode.remove();
 </script>
 </body>
 </html>
+```
