@@ -781,7 +781,7 @@ justify-content: flex-end;
 0% { transform: translateY(30px); opacity: 0; }
 100% { transform: translateY(0); opacity: 1; }
 }
-/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — В САМОМ НИЗУ ЭКРАНА */
+/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — В САМОМ НИЗУ ПО ЦЕНТРУ */
 .intro-datetime {
 position: fixed;
 bottom: 30px;
@@ -800,6 +800,7 @@ border: 1px solid rgba(255, 255, 255, 0.1);
 z-index: 10001;
 opacity: 0;
 animation: fadeInUp 0.8s 0.5s ease-out forwards;
+white-space: nowrap;
 }
 .intro-datetime span {
 color: rgba(76, 175, 80, 0.9);
@@ -1165,7 +1166,7 @@ animation: pulse 1s infinite;
 <div id="intro-goal-info" class="intro-goal-info" style="display: none;"></div>
 </div>
 </div>
-<!-- ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — В САМОМ НИЗУ ЭКРАНА -->
+<!-- ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — В САМОМ НИЗУ ПО ЦЕНТРУ -->
 <div class="intro-datetime">
 <span id="intro-date">05.03.2026</span> •
 <span id="intro-time">19:30</span> •
