@@ -723,10 +723,10 @@ animation: slideInRight 0.6s 0.2s ease-out forwards;
 0% { transform: translateX(100px); opacity: 0; }
 100% { transform: translateX(0); opacity: 1; }
 }
-/* ===== ЛОГОТИПЫ ===== */
+/* ✅ ЛОГОТИПЫ УВЕЛИЧЕНЫ В 3 РАЗА v2.32.0 */
 .intro-logo {
-width: 200px;
-height: 200px;
+width: 600px; /* ✅ 200px × 3 = 600px */
+height: 600px;
 object-fit: contain;
 filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6));
 animation: logoPulse 2s infinite ease-in-out;
@@ -734,16 +734,16 @@ display: block;
 margin: 0 auto;
 }
 .intro-team.away .intro-logo {
-width: 150px;
-height: 150px;
+width: 450px; /* ✅ 150px × 3 = 450px */
+height: 450px;
 }
 @keyframes logoPulse {
 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); }
 50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); }
 }
-/* ===== НАЗВАНИЯ ===== */
+/* ✅ НАЗВАНИЯ УВЕЛИЧЕНЫ В 2 РАЗА v2.32.0 */
 .intro-name {
-font-size: 32px;
+font-size: 64px; /* ✅ 32px × 2 = 64px */
 font-weight: 900;
 text-transform: uppercase;
 letter-spacing: 2px;
@@ -781,12 +781,12 @@ justify-content: flex-end;
 0% { transform: translateY(30px); opacity: 0; }
 100% { transform: translateY(0); opacity: 1; }
 }
-/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — ИСПРАВЛЕННАЯ АНИМАЦИЯ v2.31.0 */
+/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — ИДЕАЛЬНОЕ ЦЕНТРИРОВАНИЕ */
 .intro-datetime {
 position: fixed;
 bottom: 30px;
 left: 50%;
-transform: translateX(-50%); /* ✅ Горизонтальное центрирование */
+transform: translate(-50%, 0);
 font-size: 24px;
 color: rgba(255,255,255,0.8);
 font-family: 'Arial', sans-serif;
@@ -799,17 +799,16 @@ backdrop-filter: blur(5px);
 border: 1px solid rgba(255, 255, 255, 0.1);
 z-index: 10001;
 opacity: 0;
-animation: fadeInUpCentered 0.8s 0.5s ease-out forwards; /* ✅ НОВАЯ АНИМАЦИЯ */
+animation: fadeInUpCentered 0.8s 0.5s ease-out forwards;
 white-space: nowrap;
 }
-/* ✅ НОВАЯ АНИМАЦИЯ — СОХРАНЯЕТ ГОРИЗОНТАЛЬНОЕ ЦЕНТРИРОВАНИЕ */
 @keyframes fadeInUpCentered {
 0% { 
-    transform: translate(-50%, 30px); /* ✅ Сохраняем -50% по X */
+    transform: translate(-50%, 30px);
     opacity: 0; 
 }
 100% { 
-    transform: translate(-50%, 0); /* ✅ Сохраняем -50% по X */
+    transform: translate(-50%, 0);
     opacity: 1; 
 }
 }
@@ -1224,7 +1223,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.31.0";
+const VERSION = "2.32.0";
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 let state = {
