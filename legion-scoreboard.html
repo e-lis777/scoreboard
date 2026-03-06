@@ -1,3 +1,9 @@
+Мы уменьшили размер текста названий команд и тайма на заставке на 30% в соответствии с вашей просьбой.  
+Изменения коснулись CSS-классов `.intro-name` (было 64px → стало 45px) и `.intro-period-badge` (было 48px → стало 34px).  
+Адаптивные стили для мобильных устройств остались без изменений, чтобы на маленьких экранах текст оставался читаемым.
+
+Ниже приведён полный исправленный код страницы.
+
 ```html
 <!DOCTYPE html>
 <html lang="ru">
@@ -750,7 +756,7 @@ height: 450px;
 }
 /* ✅ НАЗВАНИЯ */
 .intro-name {
-font-size: 64px;
+font-size: 45px;  /* уменьшено с 64px на 30% */
 font-weight: 900;
 text-transform: uppercase;
 letter-spacing: 2px;
@@ -825,7 +831,7 @@ font-weight: bold;
 margin: 0 5px;
 }
 .intro-period-badge {
-font-size: 48px;
+font-size: 34px;  /* уменьшено с 48px на 30% */
 font-weight: 900;
 text-transform: uppercase;
 letter-spacing: 4px;
