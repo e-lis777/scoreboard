@@ -686,10 +686,10 @@ margin: 0 auto;
 0% { transform: scale(0.9); opacity: 0; }
 100% { transform: scale(1); opacity: 1; }
 }
-/* ✅ ВЫРАВНИВАНИЕ ЛОГОТИПОВ И НАЗВАНИЙ — v2.33.0 */
+/* ✅ ВЫРАВНИВАНИЕ ЛОГОТИПОВ И НАЗВАНИЙ — v2.34.0 */
 .intro-teams {
 display: flex;
-align-items: center; /* ✅ ЦЕНТРЫ ЛОГОТИПОВ НА ОДНОЙ ЛИНИИ */
+align-items: center;
 justify-content: center;
 gap: 100px;
 margin-bottom: 30px;
@@ -705,9 +705,9 @@ justify-content: center;
 gap: 15px;
 opacity: 0;
 width: auto;
-min-width: 300px; /* ✅ УВЕЛИЧЕНО ДЛЯ ДЛИННЫХ НАЗВАНИЙ */
-max-width: 50vw; /* ✅ УВЕЛИЧЕНО С 45vw */
-height: 350px; /* ✅ УВЕЛИЧЕНО С 280px */
+min-width: 300px;
+max-width: 50vw;
+height: 750px; /* ✅ УВЕЛИЧЕНО ДЛЯ БОЛЬШИХ ЛОГОТИПОВ */
 }
 .intro-team.home {
 animation: slideInLeft 0.6s 0.2s ease-out forwards;
@@ -723,28 +723,28 @@ animation: slideInRight 0.6s 0.2s ease-out forwards;
 0% { transform: translateX(100px); opacity: 0; }
 100% { transform: translateX(0); opacity: 1; }
 }
-/* ✅ ЛОГОТИПЫ: ЛЕГИОН ВСЕГДА НА 25% БОЛЬШЕ */
+/* ✅ ЛОГОТИПЫ: ЛЕГИОН ВСЕГДА НА 25% БОЛЬШЕ — v2.34.0 */
 .intro-logo {
-width: 600px;
+width: 600px; /* ✅ 200px × 3 = 600px */
 height: 600px;
 object-fit: contain;
 filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6));
 animation: logoPulse 2s infinite ease-in-out;
 display: block;
 margin: 0 auto;
-flex-shrink: 0; /* ✅ НЕ СЖИМАТЬ */
+flex-shrink: 0;
 }
 .intro-team.away .intro-logo {
-width: 450px; /* ✅ 600px × 0.75 = 450px */
+width: 450px; /* ✅ 600px × 0.75 = 450px (на 25% меньше) */
 height: 450px;
 }
 @keyframes logoPulse {
 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); }
 50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); }
 }
-/* ✅ НАЗВАНИЯ НА ОДНОЙ ГОРИЗОНТАЛЬНОЙ ЛИНИИ — v2.33.0 */
+/* ✅ НАЗВАНИЯ НА ОДНОЙ ГОРИЗОНТАЛЬНОЙ ЛИНИИ — v2.34.0 */
 .intro-name {
-font-size: 64px;
+font-size: 64px; /* ✅ 32px × 2 = 64px */
 font-weight: 900;
 text-transform: uppercase;
 letter-spacing: 2px;
@@ -752,7 +752,7 @@ background: linear-gradient(135deg, #fff 0%, #ddd 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-height: 80px; /* ✅ ФИКСИРОВАННАЯ ВЫСОТА ДЛЯ ВЫРАВНИВАНИЯ */
+height: 100px; /* ✅ ФИКСИРОВАННАЯ ВЫСОТА ДЛЯ ВЫРАВНИВАНИЯ */
 display: flex;
 align-items: center;
 justify-content: center;
@@ -761,7 +761,7 @@ text-align: center;
 white-space: nowrap; /* ✅ ЗАПРЕТ ПЕРЕНОСА */
 overflow: visible; /* ✅ НЕ ОБРЕЗАТЬ */
 text-overflow: clip;
-padding: 0 20px; /* ✅ УВЕЛИЧЕНО */
+padding: 0 30px; /* ✅ УВЕЛИЧЕНО ДЛЯ ДЛИННЫХ НАЗВАНИЙ */
 margin-top: auto;
 margin-bottom: 0;
 line-height: 1.2;
@@ -1213,7 +1213,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.33.0";
+const VERSION = "2.34.0";
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 let state = {
@@ -1305,6 +1305,7 @@ elements.introLogoAway.src = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
 elements.introNameHome.textContent = 'ЛЕГИОН';
 elements.introNameAway.textContent = state.opponentName;
 elements.introPeriod.textContent = period;
+// ✅ СКРЫВАЕМ "1 ТАЙМ"
 if (period === '1 ТАЙМ') {
 elements.introPeriod.classList.add('hidden');
 } else {
