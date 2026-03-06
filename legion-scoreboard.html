@@ -415,8 +415,12 @@ body {
   font-family: 'Arial', sans-serif;
   overflow: visible;
 }
-.goal-card.show { transform: translateX(0); }
-.goal-card.hidden { display: none; }
+.goal-card.show {
+  transform: translateX(0);
+}
+.goal-card.hidden {
+  display: none;
+}
 .goal-card .legion-logo {
   width: 150px;
   height: 150px;
@@ -502,7 +506,9 @@ body {
   align-items: center;
   justify-content: center;
 }
-.modal-overlay.hidden { display: none; }
+.modal-overlay.hidden {
+  display: none;
+}
 .modal-content {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   border-radius: 24px;
@@ -683,6 +689,10 @@ body {
   transform: scale(0.9);
   animation: cardAppear 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.1) forwards;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* ✅ РАСПРЕДЕЛИТЬ ПО ВЕРТИКАЛИ */
+  height: 80vh; /* ✅ ФИКСИРОВАННАЯ ВЫСОТА */
 }
 @keyframes cardAppear {
   0% { transform: scale(0.9); opacity: 0; }
@@ -694,11 +704,11 @@ body {
   display: flex;
   align-items: center; /* ✅ ЦЕНТРЫ ЛОГОТИПОВ НА ОДНОЙ ЛИНИИ */
   justify-content: center;
-  gap: 100px; /* ✅ УВЕЛИЧЕННЫЙ ОТСТУП МЕЖДУ КОМАНДАМИ */
+  gap: 100px;
   margin-bottom: 30px;
   flex-wrap: nowrap;
   padding: 0 40px;
-  min-height: 300px;
+  width: 100%;
 }
 
 .intro-team {
@@ -708,10 +718,10 @@ body {
   justify-content: center;
   gap: 15px;
   opacity: 0;
-  width: auto; /* ✅ АВТОМАТИЧЕСКАЯ ШИРИНА */
-  min-width: 250px; /* ✅ МИНИМАЛЬНАЯ ШИРИНА ДЛЯ ДЛИННЫХ НАЗВАНИЙ */
-  max-width: 45vw; /* ✅ МАКС 45% ОТ ЭКРАНА ЧТОБЫ НЕ ЗАЛЕЗАЛИ ДРУГ НА ДРУГА */
-  height: 280px;
+  width: auto;
+  min-width: 250px;
+  max-width: 45vw;
+  height: 280px; /* ✅ ФИКСИРОВАННАЯ ВЫСОТА ДЛЯ ВЫРАВНИВАНИЯ */
 }
 
 .intro-team.home {
@@ -760,14 +770,14 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-  height: auto; /* ✅ АВТОМАТИЧЕСКАЯ ВЫСОТА */
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   text-align: center;
-  white-space: nowrap; /* ✅ НЕ ПЕРЕНОСИТЬ */
-  overflow: visible; /* ✅ НЕ ОБРЕЗАТЬ */
+  white-space: nowrap;
+  overflow: visible;
   text-overflow: clip;
   padding: 0 10px;
   margin-top: auto;
@@ -775,12 +785,17 @@ body {
   line-height: 1.2;
 }
 
-/* ===== НИЖНЯЯ ЧАСТЬ ЗАСТАВКИ ===== */
+/* ===== НИЖНЯЯ ЧАСТЬ ЗАСТАВКИ — НИЖНЯЯ ТРЕТЬ ЭКРАНА ===== */
 .intro-footer {
-  margin-top: 30px;
+  margin-top: auto; /* ✅ ПРИЖАТЬ К НИЗУ */
   opacity: 0;
   animation: fadeInUp 0.8s 0.5s ease-out forwards;
   width: 100%;
+  max-height: 33vh; /* ✅ НЕ БОЛЕЕ 1/3 ЭКРАНА */
+  overflow: hidden; /* ✅ ОБРЕЗАТЬ ЕСЛИ БОЛЬШЕ */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* ✅ ПРИЖАТЬ К НИЗУ */
 }
 @keyframes fadeInUp {
   0% { transform: translateY(30px); opacity: 0; }
@@ -835,7 +850,7 @@ body {
   to { transform: scaleX(1); opacity: 1; }
 }
 
-/* ===== СПИСОК ГОЛОВ — НЕСКОЛЬКО КОЛОНОК, МАКС ШИРИНА ===== */
+/* ===== СПИСОК ГОЛОВ — НЕСКОЛЬКО КОЛОНОК, НИЖНЯЯ ТРЕТЬ ===== */
 .intro-goal-info {
   margin-top: 20px;
   font-size: 20px;
@@ -845,9 +860,11 @@ body {
   align-items: center;
   gap: 15px;
   width: 100%;
-  max-width: 1100px;
+  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
+  max-height: 20vh; /* ✅ ОГРАНИЧЕНИЕ ПО ВЫСОТЕ */
+  overflow-y: auto; /* ✅ ПРОКРУТКА ЕСЛИ БОЛЬШЕ */
 }
 
 .intro-score {
@@ -870,20 +887,19 @@ body {
   align-items: center;
   gap: 15px;
   width: 100%;
-  max-width: 1000px;
   margin: 0 auto;
 }
 
 /* ===== КРУЖКИ С НОМЕРАМИ (ЗЕЛЁНЫЕ) — ИСПРАВЛЕНО ===== */
 .intro-goal-scorer {
   background: rgba(76, 175, 80, 0.2);
-  padding: 10px 25px;
+  padding: 8px 20px;
   border-radius: 40px;
   border: 1px solid rgba(76, 175, 80, 0.9);
   font-size: 18px;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   white-space: nowrap;
   flex: 0 1 auto;
 }
@@ -900,9 +916,10 @@ body {
   height: 32px;
   border-radius: 50%;
   flex-shrink: 0;
+  line-height: 1;
 }
 
-.intro-goal-scorer span {
+.intro-goal-scorer span:not(.intro-goal-number) {
   color: rgba(76, 175, 80, 0.9);
   font-weight: bold;
 }
@@ -1291,7 +1308,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.23.0";
+const VERSION = "2.24.0";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1407,7 +1424,7 @@ function showIntro(period) {
         goalsHtml += `<div class="intro-goal-scorers">`;
         legionGoalsList.forEach(goal => {
           if (goal.number && goal.lastName) {
-            // ✅ НОМЕРА В ЗЕЛЁНЫХ КРУЖКАХ
+            // ✅ НОМЕРА В ЗЕЛЁНЫХ КРУЖКАХ — ИСПРАВЛЕНО
             goalsHtml += `<div class="intro-goal-scorer">
               <span class="intro-goal-number">${goal.number}</span>
               <span>${goal.lastName}</span>
@@ -1472,7 +1489,7 @@ function selectScorerAndGoal(player) {
   if (!state.goals) state.goals = [];
   state.goals.push({
     team: 'legion',
-    number: player.number,
+    number: player.number,  // ✅ СОХРАНЯЕМ НОМЕР
     lastName: player.lastName.toUpperCase(),
     minute: Math.floor(currentTimerSeconds / 60)
   });
@@ -1855,6 +1872,7 @@ onValue(ref(db, 'goal_trigger'), (snapshot) => {
   if (trigger.time && now - trigger.time > 10000) return;
   elements.goalAnim.classList.add('active');
   setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
+  // ✅ АНИМАЦИЯ ЛОГОТИПА — ИСПРАВЛЕНО
   if (trigger.team === 'legion' && state.logoAnimEnabled) {
     elements.logoAnim.classList.remove('active');
     setTimeout(() => elements.logoAnim.classList.add('active'), 50);
