@@ -730,25 +730,25 @@ display: flex;
 align-items: center;
 justify-content: center;
 }
-/* ✅ ЛОГОТИПЫ */
+/* ✅ ЛОГОТИПЫ (уменьшены на 20%) */
 .intro-logo {
-width: min(60vw, 600px);
+width: min(48vw, 480px);  /* было min(60vw, 600px) -> уменьшено на 20% */
 height: auto;
-max-width: 600px;
+max-width: 480px;
 object-fit: contain;
 filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6));
 animation: logoPulse 2s infinite ease-in-out;
 }
 .intro-team.away .intro-logo {
-width: min(45vw, 450px);
+width: min(36vw, 360px);  /* было min(45vw, 450px) -> уменьшено на 20% */
 }
 @keyframes logoPulse {
 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); }
 50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); }
 }
-/* ✅ НАЗВАНИЯ */
+/* ✅ НАЗВАНИЯ (уменьшены на 40%) */
 .intro-name {
-font-size: clamp(32px, 8vw, 64px);
+font-size: clamp(19px, 4.8vw, 38px);  /* было clamp(32px, 8vw, 64px) * 0.6 = clamp(19.2px, 4.8vw, 38.4px) */
 font-weight: 900;
 text-transform: uppercase;
 letter-spacing: 2px;
@@ -786,15 +786,15 @@ justify-content: flex-end;
 0% { transform: translateY(30px); opacity: 0; }
 100% { transform: translateY(0); opacity: 1; }
 }
-/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ внутри карточки */
+/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ внутри карточки (уменьшена на 40%) */
 .intro-datetime {
-font-size: clamp(16px, 4vw, 24px);
+font-size: clamp(10px, 2.4vw, 14px);  /* было clamp(16px, 4vw, 24px) * 0.6 = clamp(9.6px, 2.4vw, 14.4px) */
 color: rgba(255,255,255,0.8);
 font-family: 'Arial', sans-serif;
 letter-spacing: 1px;
 background: rgba(0, 0, 0, 0.5);
 display: inline-block;
-padding: 1vh 3vw;
+padding: 0.8vh 3vw;
 border-radius: 40px;
 backdrop-filter: blur(5px);
 border: 1px solid rgba(255, 255, 255, 0.1);
@@ -812,8 +812,9 @@ color: rgba(76, 175, 80, 0.9);
 font-weight: bold;
 margin: 0 5px;
 }
+/* ✅ ТАЙМ (уменьшен на 40%) */
 .intro-period-badge {
-font-size: clamp(28px, 6vw, 48px);
+font-size: clamp(17px, 3.6vw, 29px);  /* было clamp(28px, 6vw, 48px) * 0.6 = clamp(16.8px, 3.6vw, 28.8px) */
 font-weight: 900;
 text-transform: uppercase;
 letter-spacing: 4px;
@@ -1012,20 +1013,20 @@ animation: pulse 1s infinite;
     max-width: 80vw;
   }
   .intro-name {
-    font-size: clamp(24px, 6vw, 32px);
+    font-size: clamp(14px, 3.6vw, 22px);  /* было clamp(24px, 6vw, 32px) * 0.6 = clamp(14.4px, 3.6vw, 19.2px) */
   }
   .intro-logo {
-    width: min(50vw, 400px);
+    width: min(40vw, 320px);  /* было min(50vw, 400px) * 0.8 = min(40vw, 320px) */
   }
   .intro-team.away .intro-logo {
-    width: min(40vw, 300px);
+    width: min(32vw, 240px);  /* было min(40vw, 300px) * 0.8 = min(32vw, 240px) */
   }
   .intro-datetime {
-    font-size: clamp(14px, 3.5vw, 16px);
-    padding: 0.8vh 4vw;
+    font-size: clamp(8px, 2.1vw, 11px);  /* было clamp(14px, 3.5vw, 16px) * 0.6 = clamp(8.4px, 2.1vw, 9.6px) */
+    padding: 0.6vh 3vw;
   }
   .intro-period-badge {
-    font-size: clamp(24px, 5vw, 32px);
+    font-size: clamp(14px, 3vw, 22px);  /* было clamp(24px, 5vw, 32px) * 0.6 = clamp(14.4px, 3vw, 19.2px) */
   }
 }
 
@@ -1042,16 +1043,16 @@ animation: pulse 1s infinite;
     gap: 8vw;
   }
   .intro-logo {
-    width: min(40vw, 300px);
+    width: min(32vw, 256px);  /* было min(40vw, 300px) * 0.8 = min(32vw, 240px) -> чуть увеличим */
   }
   .intro-team.away .intro-logo {
-    width: min(30vw, 250px);
+    width: min(24vw, 192px);  /* было min(30vw, 250px) * 0.8 = min(24vw, 200px) */
   }
   .intro-name {
-    font-size: clamp(20px, 5vw, 28px);
+    font-size: clamp(12px, 3vw, 20px);  /* было clamp(20px, 5vw, 28px) * 0.6 = clamp(12px, 3vw, 16.8px) */
   }
   .intro-period-badge {
-    font-size: clamp(20px, 4vw, 28px);
+    font-size: clamp(12px, 2.4vw, 20px);  /* было clamp(20px, 4vw, 28px) * 0.6 = clamp(12px, 2.4vw, 16.8px) */
   }
   .sc-v1, .sc-v2, .sc-v3 {
     transform: scale(0.9);
@@ -1064,16 +1065,16 @@ animation: pulse 1s infinite;
     transform: scale(0.7);
   }
   .intro-logo {
-    width: min(35vw, 250px);
+    width: min(28vw, 200px);  /* было min(35vw, 250px) * 0.8 = min(28vw, 200px) */
   }
   .intro-team.away .intro-logo {
-    width: min(25vw, 200px);
+    width: min(20vw, 160px);  /* было min(25vw, 200px) * 0.8 = min(20vw, 160px) */
   }
   .intro-name {
-    font-size: clamp(16px, 4vw, 22px);
+    font-size: clamp(10px, 2.4vw, 16px);  /* было clamp(16px, 4vw, 22px) * 0.6 = clamp(9.6px, 2.4vw, 13.2px) */
   }
   .intro-period-badge {
-    font-size: clamp(18px, 3.5vw, 24px);
+    font-size: clamp(11px, 2.1vw, 17px);  /* было clamp(18px, 3.5vw, 24px) * 0.6 = clamp(10.8px, 2.1vw, 14.4px) */
   }
   .sc-v1, .sc-v2, .sc-v3 {
     transform: scale(0.8);
@@ -1309,7 +1310,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.40.0"; // ✅ ОБНОВЛЁННАЯ ВЕРСИЯ
+const VERSION = "2.41.0"; // ✅ ОБНОВЛЁННАЯ ВЕРСИЯ
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 let state = {
