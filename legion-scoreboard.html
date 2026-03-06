@@ -616,7 +616,7 @@ body {
   100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; }
 }
 
-/* ===== ОВЕРЛЕЙ ЗАСТАВКИ — ПОЛНОЕ ИСПРАВЛЕНИЕ ===== */
+/* ===== ОВЕРЛЕЙ ЗАСТАВКИ — ИСПРАВЛЕННОЕ ВЫРАВНИВАНИЕ ===== */
 .intro-overlay {
   position: fixed;
   top: 0;
@@ -691,15 +691,15 @@ body {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* ✅ РАСПРЕДЕЛИТЬ ПО ВЕРТИКАЛИ */
-  height: 80vh; /* ✅ ФИКСИРОВАННАЯ ВЫСОТА */
+  justify-content: space-between;
+  height: 80vh;
 }
 @keyframes cardAppear {
   0% { transform: scale(0.9); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
 }
 
-/* ===== ИСПРАВЛЕННОЕ ВЫРАВНИВАНИЕ ЛОГОТИПОВ И НАЗВАНИЙ ===== */
+/* ===== ИСПРАВЛЕННОЕ ВЫРАВНИВАНИЕ ЛОГОТИПОВ ===== */
 .intro-teams {
   display: flex;
   align-items: center; /* ✅ ЦЕНТРЫ ЛОГОТИПОВ НА ОДНОЙ ЛИНИИ */
@@ -715,13 +715,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center; /* ✅ ЦЕНТРИРОВАНИЕ ВНУТРИ БЛОКА */
   gap: 15px;
   opacity: 0;
   width: auto;
   min-width: 250px;
   max-width: 45vw;
-  height: 280px; /* ✅ ФИКСИРОВАННАЯ ВЫСОТА ДЛЯ ВЫРАВНИВАНИЯ */
+  height: 280px; /* ✅ ФИКСИРОВАННАЯ ВЫСОТА */
 }
 
 .intro-team.home {
@@ -792,7 +792,7 @@ body {
   animation: fadeInUp 0.8s 0.5s ease-out forwards;
   width: 100%;
   max-height: 33vh; /* ✅ НЕ БОЛЕЕ 1/3 ЭКРАНА */
-  overflow: hidden; /* ✅ ОБРЕЗАТЬ ЕСЛИ БОЛЬШЕ */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-end; /* ✅ ПРИЖАТЬ К НИЗУ */
@@ -863,8 +863,8 @@ body {
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
-  max-height: 20vh; /* ✅ ОГРАНИЧЕНИЕ ПО ВЫСОТЕ */
-  overflow-y: auto; /* ✅ ПРОКРУТКА ЕСЛИ БОЛЬШЕ */
+  max-height: 20vh;
+  overflow-y: auto;
 }
 
 .intro-score {
@@ -882,7 +882,7 @@ body {
 
 .intro-goal-scorers {
   display: flex;
-  flex-wrap: wrap; /* ✅ НЕСКОЛЬКО КОЛОНОК */
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 15px;
@@ -890,7 +890,7 @@ body {
   margin: 0 auto;
 }
 
-/* ===== КРУЖКИ С НОМЕРАМИ (ЗЕЛЁНЫЕ) — ИСПРАВЛЕНО ===== */
+/* ===== КРУЖКИ С НОМЕРАМИ (ЗЕЛЁНЫЕ) ===== */
 .intro-goal-scorer {
   background: rgba(76, 175, 80, 0.2);
   padding: 8px 20px;
@@ -908,8 +908,8 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--accent-green); /* ✅ ЗЕЛЁНЫЙ ФОН */
-  color: #000; /* ✅ ЧЁРНЫЙ ТЕКСТ */
+  background: var(--accent-green);
+  color: #000;
   font-weight: 900;
   font-size: 16px;
   width: 32px;
@@ -1308,7 +1308,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.24.0";
+const VERSION = "2.25.0";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1382,7 +1382,7 @@ if (elements.versionDisplay) {
 
 function updateDebugInfo() {
   if (!DEBUG || !elements.debugInfo) return;
-  elements.debugInfo.innerHTML = `v${VERSION} | timer: ${currentTimerSeconds}s | running: ${state.timer.running}`;
+  elements.debugInfo.innerHTML = `v${VERSION} | timer: ${currentTimerSeconds}s | running: ${state.timer.running} | goals: ${state.goals.length}`;
   elements.debugInfo.classList.add('visible');
 }
 
@@ -1404,6 +1404,7 @@ function updateRealTime() {
 function showIntro(period) {
   if (!elements.introOverlay) return;
   console.log(`🎬 Показываем заставку ${period}`);
+  console.log('📊 Текущее состояние goals:', state.goals);
   
   elements.introLogoHome.src = LEGION_LOGO;
   elements.introLogoAway.src = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
@@ -1415,16 +1416,20 @@ function showIntro(period) {
     const legionGoals = state.legionScore;
     const opponentGoals = state.opponentScore;
     
+    console.log('⚽ Голы Легиона:', legionGoals);
+    console.log('⚽ Голы соперника:', opponentGoals);
+    
     if (elements.introGoalInfo) {
       let goalsHtml = `<div class="intro-score">${legionGoals} : ${opponentGoals}</div>`;
       
       const legionGoalsList = state.goals.filter(g => g.team === 'legion');
+      console.log('📋 Список голов Легиона:', legionGoalsList);
       
       if (legionGoalsList.length > 0) {
         goalsHtml += `<div class="intro-goal-scorers">`;
-        legionGoalsList.forEach(goal => {
+        legionGoalsList.forEach((goal, index) => {
+          console.log(`Гол #${index + 1}:`, goal);
           if (goal.number && goal.lastName) {
-            // ✅ НОМЕРА В ЗЕЛЁНЫХ КРУЖКАХ — ИСПРАВЛЕНО
             goalsHtml += `<div class="intro-goal-scorer">
               <span class="intro-goal-number">${goal.number}</span>
               <span>${goal.lastName}</span>
@@ -1435,10 +1440,13 @@ function showIntro(period) {
           }
         });
         goalsHtml += `</div>`;
+      } else {
+        console.log('⚠️ Голов Легиона не найдено!');
       }
       
       elements.introGoalInfo.innerHTML = goalsHtml;
       elements.introGoalInfo.style.display = 'flex';
+      console.log('✅ HTML заставки 2 тайма:', goalsHtml);
     }
   } else {
     if (elements.introGoalInfo) {
@@ -1487,12 +1495,15 @@ function selectScorerAndGoal(player) {
   elements.admin.sh.value = state.legionScore;
   
   if (!state.goals) state.goals = [];
-  state.goals.push({
+  const goalData = {
     team: 'legion',
-    number: player.number,  // ✅ СОХРАНЯЕМ НОМЕР
+    number: player.number,
     lastName: player.lastName.toUpperCase(),
     minute: Math.floor(currentTimerSeconds / 60)
-  });
+  };
+  state.goals.push(goalData);
+  
+  console.log('💾 Сохраняем голы в Firebase:', state.goals);
   
   update(ref(db, DB_KEY), {
     legionScore: state.legionScore,
@@ -2028,6 +2039,11 @@ window.addEventListener('beforeunload', () => {
     while (walker.nextNode()) {
       walker.currentNode.remove();
     }
+    
+    // ✅ ПРОВЕРКА ЭЛЕМЕНТА АНИМАЦИИ
+    const logoAnim = document.getElementById('logo-anim');
+    console.log('🎬 Элемент logo-anim:', logoAnim);
+    console.log('🎬 Классы:', logoAnim ? logoAnim.className : 'не найден');
   });
 })();
 </script>
