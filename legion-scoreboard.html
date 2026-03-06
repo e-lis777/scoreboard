@@ -1014,6 +1014,64 @@ animation: pulse 1s infinite;
 0%,100% { opacity:1; }
 50% { opacity:0.6; }
 }
+
+/* ===== АДАПТИВНОСТЬ ЗАСТАВКИ ДЛЯ МОБИЛЬНЫХ ===== */
+@media (max-width: 768px) {
+  .intro-teams {
+    gap: 30px;
+  }
+  .intro-team {
+    min-width: auto; /* убираем фиксированную ширину */
+  }
+  .intro-name {
+    font-size: 32px;
+    white-space: normal; /* разрешаем перенос, если нужно */
+    word-break: break-word;
+    height: auto;
+    padding: 0 10px;
+  }
+  .intro-logo-container {
+    width: auto;
+    height: auto;
+  }
+  .intro-logo {
+    width: 200px;
+    height: 200px;
+  }
+  .intro-team.away .intro-logo {
+    width: 150px;
+    height: 150px;
+  }
+  .intro-datetime {
+    font-size: 16px;
+    padding: 8px 16px;
+    bottom: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro-teams {
+    gap: 15px;
+  }
+  .intro-name {
+    font-size: 24px;
+  }
+  .intro-logo {
+    width: 150px;
+    height: 150px;
+  }
+  .intro-team.away .intro-logo {
+    width: 120px;
+    height: 120px;
+  }
+  .intro-datetime {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+  .intro-period-badge {
+    font-size: 32px;
+  }
+}
 </style>
 </head>
 <body>
