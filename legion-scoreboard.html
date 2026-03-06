@@ -1022,11 +1022,11 @@ animation: pulse 1s infinite;
     gap: 30px;
   }
   .intro-team {
-    min-width: auto; /* убираем фиксированную ширину */
+    min-width: auto;
   }
   .intro-name {
     font-size: 32px;
-    white-space: normal; /* разрешаем перенос, если нужно */
+    white-space: normal;
     word-break: break-word;
     height: auto;
     padding: 0 10px;
@@ -1071,6 +1071,35 @@ animation: pulse 1s infinite;
   }
   .intro-period-badge {
     font-size: 32px;
+  }
+}
+
+/* ===== ИЗМЕНЕНИЯ ПО ЗАПРОСУ (УМЕНЬШЕНИЕ НАЗВАНИЙ, ПРИБЛИЖЕНИЕ ЭЛЕМЕНТОВ) ===== */
+.intro-name {
+  font-size: 44px; /* 64 * 0.7 ≈ 44.8 */
+}
+@media (max-width: 768px) {
+  .intro-name {
+    font-size: 22px; /* 32 * 0.7 ≈ 22.4 */
+  }
+}
+@media (max-width: 480px) {
+  .intro-name {
+    font-size: 17px; /* 24 * 0.7 = 16.8 */
+  }
+}
+.intro-team {
+  gap: 1px; /* было 15px */
+}
+.intro-period-badge {
+  margin-top: 1px; /* было 10px */
+}
+.intro-datetime {
+  bottom: 29px; /* было 30px */
+}
+@media (max-width: 768px) {
+  .intro-datetime {
+    bottom: 14px; /* было 15px */
   }
 }
 </style>
