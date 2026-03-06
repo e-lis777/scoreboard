@@ -788,8 +788,12 @@ justify-content: flex-end;
 0% { transform: translateY(30px); opacity: 0; }
 100% { transform: translateY(0); opacity: 1; }
 }
-/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ (теперь внутри карточки) */
+/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ */
 .intro-datetime {
+position: fixed;
+bottom: 30px;
+left: 50%;
+transform: translate(-50%, 0);
 font-size: 24px;
 color: rgba(255,255,255,0.8);
 font-family: 'Arial', sans-serif;
@@ -800,14 +804,20 @@ padding: 10px 30px;
 border-radius: 40px;
 backdrop-filter: blur(5px);
 border: 1px solid rgba(255, 255, 255, 0.1);
-margin: 30px auto 0;
+z-index: 10001;
 opacity: 0;
-animation: fadeIn 0.8s 0.5s ease-out forwards;
+animation: fadeInUpCentered 0.8s 0.5s ease-out forwards;
 white-space: nowrap;
 }
-@keyframes fadeIn {
-0% { opacity: 0; }
-100% { opacity: 1; }
+@keyframes fadeInUpCentered {
+0% {
+transform: translate(-50%, 30px);
+opacity: 0;
+}
+100% {
+transform: translate(-50%, 0);
+opacity: 1;
+}
 }
 .intro-datetime span {
 color: rgba(76, 175, 80, 0.9);
@@ -1034,7 +1044,7 @@ animation: pulse 1s infinite;
   .intro-datetime {
     font-size: 16px;
     padding: 8px 16px;
-    margin-top: 20px;
+    bottom: 15px;
   }
 }
 
@@ -1042,17 +1052,14 @@ animation: pulse 1s infinite;
   body {
     overflow-x: hidden;
   }
-  .intro-overlay {
+  .intro-card {
     transform: scale(0.7);
     transform-origin: center center;
-  }
-  .intro-card {
-    transform: none; /* убираем масштабирование с карточки, теперь масштабируется весь оверлей */
   }
   .intro-datetime {
     font-size: 14px;
     padding: 6px 12px;
-    margin-top: 15px;
+    bottom: 10px;
   }
   .intro-period-badge {
     font-size: 32px;
@@ -1166,12 +1173,12 @@ animation: pulse 1s infinite;
 <div class="intro-footer">
 <div class="intro-period-badge" id="intro-period">1 ТАЙМ</div>
 </div>
-<!-- ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ внутри карточки -->
+</div>
+<!-- ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ -->
 <div class="intro-datetime">
 <span id="intro-date">05.03.2026</span> •
 <span id="intro-time">19:30</span> •
 <span id="intro-timezone">MSK</span>
-</div>
 </div>
 </div>
 <!-- Модальное окно -->
@@ -1279,7 +1286,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.39.0"; // ✅ ОБНОВЛЁННАЯ ВЕРСИЯ
+const VERSION = "2.38.0"; // ✅ ОБНОВЛЁННАЯ ВЕРСИЯ
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 let state = {
