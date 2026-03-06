@@ -675,14 +675,14 @@ animation: linesMove 12s linear infinite;
 position: relative;
 width: 1200px;
 max-width: 90vw;
-padding: 50px 30px;
+padding: 30px 30px;  /* Уменьшен верхний отступ с 50px до 30px */
 text-align: center;
 color: var(--text-white);
 transform: scale(0.9);
 animation: cardAppear 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.1) forwards;
 margin: 0 auto;
 
-/* Добавляем flex для размещения плашки внизу */
+/* Flex для размещения плашки внизу */
 display: flex;
 flex-direction: column;
 height: 100%;
@@ -1173,7 +1173,7 @@ animation: pulse 1s infinite;
 <div class="intro-footer">
 <div class="intro-period-badge" id="intro-period">1 ТАЙМ</div>
 </div>
-<!-- ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ ПЕРЕМЕЩЕНА ВНУТРЬ КАРТОЧКИ -->
+<!-- ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ -->
 <div class="intro-datetime">
 <span id="intro-date">05.03.2026</span> •
 <span id="intro-time">19:30</span> •
