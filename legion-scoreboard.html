@@ -723,7 +723,7 @@ animation: slideInRight 0.6s 0.2s ease-out forwards;
 0% { transform: translateX(100px); opacity: 0; }
 100% { transform: translateX(0); opacity: 1; }
 }
-/* ===== ЛОГОТИПЫ: ЛЕГИОН ВСЕГДА НА 25% БОЛЬШЕ ===== */
+/* ===== ЛОГОТИПЫ ===== */
 .intro-logo {
 width: 200px;
 height: 200px;
@@ -741,7 +741,7 @@ height: 150px;
 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); }
 50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); }
 }
-/* ===== НАЗВАНИЯ НА ОДНОЙ ГОРИЗОНТАЛЬНОЙ ЛИНИИ ===== */
+/* ===== НАЗВАНИЯ ===== */
 .intro-name {
 font-size: 32px;
 font-weight: 900;
@@ -781,12 +781,12 @@ justify-content: flex-end;
 0% { transform: translateY(30px); opacity: 0; }
 100% { transform: translateY(0); opacity: 1; }
 }
-/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — ИДЕАЛЬНОЕ ЦЕНТРИРОВАНИЕ v2.29.0 */
+/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — ИДЕАЛЬНОЕ ЦЕНТРИРОВАНИЕ v2.30.0 */
 .intro-datetime {
-position: fixed; /* Фиксация относительно ОКНА БРАУЗЕРА (не родителя!) */
-bottom: 30px; /* Отступ от низа экрана */
-left: 50%; /* Левый край на 50% ширины экрана */
-transform: translateX(-50%); /* Сдвиг влево на 50% ШИРИНЫ ПЛАШКИ */
+position: fixed; /* ✅ Относительно ОКНА браузера */
+bottom: 30px; /* ✅ Отступ от низа экрана */
+left: 50%; /* ✅ Левый край на 50% ширины экрана */
+transform: translateX(-50%); /* ✅ Сдвиг влево на 50% ШИРИНЫ ПЛАШКИ */
 font-size: 24px;
 color: rgba(255,255,255,0.8);
 font-family: 'Arial', sans-serif;
@@ -797,7 +797,7 @@ padding: 10px 30px;
 border-radius: 40px;
 backdrop-filter: blur(5px);
 border: 1px solid rgba(255, 255, 255, 0.1);
-z-index: 10001;
+z-index: 10001; /* ✅ Поверх всех элементов */
 opacity: 0;
 animation: fadeInUp 0.8s 0.5s ease-out forwards;
 white-space: nowrap;
@@ -818,7 +818,6 @@ background: linear-gradient(135deg, #fff 0%, rgba(76, 175, 80, 0.9) 100%);
 text-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
 margin-top: 10px;
 }
-/* ✅ СКРЫВАЕМ БАДЖ ДЛЯ 1 ТАЙМА */
 .intro-period-badge.hidden {
 display: none;
 }
@@ -1102,7 +1101,7 @@ animation: pulse 1s infinite;
 <div class="intro-period-badge" id="intro-period">1 ТАЙМ</div>
 </div>
 </div>
-<!-- ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — ТЕПЕРЬ ВНЕ .intro-card -->
+<!-- ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — ВНЕ .intro-card -->
 <div class="intro-datetime">
 <span id="intro-date">05.03.2026</span> •
 <span id="intro-time">19:30</span> •
@@ -1214,7 +1213,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.29.0"; // ✅ ОБНОВЛЁННАЯ ВЕРСИЯ
+const VERSION = "2.30.0";
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 let state = {
@@ -1301,19 +1300,17 @@ elements.introTime.textContent = `${hours}:${minutes}`;
 }
 function showIntro(period) {
 if (!elements.introOverlay) return;
-console.log(`🎬 Показываем заставку ${period}`);
 elements.introLogoHome.src = LEGION_LOGO;
 elements.introLogoAway.src = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
 elements.introNameHome.textContent = 'ЛЕГИОН';
 elements.introNameAway.textContent = state.opponentName;
 elements.introPeriod.textContent = period;
-// ✅ СКРЫВАЕМ "1 ТАЙМ", ПОКАЗЫВАЕМ ТОЛЬКО "2 ТАЙМ"
+// ✅ СКРЫВАЕМ "1 ТАЙМ"
 if (period === '1 ТАЙМ') {
 elements.introPeriod.classList.add('hidden');
 } else {
 elements.introPeriod.classList.remove('hidden');
 }
-// ✅ УДАЛЕНО: Вся информация о голах
 updateRealTime();
 elements.introOverlay.classList.add('show');
 setTimeout(() => {
@@ -1347,7 +1344,6 @@ if (!elements.goalModal.classList.contains('hidden')) return;
 elements.goalModal.classList.remove('hidden');
 }
 function selectScorerAndGoal(player) {
-console.log('⚽ Гол Легиона:', player);
 state.legionScore++;
 elements.admin.sh.value = state.legionScore;
 if (!state.goals) state.goals = [];
@@ -1358,12 +1354,10 @@ lastName: player.lastName.toUpperCase(),
 minute: Math.floor(currentTimerSeconds / 60)
 };
 state.goals.push(goalData);
-console.log('💾 Сохраняем голы в Firebase:', state.goals);
 update(ref(db, DB_KEY), {
 legionScore: state.legionScore,
 goals: state.goals
 }).catch(console.error);
-console.log('📤 Отправляем goal_trigger');
 const animData = { time: Date.now(), team: 'legion' };
 set(ref(db, 'goal_trigger'), animData).catch(console.error);
 setTimeout(() => {
@@ -1377,7 +1371,6 @@ position: player.position
 minute: Math.floor(currentTimerSeconds / 60),
 timestamp: Date.now()
 };
-console.log('📤 Отправляем live_goal:', liveGoalData);
 set(ref(db, 'live_goal'), liveGoalData)
 .then(() => setTimeout(() => set(ref(db, 'live_goal'), null), 8000))
 .catch(console.error);
@@ -1386,7 +1379,6 @@ elements.goalModal.classList.add('hidden');
 toast('⚽ Гол!');
 }
 function goalWithoutPlayerFromModal() {
-console.log('⚽ Гол без игрока');
 state.legionScore++;
 elements.admin.sh.value = state.legionScore;
 if (!state.goals) state.goals = [];
@@ -1567,7 +1559,7 @@ const newLogo = elements.admin.la.value;
 if (newLogo) {
 validateImageUrl(newLogo, (valid) => {
 if (!valid) {
-toast('Неверный URL логотипа, сохранение отменено', 'error');
+toast('Неверный URL логотипа', 'error');
 return;
 }
 state.opponentName = newName;
@@ -1689,7 +1681,6 @@ elements.toast.classList.add('error');
 elements.toast.classList.add('show');
 setTimeout(() => elements.toast.classList.remove('show'), 2000);
 }
-// ===== СЛУШАТЕЛИ FIREBASE =====
 onValue(ref(db, 'goal_trigger'), (snapshot) => {
 const trigger = snapshot.val();
 if (!trigger || ADMIN) return;
@@ -1743,7 +1734,6 @@ setTimeout(() => {
 set(ref(db, 'intro_trigger'), null).catch(console.error);
 }, 500);
 });
-// Очистка триггеров при загрузке
 set(ref(db, 'goal_trigger'), null).catch(() => {});
 set(ref(db, 'live_goal'), null).catch(() => {});
 set(ref(db, 'intro_trigger'), null).catch(() => {});
@@ -1769,36 +1759,29 @@ document.getElementById('timerResetBtn').addEventListener('click', timerReset);
 document.getElementById('updatePeriodBtn').addEventListener('click', updatePeriod);
 document.getElementById('goalLegionBtn').addEventListener('click', () => quickGoal('legion'));
 document.getElementById('goalOpponentBtn').addEventListener('click', () => quickGoal('opponent'));
-// Кнопки для заставок
 document.getElementById('showIntro1Btn').addEventListener('click', () => {
-console.log('🔴 Нажата кнопка 1 ТАЙМ');
 const triggerRef = ref(db, 'intro_trigger');
 set(triggerRef, {
 type: 'first_half',
 time: Date.now()
 })
 .then(() => {
-console.log('✅ Триггер 1 тайма успешно отправлен');
 toast('Сигнал на заставку 1 тайма отправлен');
 })
 .catch((error) => {
-console.error('❌ Ошибка отправки триггера:', error);
 toast('❌ Ошибка отправки', 'error');
 });
 });
 document.getElementById('showIntro2Btn').addEventListener('click', () => {
-console.log('🔴 Нажата кнопка 2 ТАЙМ');
 const triggerRef = ref(db, 'intro_trigger');
 set(triggerRef, {
 type: 'second_half',
 time: Date.now()
 })
 .then(() => {
-console.log('✅ Триггер 2 тайма успешно отправлен');
 toast('Сигнал на заставку 2 тайма отправлен');
 })
 .catch((error) => {
-console.error('❌ Ошибка отправки триггера:', error);
 toast('❌ Ошибка отправки', 'error');
 });
 });
@@ -1840,9 +1823,6 @@ return NodeFilter.FILTER_SKIP;
 while (walker.nextNode()) {
 walker.currentNode.remove();
 }
-const logoAnim = document.getElementById('logo-anim');
-console.log('🎬 Элемент logo-anim:', logoAnim);
-console.log('🎬 Классы:', logoAnim ? logoAnim.className : 'не найден');
 });
 })();
 </script>
