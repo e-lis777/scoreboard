@@ -38,8 +38,7 @@ margin: 0 auto;
 .sc-v1-bar {
 display: flex;
 align-items: center;
-width: 100%;
-background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+width: 10 linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
 border-radius: 10px;
 padding: 6px 0;
 box-shadow: var(--shadow-lg);
@@ -143,6 +142,7 @@ border-radius: 6px;
 box-shadow: var(--shadow-md);
 }
 .sc-v2-team {
+display: flex;
 align-items: center;
 justify-content: center;
 gap: 8px;
@@ -339,12 +339,13 @@ color: #666;
 text-transform: uppercase;
 }
 /* ===== ЦВЕТОВЫЕ ТЕМЫ ===== */
-.theme-classic1 .sc-v1-bar { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100-classic1 .sc-v1-timer { background: linear-gradient(180deg, #ff4757 0%, #cc3344 100%); }
+.theme-classic1 .sc-v1-bar { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); }
+.theme-classic1 .sc-v1-timer { background: linear-gradient(180deg, #ff4757 0%, #cc3344 100%); }
 .theme-classic1 .sc-v1-time { color: #ffcc00; }
 .theme-classic1 .sc-v2-team { background: linear-gradient(90deg, #1a1a2e 0%, #16213e 100%); }
 .theme-classic1 .sc-v2-team.away { background: linear-gradient(90deg, #16213e 0%, #1a1a2e 100%); }
 .theme-classic1 .sc-v2-score-sec { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); }
-.theme-classic1 .sc-v2-timer { background: linear-gradient(180deg, #ff4757 0%, #cc3344 100%); }
+.theme-classic1 .sc-v2-timer { background: linear-gradient(180deg, #ff4 0%, #cc3344 100%); }
 .theme-classic1 .sc-v2-timer .time { color: #ffcc00; }
 .theme-classic1 .sc-v3-strip { background: linear-gradient(90deg, #1a1a2e 0%, #16213e 100%); }
 .theme-classic2 .sc-v1-bar { background: linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 100%); }
@@ -371,7 +372,7 @@ text-transform: uppercase;
 .theme-purple .sc-v2-team { background: linear-gradient(90deg, #581c87 0%, #7e22ce 100%); }
 .theme-purple .sc-v2-score-sec { background: linear-gradient(180deg, #581c87 0%, #7e22ce 100%); }
 .theme-purple .sc-v3-strip { background: linear-gradient(90deg, #581c87 0%, #7e22ce 100%); }
-.theme-silver .sc-v1-bar { background: linear-gradient(180deg, #40 0%, #525252 100%); }
+.theme-silver .sc-v1-bar { background: linear-gradient(180deg, #404040 0%, #525252 100%); }
 .theme-silver .sc-v1-timer { background: linear-gradient(180deg, #404040 0%, #525252 100%); }
 .theme-silver .sc-v2-team { background: linear-gradient(90deg, #404040 0%, #525252 100%); }
 .theme-silver .sc-v2-score-sec { background: linear-gradient(180deg, #404040 0%, #525252 100%); }
@@ -502,7 +503,7 @@ justify-content: center;
 display: none;
 }
 .modal-content {
-background: linear-gradient(135deg1a2e 0%, #16213e 100%);
+background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 border-radius: 24px;
 padding: 30px;
 max-width: 600px;
@@ -574,7 +575,7 @@ background: rgba(255, 165, 2, 0.5);
 .goal-anim {
 position: fixed;
 top: 50%;
-left%;
+left: 50%;
 transform: translate(-50%, -50%) scale(0);
 font-size: 100px;
 font-weight: 900;
@@ -810,8 +811,10 @@ border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .intro-datetime span {
 color: rgba(76, 175, 80, 0.9);
-font-weight: bold0 5px;
+font-weight: bold;
+margin: 0 5px;
 }
+.intro-period-badge {
 font-size: 48px;
 font-weight: 900;
 text-transform: uppercase;
@@ -966,7 +969,7 @@ background: linear-gradient(135deg, #2ed573, #1ea65a);
 color: var(--text-white); padding: 12px 25px; border-radius: 10px;
 font-weight: 700; opacity: 0; transition: var(--transition); z-index: 3000;
 }
-.toast.show { transform: translateX(-50%) translateY: 1; }
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 .toast.error { background: linear-gradient(135deg, #ff4757, #cc3344); }
 .var-sel { display: flex; gap: 8px; margin-bottom: 15px; }
 .var-btn {
@@ -976,7 +979,7 @@ font-weight: 700; cursor: pointer; font-size: 11px; transition: var(--transition
 }
 .var-btn.act { border-color: #00d4ff; background: rgba(0,212,255,0.2); }
 .var-btn small { display: block; font-size: 9px; opacity: 0.7; margin-top: 3px; }
-.col-sel { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 12px; }
+.col-sel { display: grid; grid-template-columns: 1fr); gap: 6px; margin-top: 12px; }
 .col-btn {
 padding: 10px 5px; border: 2px solid rgba(255,255,255,0.2); border-radius: 6px;
 cursor: pointer; font-weight: 700; color: var(--text-white); text-transform: uppercase;
@@ -1074,7 +1077,7 @@ animation: pulse 1s infinite;
 </div>
 <div class="sc-v1-score-sec">
 <div class="sc-v1-scores">
-<span id="v1sc-v1-score">0</span>
+<span id="v1-sh" class="sc-v1-score">0</span>
 <span class="sc-v1-sep">-</span>
 <span id="v1-sa" class="sc-v1-score">0</span>
 </div>
@@ -1084,7 +1087,7 @@ animation: pulse 1s infinite;
 </div>
 </div>
 <div class="sc-v1-half away">
-<img id="v1-la" class="sc-v1-logo" src="https://static.vecteezy.com/system/resources/th5/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Логотип соперника">
+<img id="v1-la" class="sc-v1-logo" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Логотип соперника">
 <span id="v1-na" class="sc-v1-name">СОПЕРНИК</span>
 </div>
 </div>
@@ -1300,7 +1303,7 @@ let timerUpdateInterval = null;
 let players = [];
 const elements = {
 v1: { lh: document.getElementById('v1-lh'), la: document.getElementById('v1-la'), nh: document.getElementById('v1-nh'), na: document.getElementById('v1-na'), sh: document.getElementById('v1-sh'), sa: document.getElementById('v1-sa'), p: document.getElementById('v1-p'), t: document.getElementById('v1-t') },
-v2: { lh: document.getElementById('v2-lh'), la: document.getElementById('v2-la.getElementById('v2-nh'), na: document.getElementById('v2-na'), sh: document.getElementById('v2-sh'), sa: document.getElementById('v2-sa'), p: document.getElementById('v2-p'), t: document.getElementById('v2-t') },
+v2: { lh: document.getElementById('v2-lh'), la: document.getElementById('v2-la'), nh: document.getElementById('v2-nh'), na: document.getElementById('v2-na'), sh: document.getElementById('v2-sh'), sa: document.getElementById('v2-sa'), p: document.getElementById('v2-p'), t: document.getElementById('v2-t') },
 v3: { lh: document.getElementById('v3-lh'), la: document.getElementById('v3-la'), nh: document.getElementById('v3-nh'), na: document.getElementById('v3-na'), sh: document.getElementById('v3-sh'), sa: document.getElementById('v3-sa'), p: document.getElementById('v3-p'), t: document.getElementById('v3-t') },
 admin: {
 na: document.getElementById('adm-na'),
@@ -1331,14 +1334,15 @@ scorerButtons: document.getElementById('scorer-buttons'),
 versionDisplay: document.getElementById('version-display'),
 debugInfo: document.getElementById('debug-info'),
 introOverlay: document.getElementById('intro-overlay'),
-introLogoHome: document.getElementById('intro-logo-home'),
+introLogoHome: document.getElementById'),
 introLogoAway: document.getElementById('intro-logo-away'),
 introNameHome: document.getElementById('intro-name-home'),
 introNameAway: document.getElementById('intro-name-away'),
 introDate: document.getElementById('intro-date'),
 introTime: document.getElementById('intro-time'),
 introPeriod: document.getElementById('intro-period'),
-introGoalInfo: document.getElementById('};
+introGoalInfo: document.getElementById('intro-goal-info')
+};
 if (elements.versionDisplay) {
 elements.versionDisplay.textContent = `v${VERSION}`;
 }
@@ -1351,7 +1355,7 @@ function updateRealTime() {
 const now = new Date();
 const day = String(now.getDate()).padStart(2, '0');
 const month = String(now.getMonth() + 1).padStart(2, '0');
-.getFullYear();
+const year = now.getFullYear();
 const hours = String(now.getHours()).padStart(2, '0');
 const minutes = String(now.getMinutes()).padStart(2, '0');
 if (elements.introDate) {
@@ -1577,7 +1581,7 @@ updateV3Width();
 function updateV3Width() {
 const maxLen = Math.max(7, state.opponentName.length);
 const stripWidth = Math.min(Math.max(maxLen * 13 + 30, 140), 220);
-elements.sb('--strip-width', stripWidth + 'px');
+elements.sbV3.style.setProperty('--strip-width', stripWidth + 'px');
 }
 function updateTimerDisplay() {
 const m = Math.floor(currentTimerSeconds / 60);
@@ -1733,7 +1737,8 @@ timerUpdateInterval = null;
 function timerPause() {
 if (!state.timer.running) return;
 stopTimerUpdate();
-update(ref(db, DB: {
+update(ref(db, DB_KEY), {
+timer: {
 running: false,
 elapsed: state.timer.elapsed
 }
@@ -1884,7 +1889,8 @@ document.getElementById('showIntro1Btn').addEventListener('click', () => {
 console.log('🔴 Нажата кнопка 1 ТАЙМ');
 const triggerRef = ref(db, 'intro_trigger');
 set(triggerRef, {
-type: 'first Date.now()
+type: 'first_half',
+time: Date.now()
 })
 .then(() => {
 console.log('✅ Триггер 1 тайма успешно отправлен');
