@@ -781,18 +781,25 @@ justify-content: flex-end;
 0% { transform: translateY(30px); opacity: 0; }
 100% { transform: translateY(0); opacity: 1; }
 }
+/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — В САМОМ НИЗУ ЭКРАНА */
 .intro-datetime {
+position: fixed;
+bottom: 30px;
+left: 50%;
+transform: translateX(-50%);
 font-size: 24px;
 color: rgba(255,255,255,0.8);
 font-family: 'Arial', sans-serif;
 letter-spacing: 1px;
-margin-bottom: 15px;
-background: rgba(0, 0, 0, 0.3);
+background: rgba(0, 0, 0, 0.5);
 display: inline-block;
 padding: 10px 30px;
 border-radius: 40px;
 backdrop-filter: blur(5px);
 border: 1px solid rgba(255, 255, 255, 0.1);
+z-index: 10001;
+opacity: 0;
+animation: fadeInUp 0.8s 0.5s ease-out forwards;
 }
 .intro-datetime span {
 color: rgba(76, 175, 80, 0.9);
@@ -1154,14 +1161,15 @@ animation: pulse 1s infinite;
 </div>
 </div>
 <div class="intro-footer">
+<div class="intro-period-badge" id="intro-period">1 ТАЙМ</div>
+<div id="intro-goal-info" class="intro-goal-info" style="display: none;"></div>
+</div>
+</div>
+<!-- ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — В САМОМ НИЗУ ЭКРАНА -->
 <div class="intro-datetime">
 <span id="intro-date">05.03.2026</span> •
 <span id="intro-time">19:30</span> •
 <span id="intro-timezone">MSK</span>
-</div>
-<div class="intro-period-badge" id="intro-period">1 ТАЙМ</div>
-<div id="intro-goal-info" class="intro-goal-info" style="display: none;"></div>
-</div>
 </div>
 </div>
 <!-- Модальное окно -->
@@ -1859,6 +1867,7 @@ document.getElementById('timerResetBtn').addEventListener('click', timerReset);
 document.getElementById('updatePeriodBtn').addEventListener('click', updatePeriod);
 document.getElementById('goalLegionBtn').addEventListener('click', () => quickGoal('legion'));
 document.getElementById('goalOpponentBtn').addEventListener('click', () => quickGoal('opponent'));
+// Кнопки для заставок
 document.getElementById('showIntro1Btn').addEventListener('click', () => {
 console.log('🔴 Нажата кнопка 1 ТАЙМ');
 const triggerRef = ref(db, 'intro_trigger');
