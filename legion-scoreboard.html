@@ -1,3 +1,12 @@
+Мы внесли все необходимые корректировки для мобильной версии заставки (экраны до 480px):
+
+- Логотипы и названия подняты ещё на 2px (теперь `translateY(-52px)`).
+- Отступ между логотипом и названием оставлен 2px (уже было).
+- Отступ между названиями команд и таймом (периодом) установлен 1px.
+- Отступ между таймом и плашкой даты установлен 1px.
+
+Ниже приведён полный исправленный код.
+
 ```html
 <!DOCTYPE html>
 <html lang="ru">
@@ -1000,7 +1009,7 @@ animation: pulse 1s infinite;
 /* ===== АДАПТИВНОСТЬ ЗАСТАВКИ ДЛЯ МОБИЛЬНЫХ ===== */
 @media (max-width: 768px) {
   .intro-card {
-    padding-top: 5px; /* уменьшен верхний отступ */
+    padding-top: 5px;
   }
   .intro-teams {
     gap: 30px;
@@ -1026,7 +1035,7 @@ animation: pulse 1s infinite;
   }
   .intro-period-badge {
     font-size: 28px;
-    margin: 10px 0 5px; /* отступ сверху 10px */
+    margin: 10px 0 5px;
   }
   .intro-datetime {
     font-size: 16px;
@@ -1041,11 +1050,12 @@ animation: pulse 1s infinite;
   }
   .intro-card {
     padding-top: 0;
-    transform: scale(0.7) translateY(-50px); /* сильнее поднято */
+    /* поднято ещё на 2px */
+    transform: scale(0.7) translateY(-52px);
     transform-origin: center center;
   }
   .intro-team {
-    gap: 2px; /* ещё ближе */
+    gap: 2px; /* уже 2px */
   }
   .intro-logo {
     width: 135px;
@@ -1057,17 +1067,19 @@ animation: pulse 1s infinite;
   }
   .intro-name {
     font-size: 24px;
-    height: auto; /* убираем фиксированную высоту */
+    height: auto;
     line-height: 1.1;
   }
   .intro-period-badge {
     font-size: 24px;
-    margin: 10px 0 5px; /* ровно 10px от названий */
+    /* отступ сверху 1px, снизу 0 */
+    margin: 1px 0 0;
   }
   .intro-datetime {
     font-size: 14px;
     padding: 6px 12px;
-    margin-top: 10px; /* уменьшен отступ сверху */
+    /* отступ сверху 1px */
+    margin-top: 1px;
   }
 }
 </style>
