@@ -608,7 +608,7 @@ opacity: 0;
 30% { opacity: 1; }
 100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; }
 }
-/* ===== ОВЕРЛЕЙ ЗАСТАВКИ — ИСПРАВЛЕННОЕ ВЫРАВНИВАНИЕ ===== */
+/* ===== ОВЕРЛЕЙ ЗАСТАВКИ ===== */
 .intro-overlay {
 position: fixed;
 top: 0;
@@ -686,7 +686,7 @@ margin: 0 auto;
 0% { transform: scale(0.9); opacity: 0; }
 100% { transform: scale(1); opacity: 1; }
 }
-/* ===== ИСПРАВЛЕННОЕ ВЫРАВНИВАНИЕ ЛОГОТИПОВ И НАЗВАНИЙ ===== */
+/* ===== ВЫРАВНИВАНИЕ ЛОГОТИПОВ И НАЗВАНИЙ ===== */
 .intro-teams {
 display: flex;
 align-items: center;
@@ -781,7 +781,7 @@ justify-content: flex-end;
 0% { transform: translateY(30px); opacity: 0; }
 100% { transform: translateY(0); opacity: 1; }
 }
-/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — В САМОМ НИЗУ ПО ЦЕНТРУ */
+/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — ИСПРАВЛЕННОЕ ЦЕНТРИРОВАНИЕ */
 .intro-datetime {
 position: fixed;
 bottom: 30px;
@@ -841,72 +841,9 @@ transform: scaleX(0);
 from { transform: scaleX(0); opacity: 0; }
 to { transform: scaleX(1); opacity: 1; }
 }
-/* ===== СПИСОК ГОЛОВ — БЕЗ ФАМИЛИЙ ===== */
+/* ===== СПИСОК ГОЛОВ — УДАЛЕНО ===== */
 .intro-goal-info {
-margin-top: 20px;
-font-size: 20px;
-color: rgba(255,255,255,0.8);
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: 15px;
-width: 100%;
-max-width: 1000px;
-margin-left: auto;
-margin-right: auto;
-max-height: 20vh;
-overflow-y: auto;
-}
-.intro-score {
-font-size: 42px;
-font-weight: 900;
-color: rgba(76, 175, 80, 0.9);
-text-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
-background: rgba(0, 0, 0, 0.4);
-padding: 10px 50px;
-border-radius: 50px;
-border: 2px solid rgba(76, 175, 80, 0.9);
-margin-bottom: 15px;
-display: inline-block;
-}
-.intro-goal-scorers {
-display: flex;
-flex-wrap: wrap;
-justify-content: center;
-align-items: center;
-gap: 15px;
-width: 100%;
-margin: 0 auto;
-}
-/* ===== КРУЖКИ С НОМЕРАМИ (ЗЕЛЁНЫЕ) ===== */
-.intro-goal-scorer {
-background: rgba(76, 175, 80, 0.2);
-padding: 8px 20px;
-border-radius: 40px;
-border: 1px solid rgba(76, 175, 80, 0.9);
-font-size: 18px;
-display: inline-flex;
-align-items: center;
-gap: 10px;
-white-space: nowrap;
-flex: 0 1 auto;
-}
-.intro-goal-number {
-display: inline-flex;
-align-items: center;
-justify-content: center;
-background: var(--accent-green);
-color: #000;
-font-weight: 900;
-font-size: 16px;
-width: 32px;
-height: 32px;
-border-radius: 50%;
-flex-shrink: 0;
-}
-.intro-goal-scorer span:not(.intro-goal-number) {
-color: rgba(76, 175, 80, 0.9);
-font-weight: bold;
+display: none !important;
 }
 /* ===== АДМИНКА ===== */
 .admin {
@@ -1163,7 +1100,6 @@ animation: pulse 1s infinite;
 </div>
 <div class="intro-footer">
 <div class="intro-period-badge" id="intro-period">1 ТАЙМ</div>
-<div id="intro-goal-info" class="intro-goal-info" style="display: none;"></div>
 </div>
 </div>
 <!-- ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ — В САМОМ НИЗУ ПО ЦЕНТРУ -->
@@ -1278,7 +1214,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.26.0";
+const VERSION = "2.27.0"; // ✅ ОБНОВЛЁННАЯ ВЕРСИЯ
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 let state = {
@@ -1366,53 +1302,18 @@ elements.introTime.textContent = `${hours}:${minutes}`;
 function showIntro(period) {
 if (!elements.introOverlay) return;
 console.log(`🎬 Показываем заставку ${period}`);
-console.log('📊 Текущее состояние goals:', state.goals);
 elements.introLogoHome.src = LEGION_LOGO;
 elements.introLogoAway.src = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
 elements.introNameHome.textContent = 'ЛЕГИОН';
 elements.introNameAway.textContent = state.opponentName;
 elements.introPeriod.textContent = period;
-// ✅ ИЗМЕНЕНИЕ #1: СКРЫВАЕМ "1 ТАЙМ", ПОКАЗЫВАЕМ ТОЛЬКО "2 ТАЙМ"
+// ✅ СКРЫВАЕМ "1 ТАЙМ", ПОКАЗЫВАЕМ ТОЛЬКО "2 ТАЙМ"
 if (period === '1 ТАЙМ') {
 elements.introPeriod.classList.add('hidden');
 } else {
 elements.introPeriod.classList.remove('hidden');
 }
-if (period === '2 ТАЙМ') {
-const legionGoals = state.legionScore;
-const opponentGoals = state.opponentScore;
-console.log('⚽ Голы Легиона:', legionGoals);
-console.log('⚽ Голы соперника:', opponentGoals);
-if (elements.introGoalInfo) {
-let goalsHtml = `<div class="intro-score">${legionGoals} : ${opponentGoals}</div>`;
-const legionGoalsList = state.goals.filter(g => g.team === 'legion');
-console.log('📋 Список голов Легиона:', legionGoalsList);
-if (legionGoalsList.length > 0) {
-goalsHtml += `<div class="intro-goal-scorers">`;
-legionGoalsList.forEach((goal, index) => {
-console.log(`Гол #${index + 1}:`, goal);
-if (goal.number) {
-goalsHtml += `<div class="intro-goal-scorer">
-<span class="intro-goal-number">${goal.number}</span>
-<span>${goal.minute}'</span>
-</div>`;
-} else {
-goalsHtml += `<div class="intro-goal-scorer">${goal.minute}'</div>`;
-}
-});
-goalsHtml += `</div>`;
-} else {
-console.log('⚠️ Голов Легиона не найдено!');
-}
-elements.introGoalInfo.innerHTML = goalsHtml;
-elements.introGoalInfo.style.display = 'flex';
-console.log('✅ HTML заставки 2 тайма:', goalsHtml);
-}
-} else {
-if (elements.introGoalInfo) {
-elements.introGoalInfo.style.display = 'none';
-}
-}
+// ✅ УДАЛЕНО: Вся информация о голах (включая минуты)
 updateRealTime();
 elements.introOverlay.classList.add('show');
 setTimeout(() => {
