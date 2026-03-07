@@ -1,1 +1,1194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ФК ЛЕГИОН — Табло</title>
+  <style>
+    /* ===== БАЗОВЫЕ СБРОСЫ ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Arial Black', Arial, sans-serif;
+      background: transparent;
+      overflow: hidden;
+      user-select: none;
+    }
 
+    /* ===== ОБЩИЕ КОНСТАНТЫ ===== */
+    :root {
+      --shadow-sm: 0 2px 4px rgba(0,0,0,0.5);
+      --shadow-md: 0 4px 10px rgba(0,0,0,0.4);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
+      --border-light: 1px solid rgba(255,255,255,0.1);
+      --text-white: #fff;
+      --transition: all 0.2s ease;
+    }
+
+    /* ===== ВАРИАНТ 1: КОМПАКТНЫЙ ===== */
+    .sc-v1 {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .sc-v1-bar {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+      border-radius: 10px;
+      padding: 6px 0;
+      box-shadow: var(--shadow-lg);
+    }
+    .sc-v1-half {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      padding: 0 15px;
+    }
+    .sc-v1-half.home { border-right: var(--border-light); }
+    .sc-v1-half.away { border-left: var(--border-light); }
+    .sc-v1-logo {
+      width: 45px;
+      height: 45px;
+      object-fit: contain;
+      filter: drop-shadow(var(--shadow-sm));
+    }
+    .sc-v1-logo.away {
+      transform: scale(0.8);
+    }
+    .sc-v1-name {
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--text-white);
+      text-transform: uppercase;
+      text-align: center;
+      text-shadow: var(--shadow-sm);
+      white-space: nowrap;
+      margin-top: 2px;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sc-v1-score-sec {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 20px;
+    }
+    .sc-v1-scores {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sc-v1-score {
+      font-size: 40px;
+      font-weight: 900;
+      color: var(--text-white);
+      text-shadow: 0 0 15px rgba(0, 150, 255, 0.6);
+      min-width: 40px;
+      text-align: center;
+      line-height: 1;
+    }
+    .sc-v1-sep {
+      font-size: 28px;
+      color: rgba(255,255,255,0.4);
+    }
+    .sc-v1-timer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(2px);
+      padding: 2px 10px;
+      border-radius: 6px;
+      margin-top: 4px;
+      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .sc-v1-period {
+      font-size: 9px;
+      font-weight: 900;
+      color: var(--text-white);
+      text-transform: uppercase;
+      padding: 2px 6px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 4px;
+    }
+    .sc-v1-time {
+      font-size: 13px;
+      font-weight: 900;
+      color: #ffcc00;
+      font-variant-numeric: tabular-nums;
+    }
+    .sc-v1-time.paused { animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
+
+    /* ===== ВАРИАНТ 2: TV СТИЛЬ (сжатый) ===== */
+    .sc-v2 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+    .sc-v2-bar {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      transform: skewX(-8deg);
+      border-radius: 6px;
+      box-shadow: var(--shadow-md);
+    }
+    .sc-v2-team {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 5px 15px;
+      flex: 1;
+      background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
+    }
+    .sc-v2-team.home { border-right: var(--border-light); }
+    .sc-v2-team.away {
+      border-left: var(--border-light);
+      background: linear-gradient(90deg, #2d2d2d 0%, #1a1a1a 100%);
+    }
+    .sc-v2-score-sec {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 5px 20px;
+      background: linear-gradient(180deg, #1e5799 0%, #2989d8 50%, #207cca 100%);
+      min-width: 90px;
+    }
+    .sc-v2-name {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--text-white);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-shadow: var(--shadow-sm);
+      white-space: nowrap;
+    }
+    .sc-v2-logo {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      filter: drop-shadow(var(--shadow-sm));
+      transform: skewX(8deg);
+    }
+    .sc-v2-logo.away {
+      transform: skewX(8deg) scale(0.8);
+    }
+    .sc-v2-scores {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sc-v2-score {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--text-white);
+      text-shadow: var(--shadow-sm);
+    }
+    .sc-v2-sep {
+      font-size: 20px;
+      color: rgba(255,255,255,0.7);
+    }
+    .sc-v2-timer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: rgba(0,0,0,0.85);
+      padding: 2px 15px;
+      margin-top: 2px;
+      border-radius: 0 0 6px 6px;
+      box-shadow: var(--shadow-md);
+    }
+    .sc-v2-timer .time,
+    .sc-v2-timer .period {
+      transform: skewX(-8deg);
+    }
+    .sc-v2-timer .time {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-white);
+      font-variant-numeric: tabular-nums;
+    }
+    .sc-v2-timer .period {
+      font-size: 10px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.7);
+      text-transform: uppercase;
+      padding: 1px 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+    }
+
+    /* ===== ВАРИАНТ 3: СЛОИСТЫЙ (сбалансированные отступы) ===== */
+    .sc-v3 {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      height: 60px;
+    }
+    .sc-v3-strip {
+      position: relative;
+      height: 40px;
+      width: var(--strip-width, 180px);
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sc-v3-strip.home { border-radius: 4px 0 0 4px; }
+    .sc-v3-strip.away { border-radius: 0 4px 4px 0; }
+    .sc-v3-name {
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--text-white);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-shadow: var(--shadow-sm);
+      white-space: nowrap;
+      z-index: 15;
+      padding: 2px 8px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 4px;
+      line-height: 1;
+    }
+    .sc-v3-logo-h {
+      position: absolute;
+      top: 50%;
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      filter: drop-shadow(var(--shadow-lg));
+      z-index: 10;
+      left: calc(50% - 85px);
+      transform: translate(-50%, -50%);
+    }
+    .sc-v3-logo-a {
+      position: absolute;
+      top: 50%;
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      filter: drop-shadow(var(--shadow-lg));
+      z-index: 10;
+      right: calc(50% - 85px);
+      transform: translate(50%, -50%);
+    }
+    .sc-v3-logo-a.default-logo {
+      width: 35px;
+      height: 35px;
+    }
+    .sc-v3-center {
+      position: relative;
+      width: 170px;
+      height: 52px;
+      background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 50%, #e8e8e8 100%);
+      border-radius: 4px;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255,255,255,0.8);
+      padding: 0;
+    }
+    .sc-v3-scores {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 0;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+    .sc-v3-score {
+      font-size: 32px;
+      font-weight: 900;
+      color: #000;
+      min-width: 32px;
+      text-align: center;
+      line-height: 1;
+    }
+    .sc-v3-sep {
+      font-size: 20px;
+      color: #555;
+      font-weight: 900;
+    }
+    .sc-v3-timer {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin: 1px 0;
+    }
+    .sc-v3-timer .time {
+      font-size: 10px;
+      font-weight: 900;
+      color: #555;
+      line-height: 1;
+    }
+    .sc-v3-timer .period {
+      font-size: 8px;
+      font-weight: 900;
+      color: #666;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    /* Цветовые темы для V3 */
+    .sc-v3.theme-blue   { --strip-bg: linear-gradient(90deg, #0a1f44 0%, #163675 100%); }
+    .sc-v3.theme-orange { --strip-bg: linear-gradient(90deg, #c2410c 0%, #ea580c 100%); }
+    .sc-v3.theme-purple { --strip-bg: linear-gradient(90deg, #581c87 0%, #7e22ce 100%); }
+    .sc-v3.theme-silver { --strip-bg: linear-gradient(90deg, #404040 0%, #525252 100%); }
+    .sc-v3.theme-red    { --strip-bg: linear-gradient(90deg, #991b1b 0%, #dc2626 100%); }
+    .sc-v3.theme-green  { --strip-bg: linear-gradient(90deg, #1b5e20 0%, #2e7d32 100%); }
+    .sc-v3.theme-blue .sc-v3-strip,
+    .sc-v3.theme-orange .sc-v3-strip,
+    .sc-v3.theme-purple .sc-v3-strip,
+    .sc-v3.theme-silver .sc-v3-strip,
+    .sc-v3.theme-red .sc-v3-strip,
+    .sc-v3.theme-green .sc-v3-strip {
+      background: var(--strip-bg);
+    }
+
+    /* ===== АНИМАЦИИ ===== */
+    .goal-anim {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      font-size: 100px;
+      font-weight: 900;
+      color: #ffd700;
+      text-shadow: 0 0 30px rgba(255,215,0,0.8);
+      z-index: 1000;
+      pointer-events: none;
+    }
+    .goal-anim.active { animation: goalPop 1.5s ease-out; }
+    @keyframes goalPop {
+      0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+      50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+    }
+    .logo-anim {
+      position: fixed;
+      bottom: -200px;
+      left: -200px;
+      width: 150px;
+      height: 150px;
+      z-index: 1001;
+      pointer-events: none;
+      filter: drop-shadow(0 0 30px rgba(0,150,255,0.8));
+      opacity: 0;
+    }
+    .logo-anim.active { animation: logoFly 1.5s forwards; }
+    @keyframes logoFly {
+      0% { bottom: -200px; left: -200px; transform: scale(0.1) rotate(-15deg); opacity: 0; }
+      30% { opacity: 1; }
+      100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; }
+    }
+
+    /* ===== АДМИНКА ===== */
+    .admin {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      padding: 15px;
+      overflow-y: auto;
+      z-index: 2000;
+      color: var(--text-white);
+    }
+    .admin-head {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: var(--border-light);
+    }
+    .admin-head h1 {
+      color: #00d4ff;
+      font-size: 28px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    .admin-head p {
+      color: rgba(255,255,255,0.5);
+      font-size: 12px;
+    }
+    .admin-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 20px;
+      border: var(--border-light);
+    }
+    .card h3 {
+      color: #00d4ff;
+      font-size: 16px;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+    }
+    .fld { margin-bottom: 12px; }
+    .fld label {
+      display: block;
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .fld input, .fld select {
+      width: 100%;
+      padding: 14px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      color: var(--text-white);
+      font-size: 16px;
+    }
+    .btns {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 14px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      flex: 1;
+      min-width: 70px;
+      color: var(--text-white);
+      transition: var(--transition);
+    }
+    .btn:active { transform: scale(0.96); }
+    .btn-p { background: linear-gradient(135deg, #00d4ff, #0099cc); }
+    .btn-s { background: linear-gradient(135deg, #2ed573, #1ea65a); }
+    .btn-w { background: linear-gradient(135deg, #ffa502, #cc8400); }
+    .btn-d { background: linear-gradient(135deg, #ff4757, #cc3344); }
+    .score-in {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .score-in .fld { flex: 1; text-align: center; }
+    .score-in .sep {
+      font-size: 26px;
+      color: rgba(255,255,255,0.5);
+      padding-bottom: 8px;
+    }
+    .score-in input {
+      width: 65px;
+      text-align: center;
+      font-size: 26px;
+      font-weight: 900;
+      padding: 8px;
+    }
+    .hide { display: none !important; }
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: linear-gradient(135deg, #2ed573, #1ea65a);
+      color: var(--text-white);
+      padding: 12px 25px;
+      border-radius: 10px;
+      font-weight: 700;
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 3000;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .var-sel {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+    .var-btn {
+      flex: 1;
+      padding: 12px 8px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      color: var(--text-white);
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 11px;
+      transition: var(--transition);
+    }
+    .var-btn.act { border-color: #00d4ff; background: rgba(0,212,255,0.2); }
+    .var-btn small { display: block; font-size: 9px; opacity: 0.7; margin-top: 3px; }
+    .col-sel {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-top: 12px;
+    }
+    .col-btn {
+      padding: 10px 5px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--text-white);
+      text-transform: uppercase;
+      font-size: 9px;
+      transition: var(--transition);
+    }
+    .col-btn.act { border-color: #fff; transform: scale(1.05); }
+    .col-blue { background: linear-gradient(135deg, #0a1f44, #163675); }
+    .col-orange { background: linear-gradient(135deg, #c2410c, #ea580c); }
+    .col-purple { background: linear-gradient(135deg, #581c87, #7e22ce); }
+    .col-silver { background: linear-gradient(135deg, #404040, #525252); }
+    .col-red { background: linear-gradient(135deg, #991b1b, #dc2626); }
+    .col-green { background: linear-gradient(135deg, #1b5e20, #2e7d32); }
+    .chk {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
+    .chk input {
+      width: 18px;
+      height: 18px;
+      accent-color: #00d4ff;
+    }
+    .chk label {
+      margin: 0;
+      font-size: 13px;
+      cursor: pointer;
+      flex: 1;
+    }
+    .tm-st {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    .tm-st .ind {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ffa502;
+    }
+    .tm-st .ind.run {
+      background: #2ed573;
+      box-shadow: 0 0 8px #2ed573;
+      animation: pulse 1s infinite;
+    }
+    .tm-st .txt {
+      font-size: 12px;
+      color: rgba(255,255,255,0.8);
+      flex: 1;
+    }
+
+    @media (min-width: 768px) {
+      .admin { padding: 30px; }
+      .admin-head h1 { font-size: 32px; }
+      .admin-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        max-width: 1100px;
+      }
+      .card { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- V1: КОМПАКТНЫЙ -->
+  <div id="sb-v1" class="sc-v1">
+    <div class="sc-v1-bar">
+      <div class="sc-v1-half home">
+        <img id="v1-lh" class="sc-v1-logo" src="https://optim.tildacdn.com/tild3762-6363-4166-b532-386532363639/-/resize/140x/-/format/webp/Vector_3.png.webp" alt="Логотип ЛЕГИОН">
+        <span id="v1-nh" class="sc-v1-name">ЛЕГИОН</span>
+      </div>
+      <div class="sc-v1-score-sec">
+        <div class="sc-v1-scores">
+          <span id="v1-sh" class="sc-v1-score">0</span>
+          <span class="sc-v1-sep">-</span>
+          <span id="v1-sa" class="sc-v1-score">0</span>
+        </div>
+        <div class="sc-v1-timer">
+          <span id="v1-p" class="sc-v1-period">1 ТАЙМ</span>
+          <span id="v1-t" class="sc-v1-time">00:00</span>
+        </div>
+      </div>
+      <div class="sc-v1-half away">
+        <img id="v1-la" class="sc-v1-logo" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Логотип соперника">
+        <span id="v1-na" class="sc-v1-name">СОПЕРНИК</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- V2: TV СТИЛЬ -->
+  <div id="sb-v2" class="sc-v2 hide">
+    <div class="sc-v2-bar">
+      <div class="sc-v2-team home">
+        <img id="v2-lh" class="sc-v2-logo" src="https://optim.tildacdn.com/tild3762-6363-4166-b532-386532363639/-/resize/140x/-/format/webp/Vector_3.png.webp" alt="Логотип ЛЕГИОН">
+        <span id="v2-nh" class="sc-v2-name">ЛЕГИОН</span>
+      </div>
+      <div class="sc-v2-score-sec">
+        <div class="sc-v2-scores">
+          <span id="v2-sh" class="sc-v2-score">0</span>
+          <span class="sc-v2-sep">-</span>
+          <span id="v2-sa" class="sc-v2-score">0</span>
+        </div>
+      </div>
+      <div class="sc-v2-team away">
+        <span id="v2-na" class="sc-v2-name">СОПЕРНИК</span>
+        <img id="v2-la" class="sc-v2-logo" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Логотип соперника">
+      </div>
+    </div>
+    <div class="sc-v2-timer">
+      <span id="v2-t" class="time">00:00</span>
+      <span id="v2-p" class="period">1 ТАЙМ</span>
+    </div>
+  </div>
+
+  <!-- V3: СЛОИСТЫЙ (сбалансированные отступы) -->
+  <div id="sb-v3" class="sc-v3 theme-green hide" style="--strip-width: 180px;">
+    <div class="sc-v3-strip home">
+      <span id="v3-nh" class="sc-v3-name">ЛЕГИОН</span>
+    </div>
+    <div class="sc-v3-center">
+      <div class="sc-v3-scores">
+        <span id="v3-sh" class="sc-v3-score">0</span>
+        <span class="sc-v3-sep">-</span>
+        <span id="v3-sa" class="sc-v3-score">0</span>
+      </div>
+      <div class="sc-v3-timer">
+        <span id="v3-t" class="time">00:00</span>
+        <span id="v3-p" class="period">1 ТАЙМ</span>
+      </div>
+    </div>
+    <div class="sc-v3-strip away">
+      <span id="v3-na" class="sc-v3-name">СОПЕРНИК</span>
+    </div>
+    <img id="v3-lh" class="sc-v3-logo-h" src="https://optim.tildacdn.com/tild3762-6363-4166-b532-386532363639/-/resize/140x/-/format/webp/Vector_3.png.webp" alt="Логотип ЛЕГИОН">
+    <img id="v3-la" class="sc-v3-logo-a" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Логотип соперника">
+  </div>
+
+  <!-- АНИМАЦИИ -->
+  <div id="goal-anim" class="goal-anim">⚽ ГОЛ!</div>
+  <img id="logo-anim" class="logo-anim" src="" alt="">
+
+  <!-- АДМИНКА (симметричный заголовок, красная кнопка соперника) -->
+  <div id="admin" class="admin hide">
+    <div class="admin-head">
+      <h1>🏆 ФК ЛЕГИОН 🏆</h1>
+      <p>Управление табло</p>
+    </div>
+    <div class="admin-grid">
+      <div class="card">
+        <h3>🎨 Дизайн плашки</h3>
+        <div class="var-sel">
+          <button class="var-btn act" data-variant="1">В-1<small>Компакт</small></button>
+          <button class="var-btn" data-variant="2">В-2<small>TV Style</small></button>
+          <button class="var-btn" data-variant="3">В-3<small>Слои</small></button>
+        </div>
+        <div id="col-cont">
+          <div class="col-sel">
+            <button class="col-btn col-blue act" data-color="blue">Синий</button>
+            <button class="col-btn col-orange" data-color="orange">Оранж</button>
+            <button class="col-btn col-purple" data-color="purple">Фиолет</button>
+            <button class="col-btn col-silver" data-color="silver">Серебро</button>
+            <button class="col-btn col-red" data-color="red">Красный</button>
+            <button class="col-btn col-green" data-color="green">Зелёный</button>
+          </div>
+        </div>
+        <div class="chk">
+          <input type="checkbox" id="anim-chk">
+          <label for="anim-chk">🎬 Анимация лого при голе</label>
+        </div>
+      </div>
+      <div class="card">
+        <h3>📋 СОПЕРНИК</h3>
+        <div class="fld"><label>Название команды</label><input type="text" id="adm-na" placeholder="Название"></div>
+        <div class="fld"><label>Логотип (URL)</label><input type="text" id="adm-la" placeholder="https://..."></div>
+        <button class="btn btn-p" id="saveOpponentBtn">💾 Сохранить</button>
+      </div>
+      <div class="card">
+        <h3>📊 Счёт</h3>
+        <div class="score-in">
+          <div class="fld"><label>ЛЕГИОН</label><input type="number" id="adm-sh" value="0" min="0"></div>
+          <div class="sep">-</div>
+          <div class="fld"><label>СОПЕРНИК</label><input type="number" id="adm-sa" value="0" min="0"></div>
+        </div>
+        <div class="btns">
+          <button class="btn btn-s" id="updateScoreBtn">✅ Обновить</button>
+          <button class="btn btn-w" id="genericGoalBtn">⚽ ГОЛ!</button>
+          <button class="btn btn-d" id="resetScoreBtn">🔄 Сброс</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>⏱️ Таймер</h3>
+        <div class="tm-st">
+          <span id="tm-ind" class="ind"></span>
+          <span id="tm-txt" class="txt">Остановлен</span>
+        </div>
+        <div class="btns">
+          <button class="btn btn-s" id="timerStartBtn">▶️ Старт</button>
+          <button class="btn btn-w" id="timerPauseBtn">⏸️ Пауза</button>
+          <button class="btn btn-d" id="timerResetBtn">🔄 Сброс</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>📍 Тайм</h3>
+        <div class="fld">
+          <select id="adm-p">
+            <option value="1 ТАЙМ">1 ТАЙМ</option>
+            <option value="2 ТАЙМ">2 ТАЙМ</option>
+            <option value="ПЕРЕРЫВ">ПЕРЕРЫВ</option>
+            <option value="ДОП. ТАЙМ">ДОП. ТАЙМ</option>
+            <option value="ПЕНАЛЬТИ">ПЕНАЛЬТИ</option>
+          </select>
+        </div>
+        <button class="btn btn-p" id="updatePeriodBtn">✅ Обновить</button>
+      </div>
+      <div class="card">
+        <h3>⚡ Быстрые действия</h3>
+        <div class="btns">
+          <button class="btn btn-s" id="goalLegionBtn">⚽ ГОЛ ЛЕГИОН</button>
+          <button class="btn btn-d" id="goalOpponentBtn">⚽ ГОЛ СОПЕРНИК</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="toast" class="toast">✓ Сохранено!</div>
+
+  <script type="module">
+    // ==================== ИМПОРТЫ И НАСТРОЙКИ ====================
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAFb-yJaI7WJFcTx_wAFmSngupHqUNai1I",
+      authDomain: "scoreboard-6d34c.firebaseapp.com",
+      databaseURL: "https://scoreboard-6d34c-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "scoreboard-6d34c",
+      storageBucket: "scoreboard-6d34c.firebasestorage.app",
+      messagingSenderId: "11785107743",
+      appId: "1:11785107743:web:a8faa98d6aaf4462dd582a"
+    };
+
+    const LEGION_LOGO = "https://optim.tildacdn.com/tild3762-6363-4166-b532-386532363639/-/resize/140x/-/format/webp/Vector_3.png.webp";
+    const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png";
+    const DB_KEY = 'legion_match_v1';
+    const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // ==================== СОСТОЯНИЕ ====================
+    let state = {
+      opponentName: 'СОПЕРНИК',
+      opponentLogo: '',
+      legionScore: 0,
+      opponentScore: 0,
+      timerSeconds: 0,
+      timerRunning: false,
+      period: '1 ТАЙМ',
+      designVariant: 3,
+      colorTheme: 'green',
+      logoAnimEnabled: true
+    };
+
+    let timerInterval = null;
+    let localStartTime = null;
+
+    // Кэширование DOM-элементов
+    const elements = {
+      v1: { lh: document.getElementById('v1-lh'), la: document.getElementById('v1-la'), nh: document.getElementById('v1-nh'), na: document.getElementById('v1-na'), sh: document.getElementById('v1-sh'), sa: document.getElementById('v1-sa'), p: document.getElementById('v1-p'), t: document.getElementById('v1-t') },
+      v2: { lh: document.getElementById('v2-lh'), la: document.getElementById('v2-la'), nh: document.getElementById('v2-nh'), na: document.getElementById('v2-na'), sh: document.getElementById('v2-sh'), sa: document.getElementById('v2-sa'), p: document.getElementById('v2-p'), t: document.getElementById('v2-t') },
+      v3: { lh: document.getElementById('v3-lh'), la: document.getElementById('v3-la'), nh: document.getElementById('v3-nh'), na: document.getElementById('v3-na'), sh: document.getElementById('v3-sh'), sa: document.getElementById('v3-sa'), p: document.getElementById('v3-p'), t: document.getElementById('v3-t') },
+      admin: {
+        na: document.getElementById('adm-na'),
+        la: document.getElementById('adm-la'),
+        sh: document.getElementById('adm-sh'),
+        sa: document.getElementById('adm-sa'),
+        p: document.getElementById('adm-p'),
+        animChk: document.getElementById('anim-chk'),
+        varBtns: document.querySelectorAll('.var-btn'),
+        colBtns: document.querySelectorAll('.col-btn'),
+        tmInd: document.getElementById('tm-ind'),
+        tmTxt: document.getElementById('tm-txt'),
+        colCont: document.getElementById('col-cont')
+      },
+      sbV1: document.getElementById('sb-v1'),
+      sbV2: document.getElementById('sb-v2'),
+      sbV3: document.getElementById('sb-v3'),
+      goalAnim: document.getElementById('goal-anim'),
+      logoAnim: document.getElementById('logo-anim'),
+      toast: document.getElementById('toast')
+    };
+
+    // ==================== ПОДПИСКА FIREBASE ====================
+    const dataRef = ref(db, DB_KEY);
+    onValue(dataRef, (snapshot) => {
+      const data = snapshot.val();
+      if (!data) return;
+      
+      const oldRunning = state.timerRunning;
+      state = { ...state, ...data };
+
+      if (!ADMIN) {
+        if (state.timerRunning && !oldRunning) {
+          localStartTime = Date.now() - (state.timerSeconds * 1000);
+          startTimerInterval(false);
+        }
+        if (!state.timerRunning && oldRunning) stopTimerInterval();
+        updateAllVariants();
+        updateVisibility();
+        applyColorTheme();
+        toggleColorPicker();
+        updateAnimCheckbox();
+      } else {
+        updateAdminPanel();
+      }
+    });
+
+    onValue(ref(db, 'goal_trigger'), (snapshot) => {
+      const trigger = snapshot.val();
+      if (trigger && !ADMIN) {
+        elements.goalAnim.classList.add('active');
+        setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
+
+        if (trigger.team === 'legion' && state.logoAnimEnabled) {
+          elements.logoAnim.src = LEGION_LOGO;
+          elements.logoAnim.classList.remove('active');
+          setTimeout(() => elements.logoAnim.classList.add('active'), 50);
+          setTimeout(() => {
+            elements.logoAnim.classList.remove('active');
+            elements.logoAnim.src = '';
+          }, 1600);
+        }
+      }
+    });
+
+    // ==================== ФУНКЦИИ ОБНОВЛЕНИЯ ИНТЕРФЕЙСА ====================
+    function updateAllVariants() {
+      const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
+      
+      // V1
+      elements.v1.lh.src = LEGION_LOGO;
+      elements.v1.la.src = opponentLogoSrc;
+      elements.v1.nh.textContent = 'ЛЕГИОН';
+      elements.v1.na.textContent = state.opponentName;
+      elements.v1.sh.textContent = state.legionScore;
+      elements.v1.sa.textContent = state.opponentScore;
+      elements.v1.p.textContent = state.period;
+      
+      if (state.opponentLogo === '') {
+        elements.v1.la.classList.add('away');
+      } else {
+        elements.v1.la.classList.remove('away');
+      }
+
+      // V2
+      elements.v2.lh.src = LEGION_LOGO;
+      elements.v2.la.src = opponentLogoSrc;
+      elements.v2.nh.textContent = 'ЛЕГИОН';
+      elements.v2.na.textContent = state.opponentName;
+      elements.v2.sh.textContent = state.legionScore;
+      elements.v2.sa.textContent = state.opponentScore;
+      elements.v2.p.textContent = state.period;
+      
+      if (state.opponentLogo === '') {
+        elements.v2.la.classList.add('away');
+      } else {
+        elements.v2.la.classList.remove('away');
+      }
+
+      // V3
+      elements.v3.lh.src = LEGION_LOGO;
+      elements.v3.la.src = opponentLogoSrc;
+      elements.v3.nh.textContent = 'ЛЕГИОН';
+      elements.v3.na.textContent = state.opponentName;
+      elements.v3.sh.textContent = state.legionScore;
+      elements.v3.sa.textContent = state.opponentScore;
+      elements.v3.p.textContent = state.period;
+      
+      if (state.opponentLogo === '') {
+        elements.v3.la.classList.add('default-logo');
+      } else {
+        elements.v3.la.classList.remove('default-logo');
+      }
+
+      updateTimerDisplay();
+      updateV3Width();
+    }
+
+    function updateV3Width() {
+      const maxLen = Math.max(7, state.opponentName.length);
+      const stripWidth = Math.min(Math.max(maxLen * 13 + 30, 140), 220);
+      elements.sbV3.style.setProperty('--strip-width', stripWidth + 'px');
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(state.timerSeconds / 60);
+      const s = state.timerSeconds % 60;
+      const timeStr = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+      
+      elements.v1.t.textContent = timeStr;
+      elements.v2.t.textContent = timeStr;
+      elements.v3.t.textContent = timeStr;
+      
+      elements.v1.t.classList.toggle('paused', !state.timerRunning);
+    }
+
+    function updateVisibility() {
+      elements.sbV1.classList.toggle('hide', state.designVariant !== 1);
+      elements.sbV2.classList.toggle('hide', state.designVariant !== 2);
+      elements.sbV3.classList.toggle('hide', state.designVariant !== 3);
+      toggleColorPicker();
+    }
+
+    function toggleColorPicker() {
+      if (elements.admin.colCont) {
+        elements.admin.colCont.style.display = state.designVariant === 3 ? 'block' : 'none';
+      }
+    }
+
+    function applyColorTheme() {
+      elements.sbV3.className = elements.sbV3.className.replace(/theme-\w+/, '').trim();
+      elements.sbV3.classList.add('theme-' + state.colorTheme);
+    }
+
+    function updateAdminPanel() {
+      elements.admin.na.value = state.opponentName;
+      elements.admin.la.value = state.opponentLogo;
+      elements.admin.sh.value = state.legionScore;
+      elements.admin.sa.value = state.opponentScore;
+      elements.admin.p.value = state.period;
+      elements.admin.animChk.checked = state.logoAnimEnabled;
+
+      elements.admin.varBtns.forEach((btn, i) => {
+        btn.classList.toggle('act', i + 1 === state.designVariant);
+      });
+
+      elements.admin.colBtns.forEach(btn => {
+        btn.classList.toggle('act', btn.dataset.color === state.colorTheme);
+      });
+
+      toggleColorPicker();
+
+      if (state.timerRunning) {
+        elements.admin.tmInd.classList.add('run');
+        elements.admin.tmTxt.textContent = 'Запущен';
+      } else {
+        elements.admin.tmInd.classList.remove('run');
+        elements.admin.tmTxt.textContent = 'Остановлен';
+      }
+    }
+
+    function updateAnimCheckbox() {
+      if (elements.admin.animChk) {
+        elements.admin.animChk.checked = state.logoAnimEnabled;
+      }
+    }
+
+    // ==================== ТАЙМЕР ====================
+    function startTimerInterval(writeToDB = true) {
+      stopTimerInterval();
+      timerInterval = setInterval(() => {
+        if (!localStartTime) return;
+        state.timerSeconds = Math.floor((Date.now() - localStartTime) / 1000);
+        updateTimerDisplay();
+        
+        if (ADMIN && writeToDB && state.timerSeconds % 5 === 0) {
+          update(ref(db, DB_KEY), { timerSeconds: state.timerSeconds })
+            .catch(err => console.error('Firebase write error:', err));
+        }
+      }, 1000);
+    }
+
+    function stopTimerInterval() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    // ==================== ДЕЙСТВИЯ ====================
+    function setVariant(variant) {
+      if (state.designVariant === variant) return;
+      state.designVariant = variant;
+      update(ref(db, DB_KEY), { designVariant: variant }).catch(console.error);
+      toast();
+    }
+
+    function setColor(color) {
+      if (state.colorTheme === color) return;
+      state.colorTheme = color;
+      update(ref(db, DB_KEY), { colorTheme: color }).catch(console.error);
+      toast();
+    }
+
+    function toggleAnim() {
+      state.logoAnimEnabled = elements.admin.animChk.checked;
+      update(ref(db, DB_KEY), { logoAnimEnabled: state.logoAnimEnabled }).catch(console.error);
+      toast();
+    }
+
+    function saveOpponent() {
+      state.opponentName = elements.admin.na.value || 'СОПЕРНИК';
+      state.opponentLogo = elements.admin.la.value;
+      update(ref(db, DB_KEY), { opponentName: state.opponentName, opponentLogo: state.opponentLogo }).catch(console.error);
+      toast();
+    }
+
+    function updateScore() {
+      state.legionScore = parseInt(elements.admin.sh.value) || 0;
+      state.opponentScore = parseInt(elements.admin.sa.value) || 0;
+      update(ref(db, DB_KEY), { legionScore: state.legionScore, opponentScore: state.opponentScore }).catch(console.error);
+      toast();
+    }
+
+    function resetScore() {
+      state.legionScore = 0;
+      state.opponentScore = 0;
+      elements.admin.sh.value = 0;
+      elements.admin.sa.value = 0;
+      update(ref(db, DB_KEY), { legionScore: 0, opponentScore: 0 }).catch(console.error);
+      toast();
+    }
+
+    function triggerGoal(team = null) {
+      const goalData = { time: Date.now(), team: team };
+      set(ref(db, 'goal_trigger'), goalData)
+        .then(() => setTimeout(() => set(ref(db, 'goal_trigger'), null), 2000))
+        .catch(console.error);
+    }
+
+    function quickGoal(team) {
+      if (team === 'legion') {
+        state.legionScore++;
+        elements.admin.sh.value = state.legionScore;
+      } else {
+        state.opponentScore++;
+        elements.admin.sa.value = state.opponentScore;
+      }
+      update(ref(db, DB_KEY), { legionScore: state.legionScore, opponentScore: state.opponentScore }).catch(console.error);
+      triggerGoal(team);
+      toast();
+    }
+
+    // ИСПРАВЛЕНО: при паузе сохраняем точное значение секунд
+    function timerPause() {
+      if (!state.timerRunning) return;
+      state.timerRunning = false;
+      stopTimerInterval();
+      // Сохраняем текущее значение таймера вместе с состоянием
+      update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: state.timerSeconds })
+        .catch(console.error);
+      toast();
+    }
+
+    // ИСПРАВЛЕНО: при старте тоже сохраняем секунды (для надёжности)
+    function timerStart() {
+      if (state.timerRunning) return;
+      state.timerRunning = true;
+      localStartTime = Date.now() - (state.timerSeconds * 1000);
+      startTimerInterval(true);
+      update(ref(db, DB_KEY), { timerRunning: true, timerSeconds: state.timerSeconds })
+        .catch(console.error);
+      toast();
+    }
+
+    function timerReset() {
+      stopTimerInterval();
+      state.timerRunning = false;
+      state.timerSeconds = 0;
+      localStartTime = null;
+      updateTimerDisplay();
+      update(ref(db, DB_KEY), { timerRunning: false, timerSeconds: 0 })
+        .catch(console.error);
+      toast();
+    }
+
+    function updatePeriod() {
+      state.period = elements.admin.p.value;
+      if (state.period === 'ПЕРЕРЫВ' && state.timerRunning) {
+        timerPause();
+      }
+      update(ref(db, DB_KEY), { period: state.period }).catch(console.error);
+      toast();
+    }
+
+    function toast() {
+      elements.toast.classList.add('show');
+      setTimeout(() => elements.toast.classList.remove('show'), 2000);
+    }
+
+    // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+    if (ADMIN) {
+      elements.sbV1.classList.add('hide');
+      elements.sbV2.classList.add('hide');
+      elements.sbV3.classList.add('hide');
+      document.getElementById('admin').classList.remove('hide');
+
+      document.querySelectorAll('.var-btn').forEach(btn => {
+        btn.addEventListener('click', () => setVariant(parseInt(btn.dataset.variant)));
+      });
+      document.querySelectorAll('.col-btn').forEach(btn => {
+        btn.addEventListener('click', () => setColor(btn.dataset.color));
+      });
+      document.getElementById('anim-chk').addEventListener('change', toggleAnim);
+      document.getElementById('saveOpponentBtn').addEventListener('click', saveOpponent);
+      document.getElementById('updateScoreBtn').addEventListener('click', updateScore);
+      document.getElementById('genericGoalBtn').addEventListener('click', () => triggerGoal(null));
+      document.getElementById('resetScoreBtn').addEventListener('click', resetScore);
+      document.getElementById('timerStartBtn').addEventListener('click', timerStart);
+      document.getElementById('timerPauseBtn').addEventListener('click', timerPause);
+      document.getElementById('timerResetBtn').addEventListener('click', timerReset);
+      document.getElementById('updatePeriodBtn').addEventListener('click', updatePeriod);
+      document.getElementById('goalLegionBtn').addEventListener('click', () => quickGoal('legion'));
+      document.getElementById('goalOpponentBtn').addEventListener('click', () => quickGoal('opponent'));
+
+      updateAdminPanel();
+    } else {
+      updateAllVariants();
+      updateVisibility();
+      applyColorTheme();
+      if (state.timerRunning) {
+        localStartTime = Date.now() - (state.timerSeconds * 1000);
+        startTimerInterval(false);
+      }
+    }
+  </script>
+</body>
+</html>
