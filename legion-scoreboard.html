@@ -340,6 +340,14 @@ font-size: 8px;
 color: #666;
 text-transform: uppercase;
 }
+/* ===== ВЫРАВНИВАНИЕ: ПО ЦЕНТРУ (УМОЛЧАНИЕ) ===== */
+/* ===== ВЫРАВНИВАНИЕ: СЛЕВА ===== */
+body.align-left .sc-v1,
+body.align-left .sc-v2,
+body.align-left .sc-v3 {
+  margin-left: 0;
+  margin-right: auto;
+}
 /* ===== ЦВЕТОВЫЕ ТЕМЫ ===== */
 .theme-classic1 .sc-v1-bar { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); }
 .theme-classic1 .sc-v1-timer { background: linear-gradient(180deg, #ff4757 0%, #cc3344 100%); }
@@ -1069,15 +1077,49 @@ font-size: 9px; transition: var(--transition);
 .col-green { background: linear-gradient(135deg, #1b5e20, #2e7d32); }
 .col-classic1 { background: linear-gradient(135deg, #1a1a2e, #16213e); }
 .col-classic2 { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); }
+/* Кнопки выравнивания */
+.align-sel {
+display: flex;
+gap: 8px;
+margin-top: 12px;
+}
+.align-btn {
+flex: 1;
+padding: 12px 8px;
+border: 2px solid rgba(255,255,255,0.2);
+border-radius: 8px;
+background: rgba(0,0,0,0.3);
+color: var(--text-white);
+font-weight: 700;
+cursor: pointer;
+font-size: 11px;
+transition: var(--transition);
+text-transform: uppercase;
+}
+.align-btn.act {
+border-color: #00d4ff;
+background: rgba(0,212,255,0.2);
+}
 .chk {
-display: flex; align-items: center; gap: 10px; padding: 12px;
-background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 12px; cursor: pointer;
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 12px;
+background: rgba(0,0,0,0.2);
+border-radius: 8px;
+margin-bottom: 12px;
+cursor: pointer;
 }
 .chk input { width: 18px; height: 18px; accent-color: #00d4ff; }
 .chk label { margin: 0; font-size: 13px; cursor: pointer; flex: 1; }
 .tm-st {
-display: flex; align-items: center; gap: 10px; padding: 12px;
-background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 12px;
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 12px;
+background: rgba(0,0,0,0.3);
+border-radius: 8px;
+margin-bottom: 12px;
 }
 .tm-st .ind { width: 10px; height: 10px; border-radius: 50%; background: #ffa502; }
 .tm-st .ind.run { background: #2ed573; box-shadow: 0 0 8px #2ed573; animation: pulse 1s infinite; }
@@ -1285,6 +1327,10 @@ animation: pulse 1s infinite;
 <button class="col-btn col-classic1" data-color="classic1">Классика 1</button>
 <button class="col-btn col-classic2" data-color="classic2">Классика 2</button>
 </div>
+<div class="align-sel">
+<button class="align-btn" data-align="center">По центру</button>
+<button class="align-btn" data-align="left">Слева</button>
+</div>
 <div class="chk"><input type="checkbox" id="anim-chk"><label for="anim-chk">🎬 Анимация лого при голе</label></div>
 </div>
 <div class="card"><h3>📋 СОПЕРНИК</h3>
@@ -1358,7 +1404,7 @@ const PLAYERS_JSON_URL = "https://raw.githubusercontent.com/e-lis777/scoreboard/
 const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png";
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
-const VERSION = "3.0.1";
+const VERSION = "3.1.0";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1372,6 +1418,7 @@ timer: { running: false, elapsed: 0 },
 period: '1 ТАЙМ',
 designVariant: 3,
 colorTheme: 'green',
+alignment: 'center',
 logoAnimEnabled: true,
 goals: []
 };
@@ -1393,6 +1440,7 @@ p: document.getElementById('adm-p'),
 animChk: document.getElementById('anim-chk'),
 varBtns: document.querySelectorAll('.var-btn'),
 colBtns: document.querySelectorAll('.col-btn'),
+alignBtns: document.querySelectorAll('.align-btn'),
 tmInd: document.getElementById('tm-ind'),
 tmTxt: document.getElementById('tm-txt')
 },
@@ -1609,6 +1657,7 @@ state.opponentScore = data.opponentScore || 0;
 state.period = data.period || '1 ТАЙМ';
 state.designVariant = data.designVariant || 3;
 state.colorTheme = data.colorTheme || 'green';
+state.alignment = data.alignment || 'center';
 state.logoAnimEnabled = data.logoAnimEnabled !== undefined ? data.logoAnimEnabled : true;
 state.goals = data.goals || [];
 currentTimerSeconds = state.timer.elapsed;
@@ -1616,6 +1665,7 @@ if (!ADMIN) {
 updateAllVariants();
 updateVisibility();
 applyColorTheme();
+applyAlignment();
 } else {
 updateAdminPanel();
 if (state.timer.running && !timerUpdateInterval) startTimerUpdate();
@@ -1623,6 +1673,10 @@ else if (!state.timer.running && timerUpdateInterval) stopTimerUpdate();
 }
 updateTimerDisplay();
 });
+
+function applyAlignment() {
+document.body.classList.toggle('align-left', state.alignment === 'left');
+}
 
 function updateAllVariants() {
 const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
@@ -1694,6 +1748,7 @@ elements.admin.p.value = state.period;
 elements.admin.animChk.checked = state.logoAnimEnabled;
 elements.admin.varBtns.forEach((btn, i) => btn.classList.toggle('act', i + 1 === state.designVariant));
 elements.admin.colBtns.forEach(btn => btn.classList.toggle('act', btn.dataset.color === state.colorTheme));
+elements.admin.alignBtns.forEach(btn => btn.classList.toggle('act', btn.dataset.align === state.alignment));
 if (state.timer.running) {
 elements.admin.tmInd.classList.add('run');
 elements.admin.tmTxt.textContent = 'Запущен';
@@ -1724,6 +1779,13 @@ update(ref(db, DB_KEY), { colorTheme: color });
 toast('Тема изменена');
 }
 
+function setAlignment(align) {
+if (state.alignment === align) return;
+state.alignment = align;
+update(ref(db, DB_KEY), { alignment: align });
+toast('Выравнивание изменено');
+}
+
 function toggleAnim() {
 state.logoAnimEnabled = elements.admin.animChk.checked;
 update(ref(db, DB_KEY), { logoAnimEnabled: state.logoAnimEnabled });
@@ -1738,12 +1800,16 @@ validateImageUrl(newLogo, (valid) => {
 if (!valid) { toast('Неверный URL логотипа', 'error'); return; }
 state.opponentName = newName;
 state.opponentLogo = newLogo;
+elements.admin.na.value = newName;   // синхронизация полей
+elements.admin.la.value = newLogo;
 update(ref(db, DB_KEY), { opponentName: newName, opponentLogo: newLogo });
 toast('Соперник сохранён');
 });
 } else {
 state.opponentName = newName;
 state.opponentLogo = '';
+elements.admin.na.value = newName;
+elements.admin.la.value = '';
 update(ref(db, DB_KEY), { opponentName: newName, opponentLogo: '' });
 toast('Соперник сохранён');
 }
@@ -1889,6 +1955,7 @@ document.getElementById('admin').classList.remove('hide');
 loadPlayers().then(() => renderPlayerButtons());
 document.querySelectorAll('.var-btn').forEach(btn => btn.addEventListener('click', () => setVariant(parseInt(btn.dataset.variant))));
 document.querySelectorAll('.col-btn').forEach(btn => btn.addEventListener('click', () => setColor(btn.dataset.color)));
+document.querySelectorAll('.align-btn').forEach(btn => btn.addEventListener('click', () => setAlignment(btn.dataset.align)));
 document.getElementById('anim-chk').addEventListener('change', toggleAnim);
 document.getElementById('saveOpponentBtn').addEventListener('click', saveOpponent);
 document.getElementById('updateScoreBtn').addEventListener('click', updateScore);
@@ -1905,10 +1972,12 @@ elements.goalModal.addEventListener('click', (e) => { if (e.target === elements.
 setInterval(updateRealTime, 60000);
 updateRealTime();
 updateAdminPanel();
+applyAlignment();
 } else {
 updateAllVariants();
 updateVisibility();
 applyColorTheme();
+applyAlignment();
 setInterval(updateRealTime, 60000);
 updateRealTime();
 }
