@@ -687,7 +687,7 @@ margin: 0 auto;
 0% { transform: scale(0.9); opacity: 0; }
 100% { transform: scale(1); opacity: 1; }
 }
-/* ===== ВЫРАВНИВАНИЕ ЛОГОТИПОВ И НАЗВАНИЙ ===== */
+/* ===== ВЫРАВНИВАНИЕ ЛОГОТИПОВ ===== */
 .intro-teams {
 display: flex;
 align-items: center;
@@ -748,7 +748,7 @@ height: 450px;
 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); }
 50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); }
 }
-/* ===== НАЗВАНИЯ ===== */
+/* ===== НАЗВАНИЯ (для первого тайма) ===== */
 .intro-name {
 font-size: 64px;
 font-weight: 900;
@@ -772,7 +772,7 @@ margin-top: 0;
 margin-bottom: 0;
 line-height: 1.2;
 }
-/* ===== НИЖНЯЯ ЧАСТЬ ЗАСТАВКИ ===== */
+/* ===== НИЖНЯЯ ЧАСТЬ ЗАСТАВКИ (для первого тайма) ===== */
 .intro-footer {
 margin-top: auto;
 opacity: 0;
@@ -833,15 +833,51 @@ margin: 0;
 .intro-period-badge.hidden {
 display: none;
 }
-/* ===== СПЕЦИАЛЬНЫЕ КЛАССЫ ДЛЯ ЗАСТАВОК ===== */
-.intro-first-half .intro-team {
---team-gap: 7.5px; /* половина от 15px */
+/* ===== ЭЛЕМЕНТЫ ДЛЯ ВТОРОГО ТАЙМА ===== */
+.intro-second-half .intro-team .intro-name {
+display: none; /* скрываем названия внутри команд */
 }
-.intro-second-half .intro-team {
---team-gap: 7.5px;
+.intro-half-title {
+font-size: 48px;
+font-weight: 900;
+text-transform: uppercase;
+letter-spacing: 4px;
+background: linear-gradient(135deg, #fff 0%, rgba(76, 175, 80, 0.9) 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+text-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
+margin: 20px 0 10px 0;
+text-align: center;
+width: 100%;
 }
-.intro-second-half .intro-team .intro-period-badge {
-display: block;
+.intro-names {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 100px;
+padding: 0 40px;
+width: 100%;
+margin-top: 10px;
+}
+.intro-name-item {
+font-size: 64px;
+font-weight: 900;
+text-transform: uppercase;
+letter-spacing: 2px;
+background: linear-gradient(135deg, #fff 0%, #ddd 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+height: 100px;
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
+white-space: nowrap;
+overflow: visible;
+padding: 0 30px;
+line-height: 1.2;
+flex: 1;
 }
 .intro-second-half .intro-footer {
 display: none;
@@ -854,12 +890,6 @@ display: none;
   .intro-team {
     min-width: auto;
     --team-gap: 8px;
-  }
-  .intro-first-half .intro-team {
-    --team-gap: 4px;
-  }
-  .intro-second-half .intro-team {
-    --team-gap: 4px;
   }
   .intro-name {
     font-size: 32px;
@@ -885,8 +915,19 @@ display: none;
     padding: 8px 16px;
     bottom: 15px;
   }
-  .intro-period-badge {
+  .intro-period-badge,
+  .intro-half-title {
     font-size: 32px;
+  }
+  .intro-names {
+    gap: 30px;
+  }
+  .intro-name-item {
+    font-size: 32px;
+    height: auto;
+    white-space: normal;
+    word-break: break-word;
+    padding: 0 10px;
   }
 }
 
@@ -910,11 +951,18 @@ display: none;
     padding: 6px 12px;
     bottom: 14px;
   }
-  .intro-period-badge {
+  .intro-period-badge,
+  .intro-half-title {
     font-size: 28px;
   }
+  .intro-names {
+    gap: 15px;
+  }
+  .intro-name-item {
+    font-size: 24px;
+  }
 }
-/* ===== АДМИНКА ===== */
+/* ===== АДМИНКА (без изменений) ===== */
 .admin {
 position: fixed;
 top: 0; left: 0; width: 100%; height: 100%;
@@ -1287,7 +1335,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.36.0"; // ОБНОВЛЁННАЯ ВЕРСИЯ
+const VERSION = "2.36.0";
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 let state = {
@@ -1372,48 +1420,101 @@ if (elements.introTime) {
 elements.introTime.textContent = `${hours}:${minutes}`;
 }
 }
-// ===== ИЗМЕНЁННАЯ ФУНКЦИЯ showIntro =====
+// ===== НОВАЯ ФУНКЦИЯ showIntro =====
 function showIntro(period) {
   if (!elements.introOverlay) return;
 
-  // Убираем предыдущие классы
-  elements.introOverlay.classList.remove('intro-first-half', 'intro-second-half');
+  const overlay = elements.introOverlay;
+  const card = overlay.querySelector('.intro-card');
+  const teamsContainer = card.querySelector('.intro-teams');
+  const homeTeam = card.querySelector('.intro-team.home');
+  const awayTeam = card.querySelector('.intro-team.away');
+  const footer = card.querySelector('.intro-footer');
 
-  // Удаляем все ранее вставленные периоды внутри .intro-team (если есть)
-  document.querySelectorAll('.intro-team .intro-period-badge').forEach(el => el.remove());
+  // Удаляем временные элементы, созданные для второго тайма
+  const oldHalfTitle = card.querySelector('.intro-half-title');
+  const oldNamesContainer = card.querySelector('.intro-names');
+  if (oldHalfTitle) oldHalfTitle.remove();
+  if (oldNamesContainer) oldNamesContainer.remove();
 
-  if (period === '1 ТАЙМ') {
-    elements.introOverlay.classList.add('intro-first-half');
-    // Показываем нижний период (он уже есть в .intro-footer)
-    elements.introPeriod.classList.remove('hidden');
-  } else if (period === '2 ТАЙМ') {
-    elements.introOverlay.classList.add('intro-second-half');
-    // Вставляем период в каждый .intro-team после лого
-    document.querySelectorAll('.intro-team').forEach(team => {
-      const badge = document.createElement('div');
-      badge.className = 'intro-period-badge';
-      badge.textContent = period;
-      const logoContainer = team.querySelector('.intro-logo-container');
-      if (logoContainer) {
-        logoContainer.insertAdjacentElement('afterend', badge);
-      }
-    });
-    // Скрываем нижний период
-    elements.introPeriod.classList.add('hidden');
+  // Восстанавливаем исходные названия внутри .intro-team (если они были удалены)
+  if (!homeTeam.querySelector('.intro-name')) {
+    const homeName = document.createElement('span');
+    homeName.id = 'intro-name-home';
+    homeName.className = 'intro-name';
+    homeName.textContent = 'ЛЕГИОН';
+    homeTeam.appendChild(homeName);
+  }
+  if (!awayTeam.querySelector('.intro-name')) {
+    const awayName = document.createElement('span');
+    awayName.id = 'intro-name-away';
+    awayName.className = 'intro-name';
+    awayName.textContent = state.opponentName;
+    awayTeam.appendChild(awayName);
   }
 
-  // Заполняем данными
+  // Обновляем тексты названий в соответствии с состоянием
+  const homeNameElem = document.getElementById('intro-name-home');
+  const awayNameElem = document.getElementById('intro-name-away');
+  if (homeNameElem) homeNameElem.textContent = 'ЛЕГИОН';
+  if (awayNameElem) awayNameElem.textContent = state.opponentName;
+
+  // Обновляем логотипы
   elements.introLogoHome.src = LEGION_LOGO;
   elements.introLogoAway.src = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
-  elements.introNameHome.textContent = 'ЛЕГИОН';
-  elements.introNameAway.textContent = state.opponentName;
-  // Период в нижнем блоке (если виден) тоже обновляем
-  elements.introPeriod.textContent = period;
+
+  // Убираем классы-модификаторы
+  overlay.classList.remove('intro-first-half', 'intro-second-half');
+
+  if (period === '1 ТАЙМ') {
+    overlay.classList.add('intro-first-half');
+    // Показываем нижний период, но текст "1 ТАЙМ" убираем (скрываем)
+    if (footer) {
+      footer.style.display = ''; // восстанавливаем
+      const footerBadge = footer.querySelector('.intro-period-badge');
+      if (footerBadge) {
+        footerBadge.classList.add('hidden'); // скрываем текст
+      }
+    }
+  } else if (period === '2 ТАЙМ') {
+    overlay.classList.add('intro-second-half');
+    // Скрываем нижний период полностью
+    if (footer) footer.style.display = 'none';
+
+    // Удаляем названия из команд (они нам больше не нужны в этом виде)
+    const homeName = homeTeam.querySelector('.intro-name');
+    const awayName = awayTeam.querySelector('.intro-name');
+    if (homeName) homeName.remove();
+    if (awayName) awayName.remove();
+
+    // Создаем общий заголовок "2 ТАЙМ"
+    const halfTitle = document.createElement('div');
+    halfTitle.className = 'intro-half-title';
+    halfTitle.textContent = period;
+    card.insertBefore(halfTitle, teamsContainer.nextSibling);
+
+    // Создаем контейнер для названий команд
+    const namesContainer = document.createElement('div');
+    namesContainer.className = 'intro-names';
+
+    const homeNameItem = document.createElement('div');
+    homeNameItem.className = 'intro-name-item';
+    homeNameItem.textContent = 'ЛЕГИОН';
+
+    const awayNameItem = document.createElement('div');
+    awayNameItem.className = 'intro-name-item';
+    awayNameItem.textContent = state.opponentName;
+
+    namesContainer.appendChild(homeNameItem);
+    namesContainer.appendChild(awayNameItem);
+
+    card.insertBefore(namesContainer, halfTitle.nextSibling);
+  }
 
   updateRealTime();
-  elements.introOverlay.classList.add('show');
+  overlay.classList.add('show');
   setTimeout(() => {
-    elements.introOverlay.classList.remove('show');
+    overlay.classList.remove('show');
   }, 7000);
 }
 async function loadPlayers() {
