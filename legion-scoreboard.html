@@ -687,7 +687,7 @@ margin: 0 auto;
 0% { transform: scale(0.9); opacity: 0; }
 100% { transform: scale(1); opacity: 1; }
 }
-/* ✅ ВЫРАВНИВАНИЕ ЛОГОТИПОВ И НАЗВАНИЙ */
+/* ===== ВЫРАВНИВАНИЕ ЛОГОТИПОВ И НАЗВАНИЙ ===== */
 .intro-teams {
 display: flex;
 align-items: center;
@@ -703,7 +703,7 @@ display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-gap: 15px;
+gap: var(--team-gap, 15px);
 opacity: 0;
 width: auto;
 min-width: 300px;
@@ -723,7 +723,7 @@ animation: slideInRight 0.6s 0.2s ease-out forwards;
 0% { transform: translateX(100px); opacity: 0; }
 100% { transform: translateX(0); opacity: 1; }
 }
-/* ✅ КОНТЕЙНЕР ДЛЯ ЛОГОТИПА */
+/* ===== КОНТЕЙНЕР ДЛЯ ЛОГОТИПА ===== */
 .intro-logo-container {
 width: 600px;
 height: 600px;
@@ -731,7 +731,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 }
-/* ✅ ЛОГОТИПЫ */
+/* ===== ЛОГОТИПЫ ===== */
 .intro-logo {
 width: 600px;
 height: 600px;
@@ -739,8 +739,6 @@ object-fit: contain;
 filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6));
 animation: logoPulse 2s infinite ease-in-out;
 display: block;
-}
-.intro-team.away .intro-logo-container {
 }
 .intro-team.away .intro-logo {
 width: 450px;
@@ -750,7 +748,7 @@ height: 450px;
 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.6)); }
 50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.8)); }
 }
-/* ✅ НАЗВАНИЯ */
+/* ===== НАЗВАНИЯ ===== */
 .intro-name {
 font-size: 64px;
 font-weight: 900;
@@ -790,7 +788,7 @@ justify-content: flex-end;
 0% { transform: translateY(30px); opacity: 0; }
 100% { transform: translateY(0); opacity: 1; }
 }
-/* ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ */
+/* ===== ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ ===== */
 .intro-datetime {
 position: fixed;
 bottom: 30px;
@@ -812,20 +810,15 @@ animation: fadeInUpCentered 0.8s 0.5s ease-out forwards;
 white-space: nowrap;
 }
 @keyframes fadeInUpCentered {
-0% {
-transform: translate(-50%, 30px);
-opacity: 0;
-}
-100% {
-transform: translate(-50%, 0);
-opacity: 1;
-}
+0% { transform: translate(-50%, 30px); opacity: 0; }
+100% { transform: translate(-50%, 0); opacity: 1; }
 }
 .intro-datetime span {
 color: rgba(76, 175, 80, 0.9);
 font-weight: bold;
 margin: 0 5px;
 }
+/* ===== ПЕРИОД (БЕЙДЖ) ===== */
 .intro-period-badge {
 font-size: 48px;
 font-weight: 900;
@@ -835,33 +828,91 @@ background: linear-gradient(135deg, #fff 0%, rgba(76, 175, 80, 0.9) 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 text-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
-margin-top: 10px;
+margin: 0;
 }
 .intro-period-badge.hidden {
 display: none;
 }
-.intro-footer::after {
-content: '';
+/* ===== СПЕЦИАЛЬНЫЕ КЛАССЫ ДЛЯ ЗАСТАВОК ===== */
+.intro-first-half .intro-team {
+--team-gap: 7.5px; /* половина от 15px */
+}
+.intro-second-half .intro-team {
+--team-gap: 7.5px;
+}
+.intro-second-half .intro-team .intro-period-badge {
 display: block;
-width: 200px;
-height: 4px;
-background: linear-gradient(90deg,
-transparent,
-rgba(76, 175, 80, 0.9) 20%,
-rgba(76, 175, 80, 0.9) 80%,
-transparent);
-margin: 20px auto 0;
-border-radius: 2px;
-animation: lineExpand 0.8s 0.8s ease-out forwards;
-transform: scaleX(0);
 }
-@keyframes lineExpand {
-from { transform: scaleX(0); opacity: 0; }
-to { transform: scaleX(1); opacity: 1; }
+.intro-second-half .intro-footer {
+display: none;
 }
-/* ===== СПИСОК ГОЛОВ — УДАЛЕНО ===== */
-.intro-goal-info {
-display: none !important;
+/* ===== АДАПТИВНОСТЬ ЗАСТАВКИ ДЛЯ МОБИЛЬНЫХ ===== */
+@media (max-width: 768px) {
+  .intro-teams {
+    gap: 30px;
+  }
+  .intro-team {
+    min-width: auto;
+    --team-gap: 8px;
+  }
+  .intro-first-half .intro-team {
+    --team-gap: 4px;
+  }
+  .intro-second-half .intro-team {
+    --team-gap: 4px;
+  }
+  .intro-name {
+    font-size: 32px;
+    white-space: normal;
+    word-break: break-word;
+    height: auto;
+    padding: 0 10px;
+  }
+  .intro-logo-container {
+    width: auto;
+    height: auto;
+  }
+  .intro-logo {
+    width: 200px;
+    height: 200px;
+  }
+  .intro-team.away .intro-logo {
+    width: 150px;
+    height: 150px;
+  }
+  .intro-datetime {
+    font-size: 16px;
+    padding: 8px 16px;
+    bottom: 15px;
+  }
+  .intro-period-badge {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro-teams {
+    gap: 15px;
+  }
+  .intro-name {
+    font-size: 24px;
+  }
+  .intro-logo {
+    width: 150px;
+    height: 150px;
+  }
+  .intro-team.away .intro-logo {
+    width: 120px;
+    height: 120px;
+  }
+  .intro-datetime {
+    font-size: 14px;
+    padding: 6px 12px;
+    bottom: 14px;
+  }
+  .intro-period-badge {
+    font-size: 28px;
+  }
 }
 /* ===== АДМИНКА ===== */
 .admin {
@@ -1015,93 +1066,6 @@ animation: pulse 1s infinite;
 0%,100% { opacity:1; }
 50% { opacity:0.6; }
 }
-
-/* ===== АДАПТИВНОСТЬ ЗАСТАВКИ ДЛЯ МОБИЛЬНЫХ ===== */
-@media (max-width: 768px) {
-  .intro-teams {
-    gap: 30px;
-  }
-  .intro-team {
-    min-width: auto;
-  }
-  .intro-name {
-    font-size: 32px;
-    white-space: normal;
-    word-break: break-word;
-    height: auto;
-    padding: 0 10px;
-  }
-  .intro-logo-container {
-    width: auto;
-    height: auto;
-  }
-  .intro-logo {
-    width: 200px;
-    height: 200px;
-  }
-  .intro-team.away .intro-logo {
-    width: 150px;
-    height: 150px;
-  }
-  .intro-datetime {
-    font-size: 16px;
-    padding: 8px 16px;
-    bottom: 15px;
-  }
-}
-
-@media (max-width: 480px) {
-  .intro-teams {
-    gap: 15px;
-  }
-  .intro-name {
-    font-size: 24px;
-  }
-  .intro-logo {
-    width: 150px;
-    height: 150px;
-  }
-  .intro-team.away .intro-logo {
-    width: 120px;
-    height: 120px;
-  }
-  .intro-datetime {
-    font-size: 14px;
-    padding: 6px 12px;
-  }
-  .intro-period-badge {
-    font-size: 32px;
-  }
-}
-
-/* ===== ИЗМЕНЕНИЯ ПО ЗАПРОСУ (УМЕНЬШЕНИЕ НАЗВАНИЙ, ПРИБЛИЖЕНИЕ ЭЛЕМЕНТОВ) ===== */
-.intro-name {
-  font-size: 44px; /* 64 * 0.7 ≈ 44.8 */
-}
-@media (max-width: 768px) {
-  .intro-name {
-    font-size: 22px; /* 32 * 0.7 ≈ 22.4 */
-  }
-}
-@media (max-width: 480px) {
-  .intro-name {
-    font-size: 17px; /* 24 * 0.7 = 16.8 */
-  }
-}
-.intro-team {
-  gap: 1px; /* было 15px */
-}
-.intro-period-badge {
-  margin-top: 1px; /* было 10px */
-}
-.intro-datetime {
-  bottom: 29px; /* было 30px */
-}
-@media (max-width: 768px) {
-  .intro-datetime {
-    bottom: 14px; /* было 15px */
-  }
-}
 </style>
 </head>
 <body>
@@ -1211,7 +1175,7 @@ animation: pulse 1s infinite;
 <div class="intro-period-badge" id="intro-period">1 ТАЙМ</div>
 </div>
 </div>
-<!-- ✅ ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ -->
+<!-- ПЛАШКА С ДАТОЙ И ВРЕМЕНЕМ -->
 <div class="intro-datetime">
 <span id="intro-date">05.03.2026</span> •
 <span id="intro-time">19:30</span> •
@@ -1323,7 +1287,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.36.0"; // ✅ ОБНОВЛЁННАЯ ВЕРСИЯ
+const VERSION = "2.36.0"; // ОБНОВЛЁННАЯ ВЕРСИЯ
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 let state = {
@@ -1408,23 +1372,49 @@ if (elements.introTime) {
 elements.introTime.textContent = `${hours}:${minutes}`;
 }
 }
+// ===== ИЗМЕНЁННАЯ ФУНКЦИЯ showIntro =====
 function showIntro(period) {
-if (!elements.introOverlay) return;
-elements.introLogoHome.src = LEGION_LOGO;
-elements.introLogoAway.src = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
-elements.introNameHome.textContent = 'ЛЕГИОН';
-elements.introNameAway.textContent = state.opponentName;
-elements.introPeriod.textContent = period;
-if (period === '1 ТАЙМ') {
-elements.introPeriod.classList.add('hidden');
-} else {
-elements.introPeriod.classList.remove('hidden');
-}
-updateRealTime();
-elements.introOverlay.classList.add('show');
-setTimeout(() => {
-elements.introOverlay.classList.remove('show');
-}, 7000);
+  if (!elements.introOverlay) return;
+
+  // Убираем предыдущие классы
+  elements.introOverlay.classList.remove('intro-first-half', 'intro-second-half');
+
+  // Удаляем все ранее вставленные периоды внутри .intro-team (если есть)
+  document.querySelectorAll('.intro-team .intro-period-badge').forEach(el => el.remove());
+
+  if (period === '1 ТАЙМ') {
+    elements.introOverlay.classList.add('intro-first-half');
+    // Показываем нижний период (он уже есть в .intro-footer)
+    elements.introPeriod.classList.remove('hidden');
+  } else if (period === '2 ТАЙМ') {
+    elements.introOverlay.classList.add('intro-second-half');
+    // Вставляем период в каждый .intro-team после лого
+    document.querySelectorAll('.intro-team').forEach(team => {
+      const badge = document.createElement('div');
+      badge.className = 'intro-period-badge';
+      badge.textContent = period;
+      const logoContainer = team.querySelector('.intro-logo-container');
+      if (logoContainer) {
+        logoContainer.insertAdjacentElement('afterend', badge);
+      }
+    });
+    // Скрываем нижний период
+    elements.introPeriod.classList.add('hidden');
+  }
+
+  // Заполняем данными
+  elements.introLogoHome.src = LEGION_LOGO;
+  elements.introLogoAway.src = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
+  elements.introNameHome.textContent = 'ЛЕГИОН';
+  elements.introNameAway.textContent = state.opponentName;
+  // Период в нижнем блоке (если виден) тоже обновляем
+  elements.introPeriod.textContent = period;
+
+  updateRealTime();
+  elements.introOverlay.classList.add('show');
+  setTimeout(() => {
+    elements.introOverlay.classList.remove('show');
+  }, 7000);
 }
 async function loadPlayers() {
 try {
@@ -1557,11 +1547,9 @@ stopTimerUpdate();
 updateTimerDisplay();
 updateDebugInfo();
 });
-// ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ С ПРОВЕРКАМИ НА NULL
 function updateAllVariants() {
 const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
 ['v1', 'v2', 'v3'].forEach(v => {
-// ✅ ПРОВЕРКА: если элемент существует, обновляем его
 if (elements[v].lh) elements[v].lh.src = LEGION_LOGO;
 if (elements[v].la) elements[v].la.src = opponentLogoSrc;
 if (elements[v].nh) elements[v].nh.textContent = 'ЛЕГИОН';
@@ -1591,7 +1579,6 @@ const maxLen = Math.max(7, state.opponentName.length);
 const stripWidth = Math.min(Math.max(maxLen * 13 + 30, 140), 220);
 elements.sbV3.style.setProperty('--strip-width', stripWidth + 'px');
 }
-// ✅ ИСПРАВЛЕННАЯ ФУНКЦИЯ С ПРОВЕРКАМИ НА NULL
 function updateTimerDisplay() {
 const m = Math.floor(currentTimerSeconds / 60);
 const s = currentTimerSeconds % 60;
