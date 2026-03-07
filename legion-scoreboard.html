@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>ФК ЛЕГИОН — Табло</title>
+<title>ФК ЛЕГИОН — Табло (оверлей Full HD)</title>
 <style>
 /* ===== БАЗОВЫЕ СТИЛИ ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -846,9 +846,18 @@ background: linear-gradient(135deg, #fff 0%, rgba(76, 175, 80, 0.9) 100%);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 text-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
-margin: 20px 0 10px 0;
+margin: 0; /* убираем внешние отступы для точного позиционирования */
 text-align: center;
 width: 100%;
+}
+.intro-second-half .intro-half-title {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 10;
+  pointer-events: none; /* чтобы не мешать кликам */
 }
 .intro-names {
 display: flex;
@@ -889,20 +898,22 @@ display: none;
   }
   .intro-team {
     min-width: auto;
-    --team-gap: 8px; /* базовое расстояние для мобильных */
+    --team-gap: 8px;
   }
   .intro-first-half .intro-team {
-    --team-gap: 4px; /* уменьшено вдвое для первого тайма */
+    --team-gap: 4px;
   }
   .intro-second-half .intro-team {
-    --team-gap: 4px; /* для второго тайма тоже */
+    --team-gap: 4px;
   }
-  .intro-name {
-    font-size: 32px; /* исходный размер для планшетов */
+  .intro-name,
+  .intro-name-item {
+    font-size: 21px; /* 26 * 0.8 = 20.8 -> 21px */
     white-space: normal;
     word-break: break-word;
     height: auto;
     padding: 0 10px;
+    margin-top: -4px; /* поднимаем названия */
   }
   .intro-logo-container {
     width: auto;
@@ -929,11 +940,8 @@ display: none;
     gap: 30px;
   }
   .intro-name-item {
-    font-size: 32px;
-    height: auto;
-    white-space: normal;
-    word-break: break-word;
-    padding: 0 10px;
+    font-size: 21px;
+    margin-top: -4px;
   }
 }
 
@@ -942,14 +950,16 @@ display: none;
     gap: 15px;
   }
   .intro-team {
-    --team-gap: 4px; /* для телефонов базовое уменьшено */
+    --team-gap: 4px;
   }
   .intro-first-half .intro-team,
   .intro-second-half .intro-team {
-    --team-gap: 2px; /* вдвое меньше для half */
+    --team-gap: 2px;
   }
-  .intro-name {
-    font-size: 24px; /* исходный для телефонов */
+  .intro-name,
+  .intro-name-item {
+    font-size: 15px; /* 19 * 0.8 = 15.2 -> 15px */
+    margin-top: -3px;
   }
   .intro-logo {
     width: 150px;
@@ -972,37 +982,10 @@ display: none;
     gap: 15px;
   }
   .intro-name-item {
-    font-size: 24px;
+    font-size: 15px;
+    margin-top: -3px;
   }
 }
-
-/* ===== ДОПОЛНИТЕЛЬНЫЕ МОБИЛЬНЫЕ ПРАВКИ ПО ЗАПРОСУ ===== */
-@media (max-width: 768px) {
-  .intro-name {
-    font-size: 26px; /* 32 * 0.8 = 25.6 -> 26px */
-  }
-  .intro-name-item {
-    font-size: 26px; /* 32 * 0.8 = 25.6 -> 26px */
-  }
-  .intro-half-title {
-    margin-top: 5px;  /* поднимаем надпись 2 тайм */
-    margin-bottom: 5px;
-  }
-}
-
-@media (max-width: 480px) {
-  .intro-name {
-    font-size: 19px; /* 24 * 0.8 = 19.2 -> 19px */
-  }
-  .intro-name-item {
-    font-size: 19px; /* 24 * 0.8 = 19.2 -> 19px */
-  }
-  .intro-half-title {
-    margin-top: 5px;
-    margin-bottom: 5px;
-  }
-}
-
 /* ===== АДМИНКА (без изменений) ===== */
 .admin {
 position: fixed;
@@ -1376,7 +1359,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "2.36.0";
+const VERSION = "3.0.0"; // Базовая версия для оверлея Full HD
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 let state = {
