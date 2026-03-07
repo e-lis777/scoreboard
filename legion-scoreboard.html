@@ -889,10 +889,16 @@ display: none;
   }
   .intro-team {
     min-width: auto;
-    --team-gap: 8px;
+    --team-gap: 8px; /* базовое расстояние для мобильных */
+  }
+  .intro-first-half .intro-team {
+    --team-gap: 4px; /* уменьшено вдвое для первого тайма */
+  }
+  .intro-second-half .intro-team {
+    --team-gap: 4px; /* для второго тайма тоже */
   }
   .intro-name {
-    font-size: 32px;
+    font-size: 32px; /* исходный размер для планшетов */
     white-space: normal;
     word-break: break-word;
     height: auto;
@@ -935,8 +941,15 @@ display: none;
   .intro-teams {
     gap: 15px;
   }
+  .intro-team {
+    --team-gap: 4px; /* для телефонов базовое уменьшено */
+  }
+  .intro-first-half .intro-team,
+  .intro-second-half .intro-team {
+    --team-gap: 2px; /* вдвое меньше для half */
+  }
   .intro-name {
-    font-size: 24px;
+    font-size: 24px; /* исходный для телефонов */
   }
   .intro-logo {
     width: 150px;
@@ -962,6 +975,34 @@ display: none;
     font-size: 24px;
   }
 }
+
+/* ===== ДОПОЛНИТЕЛЬНЫЕ МОБИЛЬНЫЕ ПРАВКИ ПО ЗАПРОСУ ===== */
+@media (max-width: 768px) {
+  .intro-name {
+    font-size: 26px; /* 32 * 0.8 = 25.6 -> 26px */
+  }
+  .intro-name-item {
+    font-size: 26px; /* 32 * 0.8 = 25.6 -> 26px */
+  }
+  .intro-half-title {
+    margin-top: 5px;  /* поднимаем надпись 2 тайм */
+    margin-bottom: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro-name {
+    font-size: 19px; /* 24 * 0.8 = 19.2 -> 19px */
+  }
+  .intro-name-item {
+    font-size: 19px; /* 24 * 0.8 = 19.2 -> 19px */
+  }
+  .intro-half-title {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
+
 /* ===== АДМИНКА (без изменений) ===== */
 .admin {
 position: fixed;
