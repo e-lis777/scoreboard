@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -1343,174 +1344,196 @@ animation: pulse 1s infinite;
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
 import { getDatabase, ref, set, onValue, update, get, runTransaction, onDisconnect } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+
 const firebaseConfig = {
-apiKey: "AIzaSyAFb-yJaI7WJFcTx_wAFmSngupHqUNai1I",
-authDomain: "scoreboard-6d34c.firebaseapp.com",
-databaseURL: "https://scoreboard-6d34c-default-rtdb.europe-west1.firebasedatabase.app",
-projectId: "scoreboard-6d34c",
-storageBucket: "scoreboard-6d34c.firebasestorage.app",
-messagingSenderId: "11785107743",
-appId: "1:11785107743:web:a8faa98d6aaf4462dd582a"
+  apiKey: "AIzaSyAFb-yJaI7WJFcTx_wAFmSngupHqUNai1I",
+  authDomain: "scoreboard-6d34c.firebaseapp.com",
+  databaseURL: "https://scoreboard-6d34c-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "scoreboard-6d34c",
+  storageBucket: "scoreboard-6d34c.firebasestorage.app",
+  messagingSenderId: "11785107743",
+  appId: "1:11785107743:web:a8faa98d6aaf4462dd582a"
 };
+
 const LEGION_LOGO = "https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg";
 const PLAYERS_JSON_URL = "https://raw.githubusercontent.com/e-lis777/scoreboard/main/data/players.json";
 const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png";
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "3.1.0"; // Добавлена блокировка админки
+const VERSION = "3.2.0"; // Улучшена блокировка и исправлены проблемы с сохранением
+
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // ===== БЛОКИРОВКА АДМИНКИ =====
 const SESSION_ID = Math.random().toString(36).substring(2) + Date.now();
 const LOCK_REF = ref(db, 'adminLock');
-const LOCK_TIMEOUT = 10000; // 10 секунд
-let isLockOwner = false; // флаг, владеет ли текущая сессия блокировкой
+const LOCK_TIMEOUT = 30000; // 30 секунд
+const LOCK_RENEW_INTERVAL = 3000; // обновление каждые 3 секунды
+
+let isLockOwner = false;
 let lockInterval = null;
 
 async function acquireAdminLock() {
   try {
     const result = await runTransaction(LOCK_REF, (currentLock) => {
-      // Если блокировка отсутствует или истекла, захватываем
       if (!currentLock || (Date.now() - currentLock.timestamp > LOCK_TIMEOUT)) {
         return { active: true, sessionId: SESSION_ID, timestamp: Date.now() };
       } else {
-        // Блокировка занята другой активной сессией
         throw new Error('LOCKED');
       }
     });
-    console.log('Блокировка админки захвачена', result);
+    console.log('✅ Блокировка админки захвачена', result);
     isLockOwner = true;
-    // Устанавливаем автоматическое снятие блокировки при отключении
     onDisconnect(LOCK_REF).set(null);
     return true;
   } catch (error) {
     if (error.message === 'LOCKED') {
-      console.warn('Админка уже открыта в другом окне');
+      console.warn('⚠️ Админка уже открыта в другом окне');
       return false;
     }
-    console.error('Ошибка при захвате блокировки:', error);
+    console.error('❌ Ошибка при захвате блокировки:', error);
     return false;
   }
 }
 
 async function releaseAdminLock() {
   if (!isLockOwner) return;
-  const snapshot = await get(LOCK_REF);
-  const lock = snapshot.val();
-  if (lock && lock.sessionId === SESSION_ID) {
-    await set(LOCK_REF, null);
-    isLockOwner = false;
+  try {
+    const snapshot = await get(LOCK_REF);
+    const lock = snapshot.val();
+    if (lock && lock.sessionId === SESSION_ID) {
+      await set(LOCK_REF, null);
+      console.log('🔓 Блокировка админки освобождена');
+      isLockOwner = false;
+    }
+  } catch (error) {
+    console.error('Ошибка при освобождении блокировки:', error);
   }
 }
 
-// Проверка, является ли текущая сессия владельцем блокировки
 async function checkLock() {
   if (!isLockOwner) return false;
-  const snapshot = await get(LOCK_REF);
-  const lock = snapshot.val();
-  return lock && lock.sessionId === SESSION_ID;
-}
-
-// Функция-обёртка для действий, требующих блокировки
-async function withLock(action) {
-  if (!(await checkLock())) {
-    toast('❌ Блокировка управления потеряна. Обновите страницу.', 'error');
+  try {
+    const snapshot = await get(LOCK_REF);
+    const lock = snapshot.val();
+    const stillOwner = lock && lock.sessionId === SESSION_ID;
+    if (!stillOwner) {
+      isLockOwner = false;
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error('Ошибка проверки блокировки:', error);
     return false;
   }
-  return await action();
 }
 
-// При закрытии страницы снимаем блокировку
+async function withLock(action) {
+  if (!(await checkLock())) {
+    toast('❌ Управление заблокировано другим окном. Обновите страницу.', 'error');
+    return false;
+  }
+  try {
+    const result = await action();
+    return result;
+  } catch (error) {
+    console.error('Ошибка в withLock:', error);
+    toast('❌ Ошибка выполнения. Попробуйте снова.', 'error');
+    return false;
+  }
+}
+
 window.addEventListener('beforeunload', () => {
   if (lockInterval) clearInterval(lockInterval);
   releaseAdminLock();
 });
 
+// ===== СОСТОЯНИЕ ПРИЛОЖЕНИЯ =====
 let state = {
-opponentName: 'СОПЕРНИК',
-opponentLogo: '',
-legionScore: 0,
-opponentScore: 0,
-timer: {
-running: false,
-elapsed: 0
-},
-period: '1 ТАЙМ',
-designVariant: 3,
-colorTheme: 'green',
-logoAnimEnabled: true,
-goals: []
+  opponentName: 'СОПЕРНИК',
+  opponentLogo: '',
+  legionScore: 0,
+  opponentScore: 0,
+  timer: { running: false, elapsed: 0 },
+  period: '1 ТАЙМ',
+  designVariant: 3,
+  colorTheme: 'green',
+  logoAnimEnabled: true,
+  goals: []
 };
+
 let currentTimerSeconds = 0;
 let timerUpdateInterval = null;
 let players = [];
+
+// ===== ЭЛЕМЕНТЫ DOM =====
 const elements = {
-v1: { lh: document.getElementById('v1-lh'), la: document.getElementById('v1-la'), nh: document.getElementById('v1-nh'), na: document.getElementById('v1-na'), sh: document.getElementById('v1-sh'), sa: document.getElementById('v1-sa'), p: document.getElementById('v1-p'), t: document.getElementById('v1-t') },
-v2: { lh: document.getElementById('v2-lh'), la: document.getElementById('v2-la'), nh: document.getElementById('v2-nh'), na: document.getElementById('v2-na'), sh: document.getElementById('v2-sh'), sa: document.getElementById('v2-sa'), p: document.getElementById('v2-p'), t: document.getElementById('v2-t') },
-v3: { lh: document.getElementById('v3-lh'), la: document.getElementById('v3-la'), nh: document.getElementById('v3-nh'), na: document.getElementById('v3-na'), sh: document.getElementById('v3-sh'), sa: document.getElementById('v3-sa'), p: document.getElementById('v3-p'), t: document.getElementById('v3-t') },
-admin: {
-na: document.getElementById('adm-na'),
-la: document.getElementById('adm-la'),
-sh: document.getElementById('adm-sh'),
-sa: document.getElementById('adm-sa'),
-p: document.getElementById('adm-p'),
-animChk: document.getElementById('anim-chk'),
-varBtns: document.querySelectorAll('.var-btn'),
-colBtns: document.querySelectorAll('.col-btn'),
-tmInd: document.getElementById('tm-ind'),
-tmTxt: document.getElementById('tm-txt')
-},
-sbV1: document.getElementById('sb-v1'),
-sbV2: document.getElementById('sb-v2'),
-sbV3: document.getElementById('sb-v3'),
-goalAnim: document.getElementById('goal-anim'),
-logoAnim: document.getElementById('logo-anim'),
-toast: document.getElementById('toast'),
-goalCard: document.getElementById('goal-card'),
-goalCardLogo: document.getElementById('goal-card-logo'),
-goalLastname: document.getElementById('goal-lastname'),
-goalNumber: document.getElementById('goal-number'),
-goalPosition: document.getElementById('goal-position'),
-goalMinuteDisplay: document.getElementById('goal-minute-display'),
-goalModal: document.getElementById('goal-modal'),
-scorerButtons: document.getElementById('scorer-buttons'),
-versionDisplay: document.getElementById('version-display'),
-debugInfo: document.getElementById('debug-info'),
-introOverlay: document.getElementById('intro-overlay'),
-introLogoHome: document.getElementById('intro-logo-home'),
-introLogoAway: document.getElementById('intro-logo-away'),
-introNameHome: document.getElementById('intro-name-home'),
-introNameAway: document.getElementById('intro-name-away'),
-introDate: document.getElementById('intro-date'),
-introTime: document.getElementById('intro-time'),
-introPeriod: document.getElementById('intro-period'),
-introGoalInfo: document.getElementById('intro-goal-info')
+  v1: { lh: document.getElementById('v1-lh'), la: document.getElementById('v1-la'), nh: document.getElementById('v1-nh'), na: document.getElementById('v1-na'), sh: document.getElementById('v1-sh'), sa: document.getElementById('v1-sa'), p: document.getElementById('v1-p'), t: document.getElementById('v1-t') },
+  v2: { lh: document.getElementById('v2-lh'), la: document.getElementById('v2-la'), nh: document.getElementById('v2-nh'), na: document.getElementById('v2-na'), sh: document.getElementById('v2-sh'), sa: document.getElementById('v2-sa'), p: document.getElementById('v2-p'), t: document.getElementById('v2-t') },
+  v3: { lh: document.getElementById('v3-lh'), la: document.getElementById('v3-la'), nh: document.getElementById('v3-nh'), na: document.getElementById('v3-na'), sh: document.getElementById('v3-sh'), sa: document.getElementById('v3-sa'), p: document.getElementById('v3-p'), t: document.getElementById('v3-t') },
+  admin: {
+    na: document.getElementById('adm-na'),
+    la: document.getElementById('adm-la'),
+    sh: document.getElementById('adm-sh'),
+    sa: document.getElementById('adm-sa'),
+    p: document.getElementById('adm-p'),
+    animChk: document.getElementById('anim-chk'),
+    varBtns: document.querySelectorAll('.var-btn'),
+    colBtns: document.querySelectorAll('.col-btn'),
+    tmInd: document.getElementById('tm-ind'),
+    tmTxt: document.getElementById('tm-txt')
+  },
+  sbV1: document.getElementById('sb-v1'),
+  sbV2: document.getElementById('sb-v2'),
+  sbV3: document.getElementById('sb-v3'),
+  goalAnim: document.getElementById('goal-anim'),
+  logoAnim: document.getElementById('logo-anim'),
+  toast: document.getElementById('toast'),
+  goalCard: document.getElementById('goal-card'),
+  goalCardLogo: document.getElementById('goal-card-logo'),
+  goalLastname: document.getElementById('goal-lastname'),
+  goalNumber: document.getElementById('goal-number'),
+  goalPosition: document.getElementById('goal-position'),
+  goalMinuteDisplay: document.getElementById('goal-minute-display'),
+  goalModal: document.getElementById('goal-modal'),
+  scorerButtons: document.getElementById('scorer-buttons'),
+  versionDisplay: document.getElementById('version-display'),
+  debugInfo: document.getElementById('debug-info'),
+  introOverlay: document.getElementById('intro-overlay'),
+  introLogoHome: document.getElementById('intro-logo-home'),
+  introLogoAway: document.getElementById('intro-logo-away'),
+  introNameHome: document.getElementById('intro-name-home'),
+  introNameAway: document.getElementById('intro-name-away'),
+  introDate: document.getElementById('intro-date'),
+  introTime: document.getElementById('intro-time'),
+  introPeriod: document.getElementById('intro-period'),
+  introGoalInfo: document.getElementById('intro-goal-info')
 };
+
 if (elements.versionDisplay) {
-elements.versionDisplay.textContent = `v${VERSION}`;
+  elements.versionDisplay.textContent = `v${VERSION}`;
 }
+
 function updateDebugInfo() {
-if (!DEBUG || !elements.debugInfo) return;
-elements.debugInfo.innerHTML = `v${VERSION} | timer: ${currentTimerSeconds}s | running: ${state.timer.running} | goals: ${state.goals.length}`;
-elements.debugInfo.classList.add('visible');
+  if (!DEBUG || !elements.debugInfo) return;
+  elements.debugInfo.innerHTML = `v${VERSION} | timer: ${currentTimerSeconds}s | running: ${state.timer.running} | goals: ${state.goals.length}`;
+  elements.debugInfo.classList.add('visible');
 }
+
 function updateRealTime() {
-const now = new Date();
-const day = String(now.getDate()).padStart(2, '0');
-const month = String(now.getMonth() + 1).padStart(2, '0');
-const year = now.getFullYear();
-const hours = String(now.getHours()).padStart(2, '0');
-const minutes = String(now.getMinutes()).padStart(2, '0');
-if (elements.introDate) {
-elements.introDate.textContent = `${day}.${month}.${year}`;
+  const now = new Date();
+  const day = String(now.getDate()).padStart(2, '0');
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const year = now.getFullYear();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  if (elements.introDate) elements.introDate.textContent = `${day}.${month}.${year}`;
+  if (elements.introTime) elements.introTime.textContent = `${hours}:${minutes}`;
 }
-if (elements.introTime) {
-elements.introTime.textContent = `${hours}:${minutes}`;
-}
-}
-// ===== НОВАЯ ФУНКЦИЯ showIntro =====
+
+// ===== ФУНКЦИЯ ПОКАЗА ЗАСТАВКИ =====
 function showIntro(period) {
   if (!elements.introOverlay) return;
 
@@ -1521,13 +1544,13 @@ function showIntro(period) {
   const awayTeam = card.querySelector('.intro-team.away');
   const footer = card.querySelector('.intro-footer');
 
-  // Удаляем временные элементы, созданные для второго тайма
+  // Удаляем временные элементы для второго тайма
   const oldHalfTitle = card.querySelector('.intro-half-title');
   const oldNamesContainer = card.querySelector('.intro-names');
   if (oldHalfTitle) oldHalfTitle.remove();
   if (oldNamesContainer) oldNamesContainer.remove();
 
-  // Восстанавливаем исходные названия внутри .intro-team (если они были удалены)
+  // Восстанавливаем исходные названия
   if (!homeTeam.querySelector('.intro-name')) {
     const homeName = document.createElement('span');
     homeName.id = 'intro-name-home';
@@ -1543,47 +1566,37 @@ function showIntro(period) {
     awayTeam.appendChild(awayName);
   }
 
-  // Обновляем тексты названий в соответствии с состоянием
   const homeNameElem = document.getElementById('intro-name-home');
   const awayNameElem = document.getElementById('intro-name-away');
   if (homeNameElem) homeNameElem.textContent = 'ЛЕГИОН';
   if (awayNameElem) awayNameElem.textContent = state.opponentName;
 
-  // Обновляем логотипы
   elements.introLogoHome.src = LEGION_LOGO;
   elements.introLogoAway.src = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
 
-  // Убираем классы-модификаторы
   overlay.classList.remove('intro-first-half', 'intro-second-half');
 
   if (period === '1 ТАЙМ') {
     overlay.classList.add('intro-first-half');
-    // Показываем нижний период, но текст "1 ТАЙМ" убираем (скрываем)
     if (footer) {
-      footer.style.display = ''; // восстанавливаем
+      footer.style.display = '';
       const footerBadge = footer.querySelector('.intro-period-badge');
-      if (footerBadge) {
-        footerBadge.classList.add('hidden'); // скрываем текст
-      }
+      if (footerBadge) footerBadge.classList.add('hidden');
     }
   } else if (period === '2 ТАЙМ') {
     overlay.classList.add('intro-second-half');
-    // Скрываем нижний период полностью
     if (footer) footer.style.display = 'none';
 
-    // Удаляем названия из команд (они нам больше не нужны в этом виде)
     const homeName = homeTeam.querySelector('.intro-name');
     const awayName = awayTeam.querySelector('.intro-name');
     if (homeName) homeName.remove();
     if (awayName) awayName.remove();
 
-    // Создаем общий заголовок "2 ТАЙМ"
     const halfTitle = document.createElement('div');
     halfTitle.className = 'intro-half-title';
     halfTitle.textContent = period;
     card.insertBefore(halfTitle, teamsContainer.nextSibling);
 
-    // Создаем контейнер для названий команд
     const namesContainer = document.createElement('div');
     namesContainer.className = 'intro-names';
 
@@ -1597,42 +1610,43 @@ function showIntro(period) {
 
     namesContainer.appendChild(homeNameItem);
     namesContainer.appendChild(awayNameItem);
-
     card.insertBefore(namesContainer, halfTitle.nextSibling);
   }
 
   updateRealTime();
   overlay.classList.add('show');
-  setTimeout(() => {
-    overlay.classList.remove('show');
-  }, 7000);
+  setTimeout(() => overlay.classList.remove('show'), 7000);
 }
+
+// ===== ЗАГРУЗКА ИГРОКОВ =====
 async function loadPlayers() {
-try {
-const response = await fetch(PLAYERS_JSON_URL);
-if (!response.ok) throw new Error('Ошибка загрузки players.json');
-players = await response.json();
-const positionOrder = { 'ЛН':1, 'ЦН':2, 'ПН':3, 'ПЗ':4, 'ЦП':5, 'ЛЗ':6, 'ЦЗ':7, 'ГК':8 };
-players.sort((a, b) => {
-const orderA = positionOrder[a.position] || 99;
-const orderB = positionOrder[b.position] || 99;
-if (orderA !== orderB) return orderA - orderB;
-return a.number - b.number;
-});
-console.log('✅ Игроки загружены');
-} catch (e) {
-console.error('❌ Ошибка загрузки игроков:', e);
-toast('❌ Ошибка загрузки игроков', 'error');
+  try {
+    const response = await fetch(PLAYERS_JSON_URL);
+    if (!response.ok) throw new Error('Ошибка загрузки players.json');
+    players = await response.json();
+    const positionOrder = { 'ЛН':1, 'ЦН':2, 'ПН':3, 'ПЗ':4, 'ЦП':5, 'ЛЗ':6, 'ЦЗ':7, 'ГК':8 };
+    players.sort((a, b) => {
+      const orderA = positionOrder[a.position] || 99;
+      const orderB = positionOrder[b.position] || 99;
+      if (orderA !== orderB) return orderA - orderB;
+      return a.number - b.number;
+    });
+    console.log('✅ Игроки загружены');
+  } catch (e) {
+    console.error('❌ Ошибка загрузки игроков:', e);
+    toast('❌ Ошибка загрузки игроков', 'error');
+  }
 }
-}
+
 function openGoalModal() {
-if (!players.length) {
-toast('Список игроков не загружен', 'error');
-return;
+  if (!players.length) {
+    toast('Список игроков не загружен', 'error');
+    return;
+  }
+  if (!elements.goalModal.classList.contains('hidden')) return;
+  elements.goalModal.classList.remove('hidden');
 }
-if (!elements.goalModal.classList.contains('hidden')) return;
-elements.goalModal.classList.remove('hidden');
-}
+
 function selectScorerAndGoal(player) {
   withLock(async () => {
     state.legionScore++;
@@ -1670,6 +1684,7 @@ function selectScorerAndGoal(player) {
     toast('⚽ Гол!');
   });
 }
+
 function goalWithoutPlayerFromModal() {
   withLock(async () => {
     state.legionScore++;
@@ -1689,148 +1704,188 @@ function goalWithoutPlayerFromModal() {
     toast('⚽ Гол!');
   });
 }
+
 function renderPlayerButtons() {
-if (!elements.scorerButtons) return;
-elements.scorerButtons.innerHTML = '';
-players.forEach(player => {
-const btn = document.createElement('button');
-btn.className = 'player-btn';
-btn.innerHTML = `
-<span class="player-number-badge">${player.number}</span>
-<span>${player.shortName}</span>
-`;
-btn.addEventListener('click', () => selectScorerAndGoal(player));
-elements.scorerButtons.appendChild(btn);
-});
+  if (!elements.scorerButtons) return;
+  elements.scorerButtons.innerHTML = '';
+  players.forEach(player => {
+    const btn = document.createElement('button');
+    btn.className = 'player-btn';
+    btn.innerHTML = `
+      <span class="player-number-badge">${player.number}</span>
+      <span>${player.shortName}</span>
+    `;
+    btn.addEventListener('click', () => selectScorerAndGoal(player));
+    elements.scorerButtons.appendChild(btn);
+  });
 }
+
+// ===== СЛУШАТЕЛЬ ИЗМЕНЕНИЙ В FIREBASE =====
 const dataRef = ref(db, DB_KEY);
 onValue(dataRef, (snapshot) => {
-const data = snapshot.val();
-if (!data) return;
-if (data.timer === undefined && data.timerSeconds !== undefined) {
-state.timer = {
-running: data.timerRunning || false,
-elapsed: data.timerSeconds || 0
-};
-} else {
-state.timer = data.timer || { running: false, elapsed: 0 };
-}
-if (state.timer.elapsed < 0) state.timer.elapsed = 0;
-state.opponentName = data.opponentName || 'СОПЕРНИК';
-state.opponentLogo = data.opponentLogo || '';
-state.legionScore = data.legionScore || 0;
-state.opponentScore = data.opponentScore || 0;
-state.period = data.period || '1 ТАЙМ';
-state.designVariant = data.designVariant || 3;
-state.colorTheme = data.colorTheme || 'green';
-state.logoAnimEnabled = data.logoAnimEnabled !== undefined ? data.logoAnimEnabled : true;
-state.goals = data.goals || [];
-currentTimerSeconds = state.timer.elapsed;
-if (!ADMIN) {
-updateAllVariants();
-updateVisibility();
-applyColorTheme();
-updateAnimCheckbox();
-} else {
-updateAdminPanel();
-if (state.timer.running && !timerUpdateInterval) {
-startTimerUpdate();
-} else if (!state.timer.running && timerUpdateInterval) {
-stopTimerUpdate();
-}
-}
-updateTimerDisplay();
-updateDebugInfo();
+  const data = snapshot.val();
+  if (!data) return;
+
+  if (data.timer === undefined && data.timerSeconds !== undefined) {
+    state.timer = {
+      running: data.timerRunning || false,
+      elapsed: data.timerSeconds || 0
+    };
+  } else {
+    state.timer = data.timer || { running: false, elapsed: 0 };
+  }
+  if (state.timer.elapsed < 0) state.timer.elapsed = 0;
+
+  state.opponentName = data.opponentName || 'СОПЕРНИК';
+  state.opponentLogo = data.opponentLogo || '';
+  state.legionScore = data.legionScore || 0;
+  state.opponentScore = data.opponentScore || 0;
+  state.period = data.period || '1 ТАЙМ';
+  state.designVariant = data.designVariant || 3;
+  state.colorTheme = data.colorTheme || 'green';
+  state.logoAnimEnabled = data.logoAnimEnabled !== undefined ? data.logoAnimEnabled : true;
+  state.goals = data.goals || [];
+
+  currentTimerSeconds = state.timer.elapsed;
+
+  if (!ADMIN) {
+    updateAllVariants();
+    updateVisibility();
+    applyColorTheme();
+    updateAnimCheckbox();
+  } else {
+    updateAdminPanel();
+    if (state.timer.running && !timerUpdateInterval) {
+      startTimerUpdate();
+    } else if (!state.timer.running && timerUpdateInterval) {
+      stopTimerUpdate();
+    }
+  }
+  updateTimerDisplay();
+  updateDebugInfo();
 });
+
+// ===== ОБНОВЛЕНИЕ ВСЕХ ВАРИАНТОВ ТАБЛО =====
 function updateAllVariants() {
-const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
-['v1', 'v2', 'v3'].forEach(v => {
-if (elements[v].lh) elements[v].lh.src = LEGION_LOGO;
-if (elements[v].la) elements[v].la.src = opponentLogoSrc;
-if (elements[v].nh) elements[v].nh.textContent = 'ЛЕГИОН';
-if (elements[v].na) elements[v].na.textContent = state.opponentName;
-if (elements[v].sh) elements[v].sh.textContent = state.legionScore;
-if (elements[v].sa) elements[v].sa.textContent = state.opponentScore;
-if (elements[v].p) elements[v].p.textContent = state.period;
-if (elements[v].t) elements[v].t.textContent = currentTimerSeconds;
-});
-if (state.opponentLogo === '') {
-if (elements.v1.la) elements.v1.la.classList.add('away');
-if (elements.v2.la) elements.v2.la.classList.add('away');
-} else {
-if (elements.v1.la) elements.v1.la.classList.remove('away');
-if (elements.v2.la) elements.v2.la.classList.remove('away');
+  const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
+  ['v1', 'v2', 'v3'].forEach(v => {
+    if (elements[v].lh) elements[v].lh.src = LEGION_LOGO;
+    if (elements[v].la) elements[v].la.src = opponentLogoSrc;
+    if (elements[v].nh) elements[v].nh.textContent = 'ЛЕГИОН';
+    if (elements[v].na) elements[v].na.textContent = state.opponentName;
+    if (elements[v].sh) elements[v].sh.textContent = state.legionScore;
+    if (elements[v].sa) elements[v].sa.textContent = state.opponentScore;
+    if (elements[v].p) elements[v].p.textContent = state.period;
+    if (elements[v].t) elements[v].t.textContent = currentTimerSeconds;
+  });
+
+  if (state.opponentLogo === '') {
+    if (elements.v1.la) elements.v1.la.classList.add('away');
+    if (elements.v2.la) elements.v2.la.classList.add('away');
+  } else {
+    if (elements.v1.la) elements.v1.la.classList.remove('away');
+    if (elements.v2.la) elements.v2.la.classList.remove('away');
+  }
+
+  if (state.opponentLogo === '') {
+    if (elements.v3.la) elements.v3.la.classList.add('default-logo');
+  } else {
+    if (elements.v3.la) elements.v3.la.classList.remove('default-logo');
+  }
+
+  updateTimerDisplay();
+  updateV3Width();
 }
-if (state.opponentLogo === '') {
-if (elements.v3.la) elements.v3.la.classList.add('default-logo');
-} else {
-if (elements.v3.la) elements.v3.la.classList.remove('default-logo');
-}
-updateTimerDisplay();
-updateV3Width();
-}
+
 function updateV3Width() {
-const maxLen = Math.max(7, state.opponentName.length);
-const stripWidth = Math.min(Math.max(maxLen * 13 + 30, 140), 220);
-elements.sbV3.style.setProperty('--strip-width', stripWidth + 'px');
+  const maxLen = Math.max(7, state.opponentName.length);
+  const stripWidth = Math.min(Math.max(maxLen * 13 + 30, 140), 220);
+  elements.sbV3.style.setProperty('--strip-width', stripWidth + 'px');
 }
+
 function updateTimerDisplay() {
-const m = Math.floor(currentTimerSeconds / 60);
-const s = currentTimerSeconds % 60;
-const timeStr = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
-if (elements.v1.t) elements.v1.t.textContent = timeStr;
-if (elements.v2.t) elements.v2.t.textContent = timeStr;
-if (elements.v3.t) elements.v3.t.textContent = timeStr;
-const paused = !state.timer.running;
-if (elements.v1.t) elements.v1.t.classList.toggle('paused', paused);
-if (elements.v2.t) elements.v2.t.classList.toggle('paused', paused);
-if (elements.v3.t) elements.v3.t.classList.toggle('paused', paused);
+  const m = Math.floor(currentTimerSeconds / 60);
+  const s = currentTimerSeconds % 60;
+  const timeStr = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  if (elements.v1.t) elements.v1.t.textContent = timeStr;
+  if (elements.v2.t) elements.v2.t.textContent = timeStr;
+  if (elements.v3.t) elements.v3.t.textContent = timeStr;
+
+  const paused = !state.timer.running;
+  if (elements.v1.t) elements.v1.t.classList.toggle('paused', paused);
+  if (elements.v2.t) elements.v2.t.classList.toggle('paused', paused);
+  if (elements.v3.t) elements.v3.t.classList.toggle('paused', paused);
 }
+
 function updateVisibility() {
-elements.sbV1.classList.toggle('hide', state.designVariant !== 1);
-elements.sbV2.classList.toggle('hide', state.designVariant !== 2);
-elements.sbV3.classList.toggle('hide', state.designVariant !== 3);
+  elements.sbV1.classList.toggle('hide', state.designVariant !== 1);
+  elements.sbV2.classList.toggle('hide', state.designVariant !== 2);
+  elements.sbV3.classList.toggle('hide', state.designVariant !== 3);
 }
+
 function applyColorTheme() {
-document.body.classList.forEach(cls => {
-if (cls.startsWith('theme-')) document.body.classList.remove(cls);
-});
-document.body.classList.add('theme-' + state.colorTheme);
-elements.sbV3.className = elements.sbV3.className.replace(/theme-\w+/, '').trim();
-elements.sbV3.classList.add('theme-' + state.colorTheme);
+  document.body.classList.forEach(cls => {
+    if (cls.startsWith('theme-')) document.body.classList.remove(cls);
+  });
+  document.body.classList.add('theme-' + state.colorTheme);
+  elements.sbV3.className = elements.sbV3.className.replace(/theme-\w+/, '').trim();
+  elements.sbV3.classList.add('theme-' + state.colorTheme);
 }
+
 function updateAdminPanel() {
-elements.admin.na.value = state.opponentName;
-elements.admin.la.value = state.opponentLogo;
-elements.admin.sh.value = state.legionScore;
-elements.admin.sa.value = state.opponentScore;
-elements.admin.p.value = state.period;
-elements.admin.animChk.checked = state.logoAnimEnabled;
-elements.admin.varBtns.forEach((btn, i) => {
-btn.classList.toggle('act', i + 1 === state.designVariant);
-});
-elements.admin.colBtns.forEach(btn => {
-btn.classList.toggle('act', btn.dataset.color === state.colorTheme);
-});
-if (state.timer.running) {
-elements.admin.tmInd.classList.add('run');
-elements.admin.tmTxt.textContent = 'Запущен';
-} else {
-elements.admin.tmInd.classList.remove('run');
-elements.admin.tmTxt.textContent = 'Остановлен';
+  // Не обновляем поля, если они в фокусе (чтобы не сбрасывать ввод)
+  if (document.activeElement !== elements.admin.na) {
+    elements.admin.na.value = state.opponentName;
+  }
+  if (document.activeElement !== elements.admin.la) {
+    elements.admin.la.value = state.opponentLogo;
+  }
+  elements.admin.sh.value = state.legionScore;
+  elements.admin.sa.value = state.opponentScore;
+  elements.admin.p.value = state.period;
+  elements.admin.animChk.checked = state.logoAnimEnabled;
+
+  elements.admin.varBtns.forEach((btn, i) => {
+    btn.classList.toggle('act', i + 1 === state.designVariant);
+  });
+  elements.admin.colBtns.forEach(btn => {
+    btn.classList.toggle('act', btn.dataset.color === state.colorTheme);
+  });
+
+  if (state.timer.running) {
+    elements.admin.tmInd.classList.add('run');
+    elements.admin.tmTxt.textContent = 'Запущен';
+  } else {
+    elements.admin.tmInd.classList.remove('run');
+    elements.admin.tmTxt.textContent = 'Остановлен';
+  }
 }
-}
+
 function updateAnimCheckbox() {
-if (elements.admin.animChk) {
-elements.admin.animChk.checked = state.logoAnimEnabled;
+  if (elements.admin.animChk) {
+    elements.admin.animChk.checked = state.logoAnimEnabled;
+  }
 }
+
+// ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
+function validateImageUrl(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = url;
+  });
 }
-function validateImageUrl(url, callback) {
-const img = new Image();
-img.onload = () => callback(true);
-img.onerror = () => callback(false);
-img.src = url;
+
+function toast(msg, type = 'success') {
+  if (typeof msg === 'string') elements.toast.textContent = msg;
+  elements.toast.classList.remove('error');
+  if (type === 'error') elements.toast.classList.add('error');
+  elements.toast.classList.add('show');
+  setTimeout(() => elements.toast.classList.remove('show'), 2000);
 }
+
+// ===== ДЕЙСТВИЯ С БЛОКИРОВКОЙ =====
 function setVariant(variant) {
   withLock(async () => {
     if (state.designVariant === variant) return;
@@ -1839,6 +1894,7 @@ function setVariant(variant) {
     toast('Вариант изменён');
   });
 }
+
 function setColor(color) {
   withLock(async () => {
     if (state.colorTheme === color) return;
@@ -1847,6 +1903,7 @@ function setColor(color) {
     toast('Тема изменена');
   });
 }
+
 function toggleAnim() {
   withLock(async () => {
     state.logoAnimEnabled = elements.admin.animChk.checked;
@@ -1854,31 +1911,27 @@ function toggleAnim() {
     toast('Анимация лого ' + (state.logoAnimEnabled ? 'включена' : 'выключена'));
   });
 }
-function saveOpponent() {
+
+async function saveOpponent() {
   const newName = elements.admin.na.value || 'СОПЕРНИК';
   const newLogo = elements.admin.la.value;
+
   if (newLogo) {
-    validateImageUrl(newLogo, (valid) => {
-      if (!valid) {
-        toast('Неверный URL логотипа', 'error');
-        return;
-      }
-      withLock(async () => {
-        state.opponentName = newName;
-        state.opponentLogo = newLogo;
-        await update(ref(db, DB_KEY), { opponentName: newName, opponentLogo: newLogo });
-        toast('Соперник сохранён');
-      });
-    });
-  } else {
-    withLock(async () => {
-      state.opponentName = newName;
-      state.opponentLogo = '';
-      await update(ref(db, DB_KEY), { opponentName: newName, opponentLogo: '' });
-      toast('Соперник сохранён');
-    });
+    const valid = await validateImageUrl(newLogo);
+    if (!valid) {
+      toast('Неверный URL логотипа', 'error');
+      return;
+    }
   }
+
+  await withLock(async () => {
+    state.opponentName = newName;
+    state.opponentLogo = newLogo || '';
+    await update(ref(db, DB_KEY), { opponentName: newName, opponentLogo: newLogo || '' });
+    toast('Соперник сохранён');
+  });
 }
+
 function updateScore() {
   withLock(async () => {
     state.legionScore = Math.max(0, parseInt(elements.admin.sh.value) || 0);
@@ -1889,6 +1942,7 @@ function updateScore() {
     toast('Счёт обновлён');
   });
 }
+
 function resetScore() {
   withLock(async () => {
     state.legionScore = 0;
@@ -1900,201 +1954,196 @@ function resetScore() {
     toast('Счёт сброшен');
   });
 }
+
 function triggerGoal(team = null) {
-const goalData = { time: Date.now(), team: team };
-set(ref(db, 'goal_trigger'), goalData)
-.then(() => setTimeout(() => set(ref(db, 'goal_trigger'), null), 2000))
-.catch(console.error);
+  const goalData = { time: Date.now(), team: team };
+  set(ref(db, 'goal_trigger'), goalData)
+    .then(() => setTimeout(() => set(ref(db, 'goal_trigger'), null), 2000))
+    .catch(console.error);
 }
+
 function quickGoal(team) {
-if (team === 'legion') {
-openGoalModal();
-} else {
-  withLock(async () => {
-    state.opponentScore++;
-    elements.admin.sa.value = state.opponentScore;
-    await update(ref(db, DB_KEY), { opponentScore: state.opponentScore });
-    triggerGoal(team);
-    toast('Гол соперника');
-  });
-}
-}
-function startTimerUpdate() {
-if (timerUpdateInterval) clearInterval(timerUpdateInterval);
-timerUpdateInterval = setInterval(() => {
-  withLock(async () => {
-    const newElapsed = state.timer.elapsed + 1;
-    await update(ref(db, DB_KEY), {
-      timer: {
-        running: true,
-        elapsed: newElapsed
-      }
+  if (team === 'legion') {
+    openGoalModal();
+  } else {
+    withLock(async () => {
+      state.opponentScore++;
+      elements.admin.sa.value = state.opponentScore;
+      await update(ref(db, DB_KEY), { opponentScore: state.opponentScore });
+      triggerGoal(team);
+      toast('Гол соперника');
     });
+  }
+}
+
+function startTimerUpdate() {
+  if (timerUpdateInterval) clearInterval(timerUpdateInterval);
+  timerUpdateInterval = setInterval(() => {
+    // Обновляем время только если мы владеем блокировкой
+    if (!isLockOwner) return;
+
+    const newElapsed = state.timer.elapsed + 1;
+    update(ref(db, DB_KEY), {
+      timer: { running: true, elapsed: newElapsed }
+    }).catch(console.error);
     state.timer.elapsed = newElapsed;
     currentTimerSeconds = newElapsed;
     updateTimerDisplay();
     updateAdminPanel();
-  });
-}, 1000);
+  }, 1000);
 }
+
 function stopTimerUpdate() {
-if (timerUpdateInterval) {
-clearInterval(timerUpdateInterval);
-timerUpdateInterval = null;
+  if (timerUpdateInterval) {
+    clearInterval(timerUpdateInterval);
+    timerUpdateInterval = null;
+  }
 }
-}
+
 function timerPause() {
   withLock(async () => {
     if (!state.timer.running) return;
     stopTimerUpdate();
     await update(ref(db, DB_KEY), {
-      timer: {
-        running: false,
-        elapsed: state.timer.elapsed
-      }
+      timer: { running: false, elapsed: state.timer.elapsed }
     });
     toast('Таймер остановлен');
   });
 }
+
 function timerStart() {
   withLock(async () => {
     if (state.timer.running) return;
     startTimerUpdate();
     await update(ref(db, DB_KEY), {
-      timer: {
-        running: true,
-        elapsed: state.timer.elapsed
-      }
+      timer: { running: true, elapsed: state.timer.elapsed }
     });
     toast('Таймер запущен');
   });
 }
+
 function timerReset() {
   withLock(async () => {
     stopTimerUpdate();
     await update(ref(db, DB_KEY), {
-      timer: {
-        running: false,
-        elapsed: 0
-      }
+      timer: { running: false, elapsed: 0 }
     });
     toast('Таймер сброшен');
   });
 }
+
 function updatePeriod() {
   withLock(async () => {
-    state.period = elements.admin.p.value;
-    if (state.period === 'ПЕРЕРЫВ' && state.timer.running) {
-      timerPause();
+    const newPeriod = elements.admin.p.value;
+    state.period = newPeriod;
+
+    if (newPeriod === 'ПЕРЕРЫВ' && state.timer.running) {
+      stopTimerUpdate();
+      state.timer.running = false;
+      await update(ref(db, DB_KEY), {
+        period: newPeriod,
+        timer: { running: false, elapsed: state.timer.elapsed }
+      });
+    } else {
+      await update(ref(db, DB_KEY), { period: newPeriod });
     }
-    await update(ref(db, DB_KEY), { period: state.period });
     toast('Период обновлён');
   });
 }
-function toast(msg, type = 'success') {
-if (typeof msg === 'string') {
-elements.toast.textContent = msg;
-}
-elements.toast.classList.remove('error');
-if (type === 'error') {
-elements.toast.classList.add('error');
-}
-elements.toast.classList.add('show');
-setTimeout(() => elements.toast.classList.remove('show'), 2000);
-}
+
+// ===== СЛУШАТЕЛИ АНИМАЦИЙ И ТРИГГЕРОВ =====
 onValue(ref(db, 'goal_trigger'), (snapshot) => {
-const trigger = snapshot.val();
-if (!trigger || ADMIN) return;
-const now = Date.now();
-if (trigger.time && now - trigger.time > 10000) return;
-elements.goalAnim.classList.add('active');
-setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
-if (trigger.team === 'legion' && state.logoAnimEnabled) {
-elements.logoAnim.classList.remove('active');
-setTimeout(() => elements.logoAnim.classList.add('active'), 50);
-setTimeout(() => elements.logoAnim.classList.remove('active'), 1600);
-}
+  const trigger = snapshot.val();
+  if (!trigger || ADMIN) return;
+  const now = Date.now();
+  if (trigger.time && now - trigger.time > 10000) return;
+  elements.goalAnim.classList.add('active');
+  setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
+  if (trigger.team === 'legion' && state.logoAnimEnabled) {
+    elements.logoAnim.classList.remove('active');
+    setTimeout(() => elements.logoAnim.classList.add('active'), 50);
+    setTimeout(() => elements.logoAnim.classList.remove('active'), 1600);
+  }
 });
+
 onValue(ref(db, 'live_goal'), (snapshot) => {
-const goal = snapshot.val();
-if (!goal || ADMIN) return;
-const now = Date.now();
-if (goal.timestamp && now - goal.timestamp > 10000) return;
-showGoalCard(goal);
+  const goal = snapshot.val();
+  if (!goal || ADMIN) return;
+  const now = Date.now();
+  if (goal.timestamp && now - goal.timestamp > 10000) return;
+  showGoalCard(goal);
 });
+
 function showGoalCard(goal) {
-if (!goal || goal.team !== 'legion') return;
-elements.goalLastname.textContent = goal.scorer.lastName.toUpperCase();
-elements.goalNumber.textContent = goal.scorer.number;
-if (goal.scorer.position) {
-elements.goalPosition.textContent = goal.scorer.position;
-elements.goalPosition.style.display = 'inline-block';
-} else {
-elements.goalPosition.style.display = 'none';
+  if (!goal || goal.team !== 'legion') return;
+  elements.goalLastname.textContent = goal.scorer.lastName.toUpperCase();
+  elements.goalNumber.textContent = goal.scorer.number;
+  if (goal.scorer.position) {
+    elements.goalPosition.textContent = goal.scorer.position;
+    elements.goalPosition.style.display = 'inline-block';
+  } else {
+    elements.goalPosition.style.display = 'none';
+  }
+  elements.goalMinuteDisplay.textContent = `${goal.minute}'`;
+  elements.goalCard.classList.remove('hidden');
+  setTimeout(() => elements.goalCard.classList.add('show'), 10);
+  if (window.goalCardTimeout) clearTimeout(window.goalCardTimeout);
+  window.goalCardTimeout = setTimeout(() => {
+    elements.goalCard.classList.remove('show');
+    setTimeout(() => elements.goalCard.classList.add('hidden'), 400);
+  }, 5000);
 }
-elements.goalMinuteDisplay.textContent = `${goal.minute}'`;
-elements.goalCard.classList.remove('hidden');
-setTimeout(() => elements.goalCard.classList.add('show'), 10);
-if (window.goalCardTimeout) clearTimeout(window.goalCardTimeout);
-window.goalCardTimeout = setTimeout(() => {
-elements.goalCard.classList.remove('show');
-setTimeout(() => elements.goalCard.classList.add('hidden'), 400);
-}, 5000);
-}
+
 onValue(ref(db, 'intro_trigger'), (snapshot) => {
-const trigger = snapshot.val();
-if (!trigger || ADMIN) return;
-const now = Date.now();
-if (trigger.time && now - trigger.time > 10000) return;
-if (trigger.type === 'first_half') {
-showIntro('1 ТАЙМ');
-} else if (trigger.type === 'second_half') {
-showIntro('2 ТАЙМ');
-}
-setTimeout(() => {
-set(ref(db, 'intro_trigger'), null).catch(console.error);
-}, 500);
+  const trigger = snapshot.val();
+  if (!trigger || ADMIN) return;
+  const now = Date.now();
+  if (trigger.time && now - trigger.time > 10000) return;
+  if (trigger.type === 'first_half') showIntro('1 ТАЙМ');
+  else if (trigger.type === 'second_half') showIntro('2 ТАЙМ');
+  setTimeout(() => set(ref(db, 'intro_trigger'), null).catch(console.error), 500);
 });
+
+// Сброс триггеров при загрузке
 set(ref(db, 'goal_trigger'), null).catch(() => {});
 set(ref(db, 'live_goal'), null).catch(() => {});
 set(ref(db, 'intro_trigger'), null).catch(() => {});
+
+// ===== ИНИЦИАЛИЗАЦИЯ =====
 if (ADMIN) {
-  // Асинхронная инициализация админки с блокировкой
   (async () => {
     const lockAcquired = await acquireAdminLock();
     if (!lockAcquired) {
-      // Показываем предупреждение и блокируем управление
       elements.sbV1.classList.add('hide');
       elements.sbV2.classList.add('hide');
       elements.sbV3.classList.add('hide');
       document.getElementById('admin').classList.remove('hide');
-      // Добавляем большой баннер с сообщением
+
       const adminDiv = document.getElementById('admin');
       const warning = document.createElement('div');
       warning.style.cssText = 'position:fixed; top:0; left:0; width:100%; background:red; color:white; text-align:center; padding:20px; font-size:24px; z-index:10001;';
       warning.textContent = 'Админка уже открыта в другом окне. Режим только для чтения.';
       adminDiv.prepend(warning);
-      // Делаем все поля только для чтения и кнопки неактивными
+
       document.querySelectorAll('.fld input, .fld select, .btn, .chk input').forEach(el => {
         el.disabled = true;
       });
-      return; // Прерываем дальнейшую инициализацию управления
+      return;
     }
-    
-    // Если блокировка захвачена, продолжаем обычную инициализацию админки
+
     elements.sbV1.classList.add('hide');
     elements.sbV2.classList.add('hide');
     elements.sbV3.classList.add('hide');
     document.getElementById('admin').classList.remove('hide');
-    
-    // Запускаем интервал продления блокировки
+
     lockInterval = setInterval(async () => {
       if (await checkLock()) {
         await update(LOCK_REF, { timestamp: Date.now() });
       }
-    }, 5000);
-    
+    }, LOCK_RENEW_INTERVAL);
+
     loadPlayers().then(() => renderPlayerButtons());
+
     document.querySelectorAll('.var-btn').forEach(btn => {
       btn.addEventListener('click', () => setVariant(parseInt(btn.dataset.variant)));
     });
@@ -2112,72 +2161,60 @@ if (ADMIN) {
     document.getElementById('goalLegionBtn').addEventListener('click', () => quickGoal('legion'));
     document.getElementById('goalOpponentBtn').addEventListener('click', () => quickGoal('opponent'));
     document.getElementById('showIntro1Btn').addEventListener('click', () => {
-      const triggerRef = ref(db, 'intro_trigger');
-      set(triggerRef, {
-        type: 'first_half',
-        time: Date.now()
-      })
-      .then(() => {
-        toast('Сигнал на заставку 1 тайма отправлен');
-      })
-      .catch((error) => {
-        toast('❌ Ошибка отправки', 'error');
-      });
+      set(ref(db, 'intro_trigger'), { type: 'first_half', time: Date.now() })
+        .then(() => toast('Сигнал на заставку 1 тайма отправлен'))
+        .catch(() => toast('❌ Ошибка отправки', 'error'));
     });
     document.getElementById('showIntro2Btn').addEventListener('click', () => {
-      const triggerRef = ref(db, 'intro_trigger');
-      set(triggerRef, {
-        type: 'second_half',
-        time: Date.now()
-      })
-      .then(() => {
-        toast('Сигнал на заставку 2 тайма отправлен');
-      })
-      .catch((error) => {
-        toast('❌ Ошибка отправки', 'error');
-      });
+      set(ref(db, 'intro_trigger'), { type: 'second_half', time: Date.now() })
+        .then(() => toast('Сигнал на заставку 2 тайма отправлен'))
+        .catch(() => toast('❌ Ошибка отправки', 'error'));
     });
+
     elements.goalModal.addEventListener('click', (e) => {
-      if (e.target === elements.goalModal) {
-        elements.goalModal.classList.add('hidden');
-      }
+      if (e.target === elements.goalModal) elements.goalModal.classList.add('hidden');
     });
+
     setInterval(updateRealTime, 60000);
     updateRealTime();
     updateAdminPanel();
   })();
 } else {
-elements.goalAnim.classList.remove('active');
-elements.logoAnim.classList.remove('active');
-elements.goalCard.classList.add('hidden');
-updateAllVariants();
-updateVisibility();
-applyColorTheme();
-setInterval(updateRealTime, 60000);
-updateRealTime();
+  elements.goalAnim.classList.remove('active');
+  elements.logoAnim.classList.remove('active');
+  elements.goalCard.classList.add('hidden');
+  updateAllVariants();
+  updateVisibility();
+  applyColorTheme();
+  setInterval(updateRealTime, 60000);
+  updateRealTime();
 }
+
+// Экспорт для глобального доступа (для onlick в HTML)
 window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
+
 window.addEventListener('beforeunload', () => {
-if (timerUpdateInterval) clearInterval(timerUpdateInterval);
+  if (timerUpdateInterval) clearInterval(timerUpdateInterval);
 });
 </script>
 <script>
 (function finalCleanup() {
-document.addEventListener('DOMContentLoaded', function() {
-const body = document.body;
-const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, {
-acceptNode: function(node) {
-if (node.parentNode === body && node.textContent.trim() !== '') {
-return NodeFilter.FILTER_ACCEPT;
-}
-return NodeFilter.FILTER_SKIP;
-}
-});
-while (walker.nextNode()) {
-walker.currentNode.remove();
-}
-});
+  document.addEventListener('DOMContentLoaded', function() {
+    const body = document.body;
+    const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(node) {
+        if (node.parentNode === body && node.textContent.trim() !== '') {
+          return NodeFilter.FILTER_ACCEPT;
+        }
+        return NodeFilter.FILTER_SKIP;
+      }
+    });
+    while (walker.nextNode()) {
+      walker.currentNode.remove();
+    }
+  });
 })();
 </script>
 </body>
 </html>
+```
