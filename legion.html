@@ -1361,7 +1361,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "3.2.0"; // Улучшена блокировка и исправлены проблемы с сохранением
+const VERSION = "3.2.1"; // Исправлен сброс select при редактировании
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1840,9 +1840,11 @@ function updateAdminPanel() {
   if (document.activeElement !== elements.admin.la) {
     elements.admin.la.value = state.opponentLogo;
   }
+  if (document.activeElement !== elements.admin.p) {
+    elements.admin.p.value = state.period;
+  }
   elements.admin.sh.value = state.legionScore;
   elements.admin.sa.value = state.opponentScore;
-  elements.admin.p.value = state.period;
   elements.admin.animChk.checked = state.logoAnimEnabled;
 
   elements.admin.varBtns.forEach((btn, i) => {
