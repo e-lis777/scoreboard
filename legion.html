@@ -28,6 +28,7 @@ user-select: none;
 --transition: all 0.2s ease;
 --accent-green: #4caf50;
 }
+.hide { display: none !important; }
 /* ===== ВАРИАНТ 1: КОМПАКТНЫЙ ===== */
 .sc-v1 {
 display: flex;
@@ -1361,7 +1362,7 @@ const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thum
 const DB_KEY = 'legion_match_v1';
 const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
 const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "3.2.1"; // Исправлен сброс select при редактировании
+const VERSION = "3.2.2"; // Исправлены ошибки из анализа
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -1421,6 +1422,10 @@ async function checkLock() {
     const stillOwner = lock && lock.sessionId === SESSION_ID;
     if (!stillOwner) {
       isLockOwner = false;
+      // Останавливаем таймер, если он работал, так как блокировка потеряна
+      if (timerUpdateInterval) {
+        stopTimerUpdate();
+      }
       return false;
     }
     return true;
@@ -1508,8 +1513,8 @@ const elements = {
   introNameAway: document.getElementById('intro-name-away'),
   introDate: document.getElementById('intro-date'),
   introTime: document.getElementById('intro-time'),
-  introPeriod: document.getElementById('intro-period'),
-  introGoalInfo: document.getElementById('intro-goal-info')
+  introPeriod: document.getElementById('intro-period')
+  // introGoalInfo удалён, так как не используется в HTML
 };
 
 if (elements.versionDisplay) {
@@ -1634,6 +1639,7 @@ async function loadPlayers() {
     console.log('✅ Игроки загружены');
   } catch (e) {
     console.error('❌ Ошибка загрузки игроков:', e);
+    players = []; // fallback
     toast('❌ Ошибка загрузки игроков', 'error');
   }
 }
@@ -1650,7 +1656,7 @@ function openGoalModal() {
 function selectScorerAndGoal(player) {
   withLock(async () => {
     state.legionScore++;
-    elements.admin.sh.value = state.legionScore;
+    if (elements.admin.sh) elements.admin.sh.value = state.legionScore;
     if (!state.goals) state.goals = [];
     const goalData = {
       team: 'legion',
@@ -1688,7 +1694,7 @@ function selectScorerAndGoal(player) {
 function goalWithoutPlayerFromModal() {
   withLock(async () => {
     state.legionScore++;
-    elements.admin.sh.value = state.legionScore;
+    if (elements.admin.sh) elements.admin.sh.value = state.legionScore;
     if (!state.goals) state.goals = [];
     state.goals.push({
       team: 'legion',
@@ -1776,7 +1782,7 @@ function updateAllVariants() {
     if (elements[v].sh) elements[v].sh.textContent = state.legionScore;
     if (elements[v].sa) elements[v].sa.textContent = state.opponentScore;
     if (elements[v].p) elements[v].p.textContent = state.period;
-    if (elements[v].t) elements[v].t.textContent = currentTimerSeconds;
+    // Не устанавливаем здесь время – только в updateTimerDisplay
   });
 
   if (state.opponentLogo === '') {
@@ -1793,14 +1799,14 @@ function updateAllVariants() {
     if (elements.v3.la) elements.v3.la.classList.remove('default-logo');
   }
 
-  updateTimerDisplay();
+  updateTimerDisplay(); // вызовем после обновления счёта
   updateV3Width();
 }
 
 function updateV3Width() {
   const maxLen = Math.max(7, state.opponentName.length);
   const stripWidth = Math.min(Math.max(maxLen * 13 + 30, 140), 220);
-  elements.sbV3.style.setProperty('--strip-width', stripWidth + 'px');
+  if (elements.sbV3) elements.sbV3.style.setProperty('--strip-width', stripWidth + 'px');
 }
 
 function updateTimerDisplay() {
@@ -1818,9 +1824,9 @@ function updateTimerDisplay() {
 }
 
 function updateVisibility() {
-  elements.sbV1.classList.toggle('hide', state.designVariant !== 1);
-  elements.sbV2.classList.toggle('hide', state.designVariant !== 2);
-  elements.sbV3.classList.toggle('hide', state.designVariant !== 3);
+  if (elements.sbV1) elements.sbV1.classList.toggle('hide', state.designVariant !== 1);
+  if (elements.sbV2) elements.sbV2.classList.toggle('hide', state.designVariant !== 2);
+  if (elements.sbV3) elements.sbV3.classList.toggle('hide', state.designVariant !== 3);
 }
 
 function applyColorTheme() {
@@ -1828,38 +1834,44 @@ function applyColorTheme() {
     if (cls.startsWith('theme-')) document.body.classList.remove(cls);
   });
   document.body.classList.add('theme-' + state.colorTheme);
-  elements.sbV3.className = elements.sbV3.className.replace(/theme-\w+/, '').trim();
-  elements.sbV3.classList.add('theme-' + state.colorTheme);
+  if (elements.sbV3) {
+    elements.sbV3.className = elements.sbV3.className.replace(/theme-\w+/, '').trim();
+    elements.sbV3.classList.add('theme-' + state.colorTheme);
+  }
 }
 
 function updateAdminPanel() {
   // Не обновляем поля, если они в фокусе (чтобы не сбрасывать ввод)
-  if (document.activeElement !== elements.admin.na) {
+  if (document.activeElement !== elements.admin.na && elements.admin.na) {
     elements.admin.na.value = state.opponentName;
   }
-  if (document.activeElement !== elements.admin.la) {
+  if (document.activeElement !== elements.admin.la && elements.admin.la) {
     elements.admin.la.value = state.opponentLogo;
   }
-  if (document.activeElement !== elements.admin.p) {
+  if (document.activeElement !== elements.admin.p && elements.admin.p) {
     elements.admin.p.value = state.period;
   }
-  elements.admin.sh.value = state.legionScore;
-  elements.admin.sa.value = state.opponentScore;
-  elements.admin.animChk.checked = state.logoAnimEnabled;
+  if (elements.admin.sh) elements.admin.sh.value = state.legionScore;
+  if (elements.admin.sa) elements.admin.sa.value = state.opponentScore;
+  if (elements.admin.animChk) elements.admin.animChk.checked = state.logoAnimEnabled;
 
-  elements.admin.varBtns.forEach((btn, i) => {
-    btn.classList.toggle('act', i + 1 === state.designVariant);
-  });
-  elements.admin.colBtns.forEach(btn => {
-    btn.classList.toggle('act', btn.dataset.color === state.colorTheme);
-  });
+  if (elements.admin.varBtns) {
+    elements.admin.varBtns.forEach((btn, i) => {
+      btn.classList.toggle('act', i + 1 === state.designVariant);
+    });
+  }
+  if (elements.admin.colBtns) {
+    elements.admin.colBtns.forEach(btn => {
+      btn.classList.toggle('act', btn.dataset.color === state.colorTheme);
+    });
+  }
 
   if (state.timer.running) {
-    elements.admin.tmInd.classList.add('run');
-    elements.admin.tmTxt.textContent = 'Запущен';
+    if (elements.admin.tmInd) elements.admin.tmInd.classList.add('run');
+    if (elements.admin.tmTxt) elements.admin.tmTxt.textContent = 'Запущен';
   } else {
-    elements.admin.tmInd.classList.remove('run');
-    elements.admin.tmTxt.textContent = 'Остановлен';
+    if (elements.admin.tmInd) elements.admin.tmInd.classList.remove('run');
+    if (elements.admin.tmTxt) elements.admin.tmTxt.textContent = 'Остановлен';
   }
 }
 
@@ -1880,6 +1892,7 @@ function validateImageUrl(url) {
 }
 
 function toast(msg, type = 'success') {
+  if (!elements.toast) return;
   if (typeof msg === 'string') elements.toast.textContent = msg;
   elements.toast.classList.remove('error');
   if (type === 'error') elements.toast.classList.add('error');
@@ -1938,8 +1951,8 @@ function updateScore() {
   withLock(async () => {
     state.legionScore = Math.max(0, parseInt(elements.admin.sh.value) || 0);
     state.opponentScore = Math.max(0, parseInt(elements.admin.sa.value) || 0);
-    elements.admin.sh.value = state.legionScore;
-    elements.admin.sa.value = state.opponentScore;
+    if (elements.admin.sh) elements.admin.sh.value = state.legionScore;
+    if (elements.admin.sa) elements.admin.sa.value = state.opponentScore;
     await update(ref(db, DB_KEY), { legionScore: state.legionScore, opponentScore: state.opponentScore });
     toast('Счёт обновлён');
   });
@@ -1950,8 +1963,8 @@ function resetScore() {
     state.legionScore = 0;
     state.opponentScore = 0;
     state.goals = [];
-    elements.admin.sh.value = 0;
-    elements.admin.sa.value = 0;
+    if (elements.admin.sh) elements.admin.sh.value = 0;
+    if (elements.admin.sa) elements.admin.sa.value = 0;
     await update(ref(db, DB_KEY), { legionScore: 0, opponentScore: 0, goals: [] });
     toast('Счёт сброшен');
   });
@@ -1970,7 +1983,7 @@ function quickGoal(team) {
   } else {
     withLock(async () => {
       state.opponentScore++;
-      elements.admin.sa.value = state.opponentScore;
+      if (elements.admin.sa) elements.admin.sa.value = state.opponentScore;
       await update(ref(db, DB_KEY), { opponentScore: state.opponentScore });
       triggerGoal(team);
       toast('Гол соперника');
@@ -2059,9 +2072,11 @@ onValue(ref(db, 'goal_trigger'), (snapshot) => {
   if (!trigger || ADMIN) return;
   const now = Date.now();
   if (trigger.time && now - trigger.time > 10000) return;
-  elements.goalAnim.classList.add('active');
-  setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
-  if (trigger.team === 'legion' && state.logoAnimEnabled) {
+  if (elements.goalAnim) {
+    elements.goalAnim.classList.add('active');
+    setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
+  }
+  if (trigger.team === 'legion' && state.logoAnimEnabled && elements.logoAnim) {
     elements.logoAnim.classList.remove('active');
     setTimeout(() => elements.logoAnim.classList.add('active'), 50);
     setTimeout(() => elements.logoAnim.classList.remove('active'), 1600);
@@ -2078,22 +2093,40 @@ onValue(ref(db, 'live_goal'), (snapshot) => {
 
 function showGoalCard(goal) {
   if (!goal || goal.team !== 'legion') return;
-  elements.goalLastname.textContent = goal.scorer.lastName.toUpperCase();
-  elements.goalNumber.textContent = goal.scorer.number;
-  if (goal.scorer.position) {
-    elements.goalPosition.textContent = goal.scorer.position;
-    elements.goalPosition.style.display = 'inline-block';
-  } else {
-    elements.goalPosition.style.display = 'none';
+  // Очищаем предыдущий таймаут
+  if (window.goalCardTimeout) {
+    clearTimeout(window.goalCardTimeout);
+    window.goalCardTimeout = null;
   }
-  elements.goalMinuteDisplay.textContent = `${goal.minute}'`;
-  elements.goalCard.classList.remove('hidden');
-  setTimeout(() => elements.goalCard.classList.add('show'), 10);
-  if (window.goalCardTimeout) clearTimeout(window.goalCardTimeout);
-  window.goalCardTimeout = setTimeout(() => {
-    elements.goalCard.classList.remove('show');
-    setTimeout(() => elements.goalCard.classList.add('hidden'), 400);
-  }, 5000);
+  // Заполняем данные с проверкой наличия scorer
+  if (elements.goalLastname) {
+    elements.goalLastname.textContent = goal.scorer ? goal.scorer.lastName.toUpperCase() : 'НЕИЗВЕСТЕН';
+  }
+  if (elements.goalNumber) {
+    elements.goalNumber.textContent = goal.scorer ? goal.scorer.number : '-';
+  }
+  if (elements.goalPosition) {
+    if (goal.scorer && goal.scorer.position) {
+      elements.goalPosition.textContent = goal.scorer.position;
+      elements.goalPosition.style.display = 'inline-block';
+    } else {
+      elements.goalPosition.style.display = 'none';
+    }
+  }
+  if (elements.goalMinuteDisplay) {
+    elements.goalMinuteDisplay.textContent = `${goal.minute}'`;
+  }
+  if (elements.goalCard) {
+    elements.goalCard.classList.remove('hidden');
+    setTimeout(() => elements.goalCard.classList.add('show'), 10);
+    window.goalCardTimeout = setTimeout(() => {
+      if (elements.goalCard) {
+        elements.goalCard.classList.remove('show');
+        setTimeout(() => elements.goalCard.classList.add('hidden'), 400);
+      }
+      window.goalCardTimeout = null;
+    }, 5000);
+  }
 }
 
 onValue(ref(db, 'intro_trigger'), (snapshot) => {
@@ -2116,16 +2149,16 @@ if (ADMIN) {
   (async () => {
     const lockAcquired = await acquireAdminLock();
     if (!lockAcquired) {
-      elements.sbV1.classList.add('hide');
-      elements.sbV2.classList.add('hide');
-      elements.sbV3.classList.add('hide');
-      document.getElementById('admin').classList.remove('hide');
-
+      if (elements.sbV1) elements.sbV1.classList.add('hide');
+      if (elements.sbV2) elements.sbV2.classList.add('hide');
+      if (elements.sbV3) elements.sbV3.classList.add('hide');
       const adminDiv = document.getElementById('admin');
+      if (adminDiv) adminDiv.classList.remove('hide');
+
       const warning = document.createElement('div');
       warning.style.cssText = 'position:fixed; top:0; left:0; width:100%; background:red; color:white; text-align:center; padding:20px; font-size:24px; z-index:10001;';
       warning.textContent = 'Админка уже открыта в другом окне. Режим только для чтения.';
-      adminDiv.prepend(warning);
+      if (adminDiv) adminDiv.prepend(warning);
 
       document.querySelectorAll('.fld input, .fld select, .btn, .chk input').forEach(el => {
         el.disabled = true;
@@ -2133,10 +2166,11 @@ if (ADMIN) {
       return;
     }
 
-    elements.sbV1.classList.add('hide');
-    elements.sbV2.classList.add('hide');
-    elements.sbV3.classList.add('hide');
-    document.getElementById('admin').classList.remove('hide');
+    if (elements.sbV1) elements.sbV1.classList.add('hide');
+    if (elements.sbV2) elements.sbV2.classList.add('hide');
+    if (elements.sbV3) elements.sbV3.classList.add('hide');
+    const adminDiv = document.getElementById('admin');
+    if (adminDiv) adminDiv.classList.remove('hide');
 
     lockInterval = setInterval(async () => {
       if (await checkLock()) {
@@ -2144,7 +2178,8 @@ if (ADMIN) {
       }
     }, LOCK_RENEW_INTERVAL);
 
-    loadPlayers().then(() => renderPlayerButtons());
+    await loadPlayers();
+    renderPlayerButtons();
 
     document.querySelectorAll('.var-btn').forEach(btn => {
       btn.addEventListener('click', () => setVariant(parseInt(btn.dataset.variant)));
@@ -2152,39 +2187,57 @@ if (ADMIN) {
     document.querySelectorAll('.col-btn').forEach(btn => {
       btn.addEventListener('click', () => setColor(btn.dataset.color));
     });
-    document.getElementById('anim-chk').addEventListener('change', toggleAnim);
-    document.getElementById('saveOpponentBtn').addEventListener('click', saveOpponent);
-    document.getElementById('updateScoreBtn').addEventListener('click', updateScore);
-    document.getElementById('resetScoreBtn').addEventListener('click', resetScore);
-    document.getElementById('timerStartBtn').addEventListener('click', timerStart);
-    document.getElementById('timerPauseBtn').addEventListener('click', timerPause);
-    document.getElementById('timerResetBtn').addEventListener('click', timerReset);
-    document.getElementById('updatePeriodBtn').addEventListener('click', updatePeriod);
-    document.getElementById('goalLegionBtn').addEventListener('click', () => quickGoal('legion'));
-    document.getElementById('goalOpponentBtn').addEventListener('click', () => quickGoal('opponent'));
-    document.getElementById('showIntro1Btn').addEventListener('click', () => {
-      set(ref(db, 'intro_trigger'), { type: 'first_half', time: Date.now() })
-        .then(() => toast('Сигнал на заставку 1 тайма отправлен'))
-        .catch(() => toast('❌ Ошибка отправки', 'error'));
-    });
-    document.getElementById('showIntro2Btn').addEventListener('click', () => {
-      set(ref(db, 'intro_trigger'), { type: 'second_half', time: Date.now() })
-        .then(() => toast('Сигнал на заставку 2 тайма отправлен'))
-        .catch(() => toast('❌ Ошибка отправки', 'error'));
-    });
+    const animChk = document.getElementById('anim-chk');
+    if (animChk) animChk.addEventListener('change', toggleAnim);
+    const saveBtn = document.getElementById('saveOpponentBtn');
+    if (saveBtn) saveBtn.addEventListener('click', saveOpponent);
+    const updateScoreBtn = document.getElementById('updateScoreBtn');
+    if (updateScoreBtn) updateScoreBtn.addEventListener('click', updateScore);
+    const resetScoreBtn = document.getElementById('resetScoreBtn');
+    if (resetScoreBtn) resetScoreBtn.addEventListener('click', resetScore);
+    const timerStartBtn = document.getElementById('timerStartBtn');
+    if (timerStartBtn) timerStartBtn.addEventListener('click', timerStart);
+    const timerPauseBtn = document.getElementById('timerPauseBtn');
+    if (timerPauseBtn) timerPauseBtn.addEventListener('click', timerPause);
+    const timerResetBtn = document.getElementById('timerResetBtn');
+    if (timerResetBtn) timerResetBtn.addEventListener('click', timerReset);
+    const updatePeriodBtn = document.getElementById('updatePeriodBtn');
+    if (updatePeriodBtn) updatePeriodBtn.addEventListener('click', updatePeriod);
+    const goalLegionBtn = document.getElementById('goalLegionBtn');
+    if (goalLegionBtn) goalLegionBtn.addEventListener('click', () => quickGoal('legion'));
+    const goalOpponentBtn = document.getElementById('goalOpponentBtn');
+    if (goalOpponentBtn) goalOpponentBtn.addEventListener('click', () => quickGoal('opponent'));
+    const showIntro1Btn = document.getElementById('showIntro1Btn');
+    if (showIntro1Btn) {
+      showIntro1Btn.addEventListener('click', () => {
+        set(ref(db, 'intro_trigger'), { type: 'first_half', time: Date.now() })
+          .then(() => toast('Сигнал на заставку 1 тайма отправлен'))
+          .catch(() => toast('❌ Ошибка отправки', 'error'));
+      });
+    }
+    const showIntro2Btn = document.getElementById('showIntro2Btn');
+    if (showIntro2Btn) {
+      showIntro2Btn.addEventListener('click', () => {
+        set(ref(db, 'intro_trigger'), { type: 'second_half', time: Date.now() })
+          .then(() => toast('Сигнал на заставку 2 тайма отправлен'))
+          .catch(() => toast('❌ Ошибка отправки', 'error'));
+      });
+    }
 
-    elements.goalModal.addEventListener('click', (e) => {
-      if (e.target === elements.goalModal) elements.goalModal.classList.add('hidden');
-    });
+    if (elements.goalModal) {
+      elements.goalModal.addEventListener('click', (e) => {
+        if (e.target === elements.goalModal) elements.goalModal.classList.add('hidden');
+      });
+    }
 
     setInterval(updateRealTime, 60000);
     updateRealTime();
     updateAdminPanel();
   })();
 } else {
-  elements.goalAnim.classList.remove('active');
-  elements.logoAnim.classList.remove('active');
-  elements.goalCard.classList.add('hidden');
+  if (elements.goalAnim) elements.goalAnim.classList.remove('active');
+  if (elements.logoAnim) elements.logoAnim.classList.remove('active');
+  if (elements.goalCard) elements.goalCard.classList.add('hidden');
   updateAllVariants();
   updateVisibility();
   applyColorTheme();
@@ -2192,7 +2245,7 @@ if (ADMIN) {
   updateRealTime();
 }
 
-// Экспорт для глобального доступа (для onlick в HTML)
+// Экспорт для глобального доступа (для onclick в HTML)
 window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
 
 window.addEventListener('beforeunload', () => {
