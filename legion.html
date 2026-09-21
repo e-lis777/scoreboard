@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -29,6 +28,12 @@ user-select: none;
 --accent-green: #4caf50;
 }
 .hide { display: none !important; }
+.overlay-left .sc-v1,
+.overlay-left .sc-v2,
+.overlay-left .sc-v3 {
+margin-left: 20px;
+margin-right: auto;
+}
 /* ===== ВАРИАНТ 1: КОМПАКТНЫЙ ===== */
 .sc-v1 {
 display: flex;
@@ -62,6 +67,15 @@ object-fit: contain;
 filter: drop-shadow(var(--shadow-sm));
 }
 .sc-v1-logo.away { transform: scale(0.8); }
+.sc-v1-half.away .sc-v1-logo,
+.sc-v2-team.away .sc-v2-logo,
+.sc-v3-logo-a,
+.intro-team.away .intro-logo {
+background: transparent;
+border-radius: 0;
+padding: 0;
+box-sizing: border-box;
+}
 .sc-v1-name {
 font-size: 12px;
 font-weight: 900;
@@ -428,6 +442,18 @@ left: -35px;
 top: -45%;
 z-index: 2002;
 }
+.goal-card .player-photo {
+width: 104px;
+height: 126px;
+object-fit: cover;
+object-position: center top;
+align-self: flex-end;
+margin: -30px -14px -12px 4px;
+border-radius: 12px 12px 10px 10px;
+background: #26332b;
+box-shadow: 0 0 0 3px rgba(255,255,255,0.18);
+}
+.goal-card .player-photo.hidden { display: none; }
 .goal-card .info {
 display: grid;
 grid-template-columns: auto 36px;
@@ -573,42 +599,6 @@ justify-content: center;
 }
 .player-btn.no-player:hover {
 background: rgba(255, 165, 2, 0.5);
-}
-/* ===== АНИМАЦИИ ===== */
-.goal-anim {
-position: fixed;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%) scale(0);
-font-size: 100px;
-font-weight: 900;
-color: #ffd700;
-text-shadow: 0 0 30px rgba(255,215,0,0.8);
-z-index: 1000;
-pointer-events: none;
-}
-.goal-anim.active { animation: goalPop 1.5s ease-out; }
-@keyframes goalPop {
-0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
-}
-.logo-anim {
-position: fixed;
-bottom: -200px;
-left: -200px;
-width: 188px;
-height: 188px;
-z-index: 1001;
-pointer-events: none;
-filter: drop-shadow(0 0 30px rgba(0,150,255,0.8));
-opacity: 0;
-}
-.logo-anim.active { animation: logoFly 1.5s forwards; }
-@keyframes logoFly {
-0% { bottom: -200px; left: -200px; transform: scale(0.1) rotate(-15deg); opacity: 0; }
-30% { opacity: 1; }
-100% { bottom: 50%; left: 50%; transform: translate(-50%, -50%) scale(15) rotate(-25deg); opacity: 0; }
 }
 /* ===== ОВЕРЛЕЙ ЗАСТАВКИ ===== */
 .intro-overlay {
@@ -1010,6 +1000,17 @@ color: #4caf50;
 }
 .admin-head p { color: rgba(255,255,255,0.5); font-size: 12px; }
 .admin-grid { display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; }
+.source-card { max-width: 720px; margin: 0 auto 15px; }
+.mode-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+.mode-choice {
+padding: 12px 8px; border: 2px solid rgba(255,255,255,0.16); border-radius: 8px;
+background: rgba(0,0,0,0.25); color: var(--text-white); font-weight: 700; cursor: pointer;
+}
+.mode-choice.act { border-color: #00d4ff; background: rgba(0,212,255,0.18); }
+.mode-choice small { display: block; margin-top: 3px; opacity: .7; font-size: 9px; }
+.kimberly-settings { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.source-card[data-source-mode="manual"] .kimberly-only { display: none !important; }
+.source-actions .btn { min-width: 130px; }
 .card {
 background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px;
 border: var(--border-light);
@@ -1135,11 +1136,590 @@ display: none;
 .sc-v3 .time.paused {
 animation: pulse 1s infinite;
 }
+@media (max-width: 560px) {
+.mode-selector { grid-template-columns: 1fr; }
+.kimberly-settings { grid-template-columns: 1fr; }
+.source-actions { display: grid; grid-template-columns: 1fr 1fr; }
+.source-actions .btn { min-width: 0; }
+}
+.auth-gate {
+max-width: 520px;
+margin: 20px auto;
+padding: 20px;
+background: rgba(15, 23, 42, 0.96);
+border: 1px solid rgba(255,255,255,0.15);
+border-radius: 12px;
+color: #fff;
+}
+.auth-gate[hidden], .admin-content[hidden] { display: none !important; }
+.auth-error { min-height: 20px; color: #ff8a80; margin-top: 10px; }
+.sync-status { margin-top: 10px; font-size: 13px; color: #b0bec5; line-height: 1.4; }
+.sync-status.ok { color: #8bc34a; }
+.sync-status.error { color: #ff8a80; }
+.mode-help { color: #b0bec5; font-size: 12px; line-height: 1.4; margin-top: 8px; }
+.readonly-note { color: #ffcc80; font-size: 12px; margin-top: 8px; }
+
+/* ===== OPERATOR UI V4 ===== */
+#sb-v1, #sb-v2, #sb-v3 { margin-top: clamp(28px, 5vh, 64px); }
+.sc-v1 { width: min(calc(100vw - 32px), 520px); }
+.sc-v2 { width: min(calc(100vw - 32px), 560px); }
+.overlay-left .sc-v1, .overlay-left .sc-v2, .overlay-left .sc-v3 { margin-left: clamp(16px, 3vw, 48px); }
+.sc-v1-half.away .sc-v1-logo,
+.sc-v2-team.away .sc-v2-logo,
+.sc-v3-logo-a,
+.intro-team.away .intro-logo {
+background: rgba(12,18,32,.56);
+border: 1px solid rgba(255,255,255,.12);
+border-radius: 10px;
+padding: 5px;
+object-fit: contain;
+}
+
+.admin { background: radial-gradient(circle at 15% -10%, #173c31 0, transparent 34%), #080d17; font-family: Inter, Arial, sans-serif; padding: 24px; }
+.admin-head { max-width: 1120px; margin: 0 auto 18px; padding: 0 0 18px; display: flex; align-items: end; justify-content: space-between; text-align: left; }
+.admin-head h1 { font-size: clamp(24px, 4vw, 38px); letter-spacing: -.04em; }
+.admin-head p { text-transform: uppercase; letter-spacing: .14em; margin-bottom: 5px; }
+.admin-live { display: flex; align-items: flex-end; gap: 10px; flex-direction: column; font-size: 12px; }
+.admin-live span::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 7px; border-radius: 50%; background: #fbbf24; }
+.admin-live span[data-state="online"]::before { background: #32d583; box-shadow: 0 0 0 5px rgba(50,213,131,.12); }
+.admin-live span[data-state="offline"]::before { background: #fb7185; }
+.admin-live strong { font-size: 14px; color: #fff; }
+.admin-content { max-width: 1120px; margin: 0 auto; }
+.admin-grid { max-width: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.source-card { max-width: none; margin-bottom: 14px; }
+.card { background: linear-gradient(145deg, rgba(25,34,51,.96), rgba(14,21,34,.96)); border: 1px solid rgba(255,255,255,.09); box-shadow: 0 18px 60px rgba(0,0,0,.18); padding: 18px; }
+.card-wide { grid-column: 1 / -1; }
+.card-title { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
+.card-title h3, .card h3 { margin: 0; color: #f8fafc; font-size: 14px; letter-spacing: .04em; }
+.source-badge { border-radius: 999px; padding: 5px 9px; font-size: 10px; font-weight: 800; color: #cbd5e1; background: rgba(148,163,184,.12); border: 1px solid rgba(148,163,184,.2); white-space: nowrap; }
+.source-badge[data-source="kimberly"], .source-badge[data-source="live"] { color: #6ee7b7; background: rgba(16,185,129,.12); border-color: rgba(16,185,129,.28); }
+.source-badge[data-source="fallback"] { color: #fde68a; background: rgba(245,158,11,.12); border-color: rgba(245,158,11,.28); }
+.mode-choice { min-height: 64px; text-align: left; padding-left: 14px; }
+.mode-choice.act { border-color: #32d583; background: linear-gradient(145deg, rgba(50,213,131,.2), rgba(50,213,131,.07)); }
+.source-actions .btn.is-pending { background: #32d583; color: #06120d; }
+.source-actions .btn:disabled { opacity: .55; cursor: default; }
+.btn-quiet { background: transparent; color: #94a3b8; border: 1px solid rgba(148,163,184,.25); }
+.score-in { display: grid; grid-template-columns: 38px minmax(74px,1fr) 38px 20px 38px minmax(74px,1fr) 38px; align-items: end; gap: 7px; }
+.score-in .sep { align-self: center; padding-top: 16px; }
+.score-in input { text-align: center; font-size: 28px; font-weight: 900; font-variant-numeric: tabular-nums; }
+.score-step { height: 44px; border-radius: 10px; border: 1px solid rgba(255,255,255,.14); background: #27344a; color: #fff; font-size: 24px; cursor: pointer; }
+.score-step:hover { background: #354760; }
+.admin-content[data-mode^="kimberly"] [data-control="score"] .score-step,
+.admin-content[data-mode^="kimberly"] [data-control="score"] .btns,
+.admin-content[data-mode^="kimberly"] [data-control="opponent"] > .btn { display: none; }
+.admin-content[data-mode="kimberly_full"] [data-control="goals"] .btns { display: none; }
+.file-btn { position: relative; overflow: hidden; }
+.file-btn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+/* Goal lower third: readable on phone recordings and restrained on TV. */
+.goal-card {
+bottom: clamp(24px, 6vh, 72px); left: clamp(18px, 4vw, 72px); min-width: 0;
+width: min(540px, calc(100vw - 36px)); min-height: 142px; padding: 0;
+gap: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-left: 7px solid #f7c948;
+border-radius: 12px; background: linear-gradient(120deg, rgba(10,15,28,.98), rgba(31,21,61,.96));
+}
+.goal-card-media { align-self: stretch; width: 142px; min-width: 142px; position: relative; display: grid; place-items: center; background: radial-gradient(circle at 50% 20%, #38564a, #101725 70%); overflow: hidden; }
+.goal-card .legion-logo { position: static; width: 108px; height: 108px; object-fit: contain; filter: drop-shadow(0 8px 20px rgba(0,0,0,.45)); }
+.goal-card .legion-logo.hidden { display: none; }
+.goal-card .player-photo { width: 100%; height: 100%; min-height: 142px; margin: 0; border: 0; border-radius: 0; box-shadow: none; object-fit: cover; object-position: center 16%; }
+.goal-card .info { flex: 1; margin: 0; padding: 18px 22px; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto auto; align-content: center; }
+.goal-kicker { grid-column: 1 / -1; color: #f7c948; font-size: 12px; font-weight: 900; letter-spacing: .18em; }
+.goal-card .last-name { grid-column: 1; grid-row: 2; font-size: clamp(22px, 4vw, 34px); line-height: 1.05; }
+.goal-card .number-circle { grid-column: 2; grid-row: 2; width: 42px; height: 42px; background: #f7c948; }
+.goal-card .minute { grid-column: 1; grid-row: 3; font-size: 16px; color: #cbd5e1; }
+.goal-card .position { grid-column: 2; grid-row: 3; font-size: 13px; color: #94a3b8; }
+/* Match intro */
+.intro-overlay::before { background: radial-gradient(circle at 50% 42%, rgba(38,82,65,.58), transparent 32%), linear-gradient(135deg, rgba(5,9,17,.98), rgba(17,24,39,.96)); }
+.intro-overlay::after { opacity: .18; background-image: linear-gradient(115deg, transparent 44%, rgba(247,201,72,.35) 44%, rgba(247,201,72,.35) 45%, transparent 45%); animation: none; }
+.intro-card { width: min(1180px, 94vw); padding: 30px; }
+.intro-eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; color: #dbe7e1; font-size: 13px; letter-spacing: .14em; margin-bottom: 34px; }
+.intro-live-dot { width: 8px; height: 8px; background: #ef4444; border-radius: 50%; box-shadow: 0 0 0 5px rgba(239,68,68,.14); }
+.intro-teams { display: grid; grid-template-columns: minmax(0,1fr) 74px minmax(0,1fr); align-items: center; gap: 30px; padding: 0; margin: 0 0 28px; }
+.intro-team { min-width: 0; width: 100%; gap: 18px; }
+.intro-versus { font-size: 28px; font-weight: 900; color: #f7c948; }
+.intro-logo-container { width: min(28vw, 300px); height: min(28vw, 300px); border-radius: 28px; background: rgba(255,255,255,.045); border: 1px solid rgba(255,255,255,.1); }
+.intro-logo, .intro-team.away .intro-logo { width: 86%; height: 86%; padding: 0; background: transparent; border: 0; border-radius: 0; object-fit: contain; animation: logoPulse 3s infinite ease-in-out; }
+.intro-name { font-size: clamp(28px, 4.2vw, 62px); height: auto; white-space: normal; line-height: 1.02; }
+.intro-footer { margin: 0; max-height: none; }
+.intro-period-badge { display: block !important; font-size: clamp(28px, 4vw, 52px); color: #fff; -webkit-text-fill-color: initial; background: none; text-shadow: none; }
+.intro-datetime { bottom: 24px; font-size: 15px; background: rgba(2,6,12,.5); }
+
+@media (max-width: 760px) {
+  .admin { padding: 14px; }
+  .admin-head { align-items: flex-start; }
+  .admin-grid { grid-template-columns: 1fr; }
+  .card-wide { grid-column: auto; }
+  .mode-selector { grid-template-columns: 1fr; }
+  .source-actions { grid-template-columns: 1fr; }
+  .score-in { grid-template-columns: 34px minmax(60px,1fr) 34px 14px 34px minmax(60px,1fr) 34px; gap: 4px; }
+  .goal-card-media { width: 112px; min-width: 112px; }
+  .goal-card .info { padding: 14px; }
+  .intro-teams { gap: 10px; grid-template-columns: minmax(0,1fr) 42px minmax(0,1fr); }
+  .intro-logo-container { width: min(34vw, 190px); height: min(34vw, 190px); border-radius: 18px; }
+}
 @keyframes pulse {
 0%,100% { opacity:1; }
 50% { opacity:0.6; }
 }
+
+/* ===== COMPACT MATCH CONTROL ===== */
+.admin { padding: 14px; background: radial-gradient(circle at 12% -12%, #174636 0, transparent 30%), #080d15; }
+.admin-head { max-width: 760px; margin: 0 auto 10px; padding: 2px 2px 10px; align-items: center; border-color: rgba(255,255,255,.08); }
+.admin-head h1 { font-size: 20px; margin: 0; letter-spacing: -.02em; }
+.admin-head p { margin: 2px 0 0; text-transform: none; letter-spacing: 0; font-size: 11px; }
+.admin-content { max-width: 760px; }
+.admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.card { padding: 13px; border-radius: 14px; box-shadow: 0 12px 36px rgba(0,0,0,.15); }
+.source-card { margin: 0 0 10px; }
+.score-card { order: 1; grid-column: 1 / -1; }
+.goal-control-card { order: 2; }
+.clock-card { order: 3; }
+.period-card { order: 4; }
+.appearance-card { order: 5; }
+.opponent-card { order: 6; }
+.roster-settings { order: 7; }
+.intro-settings { order: 8; }
+.card-title { margin-bottom: 10px; }
+.settings-card > summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 28px; cursor: pointer; color: #f8fafc; font-size: 14px; font-weight: 800; }
+.settings-card > summary::-webkit-details-marker { display: none; }
+.settings-card > summary::after { content: '⌄'; color: #718096; margin-left: 2px; }
+.settings-card[open] > summary { margin-bottom: 14px; }
+.settings-card[open] > summary::after { transform: rotate(180deg); }
+.summary-note { margin-left: auto; color: #8190a6; font-size: 10px; font-weight: 600; }
+.btn { flex: 0 1 auto; min-width: 88px; min-height: 40px; padding: 10px 14px; text-transform: none; border-radius: 10px; font-size: 12px; }
+.btns { align-items: center; }
+[hidden] { display: none !important; }
+.score-in { display: grid; grid-template-columns: 1fr 18px 1fr; align-items: end; gap: 8px; }
+.score-in .sep { align-self: end; padding: 0 0 9px; text-align: center; font-size: 24px; }
+.score-team { min-width: 0; text-align: center; }
+.score-team > label { display: block; margin-bottom: 5px; color: #94a3b8; font-size: 10px; font-weight: 800; letter-spacing: .06em; }
+.score-control { display: grid; grid-template-columns: 38px minmax(54px, 74px) 38px; justify-content: center; gap: 6px; }
+.score-control input { width: 100%; min-width: 0; height: 44px; padding: 4px; border: 1px solid rgba(255,255,255,.14); border-radius: 10px; background: #0b1220; color: #fff; text-align: center; font-size: 27px; font-weight: 900; }
+.score-control input[type="number"] { appearance: textfield; -moz-appearance: textfield; }
+.score-control input[type="number"]::-webkit-outer-spin-button,
+.score-control input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.score-step { width: 38px; height: 44px; }
+.score-card > .btns { justify-content: flex-end; margin-top: 8px; }
+.preview-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px; }
+.switch { display: inline-flex; align-items: center; gap: 7px; color: #cbd5e1; font-size: 11px; cursor: pointer; white-space: nowrap; }
+.switch input { position: absolute; opacity: 0; }
+.switch span { width: 34px; height: 19px; padding: 2px; border-radius: 999px; background: #344157; transition: .2s; }
+.switch span::before { content: ''; display: block; width: 15px; height: 15px; border-radius: 50%; background: #fff; transition: .2s; }
+.switch input:checked + span { background: #2fb879; }
+.switch input:checked + span::before { transform: translateX(15px); }
+.switch.is-disabled { opacity: .48; cursor: not-allowed; }
+.switch.is-disabled span { background: #344157; }
+.period-card .fld { margin: 0 0 8px; }
+.period-card select { padding: 10px; }
+.custom-color { min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 5px 8px; border: 1px solid rgba(255,255,255,.18); border-radius: 7px; color: #d8e1eb; font-size: 9px; font-weight: 800; text-transform: uppercase; }
+.custom-color input { width: 28px; height: 28px; padding: 0; border: 0; background: none; }
+.theme-custom .sc-v1-bar, .theme-custom .sc-v2-main, .theme-custom .sc-v3-strip { background: linear-gradient(135deg, var(--custom-color, #185c47), #101827); }
+.admin-content[data-mode^="kimberly"] .opponent-card { display: none; }
+#sb-v1, #sb-v2, #sb-v3 { margin-top: clamp(42px, 6vh, 72px); margin-left: auto; margin-right: auto; }
+.overlay-left #sb-v1, .overlay-left #sb-v2, .overlay-left #sb-v3 { margin-left: clamp(16px, 3vw, 48px); margin-right: 0; }
+
+/* Lower third: the portrait leads, the information strip sits behind its lower edge. */
+.goal-card { bottom: clamp(22px, 5vh, 58px); left: clamp(16px, 4vw, 64px); width: auto; min-height: 0; height: 158px; padding: 0; overflow: visible; align-items: flex-end; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.goal-card-media { align-self: flex-end; width: 126px; min-width: 126px; height: 158px; border: 1px solid rgba(255,255,255,.17); border-radius: 14px 14px 5px 5px; box-shadow: 0 18px 42px rgba(0,0,0,.42); z-index: 2; }
+.goal-card .player-photo { min-height: 0; height: 100%; }
+.goal-card .legion-logo { width: 92px; height: 92px; }
+.goal-card .info { flex: none; width: min(278px, calc(100vw - 150px)); min-height: 96px; margin: 0 0 7px -7px; padding: 12px 15px 11px 21px; border: 1px solid rgba(255,255,255,.14); border-left: 5px solid #f7c948; border-radius: 0 11px 11px 0; background: linear-gradient(120deg, rgba(9,15,27,.98), rgba(31,21,61,.97)); box-shadow: 0 15px 40px rgba(0,0,0,.38); }
+.goal-card.opponent-goal .info { border-left-color: #ff6b6b; background: linear-gradient(120deg, rgba(25,12,18,.98), rgba(63,19,33,.97)); }
+.goal-card.opponent-goal .number-circle { background: #ff6b6b; color: #fff; }
+.goal-card .last-name { font-size: clamp(20px, 4vw, 29px); }
+.goal-card .number-circle { width: 35px; height: 35px; font-size: 16px; }
+.goal-kicker { font-size: 10px; }
+.goal-card .minute { font-size: 13px; }
+
+/* На планшете и компьютере все карточки живут в одной аккуратной сетке.
+   Источник и счёт больше не «разваливают» экран на широкие полосы. */
+@media (min-width: 621px) {
+  .admin-content { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-items: start; }
+  .source-card { width: auto; max-width: none; margin: 0; }
+  .admin-grid { display: contents; }
+  .admin-grid > .card,
+  .admin-grid > .card.card-wide,
+  .score-card { grid-column: auto; }
+}
+
+@media (max-width: 620px) {
+  .admin { padding: 10px; }
+  .admin-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .card { padding: 10px; }
+  .score-card, .appearance-card { grid-column: 1 / -1; }
+  .mode-selector { grid-template-columns: 1fr; }
+  .kimberly-settings { grid-template-columns: 1fr; }
+  .source-actions { display: flex; }
+  .goal-control-card, .clock-card { min-width: 0; }
+  .goal-control-card .btns, .clock-card .btns { gap: 5px; }
+  .goal-control-card .btn, .clock-card .btn { min-width: 0; flex: 1; padding-left: 7px; padding-right: 7px; }
+  .preview-row { align-items: flex-start; flex-direction: column; }
+  .period-card { grid-column: 1 / -1; }
+  .goal-card-media { width: 108px; min-width: 108px; height: 138px; }
+  .goal-card .info { width: min(250px, calc(100vw - 124px)); min-height: 88px; padding: 10px 12px 9px 18px; }
+}
+
+/* Портретный экран: названия команд остаются словами, а не превращаются
+   в вертикальный набор букв. */
+@media (max-width: 420px) {
+  .intro-card { width: 100%; max-width: 100vw; padding: 18px 10px 68px; }
+  .intro-eyebrow { margin-bottom: 18px; padding: 6px 10px; font-size: 10px; letter-spacing: .08em; }
+  .intro-teams { grid-template-columns: minmax(0, 1fr) 26px minmax(0, 1fr); gap: 5px; margin-bottom: 18px; }
+  .intro-versus { font-size: 18px; }
+  .intro-team { gap: 8px; }
+  .intro-logo-container { width: min(31vw, 106px); height: min(31vw, 106px); border-radius: 14px; }
+  .intro-name { min-width: 0; padding: 0; font-size: clamp(15px, 5vw, 19px); letter-spacing: .01em; line-height: 1.05; white-space: nowrap; word-break: normal; overflow-wrap: normal; }
+  .intro-period-badge { font-size: clamp(25px, 9vw, 34px); }
+  .intro-datetime { max-width: calc(100vw - 24px); padding: 6px 9px; font-size: 11px; letter-spacing: 0; white-space: nowrap; }
+}
+
+/* ===== APP-LIKE OPERATOR SURFACE =====
+   One visual language: quiet surfaces, clear hierarchy, restrained color. */
+.admin {
+  --panel: #111a28;
+  --panel-raised: #162235;
+  --panel-pressed: #0d1521;
+  --line: rgba(172, 190, 211, .14);
+  --muted: #94a3b8;
+  --text: #f3f7fb;
+  --accent: #38c981;
+  background:
+    radial-gradient(900px 430px at 0 -140px, rgba(48, 194, 125, .14), transparent 62%),
+    radial-gradient(600px 340px at 100% 0, rgba(53, 101, 168, .11), transparent 68%),
+    #090f18;
+  color: var(--text);
+  letter-spacing: 0;
+}
+.admin-head {
+  min-height: 58px;
+  margin-bottom: 14px;
+  padding: 4px 2px 14px;
+  border-color: var(--line);
+}
+.admin-head h1 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -.015em;
+}
+.admin-head h1::before {
+  content: '';
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+  border-radius: 9px;
+  background: #102719 url('./data/legion-logo.svg') center / 84% no-repeat;
+  box-shadow: inset 0 0 0 1px rgba(123, 222, 164, .22);
+}
+.admin-head .team-name-green { color: var(--text); }
+.admin-head p { color: var(--muted); font-size: 11px; }
+
+/* ===== ЛОГОТИПЫ: эмблемы без белых кружков и случайных квадратов ===== */
+.sc-v1-logo,
+.sc-v2-logo,
+.sc-v3-logo-h,
+.sc-v3-logo-a,
+.intro-logo {
+  image-rendering: auto;
+  object-position: center;
+}
+
+/* У исходной эмблемы Легиона высокий формат — добавляем ей визуального веса. */
+.sc-v1-half.home .sc-v1-logo { transform: scale(1.34); }
+.sc-v2-team.home .sc-v2-logo { transform: skewX(8deg) scale(1.32); }
+.sc-v3-logo-h { transform: translate(-50%, -50%) scale(1.34); }
+
+/* Логотип соперника остаётся самостоятельной эмблемой, без белой подложки. */
+.sc-v1-half.away .sc-v1-logo,
+.sc-v2-team.away .sc-v2-logo,
+.sc-v3-logo-a,
+.intro-team.away .intro-logo {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+/* Kimberly иногда отдаёт широкий баннер вместо эмблемы. Превращаем только его
+   в аккуратный медальон — обычные гербы обычных пропорций не обрезаются. */
+.sc-v1-half.away .logo-wide,
+.sc-v2-team.away .logo-wide,
+.sc-v3-logo-a.logo-wide,
+.intro-team.away .logo-wide {
+  object-fit: cover;
+  border-radius: 50%;
+  outline: 1px solid rgba(255,255,255,.34);
+  box-shadow: 0 5px 16px rgba(0,0,0,.34);
+}
+
+/* Запасной знак — чистый футбольный мяч, без белого квадрата. */
+.sc-v1-half.away .logo-placeholder,
+.sc-v2-team.away .logo-placeholder,
+.sc-v3-logo-a.logo-placeholder,
+.intro-team.away .logo-placeholder {
+  border-radius: 50%;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,.35));
+}
+.card {
+  background: linear-gradient(145deg, rgba(22, 34, 53, .98), rgba(15, 24, 38, .98));
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .16), inset 0 1px rgba(255,255,255,.025);
+}
+.live-card { min-height: 0; }
+.card-title h3, .card h3 { color: var(--text); font-size: 13px; letter-spacing: .025em; }
+.source-badge {
+  padding: 5px 8px;
+  color: #b9c5d3;
+  border-color: rgba(174, 192, 214, .16);
+  background: rgba(173, 190, 212, .08);
+}
+.source-badge[data-source="kimberly"], .source-badge[data-source="live"] {
+  color: #8ff0bf;
+  border-color: rgba(65, 205, 133, .24);
+  background: rgba(42, 178, 108, .12);
+}
+.settings-card > summary {
+  min-height: 32px;
+  font-size: 13px;
+  font-weight: 750;
+  color: var(--text);
+}
+.settings-card > summary::after { color: #7f91a7; font-size: 15px; }
+.settings-card[open] > summary { padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 12px; }
+.summary-note { color: #8190a6; font-weight: 500; text-transform: none; letter-spacing: 0; }
+.mode-choice, .var-btn, .col-btn {
+  border-color: var(--line);
+  background: rgba(7, 14, 24, .45);
+  color: #dce6f0;
+}
+.mode-choice { min-height: 58px; border-radius: 11px; }
+.mode-choice.act, .var-btn.act {
+  border-color: rgba(60, 211, 139, .52);
+  color: #eafff2;
+  background: linear-gradient(145deg, rgba(40, 177, 106, .2), rgba(25, 103, 69, .12));
+}
+.btn {
+  min-height: 39px;
+  border: 1px solid rgba(255,255,255,.06);
+  box-shadow: none;
+  font-weight: 720;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn-p, .btn-s { background: linear-gradient(135deg, #38c981, #239c63); color: #04130b; }
+.btn-w { background: linear-gradient(135deg, #f2bd47, #d58c23); color: #211300; }
+.btn-d { background: linear-gradient(135deg, #f15767, #cf394c); }
+.btn-quiet { border-color: var(--line); background: rgba(9, 16, 27, .46); color: #c5d0dd; }
+.score-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #15273a 0%, #111c2c 62%, #101825 100%);
+}
+.score-card::before {
+  content: '';
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  right: -75px;
+  top: -120px;
+  border-radius: 50%;
+  background: rgba(55, 201, 129, .10);
+  pointer-events: none;
+}
+.score-card > * { position: relative; }
+.score-team > label { color: #9dacbf; font-size: 9px; letter-spacing: .1em; }
+.score-control input {
+  height: 46px;
+  border-radius: 12px;
+  border-color: rgba(209, 223, 240, .16);
+  background: rgba(4, 10, 18, .62);
+  font-size: 28px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.38);
+}
+.score-step {
+  height: 46px;
+  border-radius: 12px;
+  border-color: rgba(208, 222, 241, .12);
+  background: rgba(37, 54, 76, .72);
+}
+.score-in .sep { color: #6f8299; font-weight: 700; }
+.tm-st { border: 1px solid rgba(172, 190, 211, .08); background: rgba(6, 13, 23, .42); }
+.tm-st .txt { color: #c3cfdd; }
+.period-card select, .fld input, .fld select {
+  border-color: var(--line);
+  background: rgba(7, 14, 24, .52);
+}
+.switch { color: #cbd6e2; }
+.switch span { background: #45546a; }
+.switch input:checked + span { background: #38c981; }
+.admin-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+.theme-label {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.theme-toggle {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: repeat(2, 20px);
+  place-items: center;
+  width: 50px;
+  height: 28px;
+  padding: 2px 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(7, 14, 24, .52);
+  color: #f8c85a;
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease;
+}
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.theme-toggle-icon { position: relative; z-index: 1; font-size: 13px; line-height: 1; }
+.theme-toggle-icon:last-child { color: #91a3b8; }
+.theme-toggle-knob {
+  position: absolute;
+  z-index: 0;
+  left: 3px;
+  top: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2a3b50;
+  box-shadow: 0 2px 7px rgba(0,0,0,.35);
+  transition: transform .18s ease, background .18s ease;
+}
+
+/* Светлая тема только для операторской: эфирные плашки не меняются. */
+.admin.admin-light {
+  --panel: #ffffff;
+  --panel-raised: #f7f9fc;
+  --panel-pressed: #edf2f7;
+  --line: rgba(49, 70, 94, .16);
+  --muted: #65748a;
+  --text: #132238;
+  --accent: #1e9c62;
+  background:
+    radial-gradient(850px 420px at 0 -130px, rgba(59, 183, 115, .14), transparent 63%),
+    radial-gradient(600px 350px at 100% 0, rgba(73, 130, 204, .12), transparent 67%),
+    #f3f6fa;
+}
+.admin.admin-light .card {
+  background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(246,249,252,.98));
+  box-shadow: 0 10px 28px rgba(36, 56, 82, .09), inset 0 1px rgba(255,255,255,.9);
+}
+.admin.admin-light .score-card { background: linear-gradient(135deg, #edf8f2 0%, #f8fbfd 65%, #eef3fb 100%); }
+.admin.admin-light .score-control input,
+.admin.admin-light .period-card select,
+.admin.admin-light .fld input,
+.admin.admin-light .fld select,
+.admin.admin-light .mode-choice,
+.admin.admin-light .var-btn,
+.admin.admin-light .col-btn,
+.admin.admin-light .btn-quiet,
+.admin.admin-light .theme-toggle { background: rgba(255,255,255,.82); color: #1c3047; }
+.admin.admin-light .score-step { background: #e8eef5; color: #1b3048; }
+.admin.admin-light .tm-st { background: rgba(234, 241, 247, .78); }
+.admin.admin-light .tm-st .txt,
+.admin.admin-light .switch,
+.admin.admin-light .custom-color { color: #364b63; }
+.admin.admin-light .score-team > label,
+.admin.admin-light .summary-note { color: #718197; }
+.admin.admin-light .source-badge { color: #52667c; background: rgba(55, 78, 105, .06); }
+.admin.admin-light .theme-toggle-knob { transform: translateX(22px); background: #dce7f3; box-shadow: 0 2px 7px rgba(30,52,78,.18); }
+.admin.admin-light .theme-toggle-icon:first-child { color: #8294a9; }
+.admin.admin-light .theme-toggle-icon:last-child { color: #415976; }
+
+/* ===== ЭФИРНЫЙ ХОЛСТ =====
+   Видеокадр задаёт IRL Pro (1920×1080), но Android WebView может иметь
+   другую плотность CSS-пикселей. Поэтому берём фактический 16:9 viewport,
+   а не дублируем 1920 CSS-px и не уводим центр за правый край. */
+html, body.broadcast-output {
+  width: 100vw;
+  min-width: 0;
+  max-width: none;
+  height: 100vh;
+  min-height: 0;
+  max-height: none;
+  overflow: hidden;
+  position: relative;
+}
+body.broadcast-output #sb-v1,
+body.broadcast-output #sb-v2,
+body.broadcast-output #sb-v3 {
+  position: absolute;
+  top: clamp(42px, 6vh, 72px);
+  left: 50%;
+  margin: 0;
+  transform: translateX(-50%);
+}
+body.broadcast-output.overlay-left #sb-v1,
+body.broadcast-output.overlay-left #sb-v2,
+body.broadcast-output.overlay-left #sb-v3 {
+  left: 48px;
+  margin: 0;
+  transform: none;
+}
+body.broadcast-output .intro-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  min-width: 0;
+  height: 100vh;
+  min-height: 0;
+}
+body.broadcast-output .goal-card {
+  position: absolute;
+}
+
+/* Админка не наследует ограничения эфирного холста: только одна колонка
+   на телефоне и никаких элементов, способных вытолкнуть страницу по X. */
+body:has(.admin:not(.hide)) { overflow: hidden; position: fixed; }
+.admin {
+  width: 100vw;
+  max-width: 100vw;
+  overflow-x: clip;
+  overscroll-behavior: contain;
+}
+.admin *, .admin *::before, .admin *::after { min-width: 0; }
+@media (max-width: 620px) {
+  .admin-grid { grid-template-columns: minmax(0, 1fr); }
+  .admin-grid > .card,
+  .admin-grid > .settings-card,
+  .score-card,
+  .appearance-card,
+  .period-card { grid-column: 1 / -1; }
+  .admin-content, .source-card, .card, .settings-card { width: 100%; max-width: 100%; }
+  .score-control { grid-template-columns: 32px minmax(0, 1fr) 32px; gap: 4px; }
+  .score-step { width: 32px; }
+  .score-in { gap: 5px; }
+  .col-sel { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .source-actions .btn { min-width: 0; }
+}
+@media (max-width: 620px) {
+  .admin { min-height: 100dvh; padding: max(10px, env(safe-area-inset-top)) 10px max(16px, env(safe-area-inset-bottom)); }
+  .admin-head { min-height: 52px; margin-bottom: 10px; gap: 10px; align-items: center; }
+  .admin-head h1 { font-size: 17px; }
+  .admin-head p { font-size: 10px; }
+  .theme-label { display: none; }
+  .admin-toolbar { gap: 0; }
+  .card { border-radius: 14px; }
+  .summary-note { font-size: 9px; }
+  .score-card { min-height: 120px; }
+}
 </style>
+<link rel="stylesheet" href="./src/admin-ui.css">
+<link rel="stylesheet" href="./src/admin-mobile.css">
+<link rel="stylesheet" href="./src/team-names.css">
 </head>
 <body>
 <!-- отладочная панель -->
@@ -1148,7 +1728,7 @@ animation: pulse 1s infinite;
 <div id="sb-v1" class="sc-v1">
 <div class="sc-v1-bar">
 <div class="sc-v1-half home">
-<img id="v1-lh" class="sc-v1-logo" src="https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg" alt="Логотип ЛЕГИОН">
+<img id="v1-lh" class="sc-v1-logo" src="./data/legion-logo.svg" alt="Логотип ЛЕГИОН">
 <span id="v1-nh" class="sc-v1-name">ЛЕГИОН</span>
 </div>
 <div class="sc-v1-score-sec">
@@ -1163,7 +1743,7 @@ animation: pulse 1s infinite;
 </div>
 </div>
 <div class="sc-v1-half away">
-<img id="v1-la" class="sc-v1-logo" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Логотип соперника">
+<img id="v1-la" class="sc-v1-logo" src="./data/default-opponent.svg" alt="Логотип соперника">
 <span id="v1-na" class="sc-v1-name">СОПЕРНИК</span>
 </div>
 </div>
@@ -1172,7 +1752,7 @@ animation: pulse 1s infinite;
 <div id="sb-v2" class="sc-v2 hide">
 <div class="sc-v2-bar">
 <div class="sc-v2-team home">
-<img id="v2-lh" class="sc-v2-logo" src="https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg" alt="Логотип ЛЕГИОН">
+<img id="v2-lh" class="sc-v2-logo" src="./data/legion-logo.svg" alt="Логотип ЛЕГИОН">
 <span id="v2-nh" class="sc-v2-name">ЛЕГИОН</span>
 </div>
 <div class="sc-v2-score-sec">
@@ -1181,15 +1761,15 @@ animation: pulse 1s infinite;
 <span class="sc-v2-sep">-</span>
 <span id="v2-sa" class="sc-v2-score">0</span>
 </div>
-</div>
-<div class="sc-v2-team away">
-<span id="v2-na" class="sc-v2-name">СОПЕРНИК</span>
-<img id="v2-la" class="sc-v2-logo" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Логотип соперника">
-</div>
-</div>
 <div class="sc-v2-timer">
 <span id="v2-t" class="time">00:00</span>
 <span id="v2-p" class="period">1 ТАЙМ</span>
+</div>
+</div>
+<div class="sc-v2-team away">
+<span id="v2-na" class="sc-v2-name">СОПЕРНИК</span>
+<img id="v2-la" class="sc-v2-logo" src="./data/default-opponent.svg" alt="Логотип соперника">
+</div>
 </div>
 </div>
 <!-- V3 -->
@@ -1211,16 +1791,17 @@ animation: pulse 1s infinite;
 <div class="sc-v3-strip away">
 <span id="v3-na" class="sc-v3-name">СОПЕРНИК</span>
 </div>
-<img id="v3-lh" class="sc-v3-logo-h" src="https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg" alt="Логотип ЛЕГИОН">
-<img id="v3-la" class="sc-v3-logo-a" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Логотип соперника">
+<img id="v3-lh" class="sc-v3-logo-h" src="./data/legion-logo.svg" alt="Логотип ЛЕГИОН">
+<img id="v3-la" class="sc-v3-logo-a" src="./data/default-opponent.svg" alt="Логотип соперника">
 </div>
-<!-- Анимации -->
-<div id="goal-anim" class="goal-anim">⚽ ГОЛ!</div>
-<img id="logo-anim" class="logo-anim" src="https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg" alt="">
 <!-- Карточка гола -->
 <div id="goal-card" class="goal-card hidden">
-<img id="goal-card-logo" class="legion-logo" src="https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg" alt="Легион">
+<div class="goal-card-media">
+<img id="goal-card-logo" class="legion-logo" src="./data/legion-logo.svg" alt="Легион">
+<img id="goal-player-photo" class="player-photo hidden" alt="Фото автора гола">
+</div>
 <div class="info">
+<span class="goal-kicker">ГОЛ</span>
 <span id="goal-lastname" class="last-name"></span>
 <span id="goal-number" class="number-circle"></span>
 <span id="goal-minute-display" class="minute"></span>
@@ -1233,13 +1814,14 @@ animation: pulse 1s infinite;
 <div class="intro-teams">
 <div class="intro-team home">
 <div class="intro-logo-container">
-<img id="intro-logo-home" class="intro-logo" src="https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg" alt="ЛЕГИОН">
+<img id="intro-logo-home" class="intro-logo" src="./data/legion-logo.svg" alt="ЛЕГИОН">
 </div>
 <span id="intro-name-home" class="intro-name">ЛЕГИОН</span>
 </div>
+<div class="intro-versus">VS</div>
 <div class="intro-team away">
 <div class="intro-logo-container">
-<img id="intro-logo-away" class="intro-logo" src="https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png" alt="Соперник">
+<img id="intro-logo-away" class="intro-logo" src="./data/default-opponent.svg" alt="Соперник">
 </div>
 <span id="intro-name-away" class="intro-name">СОПЕРНИК</span>
 </div>
@@ -1261,22 +1843,47 @@ animation: pulse 1s infinite;
 <h3>⚽ Выберите автора гола</h3>
 <div class="modal-body">
 <div id="scorer-buttons" class="player-buttons"></div>
-<button class="player-btn no-player" onclick="goalWithoutPlayerFromModal()">⚽ Без игрока</button>
+<button class="player-btn no-player" id="goal-without-player-btn">⚽ Без игрока</button>
 </div>
 </div>
 </div>
 <!-- Админка -->
 <div id="admin" class="admin hide">
 <div class="admin-head">
-<h1><span class="team-name-green">🏆 ФК ЛЕГИОН 🏆</span></h1>
-<p>Управление табло</p>
+<div><h1><span class="team-name-green">ФК ЛЕГИОН</span></h1><p>Управление плашкой</p></div>
+<div class="admin-toolbar" aria-label="Настройки интерфейса">
+<span class="theme-label" id="admin-theme-label">Тёмная тема</span>
+<button class="theme-toggle" id="admin-theme-toggle" type="button" aria-pressed="false" aria-labelledby="admin-theme-label" title="Переключить светлую и тёмную тему"><span class="theme-toggle-icon" aria-hidden="true">☀</span><span class="theme-toggle-knob" aria-hidden="true"></span><span class="theme-toggle-icon" aria-hidden="true">☾</span></button>
 </div>
+</div>
+<div id="admin-content" class="admin-content" hidden>
+<details class="card source-card settings-card" id="source-card" data-source-mode="manual">
+<summary><span>Источник данных</span><span class="source-badge" id="active-mode-label">Ручной</span></summary>
+<div class="mode-selector" aria-label="Режим данных">
+<button type="button" class="mode-choice act" data-mode="manual">Ручной<small>всё вручную</small></button>
+<button type="button" class="mode-choice" data-mode="kimberly_full">Kimberly + оператор<small>счёт и голы автоматически</small></button>
+</div>
+<input type="hidden" id="data-mode" value="manual">
+<div class="kimberly-settings kimberly-only">
+<div class="fld"><label>Team ID · меняется редко</label><input type="number" id="kimberly-team-id" min="1" value="17509"></div>
+</div>
+<div class="btns source-actions">
+<button class="btn btn-p" id="save-mode-btn">Сохранить режим</button>
+<button class="btn btn-s kimberly-only" id="sync-now-btn">Синхронизировать</button>
+</div>
+<div id="sync-status" class="sync-status">Ручное управление</div>
+<p class="mode-help kimberly-only">Kimberly ведёт счёт, соперника и голы. Таймер и тайм всегда управляются вручную.</p>
+</details>
 <div class="admin-grid">
-<div class="card"><h3>🎨 Дизайн плашки</h3>
+<details class="card card-wide settings-card appearance-card"><summary><span>Вид плашки</span><span class="summary-note">вариант · цвет · положение</span></summary>
 <div class="var-sel">
 <button class="var-btn act" data-variant="1">В-1<small>Компакт</small></button>
 <button class="var-btn" data-variant="2">В-2<small>TV Style</small></button>
 <button class="var-btn" data-variant="3">В-3<small>Слои</small></button>
+</div>
+<div class="var-sel" aria-label="Положение плашки">
+<button class="var-btn position-btn" data-position="left">Слева</button>
+<button class="var-btn position-btn act" data-position="center">По центру</button>
 </div>
 <div class="col-sel">
 <button class="col-btn col-blue" data-color="blue">Синий</button>
@@ -1286,35 +1893,36 @@ animation: pulse 1s infinite;
 <button class="col-btn col-red" data-color="red">Красный</button>
 <button class="col-btn col-green" data-color="green">Зелёный</button>
 <button class="col-btn col-classic1" data-color="classic1">Классика 1</button>
-<button class="col-btn col-classic2" data-color="classic2">Классика 2</button>
+<label class="custom-color">Свой<input type="color" id="custom-color" value="#185c47"></label>
 </div>
-<div class="chk"><input type="checkbox" id="anim-chk"><label for="anim-chk">🎬 Анимация лого при голе</label></div>
-</div>
-<div class="card"><h3>📋 СОПЕРНИК</h3>
+</details>
+<details class="card settings-card opponent-card" data-control="opponent"><summary><span>Соперник</span><span class="source-badge" data-source-key="opponent"></span></summary>
 <div class="fld"><label>Название команды</label><input type="text" id="adm-na" placeholder="Название"></div>
 <div class="fld"><label>Логотип (URL)</label><input type="text" id="adm-la" placeholder="https://..."></div>
-<button class="btn btn-p" id="saveOpponentBtn">💾 Сохранить</button>
-</div>
-<div class="card"><h3>📊 Счёт</h3>
+<button class="btn btn-p" id="saveOpponentBtn">Сохранить</button>
+<button class="btn btn-quiet" id="opponentOverrideBtn" hidden>Исправить вручную</button>
+</details>
+<div class="card live-card score-card" data-control="score"><div class="card-title"><h3>Счёт</h3><span class="source-badge" data-source-key="score"></span></div>
 <div class="score-in">
-<div class="fld"><label>ЛЕГИОН</label><input type="number" id="adm-sh" value="0" min="0"></div>
-<div class="sep">-</div>
-<div class="fld"><label>СОПЕРНИК</label><input type="number" id="adm-sa" value="0" min="0"></div>
+<div class="score-team"><label>ЛЕГИОН</label><div class="score-control"><button class="score-step" data-score-side="legion" data-score-delta="-1">−</button><input type="number" id="adm-sh" value="0" min="0"><button class="score-step" data-score-side="legion" data-score-delta="1">+</button></div></div>
+<div class="sep">:</div>
+<div class="score-team"><label>СОПЕРНИК</label><div class="score-control"><button class="score-step" data-score-side="opponent" data-score-delta="-1">−</button><input type="number" id="adm-sa" value="0" min="0"><button class="score-step" data-score-side="opponent" data-score-delta="1">+</button></div></div>
 </div>
 <div class="btns">
-<button class="btn btn-s" id="updateScoreBtn">✅ Обновить</button>
-<button class="btn btn-d" id="resetScoreBtn">🔄 Сброс</button>
+<button class="btn btn-s" id="updateScoreBtn">Обновить</button>
+<button class="btn btn-quiet" id="resetScoreBtn">Сброс</button>
+<button class="btn btn-quiet" id="scoreOverrideBtn" hidden>Исправить вручную</button>
 </div>
 </div>
-<div class="card"><h3>⏱️ Таймер</h3>
+<div class="card live-card clock-card" data-control="clock"><div class="card-title"><h3>Таймер</h3><span class="source-badge" data-source-key="clock"></span></div>
 <div class="tm-st"><span id="tm-ind" class="ind"></span><span id="tm-txt" class="txt">Остановлен</span></div>
 <div class="btns">
-<button class="btn btn-s" id="timerStartBtn">▶️ Старт</button>
-<button class="btn btn-w" id="timerPauseBtn">⏸️ Пауза</button>
-<button class="btn btn-d" id="timerResetBtn">🔄 Сброс</button>
+<button class="btn btn-s" id="timerStartBtn">Старт</button>
+<button class="btn btn-w" id="timerPauseBtn">Пауза</button>
+<button class="btn btn-quiet" id="timerResetBtn">Сброс</button>
 </div>
 </div>
-<div class="card"><h3>📍 Тайм</h3>
+<div class="card live-card period-card" data-control="period"><div class="card-title"><h3>Тайм</h3><span class="source-badge" data-source-key="period"></span></div>
 <div class="fld"><select id="adm-p">
 <option value="1 ТАЙМ">1 ТАЙМ</option>
 <option value="2 ТАЙМ">2 ТАЙМ</option>
@@ -1322,954 +1930,30 @@ animation: pulse 1s infinite;
 <option value="ДОП. ТАЙМ">ДОП. ТАЙМ</option>
 <option value="ПЕНАЛЬТИ">ПЕНАЛЬТИ</option>
 </select></div>
-<button class="btn btn-p" id="updatePeriodBtn">✅ Обновить</button>
+<button class="btn btn-p" id="updatePeriodBtn">Применить</button>
 </div>
-<div class="card"><h3>⚡ Быстрые действия</h3>
+<div class="card live-card goal-control-card" data-control="goals"><div class="card-title"><h3>Гол</h3><span class="source-badge" data-source-key="goals"></span></div>
 <div class="btns">
-<button class="btn btn-s" id="goalLegionBtn">👤 ГОЛ ЛЕГИОН</button>
-<button class="btn btn-d" id="goalOpponentBtn">⚽ ГОЛ СОПЕРНИК</button>
+<button class="btn btn-s" id="goalLegionBtn">Гол Легион</button>
+<button class="btn btn-d" id="goalOpponentBtn">Гол соперника</button>
 </div>
+<div class="preview-row"><button class="btn btn-quiet" id="goal-preview-btn">Показать пример</button><label class="switch"><input type="checkbox" id="goal-card-chk"><span></span>Карточка гола</label></div>
 </div>
-<div class="card"><h3>📺 Заставки</h3>
+<details class="card settings-card intro-settings"><summary><span>Заставки</span><span class="summary-note">начало тайма</span></summary>
 <div class="btns">
-<button class="btn btn-p" id="showIntro1Btn">🎬 1 ТАЙМ</button>
-<button class="btn btn-p" id="showIntro2Btn">🎬 2 ТАЙМ</button>
+<button class="btn btn-p" id="showIntro1Btn">1 тайм</button>
+<button class="btn btn-p" id="showIntro2Btn">2 тайм</button>
 </div>
+</details>
+<details class="card settings-card roster-settings"><summary><span>Состав</span><span class="source-badge" id="roster-count">Не загружен</span></summary>
+<p class="mode-help">Составы Green и Blue уже встроены. Импорт CSV/JSON нужен только для ручного обновления выбранной команды.</p>
+<label class="btn btn-p file-btn">Импорт CSV / JSON<input type="file" id="roster-file" accept=".csv,.json,text/csv,application/json"></label>
+</details>
 </div>
-</div>
-<div class="admin-footer">
-<p>Сделал li-sits-in. Болеем за наших! <span id="version-display"></span></p>
 </div>
 </div>
 <div id="toast" class="toast">✓ Сохранено!</div>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getDatabase, ref, set, onValue, update, get, runTransaction, onDisconnect } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAFb-yJaI7WJFcTx_wAFmSngupHqUNai1I",
-  authDomain: "scoreboard-6d34c.firebaseapp.com",
-  databaseURL: "https://scoreboard-6d34c-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "scoreboard-6d34c",
-  storageBucket: "scoreboard-6d34c.firebasestorage.app",
-  messagingSenderId: "11785107743",
-  appId: "1:11785107743:web:a8faa98d6aaf4462dd582a"
-};
-
-const LEGION_LOGO = "https://raw.githubusercontent.com/e-lis777/scoreboard/213ce1bfda11bdec1bc83000326fcc9d9e350d33/data/legion-logo.svg";
-const PLAYERS_JSON_URL = "https://raw.githubusercontent.com/e-lis777/scoreboard/main/data/players.json";
-const DEFAULT_OPPONENT_LOGO = "https://static.vecteezy.com/system/resources/thumbnails/035/225/612/small_2x/ai-generated-soccer-ball-on-transparent-background-free-png.png";
-const DB_KEY = 'legion_match_v1';
-const ADMIN = new URLSearchParams(window.location.search).get('admin') === 'true';
-const DEBUG = new URLSearchParams(window.location.search).get('debug') === 'true';
-const VERSION = "3.2.2"; // Исправлены ошибки из анализа
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-// ===== БЛОКИРОВКА АДМИНКИ =====
-const SESSION_ID = Math.random().toString(36).substring(2) + Date.now();
-const LOCK_REF = ref(db, 'adminLock');
-const LOCK_TIMEOUT = 30000; // 30 секунд
-const LOCK_RENEW_INTERVAL = 3000; // обновление каждые 3 секунды
-
-let isLockOwner = false;
-let lockInterval = null;
-
-async function acquireAdminLock() {
-  try {
-    const result = await runTransaction(LOCK_REF, (currentLock) => {
-      if (!currentLock || (Date.now() - currentLock.timestamp > LOCK_TIMEOUT)) {
-        return { active: true, sessionId: SESSION_ID, timestamp: Date.now() };
-      } else {
-        throw new Error('LOCKED');
-      }
-    });
-    console.log('✅ Блокировка админки захвачена', result);
-    isLockOwner = true;
-    onDisconnect(LOCK_REF).set(null);
-    return true;
-  } catch (error) {
-    if (error.message === 'LOCKED') {
-      console.warn('⚠️ Админка уже открыта в другом окне');
-      return false;
-    }
-    console.error('❌ Ошибка при захвате блокировки:', error);
-    return false;
-  }
-}
-
-async function releaseAdminLock() {
-  if (!isLockOwner) return;
-  try {
-    const snapshot = await get(LOCK_REF);
-    const lock = snapshot.val();
-    if (lock && lock.sessionId === SESSION_ID) {
-      await set(LOCK_REF, null);
-      console.log('🔓 Блокировка админки освобождена');
-      isLockOwner = false;
-    }
-  } catch (error) {
-    console.error('Ошибка при освобождении блокировки:', error);
-  }
-}
-
-async function checkLock() {
-  if (!isLockOwner) return false;
-  try {
-    const snapshot = await get(LOCK_REF);
-    const lock = snapshot.val();
-    const stillOwner = lock && lock.sessionId === SESSION_ID;
-    if (!stillOwner) {
-      isLockOwner = false;
-      // Останавливаем таймер, если он работал, так как блокировка потеряна
-      if (timerUpdateInterval) {
-        stopTimerUpdate();
-      }
-      return false;
-    }
-    return true;
-  } catch (error) {
-    console.error('Ошибка проверки блокировки:', error);
-    return false;
-  }
-}
-
-async function withLock(action) {
-  if (!(await checkLock())) {
-    toast('❌ Управление заблокировано другим окном. Обновите страницу.', 'error');
-    return false;
-  }
-  try {
-    const result = await action();
-    return result;
-  } catch (error) {
-    console.error('Ошибка в withLock:', error);
-    toast('❌ Ошибка выполнения. Попробуйте снова.', 'error');
-    return false;
-  }
-}
-
-window.addEventListener('beforeunload', () => {
-  if (lockInterval) clearInterval(lockInterval);
-  releaseAdminLock();
-});
-
-// ===== СОСТОЯНИЕ ПРИЛОЖЕНИЯ =====
-let state = {
-  opponentName: 'СОПЕРНИК',
-  opponentLogo: '',
-  legionScore: 0,
-  opponentScore: 0,
-  timer: { running: false, elapsed: 0 },
-  period: '1 ТАЙМ',
-  designVariant: 3,
-  colorTheme: 'green',
-  logoAnimEnabled: true,
-  goals: []
-};
-
-let currentTimerSeconds = 0;
-let timerUpdateInterval = null;
-let players = [];
-
-// ===== ЭЛЕМЕНТЫ DOM =====
-const elements = {
-  v1: { lh: document.getElementById('v1-lh'), la: document.getElementById('v1-la'), nh: document.getElementById('v1-nh'), na: document.getElementById('v1-na'), sh: document.getElementById('v1-sh'), sa: document.getElementById('v1-sa'), p: document.getElementById('v1-p'), t: document.getElementById('v1-t') },
-  v2: { lh: document.getElementById('v2-lh'), la: document.getElementById('v2-la'), nh: document.getElementById('v2-nh'), na: document.getElementById('v2-na'), sh: document.getElementById('v2-sh'), sa: document.getElementById('v2-sa'), p: document.getElementById('v2-p'), t: document.getElementById('v2-t') },
-  v3: { lh: document.getElementById('v3-lh'), la: document.getElementById('v3-la'), nh: document.getElementById('v3-nh'), na: document.getElementById('v3-na'), sh: document.getElementById('v3-sh'), sa: document.getElementById('v3-sa'), p: document.getElementById('v3-p'), t: document.getElementById('v3-t') },
-  admin: {
-    na: document.getElementById('adm-na'),
-    la: document.getElementById('adm-la'),
-    sh: document.getElementById('adm-sh'),
-    sa: document.getElementById('adm-sa'),
-    p: document.getElementById('adm-p'),
-    animChk: document.getElementById('anim-chk'),
-    varBtns: document.querySelectorAll('.var-btn'),
-    colBtns: document.querySelectorAll('.col-btn'),
-    tmInd: document.getElementById('tm-ind'),
-    tmTxt: document.getElementById('tm-txt')
-  },
-  sbV1: document.getElementById('sb-v1'),
-  sbV2: document.getElementById('sb-v2'),
-  sbV3: document.getElementById('sb-v3'),
-  goalAnim: document.getElementById('goal-anim'),
-  logoAnim: document.getElementById('logo-anim'),
-  toast: document.getElementById('toast'),
-  goalCard: document.getElementById('goal-card'),
-  goalCardLogo: document.getElementById('goal-card-logo'),
-  goalLastname: document.getElementById('goal-lastname'),
-  goalNumber: document.getElementById('goal-number'),
-  goalPosition: document.getElementById('goal-position'),
-  goalMinuteDisplay: document.getElementById('goal-minute-display'),
-  goalModal: document.getElementById('goal-modal'),
-  scorerButtons: document.getElementById('scorer-buttons'),
-  versionDisplay: document.getElementById('version-display'),
-  debugInfo: document.getElementById('debug-info'),
-  introOverlay: document.getElementById('intro-overlay'),
-  introLogoHome: document.getElementById('intro-logo-home'),
-  introLogoAway: document.getElementById('intro-logo-away'),
-  introNameHome: document.getElementById('intro-name-home'),
-  introNameAway: document.getElementById('intro-name-away'),
-  introDate: document.getElementById('intro-date'),
-  introTime: document.getElementById('intro-time'),
-  introPeriod: document.getElementById('intro-period')
-  // introGoalInfo удалён, так как не используется в HTML
-};
-
-if (elements.versionDisplay) {
-  elements.versionDisplay.textContent = `v${VERSION}`;
-}
-
-function updateDebugInfo() {
-  if (!DEBUG || !elements.debugInfo) return;
-  elements.debugInfo.innerHTML = `v${VERSION} | timer: ${currentTimerSeconds}s | running: ${state.timer.running} | goals: ${state.goals.length}`;
-  elements.debugInfo.classList.add('visible');
-}
-
-function updateRealTime() {
-  const now = new Date();
-  const day = String(now.getDate()).padStart(2, '0');
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const year = now.getFullYear();
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  if (elements.introDate) elements.introDate.textContent = `${day}.${month}.${year}`;
-  if (elements.introTime) elements.introTime.textContent = `${hours}:${minutes}`;
-}
-
-// ===== ФУНКЦИЯ ПОКАЗА ЗАСТАВКИ =====
-function showIntro(period) {
-  if (!elements.introOverlay) return;
-
-  const overlay = elements.introOverlay;
-  const card = overlay.querySelector('.intro-card');
-  const teamsContainer = card.querySelector('.intro-teams');
-  const homeTeam = card.querySelector('.intro-team.home');
-  const awayTeam = card.querySelector('.intro-team.away');
-  const footer = card.querySelector('.intro-footer');
-
-  // Удаляем временные элементы для второго тайма
-  const oldHalfTitle = card.querySelector('.intro-half-title');
-  const oldNamesContainer = card.querySelector('.intro-names');
-  if (oldHalfTitle) oldHalfTitle.remove();
-  if (oldNamesContainer) oldNamesContainer.remove();
-
-  // Восстанавливаем исходные названия
-  if (!homeTeam.querySelector('.intro-name')) {
-    const homeName = document.createElement('span');
-    homeName.id = 'intro-name-home';
-    homeName.className = 'intro-name';
-    homeName.textContent = 'ЛЕГИОН';
-    homeTeam.appendChild(homeName);
-  }
-  if (!awayTeam.querySelector('.intro-name')) {
-    const awayName = document.createElement('span');
-    awayName.id = 'intro-name-away';
-    awayName.className = 'intro-name';
-    awayName.textContent = state.opponentName;
-    awayTeam.appendChild(awayName);
-  }
-
-  const homeNameElem = document.getElementById('intro-name-home');
-  const awayNameElem = document.getElementById('intro-name-away');
-  if (homeNameElem) homeNameElem.textContent = 'ЛЕГИОН';
-  if (awayNameElem) awayNameElem.textContent = state.opponentName;
-
-  elements.introLogoHome.src = LEGION_LOGO;
-  elements.introLogoAway.src = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
-
-  overlay.classList.remove('intro-first-half', 'intro-second-half');
-
-  if (period === '1 ТАЙМ') {
-    overlay.classList.add('intro-first-half');
-    if (footer) {
-      footer.style.display = '';
-      const footerBadge = footer.querySelector('.intro-period-badge');
-      if (footerBadge) footerBadge.classList.add('hidden');
-    }
-  } else if (period === '2 ТАЙМ') {
-    overlay.classList.add('intro-second-half');
-    if (footer) footer.style.display = 'none';
-
-    const homeName = homeTeam.querySelector('.intro-name');
-    const awayName = awayTeam.querySelector('.intro-name');
-    if (homeName) homeName.remove();
-    if (awayName) awayName.remove();
-
-    const halfTitle = document.createElement('div');
-    halfTitle.className = 'intro-half-title';
-    halfTitle.textContent = period;
-    card.insertBefore(halfTitle, teamsContainer.nextSibling);
-
-    const namesContainer = document.createElement('div');
-    namesContainer.className = 'intro-names';
-
-    const homeNameItem = document.createElement('div');
-    homeNameItem.className = 'intro-name-item';
-    homeNameItem.textContent = 'ЛЕГИОН';
-
-    const awayNameItem = document.createElement('div');
-    awayNameItem.className = 'intro-name-item';
-    awayNameItem.textContent = state.opponentName;
-
-    namesContainer.appendChild(homeNameItem);
-    namesContainer.appendChild(awayNameItem);
-    card.insertBefore(namesContainer, halfTitle.nextSibling);
-  }
-
-  updateRealTime();
-  overlay.classList.add('show');
-  setTimeout(() => overlay.classList.remove('show'), 7000);
-}
-
-// ===== ЗАГРУЗКА ИГРОКОВ =====
-async function loadPlayers() {
-  try {
-    const response = await fetch(PLAYERS_JSON_URL);
-    if (!response.ok) throw new Error('Ошибка загрузки players.json');
-    players = await response.json();
-    const positionOrder = { 'ЛН':1, 'ЦН':2, 'ПН':3, 'ПЗ':4, 'ЦП':5, 'ЛЗ':6, 'ЦЗ':7, 'ГК':8 };
-    players.sort((a, b) => {
-      const orderA = positionOrder[a.position] || 99;
-      const orderB = positionOrder[b.position] || 99;
-      if (orderA !== orderB) return orderA - orderB;
-      return a.number - b.number;
-    });
-    console.log('✅ Игроки загружены');
-  } catch (e) {
-    console.error('❌ Ошибка загрузки игроков:', e);
-    players = []; // fallback
-    toast('❌ Ошибка загрузки игроков', 'error');
-  }
-}
-
-function openGoalModal() {
-  if (!players.length) {
-    toast('Список игроков не загружен', 'error');
-    return;
-  }
-  if (!elements.goalModal.classList.contains('hidden')) return;
-  elements.goalModal.classList.remove('hidden');
-}
-
-function selectScorerAndGoal(player) {
-  withLock(async () => {
-    state.legionScore++;
-    if (elements.admin.sh) elements.admin.sh.value = state.legionScore;
-    if (!state.goals) state.goals = [];
-    const goalData = {
-      team: 'legion',
-      number: player.number,
-      lastName: player.lastName.toUpperCase(),
-      minute: Math.floor(currentTimerSeconds / 60)
-    };
-    state.goals.push(goalData);
-    await update(ref(db, DB_KEY), {
-      legionScore: state.legionScore,
-      goals: state.goals
-    });
-    const animData = { time: Date.now(), team: 'legion' };
-    await set(ref(db, 'goal_trigger'), animData);
-    setTimeout(() => {
-      const liveGoalData = {
-        team: 'legion',
-        scorer: {
-          lastName: player.lastName,
-          number: player.number,
-          position: player.position
-        },
-        minute: Math.floor(currentTimerSeconds / 60),
-        timestamp: Date.now()
-      };
-      set(ref(db, 'live_goal'), liveGoalData)
-        .then(() => setTimeout(() => set(ref(db, 'live_goal'), null), 8000))
-        .catch(console.error);
-    }, 2000);
-    elements.goalModal.classList.add('hidden');
-    toast('⚽ Гол!');
-  });
-}
-
-function goalWithoutPlayerFromModal() {
-  withLock(async () => {
-    state.legionScore++;
-    if (elements.admin.sh) elements.admin.sh.value = state.legionScore;
-    if (!state.goals) state.goals = [];
-    state.goals.push({
-      team: 'legion',
-      minute: Math.floor(currentTimerSeconds / 60)
-    });
-    await update(ref(db, DB_KEY), {
-      legionScore: state.legionScore,
-      goals: state.goals
-    });
-    const animData = { time: Date.now(), team: 'legion' };
-    await set(ref(db, 'goal_trigger'), animData);
-    elements.goalModal.classList.add('hidden');
-    toast('⚽ Гол!');
-  });
-}
-
-function renderPlayerButtons() {
-  if (!elements.scorerButtons) return;
-  elements.scorerButtons.innerHTML = '';
-  players.forEach(player => {
-    const btn = document.createElement('button');
-    btn.className = 'player-btn';
-    btn.innerHTML = `
-      <span class="player-number-badge">${player.number}</span>
-      <span>${player.shortName}</span>
-    `;
-    btn.addEventListener('click', () => selectScorerAndGoal(player));
-    elements.scorerButtons.appendChild(btn);
-  });
-}
-
-// ===== СЛУШАТЕЛЬ ИЗМЕНЕНИЙ В FIREBASE =====
-const dataRef = ref(db, DB_KEY);
-onValue(dataRef, (snapshot) => {
-  const data = snapshot.val();
-  if (!data) return;
-
-  if (data.timer === undefined && data.timerSeconds !== undefined) {
-    state.timer = {
-      running: data.timerRunning || false,
-      elapsed: data.timerSeconds || 0
-    };
-  } else {
-    state.timer = data.timer || { running: false, elapsed: 0 };
-  }
-  if (state.timer.elapsed < 0) state.timer.elapsed = 0;
-
-  state.opponentName = data.opponentName || 'СОПЕРНИК';
-  state.opponentLogo = data.opponentLogo || '';
-  state.legionScore = data.legionScore || 0;
-  state.opponentScore = data.opponentScore || 0;
-  state.period = data.period || '1 ТАЙМ';
-  state.designVariant = data.designVariant || 3;
-  state.colorTheme = data.colorTheme || 'green';
-  state.logoAnimEnabled = data.logoAnimEnabled !== undefined ? data.logoAnimEnabled : true;
-  state.goals = data.goals || [];
-
-  currentTimerSeconds = state.timer.elapsed;
-
-  if (!ADMIN) {
-    updateAllVariants();
-    updateVisibility();
-    applyColorTheme();
-    updateAnimCheckbox();
-  } else {
-    updateAdminPanel();
-    if (state.timer.running && !timerUpdateInterval) {
-      startTimerUpdate();
-    } else if (!state.timer.running && timerUpdateInterval) {
-      stopTimerUpdate();
-    }
-  }
-  updateTimerDisplay();
-  updateDebugInfo();
-});
-
-// ===== ОБНОВЛЕНИЕ ВСЕХ ВАРИАНТОВ ТАБЛО =====
-function updateAllVariants() {
-  const opponentLogoSrc = state.opponentLogo || DEFAULT_OPPONENT_LOGO;
-  ['v1', 'v2', 'v3'].forEach(v => {
-    if (elements[v].lh) elements[v].lh.src = LEGION_LOGO;
-    if (elements[v].la) elements[v].la.src = opponentLogoSrc;
-    if (elements[v].nh) elements[v].nh.textContent = 'ЛЕГИОН';
-    if (elements[v].na) elements[v].na.textContent = state.opponentName;
-    if (elements[v].sh) elements[v].sh.textContent = state.legionScore;
-    if (elements[v].sa) elements[v].sa.textContent = state.opponentScore;
-    if (elements[v].p) elements[v].p.textContent = state.period;
-    // Не устанавливаем здесь время – только в updateTimerDisplay
-  });
-
-  if (state.opponentLogo === '') {
-    if (elements.v1.la) elements.v1.la.classList.add('away');
-    if (elements.v2.la) elements.v2.la.classList.add('away');
-  } else {
-    if (elements.v1.la) elements.v1.la.classList.remove('away');
-    if (elements.v2.la) elements.v2.la.classList.remove('away');
-  }
-
-  if (state.opponentLogo === '') {
-    if (elements.v3.la) elements.v3.la.classList.add('default-logo');
-  } else {
-    if (elements.v3.la) elements.v3.la.classList.remove('default-logo');
-  }
-
-  updateTimerDisplay(); // вызовем после обновления счёта
-  updateV3Width();
-}
-
-function updateV3Width() {
-  const maxLen = Math.max(7, state.opponentName.length);
-  const stripWidth = Math.min(Math.max(maxLen * 13 + 30, 140), 220);
-  if (elements.sbV3) elements.sbV3.style.setProperty('--strip-width', stripWidth + 'px');
-}
-
-function updateTimerDisplay() {
-  const m = Math.floor(currentTimerSeconds / 60);
-  const s = currentTimerSeconds % 60;
-  const timeStr = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
-  if (elements.v1.t) elements.v1.t.textContent = timeStr;
-  if (elements.v2.t) elements.v2.t.textContent = timeStr;
-  if (elements.v3.t) elements.v3.t.textContent = timeStr;
-
-  const paused = !state.timer.running;
-  if (elements.v1.t) elements.v1.t.classList.toggle('paused', paused);
-  if (elements.v2.t) elements.v2.t.classList.toggle('paused', paused);
-  if (elements.v3.t) elements.v3.t.classList.toggle('paused', paused);
-}
-
-function updateVisibility() {
-  if (elements.sbV1) elements.sbV1.classList.toggle('hide', state.designVariant !== 1);
-  if (elements.sbV2) elements.sbV2.classList.toggle('hide', state.designVariant !== 2);
-  if (elements.sbV3) elements.sbV3.classList.toggle('hide', state.designVariant !== 3);
-}
-
-function applyColorTheme() {
-  document.body.classList.forEach(cls => {
-    if (cls.startsWith('theme-')) document.body.classList.remove(cls);
-  });
-  document.body.classList.add('theme-' + state.colorTheme);
-  if (elements.sbV3) {
-    elements.sbV3.className = elements.sbV3.className.replace(/theme-\w+/, '').trim();
-    elements.sbV3.classList.add('theme-' + state.colorTheme);
-  }
-}
-
-function updateAdminPanel() {
-  // Не обновляем поля, если они в фокусе (чтобы не сбрасывать ввод)
-  if (document.activeElement !== elements.admin.na && elements.admin.na) {
-    elements.admin.na.value = state.opponentName;
-  }
-  if (document.activeElement !== elements.admin.la && elements.admin.la) {
-    elements.admin.la.value = state.opponentLogo;
-  }
-  if (document.activeElement !== elements.admin.p && elements.admin.p) {
-    elements.admin.p.value = state.period;
-  }
-  if (elements.admin.sh) elements.admin.sh.value = state.legionScore;
-  if (elements.admin.sa) elements.admin.sa.value = state.opponentScore;
-  if (elements.admin.animChk) elements.admin.animChk.checked = state.logoAnimEnabled;
-
-  if (elements.admin.varBtns) {
-    elements.admin.varBtns.forEach((btn, i) => {
-      btn.classList.toggle('act', i + 1 === state.designVariant);
-    });
-  }
-  if (elements.admin.colBtns) {
-    elements.admin.colBtns.forEach(btn => {
-      btn.classList.toggle('act', btn.dataset.color === state.colorTheme);
-    });
-  }
-
-  if (state.timer.running) {
-    if (elements.admin.tmInd) elements.admin.tmInd.classList.add('run');
-    if (elements.admin.tmTxt) elements.admin.tmTxt.textContent = 'Запущен';
-  } else {
-    if (elements.admin.tmInd) elements.admin.tmInd.classList.remove('run');
-    if (elements.admin.tmTxt) elements.admin.tmTxt.textContent = 'Остановлен';
-  }
-}
-
-function updateAnimCheckbox() {
-  if (elements.admin.animChk) {
-    elements.admin.animChk.checked = state.logoAnimEnabled;
-  }
-}
-
-// ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
-function validateImageUrl(url) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => resolve(true);
-    img.onerror = () => resolve(false);
-    img.src = url;
-  });
-}
-
-function toast(msg, type = 'success') {
-  if (!elements.toast) return;
-  if (typeof msg === 'string') elements.toast.textContent = msg;
-  elements.toast.classList.remove('error');
-  if (type === 'error') elements.toast.classList.add('error');
-  elements.toast.classList.add('show');
-  setTimeout(() => elements.toast.classList.remove('show'), 2000);
-}
-
-// ===== ДЕЙСТВИЯ С БЛОКИРОВКОЙ =====
-function setVariant(variant) {
-  withLock(async () => {
-    if (state.designVariant === variant) return;
-    state.designVariant = variant;
-    await update(ref(db, DB_KEY), { designVariant: variant });
-    toast('Вариант изменён');
-  });
-}
-
-function setColor(color) {
-  withLock(async () => {
-    if (state.colorTheme === color) return;
-    state.colorTheme = color;
-    await update(ref(db, DB_KEY), { colorTheme: color });
-    toast('Тема изменена');
-  });
-}
-
-function toggleAnim() {
-  withLock(async () => {
-    state.logoAnimEnabled = elements.admin.animChk.checked;
-    await update(ref(db, DB_KEY), { logoAnimEnabled: state.logoAnimEnabled });
-    toast('Анимация лого ' + (state.logoAnimEnabled ? 'включена' : 'выключена'));
-  });
-}
-
-async function saveOpponent() {
-  const newName = elements.admin.na.value || 'СОПЕРНИК';
-  const newLogo = elements.admin.la.value;
-
-  if (newLogo) {
-    const valid = await validateImageUrl(newLogo);
-    if (!valid) {
-      toast('Неверный URL логотипа', 'error');
-      return;
-    }
-  }
-
-  await withLock(async () => {
-    state.opponentName = newName;
-    state.opponentLogo = newLogo || '';
-    await update(ref(db, DB_KEY), { opponentName: newName, opponentLogo: newLogo || '' });
-    toast('Соперник сохранён');
-  });
-}
-
-function updateScore() {
-  withLock(async () => {
-    state.legionScore = Math.max(0, parseInt(elements.admin.sh.value) || 0);
-    state.opponentScore = Math.max(0, parseInt(elements.admin.sa.value) || 0);
-    if (elements.admin.sh) elements.admin.sh.value = state.legionScore;
-    if (elements.admin.sa) elements.admin.sa.value = state.opponentScore;
-    await update(ref(db, DB_KEY), { legionScore: state.legionScore, opponentScore: state.opponentScore });
-    toast('Счёт обновлён');
-  });
-}
-
-function resetScore() {
-  withLock(async () => {
-    state.legionScore = 0;
-    state.opponentScore = 0;
-    state.goals = [];
-    if (elements.admin.sh) elements.admin.sh.value = 0;
-    if (elements.admin.sa) elements.admin.sa.value = 0;
-    await update(ref(db, DB_KEY), { legionScore: 0, opponentScore: 0, goals: [] });
-    toast('Счёт сброшен');
-  });
-}
-
-function triggerGoal(team = null) {
-  const goalData = { time: Date.now(), team: team };
-  set(ref(db, 'goal_trigger'), goalData)
-    .then(() => setTimeout(() => set(ref(db, 'goal_trigger'), null), 2000))
-    .catch(console.error);
-}
-
-function quickGoal(team) {
-  if (team === 'legion') {
-    openGoalModal();
-  } else {
-    withLock(async () => {
-      state.opponentScore++;
-      if (elements.admin.sa) elements.admin.sa.value = state.opponentScore;
-      await update(ref(db, DB_KEY), { opponentScore: state.opponentScore });
-      triggerGoal(team);
-      toast('Гол соперника');
-    });
-  }
-}
-
-function startTimerUpdate() {
-  if (timerUpdateInterval) clearInterval(timerUpdateInterval);
-  timerUpdateInterval = setInterval(() => {
-    // Обновляем время только если мы владеем блокировкой
-    if (!isLockOwner) return;
-
-    const newElapsed = state.timer.elapsed + 1;
-    update(ref(db, DB_KEY), {
-      timer: { running: true, elapsed: newElapsed }
-    }).catch(console.error);
-    state.timer.elapsed = newElapsed;
-    currentTimerSeconds = newElapsed;
-    updateTimerDisplay();
-    updateAdminPanel();
-  }, 1000);
-}
-
-function stopTimerUpdate() {
-  if (timerUpdateInterval) {
-    clearInterval(timerUpdateInterval);
-    timerUpdateInterval = null;
-  }
-}
-
-function timerPause() {
-  withLock(async () => {
-    if (!state.timer.running) return;
-    stopTimerUpdate();
-    await update(ref(db, DB_KEY), {
-      timer: { running: false, elapsed: state.timer.elapsed }
-    });
-    toast('Таймер остановлен');
-  });
-}
-
-function timerStart() {
-  withLock(async () => {
-    if (state.timer.running) return;
-    startTimerUpdate();
-    await update(ref(db, DB_KEY), {
-      timer: { running: true, elapsed: state.timer.elapsed }
-    });
-    toast('Таймер запущен');
-  });
-}
-
-function timerReset() {
-  withLock(async () => {
-    stopTimerUpdate();
-    await update(ref(db, DB_KEY), {
-      timer: { running: false, elapsed: 0 }
-    });
-    toast('Таймер сброшен');
-  });
-}
-
-function updatePeriod() {
-  withLock(async () => {
-    const newPeriod = elements.admin.p.value;
-    state.period = newPeriod;
-
-    if (newPeriod === 'ПЕРЕРЫВ' && state.timer.running) {
-      stopTimerUpdate();
-      state.timer.running = false;
-      await update(ref(db, DB_KEY), {
-        period: newPeriod,
-        timer: { running: false, elapsed: state.timer.elapsed }
-      });
-    } else {
-      await update(ref(db, DB_KEY), { period: newPeriod });
-    }
-    toast('Период обновлён');
-  });
-}
-
-// ===== СЛУШАТЕЛИ АНИМАЦИЙ И ТРИГГЕРОВ =====
-onValue(ref(db, 'goal_trigger'), (snapshot) => {
-  const trigger = snapshot.val();
-  if (!trigger || ADMIN) return;
-  const now = Date.now();
-  if (trigger.time && now - trigger.time > 10000) return;
-  if (elements.goalAnim) {
-    elements.goalAnim.classList.add('active');
-    setTimeout(() => elements.goalAnim.classList.remove('active'), 1500);
-  }
-  if (trigger.team === 'legion' && state.logoAnimEnabled && elements.logoAnim) {
-    elements.logoAnim.classList.remove('active');
-    setTimeout(() => elements.logoAnim.classList.add('active'), 50);
-    setTimeout(() => elements.logoAnim.classList.remove('active'), 1600);
-  }
-});
-
-onValue(ref(db, 'live_goal'), (snapshot) => {
-  const goal = snapshot.val();
-  if (!goal || ADMIN) return;
-  const now = Date.now();
-  if (goal.timestamp && now - goal.timestamp > 10000) return;
-  showGoalCard(goal);
-});
-
-function showGoalCard(goal) {
-  if (!goal || goal.team !== 'legion') return;
-  // Очищаем предыдущий таймаут
-  if (window.goalCardTimeout) {
-    clearTimeout(window.goalCardTimeout);
-    window.goalCardTimeout = null;
-  }
-  // Заполняем данные с проверкой наличия scorer
-  if (elements.goalLastname) {
-    elements.goalLastname.textContent = goal.scorer ? goal.scorer.lastName.toUpperCase() : 'НЕИЗВЕСТЕН';
-  }
-  if (elements.goalNumber) {
-    elements.goalNumber.textContent = goal.scorer ? goal.scorer.number : '-';
-  }
-  if (elements.goalPosition) {
-    if (goal.scorer && goal.scorer.position) {
-      elements.goalPosition.textContent = goal.scorer.position;
-      elements.goalPosition.style.display = 'inline-block';
-    } else {
-      elements.goalPosition.style.display = 'none';
-    }
-  }
-  if (elements.goalMinuteDisplay) {
-    elements.goalMinuteDisplay.textContent = `${goal.minute}'`;
-  }
-  if (elements.goalCard) {
-    elements.goalCard.classList.remove('hidden');
-    setTimeout(() => elements.goalCard.classList.add('show'), 10);
-    window.goalCardTimeout = setTimeout(() => {
-      if (elements.goalCard) {
-        elements.goalCard.classList.remove('show');
-        setTimeout(() => elements.goalCard.classList.add('hidden'), 400);
-      }
-      window.goalCardTimeout = null;
-    }, 5000);
-  }
-}
-
-onValue(ref(db, 'intro_trigger'), (snapshot) => {
-  const trigger = snapshot.val();
-  if (!trigger || ADMIN) return;
-  const now = Date.now();
-  if (trigger.time && now - trigger.time > 10000) return;
-  if (trigger.type === 'first_half') showIntro('1 ТАЙМ');
-  else if (trigger.type === 'second_half') showIntro('2 ТАЙМ');
-  setTimeout(() => set(ref(db, 'intro_trigger'), null).catch(console.error), 500);
-});
-
-// Сброс триггеров при загрузке
-set(ref(db, 'goal_trigger'), null).catch(() => {});
-set(ref(db, 'live_goal'), null).catch(() => {});
-set(ref(db, 'intro_trigger'), null).catch(() => {});
-
-// ===== ИНИЦИАЛИЗАЦИЯ =====
-if (ADMIN) {
-  (async () => {
-    const lockAcquired = await acquireAdminLock();
-    if (!lockAcquired) {
-      if (elements.sbV1) elements.sbV1.classList.add('hide');
-      if (elements.sbV2) elements.sbV2.classList.add('hide');
-      if (elements.sbV3) elements.sbV3.classList.add('hide');
-      const adminDiv = document.getElementById('admin');
-      if (adminDiv) adminDiv.classList.remove('hide');
-
-      const warning = document.createElement('div');
-      warning.style.cssText = 'position:fixed; top:0; left:0; width:100%; background:red; color:white; text-align:center; padding:20px; font-size:24px; z-index:10001;';
-      warning.textContent = 'Админка уже открыта в другом окне. Режим только для чтения.';
-      if (adminDiv) adminDiv.prepend(warning);
-
-      document.querySelectorAll('.fld input, .fld select, .btn, .chk input').forEach(el => {
-        el.disabled = true;
-      });
-      return;
-    }
-
-    if (elements.sbV1) elements.sbV1.classList.add('hide');
-    if (elements.sbV2) elements.sbV2.classList.add('hide');
-    if (elements.sbV3) elements.sbV3.classList.add('hide');
-    const adminDiv = document.getElementById('admin');
-    if (adminDiv) adminDiv.classList.remove('hide');
-
-    lockInterval = setInterval(async () => {
-      if (await checkLock()) {
-        await update(LOCK_REF, { timestamp: Date.now() });
-      }
-    }, LOCK_RENEW_INTERVAL);
-
-    await loadPlayers();
-    renderPlayerButtons();
-
-    document.querySelectorAll('.var-btn').forEach(btn => {
-      btn.addEventListener('click', () => setVariant(parseInt(btn.dataset.variant)));
-    });
-    document.querySelectorAll('.col-btn').forEach(btn => {
-      btn.addEventListener('click', () => setColor(btn.dataset.color));
-    });
-    const animChk = document.getElementById('anim-chk');
-    if (animChk) animChk.addEventListener('change', toggleAnim);
-    const saveBtn = document.getElementById('saveOpponentBtn');
-    if (saveBtn) saveBtn.addEventListener('click', saveOpponent);
-    const updateScoreBtn = document.getElementById('updateScoreBtn');
-    if (updateScoreBtn) updateScoreBtn.addEventListener('click', updateScore);
-    const resetScoreBtn = document.getElementById('resetScoreBtn');
-    if (resetScoreBtn) resetScoreBtn.addEventListener('click', resetScore);
-    const timerStartBtn = document.getElementById('timerStartBtn');
-    if (timerStartBtn) timerStartBtn.addEventListener('click', timerStart);
-    const timerPauseBtn = document.getElementById('timerPauseBtn');
-    if (timerPauseBtn) timerPauseBtn.addEventListener('click', timerPause);
-    const timerResetBtn = document.getElementById('timerResetBtn');
-    if (timerResetBtn) timerResetBtn.addEventListener('click', timerReset);
-    const updatePeriodBtn = document.getElementById('updatePeriodBtn');
-    if (updatePeriodBtn) updatePeriodBtn.addEventListener('click', updatePeriod);
-    const goalLegionBtn = document.getElementById('goalLegionBtn');
-    if (goalLegionBtn) goalLegionBtn.addEventListener('click', () => quickGoal('legion'));
-    const goalOpponentBtn = document.getElementById('goalOpponentBtn');
-    if (goalOpponentBtn) goalOpponentBtn.addEventListener('click', () => quickGoal('opponent'));
-    const showIntro1Btn = document.getElementById('showIntro1Btn');
-    if (showIntro1Btn) {
-      showIntro1Btn.addEventListener('click', () => {
-        set(ref(db, 'intro_trigger'), { type: 'first_half', time: Date.now() })
-          .then(() => toast('Сигнал на заставку 1 тайма отправлен'))
-          .catch(() => toast('❌ Ошибка отправки', 'error'));
-      });
-    }
-    const showIntro2Btn = document.getElementById('showIntro2Btn');
-    if (showIntro2Btn) {
-      showIntro2Btn.addEventListener('click', () => {
-        set(ref(db, 'intro_trigger'), { type: 'second_half', time: Date.now() })
-          .then(() => toast('Сигнал на заставку 2 тайма отправлен'))
-          .catch(() => toast('❌ Ошибка отправки', 'error'));
-      });
-    }
-
-    if (elements.goalModal) {
-      elements.goalModal.addEventListener('click', (e) => {
-        if (e.target === elements.goalModal) elements.goalModal.classList.add('hidden');
-      });
-    }
-
-    setInterval(updateRealTime, 60000);
-    updateRealTime();
-    updateAdminPanel();
-  })();
-} else {
-  if (elements.goalAnim) elements.goalAnim.classList.remove('active');
-  if (elements.logoAnim) elements.logoAnim.classList.remove('active');
-  if (elements.goalCard) elements.goalCard.classList.add('hidden');
-  updateAllVariants();
-  updateVisibility();
-  applyColorTheme();
-  setInterval(updateRealTime, 60000);
-  updateRealTime();
-}
-
-// Экспорт для глобального доступа (для onclick в HTML)
-window.goalWithoutPlayerFromModal = goalWithoutPlayerFromModal;
-
-window.addEventListener('beforeunload', () => {
-  if (timerUpdateInterval) clearInterval(timerUpdateInterval);
-});
-</script>
-<script>
-(function finalCleanup() {
-  document.addEventListener('DOMContentLoaded', function() {
-    const body = document.body;
-    const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, {
-      acceptNode: function(node) {
-        if (node.parentNode === body && node.textContent.trim() !== '') {
-          return NodeFilter.FILTER_ACCEPT;
-        }
-        return NodeFilter.FILTER_SKIP;
-      }
-    });
-    while (walker.nextNode()) {
-      walker.currentNode.remove();
-    }
-  });
-})();
-</script>
+<script type="module" src="./src/app.js"></script>
+<script type="module" src="./src/admin-ui.js"></script>
 </body>
 </html>
-```

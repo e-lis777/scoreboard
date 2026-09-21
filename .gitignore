@@ -1,0 +1,10 @@
+.firebase/
+.cf-dist/
+firebase-debug.log
+node_modules/
+.env
+.env.*
+!.env.example
+server/local-auth.json
+
+.vercel

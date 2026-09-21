@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#274c3c"/>
+      <stop offset="1" stop-color="#0b1220"/>
+    </linearGradient>
+    <linearGradient id="shirt" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#4ade80"/>
+      <stop offset="1" stop-color="#15803d"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="500" fill="url(#bg)"/>
+  <circle cx="200" cy="155" r="78" fill="#d4a47c"/>
+  <path d="M122 151c0-76 39-113 83-113 53 0 88 42 82 118-21-28-50-42-91-40-30 2-55 14-74 35z" fill="#28231f"/>
+  <path d="M58 500c10-157 67-235 142-235s132 78 142 235z" fill="url(#shirt)"/>
+  <path d="M170 272l30 46 30-46 30 17-60 89-60-89z" fill="#f8fafc" opacity=".9"/>
+  <text x="200" y="455" text-anchor="middle" fill="#fff" font-family="Arial Black,Arial" font-size="84" font-weight="900">10</text>
+</svg>

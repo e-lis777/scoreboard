@@ -1,0 +1,26 @@
+/* Reserve two lines without moving the score, logos or canvas. */
+.sc-v1-name,.sc-v2-name,.sc-v3-name {
+  white-space:normal;
+  text-wrap:balance;
+  overflow-wrap:anywhere;
+  text-align:center;
+  line-height:1.15;
+  min-width:0;
+  flex-shrink:1;
+}
+.sc-v1-name {width:160px;max-width:100%;overflow:visible;text-overflow:clip}
+.sc-v2-name {width:170px;max-width:170px}
+.sc-v2-score-sec {position:relative}
+.sc-v2-score-sec>.sc-v2-timer {
+  position:absolute;
+  top:100%;
+  left:50%;
+  width:max-content;
+  margin-top:2px;
+  transform:translateX(-50%) skewX(8deg);
+  z-index:4;
+}
+.sc-v2-score-sec>.sc-v2-timer .time,
+.sc-v2-score-sec>.sc-v2-timer .period {transform:none}
+.sc-v3-name {max-width:calc(var(--strip-width,180px) - 16px);padding:2px 4px}
+.team-name-line {display:block;white-space:nowrap}

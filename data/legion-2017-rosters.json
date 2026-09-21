@@ -1,0 +1,23 @@
+{
+  "updatedAt": "2026-09-21",
+  "source": "Kimberly team requests",
+  "teams": {
+    "17986": [
+      {"id":68597,"number":18,"firstName":"Мухаммадюсуф","lastName":"Мамаджанов","position":"ЦН","photoUrl":"https://api.kimberly-cup.ru/media/67479/image_picker_18C30B51-D3B4-4567-BE5D-5B1CA37CE35E-2640-000000FA0968458E.jpg"},
+      {"id":64981,"number":28,"firstName":"Егор","lastName":"Коляка","position":"ЦН","photoUrl":"https://api.kimberly-cup.ru/media/54969/1000017427.jpg"},
+      {"id":57921,"number":12,"firstName":"Савелий","lastName":"Волончук","position":"ПЗ","photoUrl":"https://api.kimberly-cup.ru/media/38443/1000159332.jpg"},
+      {"id":57675,"number":17,"firstName":"Никита","lastName":"Афоничкин","position":"ЦП","photoUrl":"https://api.kimberly-cup.ru/media/38148/image_picker_5AB6061F-C72F-4DF1-9D3F-01F57FE9D2BC-6384-000003F1FDDE8C69.jpg"},
+      {"id":57655,"number":10,"firstName":"Федор","lastName":"Ильчинский","position":"ГК","photoUrl":"https://api.kimberly-cup.ru/media/38135/IMG_20251030_202744.jpg"},
+      {"id":57982,"number":6,"firstName":"Михаил","lastName":"Захарцов","position":"ПН","photoUrl":"https://api.kimberly-cup.ru/media/38574/1000067692.jpg"},
+      {"id":56403,"number":22,"firstName":"Ерванд","lastName":"Чаракчян","position":"ПН","photoUrl":"https://api.kimberly-cup.ru/media/38537/1000029298.jpg"},
+      {"id":56635,"number":35,"firstName":"Даниил","lastName":"Лисицин","position":"ПН","photoUrl":"https://api.kimberly-cup.ru/media/38567/1000436986.jpg"}
+    ],
+    "17987": [
+      {"id":68597,"number":18,"firstName":"Мухаммадюсуф","lastName":"Мамаджанов","position":"ЦОП","photoUrl":"https://api.kimberly-cup.ru/media/67479/image_picker_18C30B51-D3B4-4567-BE5D-5B1CA37CE35E-2640-000000FA0968458E.jpg"},
+      {"id":64981,"number":28,"firstName":"Егор","lastName":"Коляка","position":"ЦН","photoUrl":"https://api.kimberly-cup.ru/media/54969/1000017427.jpg"},
+      {"id":57921,"number":12,"firstName":"Савелий","lastName":"Волончук","position":"ПЗ","photoUrl":"https://api.kimberly-cup.ru/media/38443/1000159332.jpg"},
+      {"id":57675,"number":17,"firstName":"Никита","lastName":"Афоничкин","position":"ЦП","photoUrl":"https://api.kimberly-cup.ru/media/38148/image_picker_5AB6061F-C72F-4DF1-9D3F-01F57FE9D2BC-6384-000003F1FDDE8C69.jpg"},
+      {"id":57655,"number":10,"firstName":"Федор","lastName":"Ильчинский","position":"ГК","photoUrl":"https://api.kimberly-cup.ru/media/38135/IMG_20251030_202744.jpg"}
+    ]
+  }
+}

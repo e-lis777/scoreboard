@@ -1,0 +1,14 @@
+{
+  "name": "legion-scoreboard",
+  "version": "4.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.mjs",
+    "test": "node --test",
+    "build:cloudflare": "node scripts/build-cloudflare.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

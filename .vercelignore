@@ -1,0 +1,5 @@
+android/
+test/
+server/
+.git/
+node_modules/

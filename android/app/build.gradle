@@ -1,0 +1,16 @@
+plugins { id 'com.android.application' }
+def privateConfig = new Properties()
+def privateFile = rootProject.file('local.properties')
+if (privateFile.exists()) privateFile.withInputStream { privateConfig.load(it) }
+def adminUrl = privateConfig.getProperty('admin.url', '')
+if (!adminUrl.startsWith('https://scoreboard-eight-lime.vercel.app/control/')) throw new GradleException('Set admin.url in local.properties')
+android {
+    namespace 'ru.legion.scoreboard'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'ru.legion.scoreboard'; minSdk 26; targetSdk 35; versionCode 3; versionName '1.2'
+        buildConfigField 'String', 'ADMIN_URL', '"' + adminUrl.replace('\\', '\\\\').replace('"', '\\"') + '"'
+    }
+    buildFeatures { buildConfig true }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}
