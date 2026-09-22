@@ -1,7 +1,7 @@
 import {database,hasSession} from '../lib/firebase-rest.js';
 import {syncMatch} from '../lib/match-sync.js';
 const paths=new Set(['legion_match_v1','live_goal','intro_trigger']);
-const fields=new Set(['opponentName','opponentLogo','legionScore','opponentScore','timer','period','designVariant','overlayPosition','colorTheme','customColor','goalCardEnabled','larixAudioEnabled','goals','dataMode','kimberly','manualOverrides']);
+const fields=new Set(['opponentName','opponentLogo','legionScore','opponentScore','timer','period','designVariant','overlayPosition','colorTheme','customColor','goalCardEnabled','goals','dataMode','kimberly','manualOverrides']);
 export default async function handler(req,res) {
   res.setHeader('Cache-Control','no-store');
   try {
