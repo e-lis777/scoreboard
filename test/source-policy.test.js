@@ -32,4 +32,5 @@ test('bundled Green and Blue rosters are available on every operator device', as
   assert.equal(book.teams['17986'].length, 8);
   assert.equal(book.teams['17987'].length, 5);
   assert.equal(book.teams['17986'].find(player => player.id === 56635).lastName, 'Лисицин');
+  assert.match(book.teams['17986'].find(player => player.id === 56635).photoUrl, /67653\/1000494812\.jpg$/);
 });
