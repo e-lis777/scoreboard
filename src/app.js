@@ -863,17 +863,24 @@ function adjustScore(side, delta) {
 function previewGoalCard() {
   const player = players.find(item => Number(item.id) === 56635)
     || players.find(item => item.lastName === 'Лисицин' && item.firstName === 'Даниил')
-    || players.find(item => item.photoUrl)
-    || players[0];
+    || {
+      id: 56635,
+      firstName: 'Даниил',
+      lastName: 'Лисицин',
+      number: 35,
+      position: 'ПН',
+      photoUrl: 'https://api.kimberly-cup.ru/media/67653/1000494812.jpg',
+      photoPosition: '50% 18%'
+    };
   showGoalCard({
     team: 'legion',
-    scorer: player ? {
+    scorer: {
       lastName: player.lastName || player.shortName || 'Игрок',
       number: player.number,
       position: player.position,
       photoUrl: player.photoUrl || './data/player-placeholder.svg',
       photoPosition: player.photoPosition || '50% 16%'
-    } : null,
+    },
     minute: Math.floor(currentTimerSeconds / 60)
   }, { preview: true });
 }
