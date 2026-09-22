@@ -20,7 +20,12 @@ test('sanitizes values received from the public overlay state', () => {
   assert.equal(state.designVariant, 3);
   assert.equal(state.colorTheme, 'green');
   assert.equal(state.timer.running, false);
+  assert.equal(state.larixAudioEnabled, true);
   assert.equal(state.goals[0].minute, 12);
+});
+
+test('allows Larix overlay music to be disabled', () => {
+  assert.equal(sanitizeRemoteState({ larixAudioEnabled: false }, {}).larixAudioEnabled, false);
 });
 
 test('migrates the legacy timer shape', () => {

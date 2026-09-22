@@ -1,6 +1,12 @@
 import {larixView,formatCountdown} from './larix-model.js';
 const params=new URLSearchParams(location.search);const mode=params.get('mode')==='pause'?'pause':'standby';
 const el=id=>document.getElementById(id);let latest=null,serverOffset=0;
+const audio=el('standby-audio');let audioWanted=false;
+function syncAudio(){
+  if(!audio)return;
+  if(!audioWanted){audio.pause();audio.currentTime=0;return;}
+  if(audio.paused)audio.play().catch(()=>{});
+}
 function image(node,src,fallback){
   const next=src||fallback;
   if(node.getAttribute('src')===next)return;
@@ -8,6 +14,7 @@ function image(node,src,fallback){
 }
 function render(){
   if(!latest)return;const view=larixView(latest,mode,Date.now()+serverOffset);
+  audioWanted=latest.larixAudioEnabled!==false;syncAudio();
   document.body.dataset.mode=mode;document.body.dataset.score=String(view.showScore);
   el('status').textContent=view.heading;el('substatus').textContent=view.subheading;
   el('home-name').textContent=view.legionName;el('away-name').textContent=view.opponentName;
@@ -24,4 +31,4 @@ async function poll(){
   catch{document.body.classList.add('ready');el('connection').hidden=false;}
   setTimeout(poll,2000);
 }
-setInterval(render,1000);poll();
+document.addEventListener('visibilitychange',syncAudio);setInterval(render,1000);poll();

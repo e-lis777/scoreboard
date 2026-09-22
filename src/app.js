@@ -131,6 +131,7 @@ let state = {
   colorTheme: 'green',
   customColor: '#185c47',
   goalCardEnabled: true,
+  larixAudioEnabled: true,
   goals: [],
   dataMode: MATCH_MODES.MANUAL,
   manualOverrides: { score: false, opponent: false },
@@ -160,6 +161,7 @@ const elements = {
     sa: document.getElementById('adm-sa'),
     p: document.getElementById('adm-p'),
     goalCardChk: document.getElementById('goal-card-chk'),
+    larixAudioChk: document.getElementById('larix-audio-chk'),
     customColor: document.getElementById('custom-color'),
     varBtns: document.querySelectorAll('.var-btn[data-variant]'),
     colBtns: document.querySelectorAll('.col-btn'),
@@ -555,6 +557,7 @@ function updateAdminPanel() {
   if (!adminDraft.scoreDirty && elements.admin.sh) elements.admin.sh.value = state.legionScore;
   if (!adminDraft.scoreDirty && elements.admin.sa) elements.admin.sa.value = state.opponentScore;
   if (elements.admin.goalCardChk) elements.admin.goalCardChk.checked = state.goalCardEnabled;
+  if (elements.admin.larixAudioChk) elements.admin.larixAudioChk.checked = state.larixAudioEnabled;
   updateGoalCardAvailability();
   if (elements.admin.customColor && document.activeElement !== elements.admin.customColor) {
     elements.admin.customColor.value = state.customColor || '#185c47';
@@ -789,6 +792,14 @@ function toggleGoalCard() {
     state.goalCardEnabled = elements.admin.goalCardChk.checked;
     await update(ref(db, DB_KEY), { goalCardEnabled: state.goalCardEnabled });
     toast('Карточка гола ' + (state.goalCardEnabled ? 'включена' : 'выключена'));
+  });
+}
+
+function toggleLarixAudio() {
+  withLock(async () => {
+    state.larixAudioEnabled = elements.admin.larixAudioChk.checked;
+    await update(ref(db, DB_KEY), { larixAudioEnabled: state.larixAudioEnabled });
+    toast('Музыка на заставках ' + (state.larixAudioEnabled ? 'включена' : 'выключена'));
   });
 }
 
@@ -1095,6 +1106,7 @@ function bindAdminEvents() {
     adminDraft.opponentDirty = true;
   }));
   elements.admin.goalCardChk?.addEventListener('change', toggleGoalCard);
+  elements.admin.larixAudioChk?.addEventListener('change', toggleLarixAudio);
   elements.admin.customColor?.addEventListener('input', event => setCustomColor(event.target.value));
   document.getElementById('saveOpponentBtn')?.addEventListener('click', saveOpponent);
   document.getElementById('opponentOverrideBtn')?.addEventListener('click', () => toggleManualOverride('opponent'));

@@ -69,6 +69,7 @@ export function sanitizeRemoteState(data, fallback) {
     colorTheme: THEMES.has(source.colorTheme) ? source.colorTheme : 'green',
     customColor: /^#[0-9a-f]{6}$/i.test(source.customColor) ? source.customColor : '#185c47',
     goalCardEnabled: source.goalCardEnabled ?? source.logoAnimEnabled ?? true,
+    larixAudioEnabled: source.larixAudioEnabled !== false,
     goals: (Array.isArray(source.goals) ? source.goals : []).slice(-100).map(goal).filter(Boolean),
     dataMode,
     manualOverrides: {
