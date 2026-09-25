@@ -1718,7 +1718,7 @@ body:has(.admin:not(.hide)) { overflow: hidden; position: fixed; }
 }
 </style>
 <link rel="stylesheet" href="./src/admin-ui.css?v=20260925-8">
-<link rel="stylesheet" href="./src/admin-mobile.css?v=20260925-10">
+<link rel="stylesheet" href="./src/admin-mobile.css?v=20260925-11">
 <link rel="stylesheet" href="./src/team-names.css">
 </head>
 <body>
@@ -1917,8 +1917,7 @@ body:has(.admin:not(.hide)) { overflow: hidden; position: fixed; }
 <button class="btn btn-quiet" id="scoreOverrideBtn" hidden>Исправить вручную</button>
 </div>
 </div>
-<div class="card live-card clock-card" data-control="clock"><div class="card-title"><h3>Таймер</h3><span class="source-badge" data-source-key="clock"></span></div>
-<div class="tm-st"><span id="tm-ind" class="ind"></span><span id="tm-txt" class="txt">Остановлен</span></div>
+<div class="card live-card clock-card" data-control="clock"><div class="card-title"><div class="timer-title-row"><h3>Таймер</h3><div class="tm-st"><span id="tm-ind" class="ind"></span><span id="tm-txt" class="txt">Остановлен</span></div></div><span class="source-badge" data-source-key="clock"></span></div>
 <div class="btns">
 <button class="btn btn-s" id="timerStartBtn">Старт</button>
 <button class="btn btn-w" id="timerPauseBtn">Пауза</button>
