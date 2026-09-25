@@ -76,7 +76,7 @@
 .admin .card h3,.admin .settings-card>summary{font-size:15px}
 .admin .source-badge{font-size:11px;line-height:1.2;max-width:48%}
 .admin .card-title .source-badge{height:28px;min-height:28px;padding:2px 10px 0;align-items:center;justify-content:center;line-height:1}
-.admin .goal-control-card .card-title .source-badge{display:inline-block;height:28px;min-height:28px;padding:0 10px;line-height:28px;text-align:center;vertical-align:middle}
+.admin .goal-control-card .card-title .source-badge{display:inline-flex;height:28px;min-height:28px;padding:0 10px 3px;align-items:center;justify-content:center;line-height:1;text-align:center;vertical-align:middle}
 .admin .admin-content[data-mode^="kimberly"] .score-card{padding-top:10px;padding-bottom:10px}
 .admin .admin-content[data-mode^="kimberly"] .score-card .card-title{margin-bottom:3px}
 .admin .admin-content[data-mode^="kimberly"] .score-team{grid-template-rows:36px 30px 40px;gap:0}
