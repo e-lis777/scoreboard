@@ -1,6 +1,6 @@
 /* Admin only: no changes to the broadcast canvas or its artwork. */
 .admin .admin-toolbar .theme-toggle {position:relative;display:grid;place-items:center;width:48px;min-width:48px;height:48px;min-height:48px;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--surface);box-shadow:none;color:var(--text);overflow:hidden}
-.admin .theme-toggle .theme-toggle-icon {display:grid;place-items:center;width:24px;height:24px;font-size:19px;line-height:24px;color:var(--text)}
+.admin .theme-toggle .theme-toggle-icon {position:absolute;inset:0;display:grid;place-items:center;width:auto;height:auto;font-size:19px;line-height:1;color:var(--text);transform:translateY(-1px);text-align:center}
 .admin .theme-toggle .theme-toggle-icon:last-child,.admin .theme-toggle .theme-toggle-knob {display:none}
 .admin.admin-light .theme-toggle .theme-toggle-icon:first-child {display:none}
 .admin.admin-light .theme-toggle .theme-toggle-icon:last-child {display:grid;color:var(--text)}
