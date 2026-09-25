@@ -722,8 +722,11 @@ async function saveDataMode() {
     state.kimberly = teamId === state.kimberly.teamId
       ? {...state.kimberly, lastSyncAt:null, leaseAt:0, error:null}
       : { teamId: teamId || DEFAULT_TEAM_ID, gameId: null, status: 'idle', lastSyncAt: null, error: null };
+    if (mode !== MATCH_MODES.MANUAL && [17986,17987].includes(teamId)) {
+      state.colorTheme = teamId === 17987 ? 'blue' : 'green';
+    }
     state.manualOverrides = {score:false,opponent:false};
-    await update(ref(db, DB_KEY), { dataMode: mode, kimberly: state.kimberly, manualOverrides:state.manualOverrides });
+    await update(ref(db, DB_KEY), { dataMode: mode, kimberly: state.kimberly, colorTheme:state.colorTheme, manualOverrides:state.manualOverrides });
     adminDraft.mode = null;
     adminDraft.kimberlyDirty = false;
     updateAdminPanel();

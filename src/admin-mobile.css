@@ -12,6 +12,10 @@
 .admin .fixture strong,.admin .fixture small{display:block;line-height:1.4}
 .admin .fixture small{font-size:12px;color:var(--muted);margin-top:4px}
 .admin .fixture[aria-pressed=true]{border-color:var(--ui-accent)}
+.admin .match-picker>summary{font-size:14px}
+.admin .match-picker>.mode-help{font-size:12px;line-height:1.45}
+.admin .match-picker>.btn{font-size:13px;min-height:42px}
+.admin .fixture-list{font-size:13px;line-height:1.45;color:var(--muted)}
 .admin {box-sizing:border-box;width:100%;min-width:0;padding:12px 12px calc(78px + env(safe-area-inset-bottom));overflow-x:hidden;scroll-padding-bottom:90px}
 .admin *, .admin *::before, .admin *::after {box-sizing:border-box}
 .admin .admin-head {min-height:44px;padding:0;margin-bottom:4px;gap:8px;align-items:center}
@@ -28,15 +32,16 @@
 .admin .card h3,.admin .settings-card>summary {font-size:14px;margin:0}
 .admin .source-badge {font-size:12px;line-height:1.35;max-width:65%}
 .admin .score-in {grid-template-columns:minmax(0,1fr) 16px minmax(0,1fr);gap:4px;align-items:end}
-.admin .score-team {display:grid;grid-template-rows:44px 34px 52px;justify-items:center;min-width:0;gap:3px}
-.admin .operator-crest {width:44px;height:44px;margin:0;object-fit:contain}
-.admin .score-team>label {margin:0;font-size:12px;line-height:16px;letter-spacing:0;align-self:center;text-align:center;overflow-wrap:anywhere;max-width:100%}
+.admin .score-card{padding-top:12px;padding-bottom:12px}
+.admin .score-team {display:grid;grid-template-rows:40px 32px 46px;justify-items:center;min-width:0;gap:2px}
+.admin .operator-crest {width:40px;height:40px;margin:0;object-fit:contain}
+.admin .score-team>label {display:-webkit-box;margin:0;max-width:100%;height:32px;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;align-self:center;text-align:center;overflow-wrap:anywhere;font-size:11px;line-height:15px;letter-spacing:0}
 .admin .score-control {width:100%;grid-template-columns:36px minmax(0,1fr) 36px;gap:0;align-items:center}
-.admin .score-control input {grid-column:2;width:100%;height:52px;padding:0;text-align:center;font-size:40px;line-height:normal;letter-spacing:0;font-variant-numeric:tabular-nums;opacity:1;-webkit-text-fill-color:var(--text)}
+.admin .score-control input {grid-column:2;width:100%;height:46px;padding:0;text-align:center;font-size:36px;line-height:normal;letter-spacing:0;font-variant-numeric:tabular-nums;opacity:1;-webkit-text-fill-color:var(--text)}
 .admin .score-step {width:36px;height:44px;min-height:44px;padding:0}
 .admin .admin-content[data-mode^="kimberly"] .score-control {grid-template-columns:1fr}
 .admin .admin-content[data-mode^="kimberly"] .score-control input {grid-column:1}
-.admin .score-in .sep {height:52px;line-height:52px;padding:0;font-size:24px;align-self:end}
+.admin .score-in .sep {height:46px;line-height:46px;padding:0;font-size:22px;align-self:end}
 .operator-match-status {margin:8px 0 0;padding-top:8px;border-top:1px solid var(--line);font-size:12px;line-height:1.45;color:var(--muted)}
 .admin .btns {margin-top:10px;gap:8px}
 .admin .btn {font-size:14px;padding:10px 12px;min-height:44px}
@@ -74,7 +79,8 @@
 .admin .roster-settings{overflow:hidden}
 .admin .roster-settings .mode-help{display:block;margin:0;padding:0 0 16px;line-height:1.55}
 .admin .roster-settings .file-btn{display:flex;position:relative;clear:both;width:max-content;max-width:100%;margin:0;overflow-wrap:anywhere}
-.admin .appearance-section .preview-row{display:flex;flex-wrap:wrap;gap:8px}
-.admin .appearance-section .preview-row .btn{margin-left:auto}
+.admin .appearance-section .preview-row{display:flex;flex-wrap:nowrap;gap:8px}
+.admin .appearance-section .preview-row .switch{min-width:0;white-space:nowrap}
+.admin .appearance-section .preview-row .btn{flex:0 0 auto;margin-left:auto}
 @media(max-width:340px){.admin .admin-head h1{font-size:18px}.admin .source-badge{max-width:52%;font-size:10px}}
 @media(max-width:420px){.admin .admin-head>div:first-child{display:grid;gap:3px}.admin .operator-connection{max-width:125px;padding:2px 0;border:0;background:none}}
