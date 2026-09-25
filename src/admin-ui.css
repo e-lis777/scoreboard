@@ -20,6 +20,7 @@
 .admin .operator-nav button{font-size:14px}
 .admin .operator-settings{width:44px;height:44px}
 .admin .source-badge{display:inline-flex;align-items:center;justify-content:center;height:28px;min-height:28px;padding:0 10px;white-space:nowrap;text-align:center;font-size:11px;line-height:1}
+.admin .source-badge:empty{display:none}
 .admin .mode-choice strong{display:block;font-size:14px;line-height:1.25;font-weight:700}
 .admin .mode-choice small{font-size:12px;line-height:1.35}
 .admin .var-btn{font-size:13px}
@@ -31,8 +32,10 @@
 .admin .appearance-section .preview-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin:0;align-items:center}
 .admin .appearance-section .preview-row .switch{min-width:0;min-height:40px;margin:0;white-space:nowrap}
 .admin .appearance-section .preview-row .btn{min-height:40px;padding:7px 11px;margin:0;font-size:12px}
-.admin .admin-head>div:first-child{display:flex;align-items:center;gap:9px;min-width:0}
-.admin .operator-connection{display:inline-flex;flex:0 0 auto;align-items:center;gap:6px;width:auto;max-width:none;margin:0;padding:4px 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:11px;line-height:1.2;white-space:nowrap}
+.admin .admin-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;column-gap:10px}
+.admin .admin-head>div:first-child{min-width:0}
+.admin .admin-toolbar{align-self:start;display:flex;align-items:center;gap:6px}
+.admin .operator-connection{grid-column:1/-1;display:inline-flex;justify-self:start;align-items:center;gap:6px;width:auto;max-width:100%;margin:2px 0 0;padding:4px 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:11px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .admin .operator-connection::before{content:"";flex:0 0 auto;width:7px;height:7px;border-radius:50%;background:#f2b84b}
 .admin .operator-connection[data-state="online"]::before{background:#55d98d}
 .admin .operator-connection[data-state="offline"]::before{background:#f06472}

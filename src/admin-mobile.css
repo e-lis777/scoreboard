@@ -1,11 +1,9 @@
 /* Admin only: no changes to the broadcast canvas or its artwork. */
-.admin .admin-toolbar .theme-toggle {position:relative;display:flex;align-items:center;justify-content:space-between;width:72px;min-width:72px;height:44px;min-height:44px;padding:0 10px;border:1px solid var(--line);border-radius:22px;background:var(--surface);box-shadow:none;color:var(--muted);overflow:hidden}
-.admin .theme-toggle .theme-toggle-icon {display:grid;place-items:center;width:20px;height:20px;font-size:17px;line-height:20px;z-index:2;color:var(--muted)}
-.admin .theme-toggle .theme-toggle-knob {position:absolute;top:5px;left:5px;width:32px;height:32px;border-radius:50%;background:var(--soft);box-shadow:none;transform:translateX(28px);transition:transform .18s ease}
-.admin .theme-toggle .theme-toggle-icon:last-child {color:var(--text)}
-.admin.admin-light .theme-toggle .theme-toggle-knob {transform:translateX(0);background:var(--soft);box-shadow:none}
-.admin.admin-light .theme-toggle .theme-toggle-icon:first-child {color:var(--text)}
-.admin.admin-light .theme-toggle .theme-toggle-icon:last-child {color:var(--muted)}
+.admin .admin-toolbar .theme-toggle {position:relative;display:grid;place-items:center;width:48px;min-width:48px;height:48px;min-height:48px;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--surface);box-shadow:none;color:var(--text);overflow:hidden}
+.admin .theme-toggle .theme-toggle-icon {display:grid;place-items:center;width:24px;height:24px;font-size:19px;line-height:24px;color:var(--text)}
+.admin .theme-toggle .theme-toggle-icon:last-child,.admin .theme-toggle .theme-toggle-knob {display:none}
+.admin.admin-light .theme-toggle .theme-toggle-icon:first-child {display:none}
+.admin.admin-light .theme-toggle .theme-toggle-icon:last-child {display:grid;color:var(--text)}
 @media(prefers-reduced-motion:reduce){.admin .theme-toggle .theme-toggle-knob{transition:none}}
 .admin .fixture-list{display:grid;gap:8px;margin-top:10px}
 .admin .fixture{text-align:left;white-space:normal;background:var(--soft);color:var(--text);border:1px solid var(--line)}
@@ -18,11 +16,11 @@
 .admin .fixture-list{font-size:13px;line-height:1.45;color:var(--muted)}
 .admin {box-sizing:border-box;width:100%;min-width:0;padding:12px 12px calc(78px + env(safe-area-inset-bottom));overflow-x:hidden;scroll-padding-bottom:90px}
 .admin *, .admin *::before, .admin *::after {box-sizing:border-box}
-.admin .admin-head {min-height:44px;padding:0;margin-bottom:4px;gap:8px;align-items:center}
+.admin .admin-head {min-height:44px;padding:0;margin-bottom:4px;gap:6px 10px;align-items:start}
 .admin .admin-head h1 {font-size:19px;letter-spacing:-.4px}
 .admin .admin-head p {display:none}
-.admin .admin-toolbar {flex-shrink:0;gap:8px}
-.admin .operator-settings,.admin .theme-toggle {min-width:44px;min-height:44px}
+.admin .admin-toolbar {flex-shrink:0;gap:6px}
+.admin .operator-settings{width:48px;height:48px;min-width:48px;min-height:48px}
 .operator-connection {font-size:11px;line-height:16px;color:var(--muted)}
 .admin .operator-heading {font-size:22px;margin:8px 0 14px}
 .admin [hidden] {display:none!important}
@@ -83,4 +81,4 @@
 .admin .appearance-section .preview-row .switch{min-width:0;white-space:nowrap}
 .admin .appearance-section .preview-row .btn{margin:0}
 @media(max-width:340px){.admin .admin-head h1{font-size:18px}.admin .source-badge{max-width:52%;font-size:10px}}
-@media(max-width:420px){.admin .admin-head>div:first-child{display:grid;gap:3px}.admin .operator-connection{max-width:none;padding:2px 0;border:0;background:none}}
+@media(max-width:420px){.admin .operator-connection{width:auto;max-width:100%;padding:2px 0;border:0;background:none;overflow:hidden;text-overflow:ellipsis}.admin .admin-toolbar{padding-top:1px}}
