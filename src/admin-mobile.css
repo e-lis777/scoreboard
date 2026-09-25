@@ -1,6 +1,7 @@
 /* Admin only: no changes to the broadcast canvas or its artwork. */
 .admin .admin-toolbar .theme-toggle {position:relative;display:grid;place-items:center;width:48px;min-width:48px;height:48px;min-height:48px;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--surface);box-shadow:none;color:var(--text);overflow:hidden}
-.admin .theme-toggle .theme-toggle-icon {position:absolute;inset:0;display:grid;place-items:center;width:auto;height:auto;font-size:19px;line-height:1;color:var(--text);transform:translateY(-1px);text-align:center}
+.admin .theme-toggle .theme-toggle-icon {position:absolute;inset:0;display:grid;place-items:center;width:auto;height:auto;line-height:1;color:var(--text);text-align:center}
+.admin .theme-toggle .theme-toggle-icon svg{display:block;width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .admin .theme-toggle .theme-toggle-icon:last-child,.admin .theme-toggle .theme-toggle-knob {display:none}
 .admin.admin-light .theme-toggle .theme-toggle-icon:first-child {display:none}
 .admin.admin-light .theme-toggle .theme-toggle-icon:last-child {display:grid;color:var(--text)}
@@ -14,7 +15,7 @@
 .admin .match-picker>.mode-help{font-size:12px;line-height:1.45}
 .admin .match-picker>.btn{font-size:13px;min-height:42px}
 .admin .fixture-list{font-size:13px;line-height:1.45;color:var(--muted)}
-.admin {box-sizing:border-box;width:100%;min-width:0;padding:12px 12px calc(78px + env(safe-area-inset-bottom));overflow-x:hidden;scroll-padding-bottom:90px}
+.admin {box-sizing:border-box;width:100%;min-width:0;padding:12px 12px calc(78px + env(safe-area-inset-bottom));overflow-x:hidden;scroll-padding-bottom:90px;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
 .admin *, .admin *::before, .admin *::after {box-sizing:border-box}
 .admin .admin-head {min-height:44px;padding:0;margin-bottom:4px;gap:6px 10px;align-items:start}
 .admin .admin-head h1 {font-size:19px;letter-spacing:-.4px}
@@ -36,13 +37,13 @@
 .admin .score-team>label {display:-webkit-box;margin:0;max-width:100%;height:32px;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;align-self:center;text-align:center;overflow-wrap:anywhere;font-size:11px;line-height:15px;letter-spacing:0}
 .admin .score-control {width:100%;grid-template-columns:36px minmax(0,1fr) 36px;gap:0;align-items:center}
 .admin .score-control input {grid-column:2;width:100%;height:46px;padding:0;text-align:center;font-size:36px;line-height:normal;letter-spacing:0;font-variant-numeric:tabular-nums;opacity:1;-webkit-text-fill-color:var(--text)}
-.admin .score-step {width:36px;height:44px;min-height:44px;padding:0}
+.admin .score-step {width:36px;height:48px;min-height:48px;padding:0}
 .admin .admin-content[data-mode^="kimberly"] .score-control {grid-template-columns:1fr}
 .admin .admin-content[data-mode^="kimberly"] .score-control input {grid-column:1}
 .admin .score-in .sep {height:46px;line-height:46px;padding:0;font-size:22px;align-self:end}
 .operator-match-status {margin:8px 0 0;padding-top:8px;border-top:1px solid var(--line);font-size:12px;line-height:1.45;color:var(--muted)}
 .admin .btns {margin-top:10px;gap:8px}
-.admin .btn {font-size:14px;padding:10px 12px;min-height:44px}
+.admin .btn {font-size:14px;padding:10px 12px;min-height:48px}
 .admin .clock-card {display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 8px}
 .admin .clock-card .card-title,.admin .clock-card .btns {grid-column:1/-1}
 .admin .operator-clock {margin:0;font-size:36px;line-height:44px;letter-spacing:-1px}
@@ -52,7 +53,7 @@
 .admin .period-card {display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}
 .admin .period-card .card-title {grid-column:1/-1;margin:0}
 .admin .period-card .fld {margin:0;min-width:0}
-.admin .period-card select {width:100%;height:44px;font-size:14px}
+.admin .period-card select {width:100%;height:48px;font-size:14px}
 .admin .period-card>.btn {margin:0;width:auto}
 .admin .preview-row {display:flex;gap:10px;align-items:center;margin-top:10px}
 .admin .preview-row .switch {min-height:44px;font-size:14px;margin:0}

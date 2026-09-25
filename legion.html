@@ -1717,8 +1717,8 @@ body:has(.admin:not(.hide)) { overflow: hidden; position: fixed; }
   .score-card { min-height: 120px; }
 }
 </style>
-<link rel="stylesheet" href="./src/admin-ui.css?v=20260925-7">
-<link rel="stylesheet" href="./src/admin-mobile.css?v=20260925-9">
+<link rel="stylesheet" href="./src/admin-ui.css?v=20260925-8">
+<link rel="stylesheet" href="./src/admin-mobile.css?v=20260925-10">
 <link rel="stylesheet" href="./src/team-names.css">
 </head>
 <body>
@@ -1853,7 +1853,7 @@ body:has(.admin:not(.hide)) { overflow: hidden; position: fixed; }
 <div><h1><span class="team-name-green">ФК ЛЕГИОН</span></h1><p>Управление плашкой</p></div>
 <div class="admin-toolbar" aria-label="Настройки интерфейса">
 <span class="theme-label" id="admin-theme-label">Тёмная тема</span>
-<button class="theme-toggle" id="admin-theme-toggle" type="button" aria-pressed="false" aria-labelledby="admin-theme-label" title="Переключить светлую и тёмную тему"><span class="theme-toggle-icon" aria-hidden="true">☀</span><span class="theme-toggle-knob" aria-hidden="true"></span><span class="theme-toggle-icon" aria-hidden="true">☾</span></button>
+<button class="theme-toggle" id="admin-theme-toggle" type="button" aria-pressed="false" aria-labelledby="admin-theme-label" title="Переключить светлую и тёмную тему"><span class="theme-toggle-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path></svg></span><span class="theme-toggle-knob" aria-hidden="true"></span><span class="theme-toggle-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20.3 15.2A8.7 8.7 0 0 1 8.8 3.7 8.8 8.8 0 1 0 20.3 15.2Z"></path></svg></span></button>
 </div>
 </div>
 <div id="admin-content" class="admin-content" hidden>
@@ -1876,16 +1876,16 @@ body:has(.admin:not(.hide)) { overflow: hidden; position: fixed; }
 </details>
 <div class="admin-grid">
 <details class="card card-wide settings-card appearance-card"><summary><span>Вид плашки</span><span class="summary-note">стиль · цвет · положение</span></summary>
-<div class="var-sel">
+<div class="var-sel" role="group" aria-label="Стиль плашки">
 <button class="var-btn act" data-variant="1">Компактная<small>крупные эмблемы</small></button>
 <button class="var-btn" data-variant="2">ТВ-панель<small>команды в строку</small></button>
 <button class="var-btn" data-variant="3">Ленточная<small>счёт в центре</small></button>
 </div>
-<div class="var-sel" aria-label="Положение плашки">
+<div class="var-sel" role="group" aria-label="Положение плашки">
 <button class="var-btn position-btn" data-position="left">Слева</button>
 <button class="var-btn position-btn act" data-position="center">По центру</button>
 </div>
-<div class="col-sel">
+<div class="col-sel" role="group" aria-label="Цвет плашки">
 <button class="col-btn col-blue" data-color="blue">Синий</button>
 <button class="col-btn col-orange" data-color="orange">Оранжевый</button>
 <button class="col-btn col-purple" data-color="purple">Фиолетовый</button>
@@ -1957,7 +1957,7 @@ body:has(.admin:not(.hide)) { overflow: hidden; position: fixed; }
 </div>
 </div>
 <div id="toast" class="toast">✓ Сохранено!</div>
-<script type="module" src="./src/app.js?v=20260925-4"></script>
+<script type="module" src="./src/app.js?v=20260925-5"></script>
 <script type="module" src="./src/admin-ui.js?v=20260925-7"></script>
 </body>
 </html>

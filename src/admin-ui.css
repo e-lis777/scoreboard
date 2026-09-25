@@ -43,3 +43,14 @@
 .admin .var-btn{min-width:0;min-height:66px;padding:9px 5px;font-size:clamp(10px,2.5vw,13px);line-height:1.15;overflow:hidden;overflow-wrap:anywhere}
 .admin .var-btn small{font-size:clamp(9px,2.2vw,11px);line-height:1.2;white-space:normal}
 .admin .col-btn,.admin .custom-color{min-width:0;font-size:clamp(9px,2.25vw,11px);line-height:1.15;white-space:nowrap;text-transform:none;overflow:hidden}
+.admin .col-sel{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.admin .col-btn{position:relative;display:flex;align-items:center;justify-content:flex-start;gap:9px;min-height:48px;padding:8px 11px;border:1px solid var(--line)!important;border-radius:12px;background:var(--surface)!important;color:var(--text)!important;font-size:13px;line-height:1.25;text-align:left;overflow:visible}
+.admin .col-btn::before{content:"";flex:0 0 auto;width:18px;height:18px;border-radius:50%;background:var(--swatch);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25),0 0 0 1px rgba(15,23,42,.12)}
+.admin .col-btn::after{content:"";margin-left:auto;width:16px;color:var(--ui-accent);font-size:14px;font-weight:800;text-align:center}
+.admin .col-btn.act{outline:0;box-shadow:inset 0 0 0 2px var(--ui-accent);background:var(--soft)!important}
+.admin .col-btn.act::after{content:"✓"}
+.admin .col-blue{--swatch:#224c92}.admin .col-orange{--swatch:#bb551e}.admin .col-purple{--swatch:#713ea1}.admin .col-silver{--swatch:#78828c}.admin .col-red{--swatch:#b53d49}.admin .col-green{--swatch:#185c47}.admin .col-classic1{--swatch:#1a2440}
+.admin .custom-color{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;padding:8px 11px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);font-size:13px;line-height:1.25;font-weight:600}
+.admin .custom-color input[type="color"]{flex:0 0 auto;width:28px;height:28px;padding:2px;border:1px solid var(--line);border-radius:50%;background:transparent;overflow:hidden}
+.admin .custom-color.act{box-shadow:inset 0 0 0 2px var(--ui-accent);background:var(--soft)}
+.admin.admin-light .col-btn,.admin.admin-light .custom-color{background:#fff!important;color:#20312b!important}

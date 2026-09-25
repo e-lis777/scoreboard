@@ -647,16 +647,23 @@ function updateAdminPanel() {
 
   if (elements.admin.varBtns) {
     elements.admin.varBtns.forEach((btn, i) => {
-      btn.classList.toggle('act', i + 1 === state.designVariant);
+      const selected = i + 1 === state.designVariant;
+      btn.classList.toggle('act', selected);
+      btn.setAttribute('aria-pressed', String(selected));
     });
   }
   if (elements.admin.colBtns) {
     elements.admin.colBtns.forEach(btn => {
-      btn.classList.toggle('act', btn.dataset.color === state.colorTheme);
+      const selected = btn.dataset.color === state.colorTheme;
+      btn.classList.toggle('act', selected);
+      btn.setAttribute('aria-pressed', String(selected));
     });
   }
+  elements.admin.customColor?.closest('.custom-color')?.classList.toggle('act', state.colorTheme === 'custom');
   elements.admin.positionBtns?.forEach(btn => {
-    btn.classList.toggle('act', btn.dataset.position === state.overlayPosition);
+    const selected = btn.dataset.position === state.overlayPosition;
+    btn.classList.toggle('act', selected);
+    btn.setAttribute('aria-pressed', String(selected));
   });
 
   if (state.timer.running) {
