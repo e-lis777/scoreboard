@@ -1717,8 +1717,8 @@ body:has(.admin:not(.hide)) { overflow: hidden; position: fixed; }
   .score-card { min-height: 120px; }
 }
 </style>
-<link rel="stylesheet" href="./src/admin-ui.css">
-<link rel="stylesheet" href="./src/admin-mobile.css">
+<link rel="stylesheet" href="./src/admin-ui.css?v=20260925-3">
+<link rel="stylesheet" href="./src/admin-mobile.css?v=20260925-3">
 <link rel="stylesheet" href="./src/team-names.css">
 </head>
 <body>
@@ -1858,10 +1858,10 @@ body:has(.admin:not(.hide)) { overflow: hidden; position: fixed; }
 </div>
 <div id="admin-content" class="admin-content" hidden>
 <details class="card source-card settings-card" id="source-card" data-source-mode="manual">
-<summary><span>Источник данных</span><span class="source-badge" id="active-mode-label">Ручной</span></summary>
+<summary><span>Управление матчем</span><span class="source-badge" id="active-mode-label">Вручную</span></summary>
 <div class="mode-selector" aria-label="Режим данных">
-<button type="button" class="mode-choice act" data-mode="manual">Ручной<small>всё вручную</small></button>
-<button type="button" class="mode-choice" data-mode="kimberly_full">Kimberly + оператор<small>счёт и голы автоматически</small></button>
+<button type="button" class="mode-choice act" data-mode="manual"><strong>Вручную</strong><small>Счёт, голы и матч ведёт оператор</small></button>
+<button type="button" class="mode-choice" data-mode="kimberly_full"><strong>Автоматически</strong><small>Kimberly: счёт и голы · оператор: таймер и тайм</small></button>
 </div>
 <input type="hidden" id="data-mode" value="manual">
 <div class="kimberly-settings kimberly-only">
@@ -1872,14 +1872,14 @@ body:has(.admin:not(.hide)) { overflow: hidden; position: fixed; }
 <button class="btn btn-s kimberly-only" id="sync-now-btn">Синхронизировать</button>
 </div>
 <div id="sync-status" class="sync-status">Ручное управление</div>
-<p class="mode-help kimberly-only">Kimberly ведёт счёт, соперника и голы. Таймер и тайм всегда управляются вручную.</p>
+<p class="mode-help kimberly-only"><strong>Kimberly</strong> обновляет счёт, соперника и голы. Оператор управляет таймером и таймом.</p>
 </details>
 <div class="admin-grid">
-<details class="card card-wide settings-card appearance-card"><summary><span>Вид плашки</span><span class="summary-note">вариант · цвет · положение</span></summary>
+<details class="card card-wide settings-card appearance-card"><summary><span>Вид плашки</span><span class="summary-note">стиль · цвет · положение</span></summary>
 <div class="var-sel">
-<button class="var-btn act" data-variant="1">В-1<small>Компакт</small></button>
-<button class="var-btn" data-variant="2">В-2<small>TV Style</small></button>
-<button class="var-btn" data-variant="3">В-3<small>Слои</small></button>
+<button class="var-btn act" data-variant="1">Компактная<small>крупные эмблемы</small></button>
+<button class="var-btn" data-variant="2">ТВ-панель<small>команды в строку</small></button>
+<button class="var-btn" data-variant="3">Ленточная<small>счёт в центре</small></button>
 </div>
 <div class="var-sel" aria-label="Положение плашки">
 <button class="var-btn position-btn" data-position="left">Слева</button>
@@ -1894,6 +1894,10 @@ body:has(.admin:not(.hide)) { overflow: hidden; position: fixed; }
 <button class="col-btn col-green" data-color="green">Зелёный</button>
 <button class="col-btn col-classic1" data-color="classic1">Классика 1</button>
 <label class="custom-color">Свой<input type="color" id="custom-color" value="#185c47"></label>
+</div>
+<div class="appearance-section">
+<div class="appearance-section-title">Карточка гола</div>
+<div class="preview-row"><label class="switch"><input type="checkbox" id="goal-card-chk"><span></span>Показывать в эфире</label><button class="btn btn-quiet" id="goal-preview-btn">Предпросмотр</button></div>
 </div>
 </details>
 <details class="card settings-card opponent-card" data-control="opponent"><summary><span>Соперник</span><span class="source-badge" data-source-key="opponent"></span></summary>
@@ -1937,13 +1941,14 @@ body:has(.admin:not(.hide)) { overflow: hidden; position: fixed; }
 <button class="btn btn-s" id="goalLegionBtn">Гол Легион</button>
 <button class="btn btn-d" id="goalOpponentBtn">Гол соперника</button>
 </div>
-<div class="preview-row"><button class="btn btn-quiet" id="goal-preview-btn">Показать пример</button><label class="switch"><input type="checkbox" id="goal-card-chk"><span></span>Карточка гола</label></div>
 </div>
-<details class="card settings-card intro-settings"><summary><span>Заставки</span><span class="summary-note">начало тайма</span></summary>
+<details class="card settings-card intro-settings"><summary><span>Заставки</span><span class="summary-note">до старта таймера</span></summary>
 <div class="btns">
 <button class="btn btn-p" id="showIntro1Btn">1 тайм</button>
 <button class="btn btn-p" id="showIntro2Btn">2 тайм</button>
+<button class="btn btn-quiet" id="hideIntroBtn">Скрыть</button>
 </div>
+<p class="mode-help">Заставка остаётся в эфире и автоматически скрывается при запуске таймера.</p>
 </details>
 <details class="card settings-card roster-settings"><summary><span>Состав</span><span class="source-badge" id="roster-count">Не загружен</span></summary>
 <p class="mode-help">Составы Green и Blue уже встроены. Импорт CSV/JSON нужен только для ручного обновления выбранной команды.</p>
@@ -1953,7 +1958,7 @@ body:has(.admin:not(.hide)) { overflow: hidden; position: fixed; }
 </div>
 </div>
 <div id="toast" class="toast">✓ Сохранено!</div>
-<script type="module" src="./src/app.js?v=20260922-2"></script>
-<script type="module" src="./src/admin-ui.js"></script>
+<script type="module" src="./src/app.js?v=20260925-2"></script>
+<script type="module" src="./src/admin-ui.js?v=20260925-1"></script>
 </body>
 </html>

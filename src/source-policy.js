@@ -29,7 +29,7 @@ export function controlPolicy(mode) {
 }
 
 export function sourceLabel(source) {
-  if (source === 'kimberly') return 'Kimberly';
-  if (source === 'override') return 'Вручную · исправлено';
+  if (source === 'kimberly') return 'Авто';
+  if (source === 'override') return 'Исправлено';
   return 'Вручную';
 }

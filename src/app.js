@@ -239,7 +239,20 @@ function showIntro(period, duration = 7000) {
   overlay.classList.remove('show');
   void overlay.offsetWidth;
   overlay.classList.add('show');
-  setTimeout(() => overlay.classList.remove('show'), duration);
+  if (window.introTimeout) clearTimeout(window.introTimeout);
+  window.introTimeout = null;
+  if (Number.isFinite(duration) && duration > 0) {
+    window.introTimeout = setTimeout(() => {
+      overlay.classList.remove('show');
+      window.introTimeout = null;
+    }, duration);
+  }
+}
+
+function hideIntro() {
+  if (window.introTimeout) clearTimeout(window.introTimeout);
+  window.introTimeout = null;
+  elements.introOverlay?.classList.remove('show');
 }
 
 // ===== ЗАГРУЗКА ИГРОКОВ =====
@@ -573,8 +586,8 @@ function updateAdminPanel() {
   if (elements.adminContent) elements.adminContent.dataset.mode = state.dataMode;
   if (elements.activeModeLabel) {
     elements.activeModeLabel.textContent = state.dataMode === MATCH_MODES.MANUAL
-      ? 'Ручной'
-      : 'Kimberly + оператор';
+      ? 'Вручную'
+      : 'Авто + оператор';
   }
   document.querySelectorAll('[data-source-key]').forEach(badge => {
     const source = policy[badge.dataset.sourceKey] || 'manual';
@@ -950,7 +963,10 @@ function timerStart() {
     state.timer = { running: true, elapsed: getTimerElapsed(), startedAt };
     currentTimerSeconds = state.timer.elapsed;
     startTimerUpdate();
-    await update(ref(db, DB_KEY), { timer: state.timer });
+    await update(ref(db), {
+      [`${DB_KEY}/timer`]: state.timer,
+      intro_trigger: { visible: false, time: Date.now() }
+    });
     toast('Таймер запущен');
   });
 }
@@ -1059,10 +1075,14 @@ function showGoalCard(goal, { preview = false } = {}) {
 onValue(ref(db, 'intro_trigger'), (snapshot) => {
   const trigger = snapshot.val();
   if (!trigger || ADMIN) return;
+  if (trigger.visible === false) {
+    hideIntro();
+    return;
+  }
   const now = Date.now();
   if (trigger.time && now - trigger.time > 10000) return;
-  if (trigger.type === 'first_half') showIntro('1 ТАЙМ');
-  else if (trigger.type === 'second_half') showIntro('2 ТАЙМ');
+  if (trigger.type === 'first_half') showIntro('1 ТАЙМ', null);
+  else if (trigger.type === 'second_half') showIntro('2 ТАЙМ', null);
 });
 
 function bindAdminEvents() {
@@ -1116,13 +1136,18 @@ function bindAdminEvents() {
   elements.rosterInput?.addEventListener('change', event => importRoster(event.target.files?.[0]));
   elements.goalPreviewBtn?.addEventListener('click', previewGoalCard);
   document.getElementById('showIntro1Btn')?.addEventListener('click', () => {
-    set(ref(db, 'intro_trigger'), { type: 'first_half', time: Date.now() })
-      .then(() => toast('Сигнал на заставку 1 тайма отправлен'))
+    set(ref(db, 'intro_trigger'), { type: 'first_half', visible: true, time: Date.now() })
+      .then(() => toast('Заставка 1 тайма включена'))
       .catch(() => toast('Ошибка отправки', 'error'));
   });
   document.getElementById('showIntro2Btn')?.addEventListener('click', () => {
-    set(ref(db, 'intro_trigger'), { type: 'second_half', time: Date.now() })
-      .then(() => toast('Сигнал на заставку 2 тайма отправлен'))
+    set(ref(db, 'intro_trigger'), { type: 'second_half', visible: true, time: Date.now() })
+      .then(() => toast('Заставка 2 тайма включена'))
+      .catch(() => toast('Ошибка отправки', 'error'));
+  });
+  document.getElementById('hideIntroBtn')?.addEventListener('click', () => {
+    set(ref(db, 'intro_trigger'), { visible: false, time: Date.now() })
+      .then(() => toast('Заставка скрыта'))
       .catch(() => toast('Ошибка отправки', 'error'));
   });
   elements.goalModal?.addEventListener('click', event => {
