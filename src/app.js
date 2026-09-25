@@ -1168,6 +1168,10 @@ async function initializeAuthorizedAdmin() {
 async function connectLocalAdmin() {
   try {
     const response = await fetch('/api/match?session=1', { cache: 'no-store' });
+    if (response.status === 401 && navigator.userAgent.includes('LegionAdmin/')) {
+      location.replace('/native-reconnect');
+      return;
+    }
     if (!response.ok) throw new Error('Откройте секретную ссылку входа');
     await initializeAuthorizedAdmin();
   } catch (error) {

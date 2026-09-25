@@ -7,8 +7,12 @@ if (new URLSearchParams(location.search).get('admin') === 'true') {
   connection.className='operator-connection';
   connection.setAttribute('role','status');
   connection.textContent='Подключение…';
-  admin.querySelector('.admin-head').after(connection);
-  window.addEventListener('match-connection',event=>connection.textContent=event.detail==='На связи'?'Сервер подключён':event.detail);
+  admin.querySelector('.admin-head > div:first-child').append(connection);
+  window.addEventListener('match-connection',event=>{
+    const online=event.detail==='На связи'||event.detail==='Сохранено';
+    connection.dataset.state=online?'online':event.detail.includes('Нет связи')||event.detail.includes('Не удалось')?'offline':'pending';
+    connection.textContent=event.detail==='На связи'?'Сервер подключён':event.detail;
+  });
   let wakeLock;
   async function keepAwake() {
     if(document.visibilityState==='visible' && navigator.wakeLock) {
