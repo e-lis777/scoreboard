@@ -1680,6 +1680,19 @@ body.broadcast-output .intro-overlay {
 body.broadcast-output .goal-card {
   position: absolute;
 }
+body.broadcast-output .goal-card .player-photo {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  transition: opacity .18s ease;
+}
+body.broadcast-output .goal-card .player-photo.photo-pending {
+  display: block;
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  body.broadcast-output .goal-card .player-photo { transition: none; }
+}
 
 /* Админка не наследует ограничения эфирного холста: только одна колонка
    на телефоне и никаких элементов, способных вытолкнуть страницу по X. */
@@ -1956,7 +1969,7 @@ body:has(.admin:not(.hide)) { overflow: hidden; position: fixed; }
 </div>
 </div>
 <div id="toast" class="toast">✓ Сохранено!</div>
-<script type="module" src="./src/app.js?v=20260925-5"></script>
+<script type="module" src="./src/app.js?v=20260926-1"></script>
 <script type="module" src="./src/admin-ui.js?v=20260925-7"></script>
 </body>
 </html>

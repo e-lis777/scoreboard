@@ -147,6 +147,9 @@ let currentTimerSeconds = 0;
 let timerUpdateInterval = null;
 let players = [];
 let loadedRosterTeamId = null;
+let loadingRosterTeamId = null;
+let goalPhotoRequestId = 0;
+const goalPhotoCache = new Map();
 
 // ===== ЭЛЕМЕНТЫ DOM =====
 const elements = {
@@ -256,6 +259,54 @@ function hideIntro() {
 }
 
 // ===== ЗАГРУЗКА ИГРОКОВ =====
+function preloadGoalPhoto(value) {
+  const url = safeImageUrl(value);
+  if (!url) return Promise.resolve(false);
+  const cached = goalPhotoCache.get(url);
+  if (cached) return cached.promise;
+
+  const entry = { status: 'loading', promise: null };
+  entry.promise = new Promise(resolve => {
+    const image = new Image();
+    image.decoding = 'async';
+    image.onload = async () => {
+      try { await image.decode?.(); } catch { /* onload is enough for older WebViews */ }
+      entry.status = 'loaded';
+      resolve(true);
+    };
+    image.onerror = () => {
+      entry.status = 'error';
+      goalPhotoCache.delete(url);
+      resolve(false);
+    };
+    image.src = url;
+  });
+  goalPhotoCache.set(url, entry);
+  return entry.promise;
+}
+
+function warmGoalPhotoCache(roster) {
+  const urls = [...new Set((roster || []).map(player => safeImageUrl(player.photoUrl)).filter(Boolean))];
+  const warm = () => urls.forEach(url => { void preloadGoalPhoto(url); });
+  if ('requestIdleCallback' in window) window.requestIdleCallback(warm, { timeout: 1500 });
+  else setTimeout(warm, 0);
+}
+
+function ensureRosterForCurrentTeam() {
+  const rosterTeamId = Number(state.kimberly?.teamId) || DEFAULT_TEAM_ID;
+  if (loadedRosterTeamId === rosterTeamId || loadingRosterTeamId === rosterTeamId) return;
+
+  loadingRosterTeamId = rosterTeamId;
+  loadPlayers().then(() => {
+    if (ADMIN) {
+      renderPlayerButtons();
+      updateGoalCardAvailability();
+    }
+  }).catch(console.error).finally(() => {
+    if (loadingRosterTeamId === rosterTeamId) loadingRosterTeamId = null;
+  });
+}
+
 async function loadPlayers() {
   try {
     const teamId = Number(state.kimberly?.teamId) || 17986;
@@ -278,6 +329,7 @@ async function loadPlayers() {
       if (orderA !== orderB) return orderA - orderB;
       return a.number - b.number;
     });
+    warmGoalPhotoCache(players);
     if (elements.rosterCount) elements.rosterCount.textContent = players.length ? `${players.length} игроков` : 'Не загружен';
   } catch (e) {
     console.error('❌ Ошибка загрузки игроков:', e);
@@ -379,6 +431,9 @@ onValue(dataRef, (snapshot) => {
   if (!data) return;
 
   state = { ...state, ...sanitizeRemoteState(data, state) };
+  // The broadcast page also needs the roster: warming portraits there avoids
+  // the first goal card waiting for a fresh network image request.
+  ensureRosterForCurrentTeam();
 
   // Old versions persisted a new elapsed value every second. Give an already
   // running legacy timer one shared anchor once, so it keeps moving after an
@@ -497,6 +552,7 @@ async function importRoster(file) {
       : normalizeRoster(JSON.parse(contents));
     if (!imported.length) throw new Error('В файле нет игроков');
     players = imported;
+    warmGoalPhotoCache(players);
     const teamId = Number(state.kimberly?.teamId) || 17986;
     localStorage.setItem(`legion-roster-v1-${teamId}`, JSON.stringify(imported));
     renderPlayerButtons();
@@ -577,9 +633,7 @@ function updateAdminPanel() {
   if (!adminDraft.kimberlyDirty && elements.kimberlyTeamId && document.activeElement !== elements.kimberlyTeamId) {
     elements.kimberlyTeamId.value = state.kimberly?.teamId || DEFAULT_TEAM_ID;
   }
-  if (ADMIN && loadedRosterTeamId !== Number(state.kimberly?.teamId)) {
-    loadPlayers().then(() => { renderPlayerButtons(); updateGoalCardAvailability(); }).catch(console.error);
-  }
+  ensureRosterForCurrentTeam();
   const policy = controlPolicy(state.dataMode);
   if (state.manualOverrides?.score) policy.score = 'override';
   if (state.manualOverrides?.opponent) policy.opponent = 'override';
@@ -1049,23 +1103,34 @@ function showGoalCard(goal, { preview = false } = {}) {
   if (elements.goalMinuteDisplay) {
     elements.goalMinuteDisplay.textContent = goal.minute == null ? '' : `${goal.minute}'`;
   }
-  if (elements.goalPlayerPhoto) {
-    const photoUrl = safeImageUrl(goal.scorer?.photoUrl);
-    elements.goalPlayerPhoto.classList.toggle('hidden', !photoUrl);
-    elements.goalCardLogo?.classList.toggle('hidden', Boolean(photoUrl));
-    if (photoUrl) {
-      elements.goalPlayerPhoto.src = photoUrl;
-      elements.goalPlayerPhoto.style.objectPosition = goal.scorer?.photoPosition || '50% 16%';
-      elements.goalPlayerPhoto.onerror = () => {
-        elements.goalPlayerPhoto.classList.add('hidden');
-        elements.goalCardLogo?.classList.remove('hidden');
-      };
-    } else {
-      elements.goalPlayerPhoto.removeAttribute('src');
-    }
-  }
   if (elements.goalCardLogo) {
     elements.goalCardLogo.src = safeImageUrl(goal.teamLogo) || (opponentGoal ? safeImageUrl(state.opponentLogo) || DEFAULT_OPPONENT_LOGO : LEGION_LOGO);
+    elements.goalCardLogo.classList.remove('hidden');
+  }
+  if (elements.goalPlayerPhoto) {
+    const photoUrl = safeImageUrl(goal.scorer?.photoUrl);
+    const requestId = ++goalPhotoRequestId;
+    elements.goalPlayerPhoto.onload = null;
+    elements.goalPlayerPhoto.onerror = null;
+    elements.goalPlayerPhoto.classList.add('hidden');
+    elements.goalPlayerPhoto.classList.remove('photo-pending');
+    elements.goalPlayerPhoto.removeAttribute('src');
+    if (photoUrl) {
+      elements.goalPlayerPhoto.style.objectPosition = goal.scorer?.photoPosition || '50% 16%';
+      elements.goalPlayerPhoto.classList.remove('hidden');
+      elements.goalPlayerPhoto.classList.add('photo-pending');
+      elements.goalPlayerPhoto.onload = () => {
+        if (requestId !== goalPhotoRequestId) return;
+        elements.goalPlayerPhoto.classList.remove('photo-pending');
+      };
+      elements.goalPlayerPhoto.onerror = () => {
+        if (requestId !== goalPhotoRequestId) return;
+        elements.goalPlayerPhoto.classList.add('hidden');
+        elements.goalPlayerPhoto.classList.remove('photo-pending');
+      };
+      elements.goalPlayerPhoto.src = photoUrl;
+      void preloadGoalPhoto(photoUrl);
+    }
   }
   if (elements.goalCard) {
     elements.goalCard.classList.toggle('opponent-goal', opponentGoal);
