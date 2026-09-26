@@ -1320,7 +1320,7 @@ border-radius: 12px; background: linear-gradient(120deg, rgba(10,15,28,.98), rgb
 
 /* Lower third: the portrait leads, the information strip sits behind its lower edge. */
 .goal-card { bottom: clamp(22px, 5vh, 58px); left: clamp(16px, 4vw, 64px); width: auto; min-height: 0; height: 158px; padding: 0; overflow: visible; align-items: flex-end; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
-.goal-card-media { align-self: flex-end; width: 126px; min-width: 126px; height: 158px; border: 1px solid rgba(255,255,255,.17); border-radius: 14px 14px 5px 5px; box-shadow: 0 18px 42px rgba(0,0,0,.42); z-index: 2; }
+.goal-card-media { align-self: flex-end; width: 126px; min-width: 126px; height: 158px; border: 1px solid rgba(255,255,255,.17); border-radius: 14px; box-shadow: 0 18px 42px rgba(0,0,0,.42); z-index: 2; }
 .goal-card .player-photo { min-height: 0; height: 100%; }
 .goal-card .legion-logo { width: 92px; height: 92px; }
 .goal-card .info { flex: none; width: min(278px, calc(100vw - 150px)); min-height: 96px; margin: 0 0 7px -7px; padding: 12px 15px 11px 21px; border: 1px solid rgba(255,255,255,.14); border-left: 5px solid #f7c948; border-radius: 0 11px 11px 0; background: linear-gradient(120deg, rgba(9,15,27,.98), rgba(31,21,61,.97)); box-shadow: 0 15px 40px rgba(0,0,0,.38); }
@@ -1680,18 +1680,19 @@ body.broadcast-output .intro-overlay {
 body.broadcast-output .goal-card {
   position: absolute;
 }
-body.broadcast-output .goal-card .player-photo {
+.goal-card .player-photo {
   position: absolute;
   inset: 0;
+  z-index: 2003;
   opacity: 1;
   transition: opacity .18s ease;
 }
-body.broadcast-output .goal-card .player-photo.photo-pending {
+.goal-card .player-photo.photo-pending {
   display: block;
   opacity: 0;
 }
 @media (prefers-reduced-motion: reduce) {
-  body.broadcast-output .goal-card .player-photo { transition: none; }
+  .goal-card .player-photo { transition: none; }
 }
 
 /* Админка не наследует ограничения эфирного холста: только одна колонка
@@ -1731,7 +1732,7 @@ body:has(.admin:not(.hide)) { overflow: hidden; position: fixed; }
 }
 </style>
 <link rel="stylesheet" href="./src/admin-ui.css?v=20260925-8">
-<link rel="stylesheet" href="./src/admin-mobile.css?v=20260925-13">
+<link rel="stylesheet" href="./src/admin-mobile.css?v=20260926-2">
 <link rel="stylesheet" href="./src/team-names.css">
 </head>
 <body>
@@ -1969,7 +1970,7 @@ body:has(.admin:not(.hide)) { overflow: hidden; position: fixed; }
 </div>
 </div>
 <div id="toast" class="toast">✓ Сохранено!</div>
-<script type="module" src="./src/app.js?v=20260926-1"></script>
+<script type="module" src="./src/app.js?v=20260926-2"></script>
 <script type="module" src="./src/admin-ui.js?v=20260925-7"></script>
 </body>
 </html>

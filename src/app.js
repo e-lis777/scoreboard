@@ -1122,11 +1122,13 @@ function showGoalCard(goal, { preview = false } = {}) {
       elements.goalPlayerPhoto.onload = () => {
         if (requestId !== goalPhotoRequestId) return;
         elements.goalPlayerPhoto.classList.remove('photo-pending');
+        elements.goalCardLogo?.classList.add('hidden');
       };
       elements.goalPlayerPhoto.onerror = () => {
         if (requestId !== goalPhotoRequestId) return;
         elements.goalPlayerPhoto.classList.add('hidden');
         elements.goalPlayerPhoto.classList.remove('photo-pending');
+        elements.goalCardLogo?.classList.remove('hidden');
       };
       elements.goalPlayerPhoto.src = photoUrl;
       void preloadGoalPhoto(photoUrl);
